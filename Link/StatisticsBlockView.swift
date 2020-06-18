@@ -8,20 +8,25 @@
 
 import SwiftUI
 
+enum StatisticsBlockStatus {
+    case healthy
+    case error
+}
+
 struct StatisticsBlockView: View {
-    var i: Int
+    var status: StatisticsBlockStatus
     var body: some View {
         Group {
-            Text("Hello \(i)").padding()
+            Text("Hello").padding()
         }
         .frame(minWidth: 0, maxWidth: .infinity)
-        .background(Color.red)
+        .background(status == .healthy ? Color.green : Color.red)
         .cornerRadius(8)
     }
 }
 
 struct StatisticsBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsBlockView(i: 3)
+        StatisticsBlockView(status: .healthy)
     }
 }
