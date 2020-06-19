@@ -24,9 +24,9 @@ enum StatisticsBlockStatus {
     var label: String {
         switch self {
         case let .error(count):
-            return "\(count) 个问题"
+            return "\(count)"
         case let .healthy(count):
-            return "\(count) API"
+            return "\(count)"
         }
     }
     
@@ -50,7 +50,7 @@ struct StatisticsBlockView: View {
             }
             HStack {
                 Spacer()
-                Text(status.label)
+                Text(status.label).font(.system(.title))
             }
         }
         .padding()
