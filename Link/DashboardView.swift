@@ -28,4 +28,4 @@ struct DashboardView_Previews: PreviewProvider {
             DashboardView().colorScheme(.dark).preferredColorScheme(.dark)
         }
     }
-}
+} 

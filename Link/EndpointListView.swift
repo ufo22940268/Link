@@ -27,10 +27,10 @@ struct EndpointListView: View {
             Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
                 ForEach(statuses, id: \.self) { s in
                     HStack {
-                        Text(s.path)
+                        Text(s.path).font(.body)
                         Spacer()
                         if s.status == .error {
-                            Image(systemName: "cloud.rain")
+                            Image(systemName: "cloud.rain").font(.body)
                         }
                     }
                 }
