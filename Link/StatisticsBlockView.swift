@@ -45,7 +45,7 @@ struct StatisticsBlockView: View {
     var body: some View {
         return VStack {
             HStack {
-                Image(systemName: status.icon)
+                Image(systemName: status.icon).font(.system(size: 30))
                 Spacer()
             }
             HStack {
