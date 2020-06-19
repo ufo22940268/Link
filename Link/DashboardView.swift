@@ -12,8 +12,8 @@ import SwiftUI
 struct DashboardView: View {
     var body: some View {
         HStack(spacing: 15) {
-            StatisticsBlockView(status: .healthy)
-            StatisticsBlockView(status: .error)
+            StatisticsBlockView(status: .healthy(count: 8))
+            StatisticsBlockView(status: .error(count: 8))
         }.padding()
     }
 }
