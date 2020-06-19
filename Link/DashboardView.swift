@@ -11,15 +11,21 @@ import SwiftUI
 
 struct DashboardView: View {
     var body: some View {
-        HStack(spacing: 15) {
-            StatisticsBlockView(status: .healthy(count: 8))
-            StatisticsBlockView(status: .error(count: 8))
-        }.padding()
+        VStack {
+            HStack(spacing: 15) {
+                StatisticsBlockView(status: .healthy(count: 8))
+                StatisticsBlockView(status: .error(count: 8))
+            }.padding()
+            EndpointListView()
+        }
     }
 }
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardView().colorScheme(.light)
+        Group {
+            DashboardView().colorScheme(.light)
+            DashboardView().colorScheme(.dark)
+        }
     }
 }
