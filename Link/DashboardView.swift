@@ -17,7 +17,7 @@ struct DashboardView: View {
                 StatisticsBlockView(status: .error(count: 8))
             }.padding()
             EndpointListView()
-        }
+        }.background(Color(UIColor.systemBackground))
     }
 }
 
