@@ -11,7 +11,7 @@ import SwiftUI
 
 struct DashboardView: View {
     var body: some View {
-        HStack {
+        HStack(spacing: 15) {
             StatisticsBlockView(status: .healthy)
             StatisticsBlockView(status: .error)
         }.padding()
@@ -20,6 +20,6 @@ struct DashboardView: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardView()
+        DashboardView().colorScheme(.light)
     }
 }

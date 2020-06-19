@@ -16,10 +16,17 @@ enum StatisticsBlockStatus {
 struct StatisticsBlockView: View {
     var status: StatisticsBlockStatus
     var body: some View {
-        Group {
-            Text("Hello").padding()
+        VStack {
+            HStack {
+                Image(systemName: "pencil.circle.fill")
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("asdfasdf")
+            }
         }
-        .frame(minWidth: 0, maxWidth: .infinity)
+        .padding()
         .background(status == .healthy ? Color.green : Color.red)
         .cornerRadius(8)
     }
@@ -27,6 +34,6 @@ struct StatisticsBlockView: View {
 
 struct StatisticsBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsBlockView(status: .healthy)
+        StatisticsBlockView(status: .healthy).colorScheme(.dark)
     }
 }
