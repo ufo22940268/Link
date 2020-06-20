@@ -10,14 +10,29 @@ import SwiftUI
 
 
 struct DashboardView: View {
+    
+    var addEndPointButton: some View {
+        Button(action: {
+        }) {
+            Text("添加监控")
+        }
+    }
+    
     var body: some View {
-        VStack {
-            HStack(spacing: 15) {
-                StatisticsBlockView(status: .healthy(count: 8))
-                StatisticsBlockView(status: .error(count: 2))
-            }.padding()
-            EndpointListView()
-        }.background(Color(UIColor.systemBackground))
+        NavigationView {
+            VStack {
+                HStack(spacing: 15) {
+                    StatisticsBlockView(status: .healthy(count: 8))
+                    StatisticsBlockView(status: .error(count: 2))
+                }.padding()
+                EndpointListView()
+            }
+            .navigationBarTitle(Text("概览"))
+            .navigationBarItems(trailing: addEndPointButton)
+
+        }
+        .background(Color(UIColor.systemBackground))
+        .font(.body)
     }
 }
 

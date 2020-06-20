@@ -17,8 +17,8 @@ struct ContentView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("first")
-                        Text("First")
+                        Image(systemName: "cloud.fill")
+                        Text("监控")
                     }
                 }
                 .tag(0)
@@ -26,8 +26,8 @@ struct ContentView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("second")
-                        Text("Second")
+                        Image(systemName: "person")
+                        Text("设置")
                     }
                 }
                 .tag(1)
@@ -37,6 +37,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView().colorScheme(.light)
+            ContentView().colorScheme(.dark)
+        }
     }
 }
