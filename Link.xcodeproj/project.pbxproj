@@ -17,6 +17,8 @@
 		422B6D1D249ACEB300D2F10D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1C249ACEB300D2F10D /* DashboardView.swift */; };
 		422B6D1F249AE11E00D2F10D /* StatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */; };
 		422B6D21249C96CF00D2F10D /* EndpointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* EndpointListView.swift */; };
+		42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* DomainEditView.swift */; };
+		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		422B6D1C249ACEB300D2F10D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsBlockView.swift; sourceTree = "<group>"; };
 		422B6D20249C96CF00D2F10D /* EndpointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointListView.swift; sourceTree = "<group>"; };
+		42639511249DA14200ADFBE4 /* DomainEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEditView.swift; sourceTree = "<group>"; };
+		42639513249E009E00ADFBE4 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,8 @@
 				422B6D1C249ACEB300D2F10D /* DashboardView.swift */,
 				422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */,
 				422B6D20249C96CF00D2F10D /* EndpointListView.swift */,
+				42639511249DA14200ADFBE4 /* DomainEditView.swift */,
+				42639513249E009E00ADFBE4 /* Tools.swift */,
 			);
 			path = Link;
 			sourceTree = "<group>";
@@ -223,6 +229,8 @@
 				422B6D21249C96CF00D2F10D /* EndpointListView.swift in Sources */,
 				422B6CFD2498D91400D2F10D /* ContentView.swift in Sources */,
 				422B6D1F249AE11E00D2F10D /* StatisticsBlockView.swift in Sources */,
+				42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */,
+				42639514249E009E00ADFBE4 /* Tools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
