@@ -13,8 +13,8 @@ extension String {
     func isValidURL() -> Bool {
         guard !contains("..") else { return false }
         
-        let head     = "((http|https)://)?([(w|W)]{3}+\\.)?"
-        let tail     = "\\.+[A-Za-z]{2,3}+(\\.)?+(/(.)*)?"
+        let head = "((http|https)://)?([(w|W)]{3}+\\.)?"
+        let tail = "\\.+[A-Za-z]{2,3}+(\\.)?+(/(.)*)?"
         let urlRegEx = head+"+(.)+"+tail
         
         let urlTest = NSPredicate(format:"SELF MATCHES %@", urlRegEx)
@@ -38,8 +38,6 @@ struct DomainEditView: View {
         return domainUrl.isValidURL()
     }
     
-    
-    
     var body: some View {
         Form {
             Section(header: Text("")) {
@@ -59,8 +57,9 @@ struct DomainEditView: View {
                     TextField("example", text: $domainName).multilineTextAlignment(.trailing)
                 }
             }
-        }.navigationBarTitle("输入域名", displayMode: .inline)
-            .navigationBarItems(trailing: nextButton)
+        }
+        .navigationBarTitle("输入域名", displayMode: .inline)
+        .navigationBarItems(trailing: nextButton)
     }
 }
 
