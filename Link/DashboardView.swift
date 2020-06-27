@@ -12,10 +12,7 @@ import SwiftUI
 struct DashboardView: View {
     
     var addEndPointButton: some View {
-        Button(action: {
-        }) {
-            Text("添加监控")
-        }
+        NavigationLink("添加监控", destination: DomainEditView()).isDetailLink(true)
     }
     
     var body: some View {
