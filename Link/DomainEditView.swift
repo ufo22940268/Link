@@ -24,14 +24,27 @@ extension String {
 }
 
 struct DomainEditView: View {
-    
-    @Environment(\.managedObjectContext) var managedObjectContext;
+    @Environment(\.managedObjectContext) var managedObjectContext
     @State var domainUrl: String = ""
     @State var domainName: String = ""
     @FetchRequest(entity: Domain.entity(), sortDescriptors: []) var domains: FetchedResults<Domain>
     
     var nextButton: some View {
         Button(action: {
+            print(self.domains)
+            var d: Domain
+            if let nd =  self.domains.first(where: {$0.url == self.domainUrl}) {
+                d = nd
+            } else {
+                d = Domain(context: self.managedObjectContext)
+                d.url = self.domainUrl
+            }
+            d.name = self.domainName
+            do {
+                try self.managedObjectContext.save()
+            } catch let error as NSError {
+                print("Error: \(error), \(error.userInfo)")
+            }
         }) {
             Text("下一步")
         }.disabled(!isFormValid)
@@ -64,27 +77,27 @@ struct DomainEditView: View {
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(trailing: nextButton)
-        .navigationBarItems(trailing: HStack(spacing: 20) {
-            Button("read") {
-//                print(self.domains)
-//                FetchRequest(entity: Domain.entity(), sortDescriptors: []).
-                let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "Domain")
-                let r = try? self.managedObjectContext.fetch(request)
-//                let r = try? request.execute()
-                print(r)
-            }
-            Button("write") {
-                print("write")
-                let d = Domain(context: self.managedObjectContext)
-                d.url = "asdfasdf"
-                d.name = "jj"
-                do {
-                    try self.managedObjectContext.save()
-                } catch let error as NSError {
-                    print("Error: \(error), \(error.userInfo)")
-                }
-            }
-        })
+//        .navigationBarItems(trailing: HStack(spacing: 20) {
+//            Button("read") {
+////                print(self.domains)
+////                FetchRequest(entity: Domain.entity(), sortDescriptors: []).
+//                let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "Domain")
+//                let r = try? self.managedObjectContext.fetch(request)
+////                let r = try? request.execute()
+//                print(r)
+//            }
+//            Button("write") {
+//                print("write")
+//                let d = Domain(context: self.managedObjectContext)
+//                d.url = "asdfasdf"
+//                d.name = "jj"
+//                do {
+//                    try self.managedObjectContext.save()
+//                } catch let error as NSError {
+//                    print("Error: \(error), \(error.userInfo)")
+//                }
+//            }
+//        })
     }
 }
 
