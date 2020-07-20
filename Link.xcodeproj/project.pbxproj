@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,10 @@
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* DomainEditView.swift */; };
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
+		426F887424B09EE600C039E4 /* EndPointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887324B09EE600C039E4 /* EndPointEditView.swift */; };
+		426F887624B1450400C039E4 /* EndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887524B1450400C039E4 /* EndPointTests.swift */; };
+		42D2053C24C6391F00C6CC70 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 42D2053B24C6391F00C6CC70 /* SwiftyJSON */; };
+		42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,9 @@
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
 		42639511249DA14200ADFBE4 /* DomainEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEditView.swift; sourceTree = "<group>"; };
 		42639513249E009E00ADFBE4 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		426F887324B09EE600C039E4 /* EndPointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditView.swift; sourceTree = "<group>"; };
+		426F887524B1450400C039E4 /* EndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointTests.swift; sourceTree = "<group>"; };
+		42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D2053C24C6391F00C6CC70 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +113,8 @@
 				42639511249DA14200ADFBE4 /* DomainEditView.swift */,
 				42639513249E009E00ADFBE4 /* Tools.swift */,
 				423DD13224A984860064D321 /* LinkModel.xcdatamodeld */,
+				426F887324B09EE600C039E4 /* EndPointEditView.swift */,
+				42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */,
 			);
 			path = Link;
 			sourceTree = "<group>";
@@ -122,6 +132,7 @@
 			children = (
 				422B6D0F2498D91500D2F10D /* LinkTests.swift */,
 				422B6D112498D91500D2F10D /* Info.plist */,
+				426F887524B1450400C039E4 /* EndPointTests.swift */,
 			);
 			path = LinkTests;
 			sourceTree = "<group>";
@@ -142,6 +153,9 @@
 			dependencies = (
 			);
 			name = Link;
+			packageProductDependencies = (
+				42D2053B24C6391F00C6CC70 /* SwiftyJSON */,
+			);
 			productName = Link;
 			productReference = 422B6CF52498D91400D2F10D /* Link.app */;
 			productType = "com.apple.product-type.application";
@@ -192,6 +206,9 @@
 				Base,
 			);
 			mainGroup = 422B6CEC2498D91400D2F10D;
+			packageReferences = (
+				42D2053A24C6391F00C6CC70 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = 422B6CF62498D91400D2F10D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -228,6 +245,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */,
+				426F887424B09EE600C039E4 /* EndPointEditView.swift in Sources */,
+				42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */,
 				422B6D1D249ACEB300D2F10D /* DashboardView.swift in Sources */,
 				422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */,
 				422B6D21249C96CF00D2F10D /* EndpointListView.swift in Sources */,
@@ -243,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426F887624B1450400C039E4 /* EndPointTests.swift in Sources */,
 				422B6D102498D91500D2F10D /* LinkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +518,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		42D2053A24C6391F00C6CC70 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		42D2053B24C6391F00C6CC70 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42D2053A24C6391F00C6CC70 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		423DD13224A984860064D321 /* LinkModel.xcdatamodeld */ = {

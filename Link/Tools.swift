@@ -17,4 +17,3 @@ func extractDomainName(fromURL:  String) -> String {
     }
     return ""
 }
-

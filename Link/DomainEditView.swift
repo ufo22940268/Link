@@ -30,7 +30,7 @@ struct DomainEditView: View {
     @FetchRequest(entity: Domain.entity(), sortDescriptors: []) var domains: FetchedResults<Domain>
     
     var nextButton: some View {
-        Button(action: {
+        Button(action: {  
             print(self.domains)
             var d: Domain
             if let nd =  self.domains.first(where: {$0.url == self.domainUrl}) {
