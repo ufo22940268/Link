@@ -8,13 +8,26 @@
 
 import XCTest
 import Combine
-import SwiftyJSON
+import Mocker
 @testable import Link
 
-class EndPointTests: XCTestCase {
+public final class MockedData {
+    public static let githubApi: Data = NSDataAsset(name: "github", bundle: .main)!.data
+}
 
+class EndPointTests: XCTestCase {
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [MockingURLProtocol.self]
+        
+        let originalURL = URL(string: "https://api.github.com")!
+        
+        let mock = Mock(url: originalURL, dataType: .json, statusCode: 200, data: [
+            .get : MockedData.githubApi // Data containing the JSON response
+        ])
+        mock.register()
     }
 
     override func tearDownWithError() throws {
@@ -24,30 +37,11 @@ class EndPointTests: XCTestCase {
     func testEndPointFetch() throws {
         let expect = XCTestExpectation()
         let helper = ApiHelper()
-        let cancellable = helper.fetch().sink(receiveCompletion: { _ in
-            print("complete")
+        let c = helper.fetch().sink(receiveCompletion: { _ in
             expect.fulfill()
         }) { (d) in
             XCTAssert(d.contains { $0.path == "starred_gists_url" })
         }
-        
-        
-//        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://api.github.com")!)
-//            .map { try! JSON(data: $0.data) }
-//            .sink(receiveCompletion: { _ in
-//                expect.fulfill()
-//            }) { (d) in
-//                print("--------------------")
-//                print(d["keys_url"])
-//        }
         wait(for: [expect], timeout: 10.0)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

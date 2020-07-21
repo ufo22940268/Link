@@ -18,7 +18,7 @@ struct ApiHelper {
     func fetch() -> AnyPublisher<[Api], URLError>  {
         let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://api.github.com")!)
             .map { try! JSON(data: $0.data) }
-            .map { self.convertToAPI(json: $0) }
+            .map { self.convertToAPI(json: $0) }		
             .eraseToAnyPublisher()
         return cancellable
     }

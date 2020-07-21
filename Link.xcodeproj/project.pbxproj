@@ -13,7 +13,6 @@
 		422B6CFF2498D91500D2F10D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422B6CFE2498D91500D2F10D /* Assets.xcassets */; };
 		422B6D022498D91500D2F10D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D012498D91500D2F10D /* Preview Assets.xcassets */; };
 		422B6D052498D91500D2F10D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D032498D91500D2F10D /* LaunchScreen.storyboard */; };
-		422B6D102498D91500D2F10D /* LinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D0F2498D91500D2F10D /* LinkTests.swift */; };
 		422B6D1D249ACEB300D2F10D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1C249ACEB300D2F10D /* DashboardView.swift */; };
 		422B6D1F249AE11E00D2F10D /* StatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */; };
 		422B6D21249C96CF00D2F10D /* EndpointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* EndpointListView.swift */; };
@@ -22,8 +21,10 @@
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
 		426F887424B09EE600C039E4 /* EndPointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887324B09EE600C039E4 /* EndPointEditView.swift */; };
 		426F887624B1450400C039E4 /* EndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887524B1450400C039E4 /* EndPointTests.swift */; };
+		427DE71824C7A033002C68EF /* Mocker in Frameworks */ = {isa = PBXBuildFile; productRef = 427DE71724C7A033002C68EF /* Mocker */; };
 		42D2053C24C6391F00C6CC70 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 42D2053B24C6391F00C6CC70 /* SwiftyJSON */; };
 		42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */; };
+		42D2054324C675B800C6CC70 /* github.json in Resources */ = {isa = PBXBuildFile; fileRef = 42D2054224C675B800C6CC70 /* github.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +47,6 @@
 		422B6D042498D91500D2F10D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		422B6D062498D91500D2F10D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		422B6D0B2498D91500D2F10D /* LinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		422B6D0F2498D91500D2F10D /* LinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTests.swift; sourceTree = "<group>"; };
 		422B6D112498D91500D2F10D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		422B6D1C249ACEB300D2F10D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsBlockView.swift; sourceTree = "<group>"; };
@@ -58,6 +58,7 @@
 		426F887324B09EE600C039E4 /* EndPointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditView.swift; sourceTree = "<group>"; };
 		426F887524B1450400C039E4 /* EndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointTests.swift; sourceTree = "<group>"; };
 		42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
+		42D2054224C675B800C6CC70 /* github.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = github.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				427DE71824C7A033002C68EF /* Mocker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +102,7 @@
 		422B6CF72498D91400D2F10D /* Link */ = {
 			isa = PBXGroup;
 			children = (
+				42D2054224C675B800C6CC70 /* github.json */,
 				422B6CF82498D91400D2F10D /* AppDelegate.swift */,
 				422B6CFA2498D91400D2F10D /* SceneDelegate.swift */,
 				422B6CFC2498D91400D2F10D /* ContentView.swift */,
@@ -130,7 +133,6 @@
 		422B6D0E2498D91500D2F10D /* LinkTests */ = {
 			isa = PBXGroup;
 			children = (
-				422B6D0F2498D91500D2F10D /* LinkTests.swift */,
 				422B6D112498D91500D2F10D /* Info.plist */,
 				426F887524B1450400C039E4 /* EndPointTests.swift */,
 			);
@@ -174,6 +176,9 @@
 				422B6D0D2498D91500D2F10D /* PBXTargetDependency */,
 			);
 			name = LinkTests;
+			packageProductDependencies = (
+				427DE71724C7A033002C68EF /* Mocker */,
+			);
 			productName = LinkTests;
 			productReference = 422B6D0B2498D91500D2F10D /* LinkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -208,6 +213,7 @@
 			mainGroup = 422B6CEC2498D91400D2F10D;
 			packageReferences = (
 				42D2053A24C6391F00C6CC70 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				427DE71624C7A033002C68EF /* XCRemoteSwiftPackageReference "Mocker" */,
 			);
 			productRefGroup = 422B6CF62498D91400D2F10D /* Products */;
 			projectDirPath = "";
@@ -226,6 +232,7 @@
 			files = (
 				422B6D052498D91500D2F10D /* LaunchScreen.storyboard in Resources */,
 				422B6D022498D91500D2F10D /* Preview Assets.xcassets in Resources */,
+				42D2054324C675B800C6CC70 /* github.json in Resources */,
 				422B6CFF2498D91500D2F10D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,7 +270,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				426F887624B1450400C039E4 /* EndPointTests.swift in Sources */,
-				422B6D102498D91500D2F10D /* LinkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +526,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		427DE71624C7A033002C68EF /* XCRemoteSwiftPackageReference "Mocker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WeTransfer/Mocker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
 		42D2053A24C6391F00C6CC70 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
@@ -531,6 +545,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		427DE71724C7A033002C68EF /* Mocker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 427DE71624C7A033002C68EF /* XCRemoteSwiftPackageReference "Mocker" */;
+			productName = Mocker;
+		};
 		42D2053B24C6391F00C6CC70 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 42D2053A24C6391F00C6CC70 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
