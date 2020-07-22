@@ -11,8 +11,14 @@ import Combine
 import SwiftyJSON
 
 public struct Api {
-    var path: String
+    var paths: [String]
+    var path:String {
+        self.paths.joined(separator: ".")
+    }
+    var value: String?
 }
+
+typealias Path = [String]
 
 struct ApiHelper {
     func fetch() -> AnyPublisher<[Api], URLError>  {
@@ -24,9 +30,19 @@ struct ApiHelper {
     }
     
     func convertToAPI(json: JSON) -> [Api] {
-        return json.map { (arg0) -> Api in
-            let (key, value) = arg0
-            return Api(path: key)
+        let apis: [Api] = [Api]()
+        let r = self.traverseJson(json: json, path: [])
+        print(r)
+        return r
+    }
+    
+    private func traverseJson(json: JSON, path: Path) -> [Api] {
+        if let dict = json.dictionary {
+            let ar = dict.map { args in
+                self.traverseJson(json: args.value, path: path + [args.key])
+            }.flatMap { $0 }
+            return ar
         }
+        return [Api(paths: path, value: json.stringValue)]
     }
 }

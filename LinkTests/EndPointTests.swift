@@ -40,8 +40,10 @@ class EndPointTests: XCTestCase {
         let c = helper.fetch().sink(receiveCompletion: { _ in
             expect.fulfill()
         }) { (d) in
-            XCTAssert(d.contains { $0.path == "starred_gists_url" })
+            XCTAssert(d.contains { $0.path == "starred_gists_url" && $0.value == "https://api.github.com/gists/starred" })
+            XCTAssert(d.contains { $0.path == "a.b.c" })
         }
+        withExtendedLifetime(c) {}
         wait(for: [expect], timeout: 10.0)
     }
 }
