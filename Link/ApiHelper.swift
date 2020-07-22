@@ -30,7 +30,6 @@ struct ApiHelper {
     }
     
     func convertToAPI(json: JSON) -> [Api] {
-        let apis: [Api] = [Api]()
         let r = self.traverseJson(json: json, path: [])
         print(r)
         return r
