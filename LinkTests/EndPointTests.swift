@@ -41,7 +41,8 @@ class EndPointTests: XCTestCase {
             expect.fulfill()
         }) { (d) in
             XCTAssert(d.contains { $0.path == "starred_gists_url" && $0.value == "https://api.github.com/gists/starred" })
-            XCTAssert(d.contains { $0.path == "a.b.c" })
+            XCTAssert(d.contains { $0.path == "a.b.c" && $0.value == "123"})
+            XCTAssert(d.contains { $0.path == "b.d" && $0.value == "321"})
         }
         withExtendedLifetime(c) {}
         wait(for: [expect], timeout: 10.0)

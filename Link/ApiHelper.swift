@@ -36,7 +36,12 @@ struct ApiHelper {
     }
     
     private func traverseJson(json: JSON, path: Path) -> [Api] {
-        if let dict = json.dictionary {
+        var j: JSON = json
+        if let ar = json.array, ar.count > 0 {
+            j = ar[0]
+        }
+
+        if let dict = j.dictionary {
             let ar = dict.map { args in
                 self.traverseJson(json: args.value, path: path + [args.key])
             }.flatMap { $0 }

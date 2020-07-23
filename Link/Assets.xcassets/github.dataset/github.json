@@ -4,5 +4,10 @@
       "c": 123
     }
   },
+  "b": [
+    {
+      "d": 321
+    }
+  ],
   "starred_gists_url": "https://api.github.com/gists/starred"
 }
