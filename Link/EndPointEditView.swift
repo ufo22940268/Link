@@ -7,10 +7,27 @@
 //
 
 import SwiftUI
+import Combine
 
 struct EndPointEditView: View {
+    
+    @State var apis: [Api] = [Api]()
+    @State private var c : AnyCancellable?
+    
+    fileprivate func loadData() {
+        self.c = ApiHelper().fetch()
+            .tryMap( { $0 })
+            .assertNoFailure()
+            .receive(on: DispatchQueue.main)
+            .assign(to: \EndPointEditView.apis, on: self)
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(apis) { (api: Api) in
+            Text(api.paths.last ?? "")
+        }.onAppear {
+            self.loadData()
+        }
     }
 }
 

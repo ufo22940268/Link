@@ -10,7 +10,11 @@ import Foundation
 import Combine
 import SwiftyJSON
 
-public struct Api {
+public struct Api: Identifiable {
+    public var id: String {        
+        self.paths.joined(separator: ".")
+    }
+    
     var paths: [String]
     var path:String {
         self.paths.joined(separator: ".")
@@ -31,7 +35,6 @@ struct ApiHelper {
     
     func convertToAPI(json: JSON) -> [Api] {
         let r = self.traverseJson(json: json, path: [])
-        print(r)
         return r
     }
     
