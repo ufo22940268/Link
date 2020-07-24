@@ -16,8 +16,9 @@ struct EndPointEditView: View {
     
     fileprivate func loadData() {
         self.c = ApiHelper().fetch()
-            .tryMap( { $0 })
-            .assertNoFailure()
+            .catch { error in
+                return Just([])
+            }
             .receive(on: DispatchQueue.main)
             .assign(to: \EndPointEditView.apis, on: self)
     }
