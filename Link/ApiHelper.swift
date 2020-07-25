@@ -20,6 +20,11 @@ public struct Api: Identifiable {
         self.paths.joined(separator: ".")
     }
     var value: String?
+    var watch: Bool = false
+}
+
+extension Api: Hashable {
+    
 }
 
 typealias Path = [String]

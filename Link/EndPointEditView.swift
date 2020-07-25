@@ -9,10 +9,20 @@
 import SwiftUI
 import Combine
 
+struct EndPointSelection {
+    var api: Api
+    var watch: Bool
+}
+
 struct EndPointEditView: View {
     
+
+    @State var selections: [EndPointSelection] = [EndPointSelection]()
+        
     @State var apis: [Api] = [Api]()
+    @State var apis2: [Api: Bool] = [Api: Bool]()
     @State private var c : AnyCancellable?
+    @State var isChecked: Bool = false
     
     fileprivate func loadData() {
         self.c = ApiHelper().fetch()
@@ -24,8 +34,8 @@ struct EndPointEditView: View {
     }
     
     var body: some View {
-        List(apis) { (api: Api) in
-            Text(api.paths.last ?? "")
+        List(0..<apis.count, id: \.self) { (i: Int) in
+            Toggle(self.apis[i].paths.last ?? "", isOn: self.$apis[i].watch)
         }.onAppear {
             self.loadData()
         }
