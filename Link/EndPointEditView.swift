@@ -17,19 +17,13 @@ struct EndPointEditListItemView: View {
     var body: some View {
         NavigationLink(destination: EmptyView()) {
             Text((self.mode != nil && self.mode!.wrappedValue.isEditing) ? "active" : "inactive")
-//            if self.editMode.wrappedValue ?? false {
-//                Text(self.api.paths.last ?? "")
-//            } else {
-//                /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
-//            }
         }
     }
-        
 }
 
 struct EndPointEditListView: View {
             
-    @State var apis: [Api] = [Api]()
+    @State var apis = [Api]()
     @State private var c : AnyCancellable?
     @Environment(\.editMode) var mode
 
@@ -43,8 +37,8 @@ struct EndPointEditListView: View {
     }
     
     var body: some View {
-        List(0..<3, id: \.self) { (i: Int) in
-            EndPointEditListItemView(api: Api(paths: ["asdf" ]))
+        List(0..<apis.count, id: \.self) { (i: Int) in
+            EndPointEditListItemView(api: self.apis[i])
                 .environment(\.editMode, self.mode)
         }
         .onAppear {
