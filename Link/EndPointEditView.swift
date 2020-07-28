@@ -8,43 +8,62 @@
 
 import SwiftUI
 import Combine
-
-struct EndPointSelection {
+ 
+struct EndPointEditListItemView: View {
+    
     var api: Api
-    var watch: Bool
+    
+    @Environment(\.editMode) var mode
+    var body: some View {
+        NavigationLink(destination: EmptyView()) {
+            Text((self.mode != nil && self.mode!.wrappedValue.isEditing) ? "active" : "inactive")
+//            if self.editMode.wrappedValue ?? false {
+//                Text(self.api.paths.last ?? "")
+//            } else {
+//                /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+//            }
+        }
+    }
+        
 }
 
-struct EndPointEditView: View {
-    
-
-    @State var selections: [EndPointSelection] = [EndPointSelection]()
-        
+struct EndPointEditListView: View {
+            
     @State var apis: [Api] = [Api]()
-    @State var apis2: [Api: Bool] = [Api: Bool]()
     @State private var c : AnyCancellable?
-    @State var isChecked: Bool = false
-    
+    @Environment(\.editMode) var mode
+
     fileprivate func loadData() {
         self.c = ApiHelper().fetch()
             .catch { error in
                 return Just([])
             }
             .receive(on: DispatchQueue.main)
-            .assign(to: \EndPointEditView.apis, on: self)
+            .assign(to: \EndPointEditListView.apis, on: self)
     }
     
     var body: some View {
-        List(0..<apis.count, id: \.self) { (i: Int) in
-            Toggle(self.apis[i].paths.last ?? "", isOn: self.$apis[i].watch)
-        }.onAppear {
+        List(0..<3, id: \.self) { (i: Int) in
+            EndPointEditListItemView(api: Api(paths: ["asdf" ]))
+                .environment(\.editMode, self.mode)
+        }
+        .onAppear {
             self.loadData()
         }
     }
 }
 
+struct EndPointEditView: View {
+    var body:  some View {
+        EndPointEditListView().navigationBarItems(trailing: EditButton())
+    }
+}
+
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
-        EndPointEditView()
+        NavigationView {
+            EndPointEditView()
+        }
     }
 }
  
