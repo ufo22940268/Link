@@ -9,6 +9,25 @@
 import SwiftUI
 import Combine
 
+struct EditButton: View {
+    var action: (EditMode?) -> Void
+    @Binding var editMode: EditMode
+    
+    var body: some View {
+        Button(action: {
+            withAnimation {
+                if self.editMode.isEditing == false {
+                    self.editMode = EditMode.active
+                } else {
+                    self.editMode = EditMode.inactive
+                }
+            }
+        }) {
+            Text(self.editMode.isEditing == false ? "Edit" : "Done")
+        }
+    }
+}
+
 struct EndPointEditListItemView: View {
     
     @Binding var api: Api
@@ -20,6 +39,7 @@ struct EndPointEditListItemView: View {
     
     var innerBody: some View {
         Text(api.paths.last ?? "")
+            .foregroundColor(self.api.watch ? Color.accentColor : Color.primary)
     }
     
     var body: some View {
@@ -43,7 +63,7 @@ struct EndPointEditListView: View {
     @State var apis = [Api]()
     @State private var c : AnyCancellable?
     @State  var selection = Set<Int>()
-    @Environment(\.editMode) var mode
+    @Binding var mode: EditMode
     
     fileprivate func loadData() {
         self.c = ApiHelper().fetch()
@@ -57,8 +77,8 @@ struct EndPointEditListView: View {
     var body: some View {
         List(0..<apis.count, id: \.self, selection: $selection) { (i: Int) in
             EndPointEditListItemView(api: self.$apis[i])
-                .environment(\.editMode, self.mode)
         }
+        .environment(\.editMode, self.$mode)
         .onAppear {
             self.loadData()
         }
@@ -66,15 +86,18 @@ struct EndPointEditListView: View {
 }
 
 struct EndPointEditView: View {
+    
+    @State var mode: EditMode
+    
     var body:  some View {
-        EndPointEditListView().navigationBarItems(trailing: EditButton())
+        EndPointEditListView(mode: $mode).navigationBarItems(trailing: EditButton(action: { _ in }, editMode: self.$mode))
     }
 }
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EndPointEditView()
+            EndPointEditView(mode: EditMode.inactive)
         }
     }
 }
