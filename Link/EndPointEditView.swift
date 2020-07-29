@@ -9,25 +9,6 @@
 import SwiftUI
 import Combine
 
-struct EditButton: View {
-    var action: (EditMode?) -> Void
-    @Binding var editMode: EditMode
-    
-    var body: some View {
-        Button(action: {
-            withAnimation {
-                if self.editMode.isEditing == false {
-                    self.editMode = EditMode.active
-                } else {
-                    self.editMode = EditMode.inactive
-                }
-            }
-        }) {
-            Text(self.editMode.isEditing == false ? "Edit" : "Done")
-        }
-    }
-}
-
 struct EndPointEditListItemView: View {
     
     @Binding var api: Api
@@ -46,25 +27,22 @@ struct EndPointEditListItemView: View {
         NavigationLink(destination: EmptyView()) {
             innerBody
         }
-        
-        //Animation wired.
-//        if isEditing {
-//            return AnyView(innerBody)
-//        } else {
-//            return AnyView(NavigationLink(destination: EmptyView()) {
-//                innerBody
-//            })
-//        }
     }
+}
+
+class Context: ObservableObject {
+    @Published var selelection = Set<Int>()
 }
 
 struct EndPointEditListView: View {
     
     @State var apis = [Api]()
     @State private var c : AnyCancellable?
+    @State private var c2 : AnyCancellable?
     @State  var selection = Set<Int>()
-    @Binding var mode: EditMode
-    
+    @Environment(\.editMode) var mode
+    @ObservedObject var context: Context = Context()
+        
     fileprivate func loadData() {
         self.c = ApiHelper().fetch()
             .catch { error in
@@ -72,13 +50,17 @@ struct EndPointEditListView: View {
         }
         .receive(on: DispatchQueue.main)
         .assign(to: \EndPointEditListView.apis, on: self)
+        
+        self.c2 = context.$selelection.sink { (selections) in
+            print(selections)
+        }
     }
     
     var body: some View {
-        List(0..<apis.count, id: \.self, selection: $selection) { (i: Int) in
+        List(0..<apis.count, id: \.self, selection: $context.selelection) { (i: Int) in
             EndPointEditListItemView(api: self.$apis[i])
         }
-        .environment(\.editMode, self.$mode)
+        .environment(\.editMode, self.mode)
         .onAppear {
             self.loadData()
         }
@@ -87,17 +69,16 @@ struct EndPointEditListView: View {
 
 struct EndPointEditView: View {
     
-    @State var mode: EditMode
-    
-    var body:  some View {
-        EndPointEditListView(mode: $mode).navigationBarItems(trailing: EditButton(action: { _ in }, editMode: self.$mode))
+    var body: some View {
+        EndPointEditListView().navigationBarItems(trailing: EditButton())
     }
 }
+
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EndPointEditView(mode: EditMode.inactive)
+            EndPointEditView()
         }
     }
 }
