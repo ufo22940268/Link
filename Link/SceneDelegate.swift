@@ -10,6 +10,17 @@ import UIKit
 import SwiftUI
 import CoreData
 
+var persistentContainer: NSPersistentContainer = {
+    let container = NSPersistentContainer(name: "LinkModel")
+    container.loadPersistentStores { description, error in
+        if let error = error {
+            fatalError("Unable to load persistent stores: \(error)")
+        }
+    }
+    return container
+}()
+
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
@@ -28,7 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Test
         let contentView = NavigationView {
 //            DomainEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
-            EndPointEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
+            EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, persistentContainer.viewContext)
         }
         
         // Use a UIHostingController as window root view controller.
@@ -67,16 +78,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
-    var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "LinkModel")
-        container.loadPersistentStores { description, error in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
-        return container
-    }()
     
     func saveContext () {
         let context = persistentContainer.viewContext

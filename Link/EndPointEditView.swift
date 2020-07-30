@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 struct EndPointEditListItemView: View {
     
@@ -31,33 +32,53 @@ struct EndPointEditListItemView: View {
 }
 
 class Context: ObservableObject {
-    @Published var selelection = Set<Int>()
+    @Published var selection = Set<Int>()
 }
 
 struct EndPointEditListView: View {
     
+    let domain: Domain
     @State var apis = [Api]()
     @State private var c : AnyCancellable?
     @State private var c2 : AnyCancellable?
-    @State  var selection = Set<Int>()
     @Environment(\.editMode) var mode
+    @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
-        
+    
     fileprivate func loadData() {
         self.c = ApiHelper().fetch()
             .catch { error in
                 return Just([])
         }
         .receive(on: DispatchQueue.main)
-        .assign(to: \EndPointEditListView.apis, on: self)
-        
-        self.c2 = context.$selelection.sink { (selections) in
-            print(selections)
+        .sink { apis in
+            self.apis = apis
+            
+            let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": self.domain.objectID])
+            if let dbApis = try? self.objectContext.fetch(req!) as? [ApiEntity] {
+                for selectedApi in dbApis {
+                    if let index = self.apis.firstIndex { $0.path == selectedApi.paths } {
+                        self.context.selection.insert(index)
+                    }
+                }
+            }
+            
+            self.c2 = self.context.$selection.sink { (selections) in
+                for index in selections {
+                    let api = self.apis[index]
+                    let ae = ApiEntity(context: self.objectContext)
+                    ae.paths = api.paths.joined(separator: ".")
+                    ae.watch = true
+                    ae.domain = self.domain
+                    try? self.objectContext.save()
+                }
+            }
         }
     }
     
+    
     var body: some View {
-        List(0..<apis.count, id: \.self, selection: $context.selelection) { (i: Int) in
+        List(0..<apis.count, id: \.self, selection: $context.selection) { (i: Int) in
             EndPointEditListItemView(api: self.$apis[i])
         }
         .environment(\.editMode, self.mode)
@@ -69,8 +90,10 @@ struct EndPointEditListView: View {
 
 struct EndPointEditView: View {
     
+    var domain: Domain
+    
     var body: some View {
-        EndPointEditListView().navigationBarItems(trailing: EditButton())
+        EndPointEditListView(domain: domain).navigationBarItems(trailing: EditButton())
     }
 }
 
@@ -78,7 +101,7 @@ struct EndPointEditView: View {
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EndPointEditView()
+            EndPointEditView(domain: getAnyDomain())
         }
     }
 }

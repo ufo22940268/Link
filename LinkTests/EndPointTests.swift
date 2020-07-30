@@ -9,13 +9,26 @@
 import XCTest
 import Combine
 import Mocker
+import CoreData
 @testable import Link
 
 public final class MockedData {
     public static let githubApi: Data = NSDataAsset(name: "github", bundle: .main)!.data
 }
 
+//let persistentContainer: NSPersistentContainer = {
+//    let container = NSPersistentContainer(name: "LinkModel")
+//    container.loadPersistentStores { description, error in
+//        if let error = error {
+//            fatalError("Unable to load persistent stores: \(error)")
+//        }
+//    }
+//    return container
+//}()
+
 class EndPointTests: XCTestCase {
+    
+    var objectContext: NSManagedObjectContext!
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -28,10 +41,20 @@ class EndPointTests: XCTestCase {
             .get : MockedData.githubApi // Data containing the JSON response
         ])
         mock.register()
+        
+        self.objectContext = persistentContainer.viewContext
+        
+        ["DomainEntity", "ApiEntity"].forEach { self.deleteTable($0) }
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+    
+    private func deleteTable(_ tableName: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: tableName)
+        let delReq = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        try? objectContext.execute(delReq)
     }
 
     func testEndPointFetch() throws {
@@ -46,5 +69,29 @@ class EndPointTests: XCTestCase {
         }
         withExtendedLifetime(c) {}
         wait(for: [expect], timeout: 10.0)
+    }
+    
+    func testCoreData() {
+        let d = Domain(context: objectContext)
+        d.name = "ijij"
+        
+        var ae = ApiEntity(context: objectContext)
+        ae.paths = "asdf"
+        ae.watch = true
+        ae.domain = d
+
+        ae = ApiEntity(context: objectContext)
+        ae.paths = "asdf2"
+        ae.watch = false
+        ae.domain = d
+        try! objectContext.save()
+
+        let req: NSFetchRequest<ApiEntity> = NSFetchRequest<ApiEntity>(entityName: "ApiEntity")
+        req.predicate = NSPredicate(format: "domain = %@", d.objectID)
+        let aes = try? objectContext.fetch(req)
+        print(aes)
+        
+        let ds = try? objectContext.fetch(Domain.fetchRequest())
+        print(ds)
     }
 }

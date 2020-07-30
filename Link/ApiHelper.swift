@@ -15,10 +15,10 @@ public struct Api: Identifiable {
         self.paths.joined(separator: ".")
     }
     
-    var paths: [String]
-    var path:String {
-        self.paths.joined(separator: ".")
+    var paths: [String] {
+        self.path.split(separator: ".").map { String($0) }
     }
+    var path: String
     var value: String?
     var watch: Bool = false
 }
@@ -51,10 +51,10 @@ struct ApiHelper {
 
         if let dict = j.dictionary {
             let ar = dict.map { args in
-                self.traverseJson(json: args.value, path: path + [args.key])
+                self.traverseJson(json: args.value, path:  path + [args.key])
             }.flatMap { $0 }
             return ar
         }
-        return [Api(paths: path, value: json.stringValue)]
+        return [Api(path: path.joined(separator: "."), value: json.stringValue)]
     }
 }
