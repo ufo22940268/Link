@@ -57,7 +57,7 @@ struct EndPointEditListView: View {
             let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": self.domain.objectID])
             if let dbApis = try? self.objectContext.fetch(req!) as? [ApiEntity] {
                 for selectedApi in dbApis {
-                    if let index = self.apis.firstIndex { $0.path == selectedApi.paths } {
+                    if let index = self.apis.firstIndex(where: { $0.path == selectedApi.paths }) {
                         self.context.selection.insert(index)
                     }
                 }
