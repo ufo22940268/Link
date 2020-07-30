@@ -39,14 +39,13 @@ struct EndPointEditListView: View {
     
     let domain: Domain
     @State var apis = [Api]()
-    @State private var c : AnyCancellable?
-    @State private var c2 : AnyCancellable?
+    @State private var cancellables = [AnyCancellable]()
     @Environment(\.editMode) var mode
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
     
     fileprivate func loadData() {
-        self.c = ApiHelper().fetch()
+        ApiHelper().fetch()
             .catch { error in
                 return Just([])
         }
@@ -63,7 +62,7 @@ struct EndPointEditListView: View {
                 }
             }
             
-            self.c2 = self.context.$selection.sink { (selections) in
+            self.context.$selection.sink { (selections) in
                 for index in selections {
                     let api = self.apis[index]
                     let ae = ApiEntity(context: self.objectContext)
@@ -73,7 +72,9 @@ struct EndPointEditListView: View {
                     try? self.objectContext.save()
                 }
             }
+            .store(in: &self.cancellables)
         }
+        .store(in: &cancellables)
     }
     
     
