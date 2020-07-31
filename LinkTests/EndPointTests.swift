@@ -89,9 +89,7 @@ class EndPointTests: XCTestCase {
         let req: NSFetchRequest<ApiEntity> = NSFetchRequest<ApiEntity>(entityName: "ApiEntity")
         req.predicate = NSPredicate(format: "domain = %@", d.objectID)
         let aes = try? objectContext.fetch(req)
-        print(aes ?? "")
         
         let ds = try? objectContext.fetch(Domain.fetchRequest())
-        print(ds ?? "")
     }
 }

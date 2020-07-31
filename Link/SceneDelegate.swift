@@ -39,8 +39,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Test
         let contentView = NavigationView {
 //            DomainEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
-//            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, persistentContainer.viewContext)
-            EndPointDetailEditView(api: Api(path: "asdf", watch: true))
+            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, persistentContainer.viewContext)
+//            EndPointDetailEditView(api: Binding.constant(Api(path: "asdf", watch: true)))
         }
         
         // Use a UIHostingController as window root view controller.

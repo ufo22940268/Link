@@ -10,18 +10,13 @@ import SwiftUI
 
 struct EndPointDetailEditView: View {
     
-    @State var isOn: Bool = false
-    var api: Api
-    
-    init(api: Api) {
-        self.api = api
-        _isOn = State(initialValue: api.watch)
-    }
-    
+    @Binding var api: Api
+    @State var isOn: Bool = true
+        
     var body: some View {
         List {
             Section {
-                Toggle("开启", isOn: self.$isOn)
+                Toggle("开启", isOn: $isOn)
             }
             Section (header: Text("Key")) {
                 Text(api.path)
@@ -32,12 +27,22 @@ struct EndPointDetailEditView: View {
             }
         }
         .listStyle(GroupedListStyle())
+        .navigationBarTitle(Text("字段"), displayMode: .inline)
     }
 }
 
 struct EndPointDetailEditView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        EndPointDetailEditView(api: Api(path: "wefwef.wefwefef", value: "asdfasdfvvvvv",  watch: true))
-            .environment(\.colorScheme, .dark)
+        PreviewWrapper()
+    }
+    
+    struct PreviewWrapper: View {
+        
+        @State(initialValue: Api(path: "sdfef", value: "jiwefjowijefasdfwefwoiejfoiwjefoiwjefoiwjefoijwoeifjwoiefjowiejf")) var api: Api
+        
+        var body: some View {
+            EndPointDetailEditView(api: $api).environment(\.colorScheme, .dark)
+        }
     }
 }

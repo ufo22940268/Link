@@ -30,7 +30,7 @@ struct EndPointEditListItemView: View {
     }
     
     var body: some View {
-        NavigationLink(destination: EmptyView()) {
+        NavigationLink(destination: EndPointDetailEditView(api: $api)) {
             innerBody
         }
     }
@@ -49,6 +49,13 @@ struct EndPointEditListView: View {
     @ObservedObject var context: Context = Context()
     
     fileprivate func loadData() {
+        if apis.count > 0 {
+           return
+        }
+        
+        print("loadData")
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
         ApiHelper()
             .fetch()
             .catch { error in Just([]) }
@@ -63,11 +70,14 @@ struct EndPointEditListView: View {
                             self.context.selection.insert(index)
                         }
                     }
-                    print("loaded selection from db", self.context.selection)
                 }
                 
+                self.context.objectWillChange.sink { () in
+                    print(Date())
+                }
+                .store(in: &self.cancellables)
+                
                 self.context.$selection.sink { (selections) in
-                    print("selection changes", selections)
                     for index in selections {
                         let api = self.apis[index]
                         let ae = ApiEntity(context: self.objectContext)
