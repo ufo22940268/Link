@@ -12,7 +12,7 @@ import SwiftyJSON
 
 public struct Api: Identifiable {
     public var id: String {        
-        self.paths.joined(separator: ".")
+        self.path
     }
     
     var paths: [String] {

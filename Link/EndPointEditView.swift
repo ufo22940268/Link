@@ -14,14 +14,19 @@ struct EndPointEditListItemView: View {
     
     @Binding var api: Api
     @Environment(\.editMode) var mode
+    var selected: Bool = false
     
     var isEditing: Bool {
         self.mode != nil && self.mode!.wrappedValue.isEditing
     }
     
     var innerBody: some View {
-        Text(api.paths.last ?? "")
-            .foregroundColor(self.api.watch ? Color.accentColor : Color.primary)
+        var text = Text(api.paths.last ?? "")
+        if selected {
+            text = text.bold()
+                .foregroundColor(.accentColor)
+        }
+        return text
     }
     
     var body: some View {
@@ -40,7 +45,6 @@ struct EndPointEditListView: View {
     let domain: Domain
     @State var apis = [Api]()
     @State private var cancellables = [AnyCancellable]()
-    @Environment(\.editMode) var mode
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
     
@@ -63,14 +67,15 @@ struct EndPointEditListView: View {
                 }
                 
                 self.context.$selection.sink { (selections) in
+                    print("selection changes", selections)
                     for index in selections {
                         let api = self.apis[index]
                         let ae = ApiEntity(context: self.objectContext)
                         ae.paths = api.paths.joined(separator: ".")
                         ae.watch = true
                         ae.domain = self.domain
-                        try? self.objectContext.save()
                     }
+                    try? self.objectContext.save()
                 }
                 .store(in: &self.cancellables)
         }
@@ -80,9 +85,8 @@ struct EndPointEditListView: View {
     
     var body: some View {
         List(0..<apis.count, id: \.self, selection: $context.selection) { (i: Int) in
-            EndPointEditListItemView(api: self.$apis[i])
+            EndPointEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
         }
-        .environment(\.editMode, self.mode)
         .onAppear {
             self.loadData()
         }
