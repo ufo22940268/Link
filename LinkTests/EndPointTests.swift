@@ -54,7 +54,7 @@ class EndPointTests: XCTestCase {
     private func deleteTable(_ tableName: String) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: tableName)
         let delReq = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        try? objectContext.execute(delReq)
+        _ = try? objectContext.execute(delReq)
     }
 
     func testEndPointFetch() throws {
@@ -89,9 +89,9 @@ class EndPointTests: XCTestCase {
         let req: NSFetchRequest<ApiEntity> = NSFetchRequest<ApiEntity>(entityName: "ApiEntity")
         req.predicate = NSPredicate(format: "domain = %@", d.objectID)
         let aes = try? objectContext.fetch(req)
-        print(aes)
+        print(aes ?? "")
         
         let ds = try? objectContext.fetch(Domain.fetchRequest())
-        print(ds)
+        print(ds ?? "")
     }
 }

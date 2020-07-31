@@ -20,7 +20,7 @@ func extractDomainName(fromURL:  String) -> String {
 }
 
 
-func getAnyDomain() -> Domain {
+func getAnyDomain() throws -> Domain  {
     var domain: Domain
     do {
         let req: NSFetchRequest<Domain> = Domain.fetchRequest();
@@ -28,15 +28,15 @@ func getAnyDomain() -> Domain {
         if let ds = ds, ds.count == 1 {
             domain = ds.first!
         } else {
-            try? persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: Domain.fetchRequest()))
+            try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: Domain.fetchRequest()))
             let d = Domain(context: persistentContainer.viewContext)
             d.name = "d"
-            try? persistentContainer.viewContext.save()
+            try persistentContainer.viewContext.save()
             domain = d
         }
+        return domain
     } catch {
-        print(error)
+        throw error
     }
-    return domain
 }
 
