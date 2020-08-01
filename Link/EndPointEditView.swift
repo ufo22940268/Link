@@ -42,7 +42,7 @@ class Context: ObservableObject {
 
 struct EndPointEditListView: View {
     
-    let domain: Domain
+    let domain: DomainEntity
     @State var apis = [ApiEntity]()
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
@@ -99,7 +99,7 @@ struct EndPointEditListView: View {
 
 struct EndPointEditView: View {
     
-    var domain: Domain
+    var domain: DomainEntity
     
     var body: some View {
         EndPointEditListView(domain: domain).navigationBarItems(trailing: EditButton())

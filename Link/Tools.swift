@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 func extractDomainName(fromURL:  String) -> String {
     let regex = try? NSRegularExpression(pattern: "((http|https)://)?(\\w+\\.)?(?<dn>(\\w)+)\\.", options: [])
@@ -19,17 +20,22 @@ func extractDomainName(fromURL:  String) -> String {
     return ""
 }
 
+func getPersistentContainer() -> NSPersistentContainer {
+    return (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer
+}
 
-func getAnyDomain() throws -> Domain  {
-    var domain: Domain
+
+func getAnyDomain() throws -> DomainEntity {
+    var domain: DomainEntity
+    let persistentContainer = getPersistentContainer()
     do {
-        let req: NSFetchRequest<Domain> = Domain.fetchRequest();
+        let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest();
         let ds = try? persistentContainer.viewContext.fetch(req)
         if let ds = ds, ds.count == 1 {
             domain = ds.first!
         } else {
-            try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: Domain.fetchRequest()))
-            let d = Domain(context: persistentContainer.viewContext)
+            try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: DomainEntity.fetchRequest()))
+            let d = DomainEntity(context: persistentContainer.viewContext)
             d.name = "d"
             try persistentContainer.viewContext.save()
             domain = d

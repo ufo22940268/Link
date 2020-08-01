@@ -10,21 +10,15 @@ import UIKit
 import SwiftUI
 import CoreData
 
-var persistentContainer: NSPersistentContainer = {
-    let container = NSPersistentContainer(name: "LinkModel")
-    container.loadPersistentStores { description, error in
-        if let error = error {
-            fatalError("Unable to load persistent stores: \(error)")
-        }
-    }
-    return container
-}()
-
 
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    
+    var context: NSManagedObjectContext {
+        (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    }
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -40,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Test
         let contentView = NavigationView {
 //            DomainEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
-            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, persistentContainer.viewContext)
+            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
 //            EndPointDetailEditView(api: Binding.constant(Api(path: "asdf", watch: true)))
         }
         
@@ -79,17 +73,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-    }
-    
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Show the error here
-            }
-        }
+        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
 

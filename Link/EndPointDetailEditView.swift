@@ -44,7 +44,7 @@ struct EndPointDetailEditView_Previews: PreviewProvider {
     
     struct PreviewWrapper: View {
         
-        @State var api: ApiEntity = ApiEntity(context: persistentContainer.viewContext)
+        @State var api: ApiEntity = ApiEntity(context: getPersistentContainer().viewContext)
         
         var body: some View {
             api.paths = "asaa"

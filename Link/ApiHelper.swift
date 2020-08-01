@@ -31,8 +31,10 @@ extension Api: Hashable {
 typealias Path = [String]
 
 struct ApiHelper {
+    
+    var persistentContainer: NSPersistentContainer = getPersistentContainer()
         
-    func fetch(domain: Domain) -> AnyPublisher<[ApiEntity], URLError>  {
+    func fetch(domain: DomainEntity) -> AnyPublisher<[ApiEntity], URLError>  {
         let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "http://biubiubiu.hopto.org:9000/link/github.json")!)
             .map { try! JSON(data: $0.data) }
             .map { self.convertToAPI(json: $0) }
@@ -47,7 +49,7 @@ struct ApiHelper {
         return r
     }
     
-    func convertToApiEntity(domain: Domain, apis: [Api]) -> [ApiEntity] {
+    func convertToApiEntity(domain: DomainEntity, apis: [Api]) -> [ApiEntity] {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": domain.objectID])
         var apiEntities = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
         

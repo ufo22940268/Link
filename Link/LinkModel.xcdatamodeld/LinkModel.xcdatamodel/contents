@@ -6,7 +6,7 @@
         <attribute name="watch" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="domain" maxCount="1" deletionRule="Nullify" destinationEntity="DomainEntity"/>
     </entity>
-    <entity name="DomainEntity" representedClassName=".Domain" syncable="YES" codeGenerationType="class">
+    <entity name="DomainEntity" representedClassName=".DomainEntity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
