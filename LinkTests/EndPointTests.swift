@@ -8,7 +8,7 @@
 
 import XCTest
 import Combine
-import Mocker
+//import Mocker
 import CoreData
 @testable import Link
 
@@ -23,15 +23,15 @@ class EndPointTests: XCTestCase {
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = [MockingURLProtocol.self]
+//        let configuration = URLSessionConfiguration.default
+//        configuration.protocolClasses = [MockingURLProtocol.self]
+//        
+//        let originalURL = URL(string: "https://api.github.com")!
         
-        let originalURL = URL(string: "https://api.github.com")!
-        
-        let mock = Mock(url: originalURL, dataType: .json, statusCode: 200, data: [
-            .get : MockedData.githubApi // Data containing the JSON response
-        ])
-        mock.register()
+//        let mock = Mock(url: originalURL, dataType: .json, statusCode: 200, data: [
+//            .get : MockedData.githubApi // Data containing the JSON response
+//        ])
+//        mock.register()
         
         
         self.objectContext = persistentContainer.viewContext
@@ -81,9 +81,9 @@ class EndPointTests: XCTestCase {
 
         let req: NSFetchRequest<ApiEntity> = NSFetchRequest<ApiEntity>(entityName: "ApiEntity")
         req.predicate = NSPredicate(format: "domain = %@", d.objectID)
-        let aes = try? objectContext.fetch(req)
+        _ = try? objectContext.fetch(req)
         
-        let ds = try? objectContext.fetch(DomainEntity.fetchRequest())
+        _ = try? objectContext.fetch(DomainEntity.fetchRequest())
     }
     
     func testUpdate() {
@@ -93,11 +93,11 @@ class EndPointTests: XCTestCase {
         try? persistentContainer.viewContext.save()
         r.append(ae)
 
-        var j = r
+        let j = r
         j[0].paths = "11"
         print("--------", persistentContainer.viewContext.updatedObjects)
         try? persistentContainer.viewContext.save()
         
-        print(try? objectContext.fetch(ApiEntity.fetchRequest()))
+//        print((try? objectContext.fetch(ApiEntity.fetchRequest()) ?? [])
     }
 }
