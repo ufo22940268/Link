@@ -11,7 +11,12 @@ import SwiftUI
 struct EndPointDetailEditView: View {
     
     @Binding var api: Api
-    @State var isOn: Bool = true
+    @Binding var isOn: Bool
+    
+    init(api: Binding<Api>) {
+        _api = api
+        _isOn = api.watch
+    }
         
     var body: some View {
         List {
@@ -39,7 +44,7 @@ struct EndPointDetailEditView_Previews: PreviewProvider {
     
     struct PreviewWrapper: View {
         
-        @State(initialValue: Api(path: "sdfef", value: "jiwefjowijefasdfwefwoiejfoiwjefoiwjefoiwjefoijwoeifjwoiefjowiejf")) var api: Api
+        @State(initialValue: Api(path: "sdfef", value: "jiwefjowijefasdfwefwoiejfoiwjefoiwjefoiwjefoijwoeifjwoiefjowiejf", watch: true)) var api: Api
         
         var body: some View {
             EndPointDetailEditView(api: $api).environment(\.colorScheme, .dark)

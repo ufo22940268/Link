@@ -31,7 +31,7 @@ typealias Path = [String]
 
 struct ApiHelper {
     func fetch() -> AnyPublisher<[Api], URLError>  {
-        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://api.github.com")!)
+        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "http://biubiubiu.hopto.org:9000/link/github.json")!)
             .map { try! JSON(data: $0.data) }
             .map { self.convertToAPI(json: $0) }		
             .eraseToAnyPublisher()
