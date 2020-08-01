@@ -68,14 +68,10 @@ struct EndPointEditListView: View {
                     for selectedApi in dbApis {
                         if let index = self.apis.firstIndex(where: { $0.path == selectedApi.paths }) {
                             self.context.selection.insert(index)
+                            self.apis[index].watch = true
                         }
                     }
                 }
-                
-                self.context.objectWillChange.sink { () in
-                    print(Date())
-                }
-                .store(in: &self.cancellables)
                 
                 self.context.$selection.sink { (selections) in
                     for index in selections {
