@@ -10,10 +10,10 @@ import SwiftUI
 
 struct EndPointDetailEditView: View {
     
-    @Binding var api: Api
+    @Binding var api: ApiEntity
     @Binding var isOn: Bool
     
-    init(api: Binding<Api>) {
+    init(api: Binding<ApiEntity>) {
         _api = api
         _isOn = api.watch
     }
@@ -24,7 +24,7 @@ struct EndPointDetailEditView: View {
                 Toggle("开启", isOn: $isOn)
             }
             Section (header: Text("Key")) {
-                Text(api.path)
+                Text(api.paths ?? "")
             }
             
             Section (header: Text("value")) {
@@ -44,10 +44,12 @@ struct EndPointDetailEditView_Previews: PreviewProvider {
     
     struct PreviewWrapper: View {
         
-        @State(initialValue: Api(path: "sdfef", value: "jiwefjowijefasdfwefwoiejfoiwjefoiwjefoiwjefoijwoeifjwoiefjowiejf", watch: true)) var api: Api
+        @State var api: ApiEntity = ApiEntity(context: persistentContainer.viewContext)
         
         var body: some View {
-            EndPointDetailEditView(api: $api).environment(\.colorScheme, .dark)
+            api.paths = "asaa"
+            api.value = "vvv"
+            return EndPointDetailEditView(api: $api).environment(\.colorScheme, .dark)
         }
     }
 }

@@ -12,7 +12,7 @@ import CoreData
 
 struct EndPointEditListItemView: View {
     
-    @Binding var api: Api
+    @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
     var selected: Bool = false
     
@@ -21,7 +21,7 @@ struct EndPointEditListItemView: View {
     }
     
     var innerBody: some View {
-        var text = Text(api.paths.last ?? "")
+        var text = Text(api.paths ?? "")
         if selected {
             text = text.bold()
                 .foregroundColor(.accentColor)
@@ -43,7 +43,7 @@ class Context: ObservableObject {
 struct EndPointEditListView: View {
     
     let domain: Domain
-    @State var apis = [Api]()
+    @State var apis = [ApiEntity]()
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
@@ -57,7 +57,7 @@ struct EndPointEditListView: View {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         ApiHelper()
-            .fetch()
+            .fetch(domain: domain)
             .catch { error in Just([]) }
             .receive(on: DispatchQueue.main)
             .sink { apis in
@@ -65,25 +65,25 @@ struct EndPointEditListView: View {
                 
                 let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": self.domain.objectID])
                 if let dbApis = try? self.objectContext.fetch(req!) as? [ApiEntity] {
-                    for selectedApi in dbApis {
-                        if let index = self.apis.firstIndex(where: { $0.path == selectedApi.paths }) {
-                            self.context.selection.insert(index)
-                            self.apis[index].watch = true
-                        }
-                    }
+//                    for selectedApi in dbApis {
+//                        if let index = self.apis.firstIndex(where: { $0.path == selectedApi.paths }) {
+//                            self.context.selection.insert(index)
+//                            self.apis[index].watch = true
+//                        }
+//                    }
                 }
                 
-                self.context.$selection.sink { (selections) in
-                    for index in selections {
-                        let api = self.apis[index]
-                        let ae = ApiEntity(context: self.objectContext)
-                        ae.paths = api.paths.joined(separator: ".")
-                        ae.watch = true
-                        ae.domain = self.domain
-                    }
-                    try? self.objectContext.save()
-                }
-                .store(in: &self.cancellables)
+//                self.context.$selection.sink { (selections) in
+//                    for index in selections {
+//                        let api = self.apis[index]
+//                        let ae = ApiEntity(context: self.objectContext)
+//                        ae.paths = api.paths.joined(separator: ".")
+//                        ae.watch = true
+//                        ae.domain = self.domain
+//                    }
+//                    try? self.objectContext.save()
+//                }
+//                .store(in: &self.cancellables)
         }
         .store(in: &cancellables)
     }

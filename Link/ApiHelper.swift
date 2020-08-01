@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import SwiftyJSON
+import CoreData
 
 public struct Api: Identifiable {
     public var id: String {        
@@ -30,10 +31,11 @@ extension Api: Hashable {
 typealias Path = [String]
 
 struct ApiHelper {
-    func fetch() -> AnyPublisher<[Api], URLError>  {
+    func fetch(domain: Domain) -> AnyPublisher<[ApiEntity], URLError>  {
         let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "http://biubiubiu.hopto.org:9000/link/github.json")!)
             .map { try! JSON(data: $0.data) }
-            .map { self.convertToAPI(json: $0) }		
+            .map { self.convertToAPI(json: $0) }
+            .map { self.convertToApiEntity(domain: domain, apis: $0) }
             .eraseToAnyPublisher()
         return cancellable
     }
@@ -42,6 +44,22 @@ struct ApiHelper {
         var r = self.traverseJson(json: json, path: [])
         r.sort { l, r in l.path > r.path }
         return r
+    }
+    
+    func convertToApiEntity(domain: Domain, apis: [Api]) -> [ApiEntity] {
+        let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": domain.objectID])
+        var apiEntities = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
+        
+        for api in apis {
+            if !apiEntities.contains(where: { $0.paths == api.path }) {
+                let ae = ApiEntity(context: persistentContainer.viewContext)
+                ae.paths = api.path
+                ae.value = api.value
+                apiEntities.append(ae)
+            }
+        }
+        try? persistentContainer.viewContext.save()
+        return apiEntities
     }
     
     private func traverseJson(json: JSON, path: Path) -> [Api] {
