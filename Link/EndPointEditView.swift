@@ -48,6 +48,15 @@ struct EndPointEditListView: View {
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
     
+    fileprivate func updateSelection() {
+        self.context.selection.removeAll()
+        for (i, api) in self.apis.enumerated() {
+            if api.watch {
+                self.context.selection.insert(i)
+            }
+        }
+    }
+    
     fileprivate func loadData() {
         if apis.count > 0 {
            return
@@ -63,19 +72,12 @@ struct EndPointEditListView: View {
             .sink { apis in
                 self.apis = apis
                 
-                self.context.selection.removeAll()
-                for (i, api) in apis.enumerated() {
-                    if api.watch {
-                        self.context.selection.insert(i)
-                    }
-                }
+                self.updateSelection()
                   
                 self.context.$selection.sink { (selections) in
                     for index in selections {
                         self.apis[index].watch = true
                     }
-//                    self.objectContext.
-                    print("update objects", self.objectContext.updatedObjects)
                     try! self.objectContext.save()
                 }
                 .store(in: &self.cancellables)
@@ -90,6 +92,7 @@ struct EndPointEditListView: View {
         }
         .onAppear {
             self.loadData()
+            self.updateSelection()
         }
     }
 }
