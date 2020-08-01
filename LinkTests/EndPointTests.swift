@@ -16,19 +16,10 @@ public final class MockedData {
     public static let githubApi: Data = NSDataAsset(name: "github", bundle: .main)!.data
 }
 
-//let persistentContainer: NSPersistentContainer = {
-//    let container = NSPersistentContainer(name: "LinkModel")
-//    container.loadPersistentStores { description, error in
-//        if let error = error {
-//            fatalError("Unable to load persistent stores: \(error)")
-//        }
-//    }
-//    return container
-//}()
-
 class EndPointTests: XCTestCase {
     
     var objectContext: NSManagedObjectContext!
+    var persistentContainer: NSPersistentContainer = getPersistentContainer()
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -41,6 +32,7 @@ class EndPointTests: XCTestCase {
             .get : MockedData.githubApi // Data containing the JSON response
         ])
         mock.register()
+        
         
         self.objectContext = persistentContainer.viewContext
         
@@ -73,7 +65,7 @@ class EndPointTests: XCTestCase {
 //    }
     
     func testCoreData() {
-        let d = Domain(context: objectContext)
+        let d = DomainEntity(context: objectContext)
         d.name = "ijij"
         
         var ae = ApiEntity(context: objectContext)
@@ -91,7 +83,7 @@ class EndPointTests: XCTestCase {
         req.predicate = NSPredicate(format: "domain = %@", d.objectID)
         let aes = try? objectContext.fetch(req)
         
-        let ds = try? objectContext.fetch(Domain.fetchRequest())
+        let ds = try? objectContext.fetch(DomainEntity.fetchRequest())
     }
     
     func testUpdate() {

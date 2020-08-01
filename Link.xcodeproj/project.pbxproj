@@ -89,6 +89,7 @@
 				422B6CF72498D91400D2F10D /* Link */,
 				422B6D0E2498D91500D2F10D /* LinkTests */,
 				422B6CF62498D91400D2F10D /* Products */,
+				4285FE6E24D562EC002BEAEF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +141,13 @@
 				426F887524B1450400C039E4 /* EndPointTests.swift */,
 			);
 			path = LinkTests;
+			sourceTree = "<group>";
+		};
+		4285FE6E24D562EC002BEAEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
