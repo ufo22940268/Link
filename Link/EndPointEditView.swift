@@ -63,27 +63,22 @@ struct EndPointEditListView: View {
             .sink { apis in
                 self.apis = apis
                 
-                let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": self.domain.objectID])
-                if let dbApis = try? self.objectContext.fetch(req!) as? [ApiEntity] {
-//                    for selectedApi in dbApis {
-//                        if let index = self.apis.firstIndex(where: { $0.path == selectedApi.paths }) {
-//                            self.context.selection.insert(index)
-//                            self.apis[index].watch = true
-//                        }
-//                    }
+                self.context.selection.removeAll()
+                for (i, api) in apis.enumerated() {
+                    if api.watch {
+                        self.context.selection.insert(i)
+                    }
                 }
-                
-//                self.context.$selection.sink { (selections) in
-//                    for index in selections {
-//                        let api = self.apis[index]
-//                        let ae = ApiEntity(context: self.objectContext)
-//                        ae.paths = api.paths.joined(separator: ".")
-//                        ae.watch = true
-//                        ae.domain = self.domain
-//                    }
-//                    try? self.objectContext.save()
-//                }
-//                .store(in: &self.cancellables)
+                  
+                self.context.$selection.sink { (selections) in
+                    for index in selections {
+                        self.apis[index].watch = true
+                    }
+//                    self.objectContext.
+                    print("update objects", self.objectContext.updatedObjects)
+                    try! self.objectContext.save()
+                }
+                .store(in: &self.cancellables)
         }
         .store(in: &cancellables)
     }

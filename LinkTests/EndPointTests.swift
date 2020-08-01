@@ -53,23 +53,24 @@ class EndPointTests: XCTestCase {
     
     private func deleteTable(_ tableName: String) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: tableName)
-        let delReq = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        _ = try? objectContext.execute(delReq)
+        for obj in try! objectContext.fetch(fetchRequest) {
+            objectContext.delete(obj as! NSManagedObject)
+        }
     }
 
-    func testEndPointFetch() throws {
-        let expect = XCTestExpectation()
-        let helper = ApiHelper()
-        let c = helper.fetch().sink(receiveCompletion: { _ in
-            expect.fulfill()
-        }) { (d) in
-            XCTAssert(d.contains { $0.path == "starred_gists_url" && $0.value == "https://api.github.com/gists/starred" })
-            XCTAssert(d.contains { $0.path == "a.b.c" && $0.value == "123"})
-            XCTAssert(d.contains { $0.path == "b.d" && $0.value == "321"})
-        }
-        withExtendedLifetime(c) {}
-        wait(for: [expect], timeout: 10.0)
-    }
+//    func testEndPointFetch() throws {
+//        let expect = XCTestExpectation()
+//        let helper = ApiHelper()
+//        let c = helper.fetch().sink(receiveCompletion: { _ in
+//            expect.fulfill()
+//        }) { (d) in
+//            XCTAssert(d.contains { $0.path == "starred_gists_url" && $0.value == "https://api.github.com/gists/starred" })
+//            XCTAssert(d.contains { $0.path == "a.b.c" && $0.value == "123"})
+//            XCTAssert(d.contains { $0.path == "b.d" && $0.value == "321"})
+//        }
+//        withExtendedLifetime(c) {}
+//        wait(for: [expect], timeout: 10.0)
+//    }
     
     func testCoreData() {
         let d = Domain(context: objectContext)
@@ -91,5 +92,20 @@ class EndPointTests: XCTestCase {
         let aes = try? objectContext.fetch(req)
         
         let ds = try? objectContext.fetch(Domain.fetchRequest())
+    }
+    
+    func testUpdate() {
+        var r = [ApiEntity]()
+        let ae = ApiEntity(context: persistentContainer.viewContext)
+        ae.paths = "10";
+        try? persistentContainer.viewContext.save()
+        r.append(ae)
+
+        var j = r
+        j[0].paths = "11"
+        print("--------", persistentContainer.viewContext.updatedObjects)
+        try? persistentContainer.viewContext.save()
+        
+        print(try? objectContext.fetch(ApiEntity.fetchRequest()))
     }
 }

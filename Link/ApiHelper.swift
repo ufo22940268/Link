@@ -31,6 +31,7 @@ extension Api: Hashable {
 typealias Path = [String]
 
 struct ApiHelper {
+        
     func fetch(domain: Domain) -> AnyPublisher<[ApiEntity], URLError>  {
         let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "http://biubiubiu.hopto.org:9000/link/github.json")!)
             .map { try! JSON(data: $0.data) }
@@ -55,6 +56,7 @@ struct ApiHelper {
                 let ae = ApiEntity(context: persistentContainer.viewContext)
                 ae.paths = api.path
                 ae.value = api.value
+                ae.domain = domain
                 apiEntities.append(ae)
             }
         }

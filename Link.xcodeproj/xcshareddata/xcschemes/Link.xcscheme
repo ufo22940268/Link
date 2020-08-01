@@ -37,6 +37,11 @@
                BlueprintName = "LinkTests"
                ReferencedContainer = "container:Link.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "EndPointTests/testCoreData()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
