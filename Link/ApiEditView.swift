@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import CoreData
 
-struct EndPointEditListItemView: View {
+struct ApiEditListItemView: View {
     
     @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
@@ -30,7 +30,7 @@ struct EndPointEditListItemView: View {
     }
     
     var body: some View {
-        NavigationLink(destination: EndPointDetailEditView(api: $api)) {
+        NavigationLink(destination: ApiDetailEditView(api: $api)) {
             innerBody
         }
     }
@@ -40,7 +40,7 @@ class Context: ObservableObject {
     @Published var selection = Set<Int>()
 }
 
-struct EndPointEditListView: View {
+struct ApiEditListView: View {
     
     let domain: DomainEntity
     @State var apis = [ApiEntity]()
@@ -88,7 +88,7 @@ struct EndPointEditListView: View {
     
     var body: some View {
         List(0..<apis.count, id: \.self, selection: $context.selection) { (i: Int) in
-            EndPointEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
+            ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
         }
         .onAppear {
             self.loadData()
@@ -102,7 +102,7 @@ struct EndPointEditView: View {
     var domain: DomainEntity
     
     var body: some View {
-        EndPointEditListView(domain: domain).navigationBarItems(trailing: EditButton())
+        ApiEditListView(domain: domain).navigationBarItems(trailing: EditButton())
     }
 }
 

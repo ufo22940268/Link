@@ -13,25 +13,26 @@ enum EndpointHealthStatus {
     case error
 }
 
-struct EndpointStatus: Hashable {
+struct EndPointStatus: Hashable {
     let path: String
     let status: EndpointHealthStatus
 }
 
-struct EndpointListView: View {
+struct EndPointListView: View {
     
-    let statuses: [EndpointStatus] = [EndpointStatus(path: "/api/repos/list", status: .healthy), EndpointStatus(path: "/api/members/list", status: .error)]
+    let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
+    @Binding var domains: [DomainEntity]
     
     var body: some View {
         List {
             Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                ForEach(statuses, id: \.self) { s in
+                ForEach(domains) { s in
                     HStack {
-                        Text(s.path)
+                        Text(s.endPointPath)
                         Spacer()
-                        if s.status == .error {
-                            Image(systemName: "cloud.rain")
-                        }
+//                        if s.status == .error {
+//                            Image(systemName: "cloud.rain")
+//                        }
                     }
                 }
             }).font(.body)
@@ -41,6 +42,8 @@ struct EndpointListView: View {
 
 struct EndpointListView_Previews: PreviewProvider {
     static var previews: some View {
-        EndpointListView()
+        let de = DomainEntity(context: context)
+        de.url = "https://ewfwef.com/fwef/wefwessf"
+        return EndPointListView(domains: Binding.constant([de, de]))
     }
 }

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct EndPointDetailEditView: View {
+struct ApiDetailEditView: View {
     
     @Binding var api: ApiEntity
     @Binding var isOn: Bool
@@ -36,7 +36,7 @@ struct EndPointDetailEditView: View {
     }
 }
 
-struct EndPointDetailEditView_Previews: PreviewProvider {
+struct ApiDetailEditView_Previews: PreviewProvider {
     
     static var previews: some View {
         PreviewWrapper()
@@ -49,7 +49,7 @@ struct EndPointDetailEditView_Previews: PreviewProvider {
         var body: some View {
             api.paths = "asaa"
             api.value = "vvv"
-            return EndPointDetailEditView(api: $api).environment(\.colorScheme, .dark)
+            return ApiDetailEditView(api: $api).environment(\.colorScheme, .dark)
         }
     }
 }

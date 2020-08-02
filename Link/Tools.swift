@@ -20,6 +20,7 @@ func extractDomainName(fromURL:  String) -> String {
     return ""
 }
 
+
 func getPersistentContainer() -> NSPersistentContainer {
     return (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer
 }
@@ -46,3 +47,15 @@ func getAnyDomain() throws -> DomainEntity {
     }
 }
 
+struct URLHelper {    
+    static func extractEndPointPath(url: String) -> String {
+        let regex = try? NSRegularExpression(pattern: "((http|https)://)?(\\w+\\.)?(?<dn>(\\w)+)\\.[^/]+/(?<pa>.+)", options: [])
+        if let match = regex?.firstMatch(in: url, options: [], range: NSRange(location: 0, length: url.utf16.count)) {
+            if let domainNameRange = Range(match.range(withName: "pa"), in: url)  {
+                return String(url[domainNameRange])
+            }
+        }
+        return ""
+
+    }
+}

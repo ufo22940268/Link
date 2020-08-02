@@ -22,7 +22,7 @@ struct DashboardView: View {
                     StatisticsBlockView(status: .healthy(count: 8))
                     StatisticsBlockView(status: .error(count: 2))
                 }.padding()
-                EndpointListView()
+                EndPointListView(domains: Binding.constant([]))
             }
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(trailing: addEndPointButton)

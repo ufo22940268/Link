@@ -4,12 +4,17 @@
         <attribute name="paths" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="String"/>
         <attribute name="watch" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="domain" maxCount="1" deletionRule="Nullify" destinationEntity="DomainEntity" inverseName="api" inverseEntity="DomainEntity"/>
+        <relationship name="domain" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DomainEntity" inverseName="api" inverseEntity="DomainEntity"/>
     </entity>
     <entity name="DomainEntity" representedClassName=".DomainEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <relationship name="api" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ApiEntity" inverseName="domain" inverseEntity="ApiEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <fetchRequest name="FetchApiByDomain" entity="ApiEntity" predicateString="domain == $domain"/>
     <elements>
