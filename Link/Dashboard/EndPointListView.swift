@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-enum EndpointHealthStatus {
-    case healthy
-    case error
+enum EndpointHealthStatus: String, RawRepresentable {
+    case healthy = "healthy"
+    case error = "error"
 }
 
 struct EndPointStatus: Hashable {
@@ -30,9 +30,9 @@ struct EndPointListView: View {
                     HStack {
                         Text(s.endPointPath)
                         Spacer()
-//                        if s.status == .error {
-//                            Image(systemName: "cloud.rain")
-//                        }
+                        if s.status == EndpointHealthStatus.error.rawValue {
+                            Image(systemName: "cloud.rain")
+                        }
                     }
                 }
             }).font(.body)
@@ -43,7 +43,12 @@ struct EndPointListView: View {
 struct EndpointListView_Previews: PreviewProvider {
     static var previews: some View {
         let de = DomainEntity(context: context)
-        de.url = "https://ewfwef.com/fwef/wefwessf"
-        return EndPointListView(domains: Binding.constant([de, de]))
+        de.url = "https://ewfwef.com/fwef/wefwessff"
+        de.status = "healthy"
+        let de2 = DomainEntity(context: context)
+        de2.url = "https://ewfwef.com/fwef/22222"
+        de2.status = "error"
+        return EndPointListView(domains: Binding.constant([de, de2]))
+            .environment(\.managedObjectContext, getPersistentContainer().viewContext)
     }
 }

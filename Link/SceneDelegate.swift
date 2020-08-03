@@ -26,25 +26,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
-//        let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url?.absoluteURL.description ?? ""
-//        print("sqlite url", sqliteUrl)
-//        
-//        if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"] {
-////            DebugHelper.resetCoreData()
-//        }
+        let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url?.absoluteURL.description ?? ""
+        print("sqlite url", sqliteUrl)
+        
+        if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"] {
+            DebugHelper.resetCoreData()
+        }
 //        
         
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
-            .environment(\.managedObjectContext, context)
+//        let contentView = ContentView()
+//            .environment(\.managedObjectContext, context)
         
         
 //        //Test
-//        let contentView = NavigationView {
-////            DomainEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
-//            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
+        let contentView = NavigationView {
+//            DomainEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
+            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
 ////            EndPointDetailEditView(api: Binding.constant(Api(path: "asdf", watch: true)))
-//        }
+        }
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

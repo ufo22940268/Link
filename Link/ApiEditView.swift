@@ -62,7 +62,6 @@ struct ApiEditListView: View {
            return
         }
         
-        print("loadData")
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         ApiHelper()
@@ -71,12 +70,13 @@ struct ApiEditListView: View {
             .receive(on: DispatchQueue.main)
             .sink { apis in
                 self.apis = apis
-                
                 self.updateSelection()
-                  
+                                  
                 self.context.$selection.sink { (selections) in
+                    print("selection updated")
                     for index in selections {
                         self.apis[index].watch = true
+                        self.apis[index].watchValue = self.apis[index].value
                     }
                     try! self.objectContext.save()
                 }
