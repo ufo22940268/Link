@@ -11,6 +11,8 @@ import SwiftUI
 
 struct DashboardView: View {
     
+    @Binding var domains: [DomainEntity]
+    
     var addEndPointButton: some View {
         NavigationLink("添加监控", destination: DomainEditView())
     }
@@ -22,7 +24,7 @@ struct DashboardView: View {
                     StatisticsBlockView(status: .healthy(count: 8))
                     StatisticsBlockView(status: .error(count: 2))
                 }.padding()
-                EndPointListView(domains: Binding.constant([]))
+                EndPointListView(domains: self.$domains)
             }
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(trailing: addEndPointButton)
@@ -35,9 +37,10 @@ struct DashboardView: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            DashboardView().colorScheme(.light)
-            DashboardView().colorScheme(.dark).preferredColorScheme(.dark)
+        let d = DomainEntity(context: context)
+        d.url = "http://wewef.com/ff/aajj"
+        return Group {
+            DashboardView(domains: Binding.constant([d])).colorScheme(.light)
         }
     }
 } 
