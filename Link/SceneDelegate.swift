@@ -11,40 +11,52 @@ import SwiftUI
 import CoreData
 
 
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+        
     var context: NSManagedObjectContext {
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
     
+    private func launchView() -> AnyView {
+        let mainView = ContentView()
+                .environment(\.managedObjectContext, context)
+        let endPointEditview = NavigationView {
+            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
+        }
+                
+        if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
+            switch viewName {
+            case "main":
+                return AnyView(mainView)
+            case "endPointEdit":
+                return AnyView(endPointEditview)
+            default:
+                return AnyView(mainView)
+            }
+        }
+        
+        return AnyView(mainView)
+    }
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-
+        
         let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url?.absoluteURL.description ?? ""
         print("sqlite url", sqliteUrl)
         
         if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"] {
             DebugHelper.resetCoreData()
         }
-//        
+        //
         
         // Create the SwiftUI view that provides the window contents.
-//        let contentView = ContentView()
-//            .environment(\.managedObjectContext, context)
-        
-        
-//        //Test
-        let contentView = NavigationView {
-//            DomainEditView().environment(\.managedObjectContext, persistentContainer.viewContext)
-            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
-////            EndPointDetailEditView(api: Binding.constant(Api(path: "asdf", watch: true)))
-        }
+        let contentView = launchView()
+                
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

@@ -78,6 +78,11 @@
             value = "true"
             isEnabled = "NO">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LAUNCH_VIEW"
+            value = "endPointEdit"
+            isEnabled = "NO">
+         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
