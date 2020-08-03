@@ -7,13 +7,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
     @State private var selection = 0
- 
+    @State private var domainData: DomainData = DomainData()
+    @Environment(\.managedObjectContext) var context
+     
     var body: some View {
         TabView(selection: $selection){
-            DashboardView(domains: Binding<[DomainEntity]>.constant([]))
+            DashboardView()
                 .font(.title)
                 .tabItem {
                     VStack {
@@ -22,6 +25,10 @@ struct ContentView: View {
                     }
                 }
                 .tag(0)
+                .environmentObject(self.domainData)
+                .onAppear {
+                    self.loadDomains()
+                }
             Text("Second View")
                 .font(.title)
                 .tabItem {
@@ -33,6 +40,15 @@ struct ContentView: View {
                 .tag(1)
         }
     }
+    
+    func loadDomains() {
+        guard let domains = try! context.fetch(DomainEntity.fetchRequest()) as? [DomainEntity] else {
+            domainData = DomainData()
+            return
+        }
+
+        domainData.domains = domains
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -43,3 +59,4 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
+	

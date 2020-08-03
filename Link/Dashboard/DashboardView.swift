@@ -9,9 +9,20 @@
 import SwiftUI
 
 
+
 struct DashboardView: View {
+
+    @EnvironmentObject var domainData: DomainData
     
-    @Binding var domains: [DomainEntity]
+//    init(domains: [DomainEntity] = []) {
+//        if domains.count != 0 {
+//            _domains = State(initialValue: domains)
+//        } else {
+//            _domains = State(initialValue: [])
+//            self.loadDomains()
+//        }
+//    }
+    
     
     var addEndPointButton: some View {
         NavigationLink("添加监控", destination: DomainEditView())
@@ -24,7 +35,7 @@ struct DashboardView: View {
                     StatisticsBlockView(status: .healthy(count: 8))
                     StatisticsBlockView(status: .error(count: 2))
                 }.padding()
-                EndPointListView(domains: self.$domains)
+                EndPointListView()
             }
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(trailing: addEndPointButton)
@@ -33,14 +44,20 @@ struct DashboardView: View {
         .background(Color(UIColor.systemBackground))
         .font(.body)
     }
+    
+    private func loadDomains() {
+        
+    }
 }
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
         let d = DomainEntity(context: context)
         d.url = "http://wewef.com/ff/aajj"
+        let dd = DomainData()
+        dd.domains = [d]
         return Group {
-            DashboardView(domains: Binding.constant([d])).colorScheme(.light)
-        }
+            DashboardView().colorScheme(.light)
+        }.environmentObject(dd)
     }
 } 

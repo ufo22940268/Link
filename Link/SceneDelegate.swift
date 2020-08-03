@@ -21,8 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     private func launchView() -> AnyView {
-        let mainView = ContentView()
-                .environment(\.managedObjectContext, context)
+        let mainView = ContentView().environment(\.managedObjectContext, context)
         let endPointEditview = NavigationView {
             try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
         }
@@ -47,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url?.absoluteURL.description ?? ""
-        print("sqlite url", sqliteUrl)
+        print("sqlite url", sqliteUrl.removingPercentEncoding ?? "")
         
         if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"] {
             DebugHelper.resetCoreData()

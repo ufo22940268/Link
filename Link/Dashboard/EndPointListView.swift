@@ -21,12 +21,13 @@ struct EndPointStatus: Hashable {
 struct EndPointListView: View {
     
     let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
-    @Binding var domains: [DomainEntity]
+    @EnvironmentObject var domainData: DomainData
+
     
     var body: some View {
         List {
             Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                ForEach(domains) { s in
+                ForEach(domainData.domains) { s in
                     HStack {
                         Text(s.endPointPath)
                         Spacer()
@@ -48,7 +49,7 @@ struct EndpointListView_Previews: PreviewProvider {
         let de2 = DomainEntity(context: context)
         de2.url = "https://ewfwef.com/fwef/22222"
         de2.status = "error"
-        return EndPointListView(domains: Binding.constant([de, de2]))
+        return EndPointListView()
             .environment(\.managedObjectContext, getPersistentContainer().viewContext)
     }
 }
