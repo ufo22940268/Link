@@ -32,7 +32,7 @@ func getAnyDomain() throws -> DomainEntity {
     do {
         let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest();
         let ds = try? persistentContainer.viewContext.fetch(req)
-        if let ds = ds, ds.count == 1 {
+        if let ds = ds, ds.count >= 1 {
             domain = ds.first!
         } else {
             try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: DomainEntity.fetchRequest()))

@@ -25,7 +25,7 @@ struct EndPointListView: View {
 
     
     var body: some View {
-        List {
+        return List {
             Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
                 ForEach(domainData.domains) { s in
                     HStack {
@@ -41,7 +41,7 @@ struct EndPointListView: View {
     }
 }
 
-struct EndpointListView_Previews: PreviewProvider {
+struct EndPointListView_Previews: PreviewProvider {
     static var previews: some View {
         let de = DomainEntity(context: context)
         de.url = "https://ewfwef.com/fwef/wefwessff"

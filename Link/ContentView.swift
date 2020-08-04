@@ -42,12 +42,14 @@ struct ContentView: View {
     }
     
     func loadDomains() {
-        guard let domains = try! context.fetch(DomainEntity.fetchRequest()) as? [DomainEntity] else {
+        let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest()
+        guard let domains = try? context.fetch(req) else {
             domainData = DomainData()
             return
         }
 
         domainData.domains = domains
+        domainData.objectWillChange.send()
     }
 }
 

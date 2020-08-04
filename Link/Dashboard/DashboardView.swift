@@ -12,17 +12,7 @@ import SwiftUI
 
 struct DashboardView: View {
 
-    @EnvironmentObject var domainData: DomainData
-    
-//    init(domains: [DomainEntity] = []) {
-//        if domains.count != 0 {
-//            _domains = State(initialValue: domains)
-//        } else {
-//            _domains = State(initialValue: [])
-//            self.loadDomains()
-//        }
-//    }
-    
+    @EnvironmentObject var domainData: DomainData    
     
     var addEndPointButton: some View {
         NavigationLink("添加监控", destination: DomainEditView())
@@ -44,16 +34,12 @@ struct DashboardView: View {
         .background(Color(UIColor.systemBackground))
         .font(.body)
     }
-    
-    private func loadDomains() {
-        
-    }
 }
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
         let d = DomainEntity(context: context)
-        d.url = "http://wewef.com/ff/aajj"
+        d.url = "http://wewef.com/ff/aajjk"
         let dd = DomainData()
         dd.domains = [d]
         return Group {

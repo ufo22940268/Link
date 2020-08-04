@@ -76,27 +76,6 @@ struct DomainEditView: View {
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(trailing: nextButton)
-//        .navigationBarItems(trailing: HStack(spacing: 20) {
-//            Button("read") {
-////                print(self.domains)
-////                FetchRequest(entity: Domain.entity(), sortDescriptors: []).
-//                let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "Domain")
-//                let r = try? self.managedObjectContext.fetch(request)
-////                let r = try? request.execute()
-//                print(r)
-//            }
-//            Button("write") {
-//                print("write")
-//                let d = Domain(context: self.managedObjectContext)
-//                d.url = "asdfasdf"
-//                d.name = "jj"
-//                do {
-//                    try self.managedObjectContext.save()
-//                } catch let error as NSError {
-//                    print("Error: \(error), \(error.userInfo)")
-//                }
-//            }
-//        })
     }
 }
 

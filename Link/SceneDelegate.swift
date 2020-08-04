@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let endPointEditview = NavigationView {
             try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
         }
-                
+                        
         if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
             switch viewName {
             case "main":
@@ -55,6 +55,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Create the SwiftUI view that provides the window contents.
         let contentView = launchView()
+        
+
                 
         
         // Use a UIHostingController as window root view controller.
@@ -92,7 +94,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+//        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
 

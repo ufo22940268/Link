@@ -24,10 +24,10 @@ class DebugHelper {
         
         let d = DomainEntity(context: context)
         d.name = "a"
-        d.url = "http://biubiubiu.hopto.org:9000/"
+        d.url = "http://biubiubiu.hopto.org:9000/aass"
         let d2 = DomainEntity(context: context)
         d2.name = "a2"
-        d2.url = "https://github.com/"
+        d2.url = "https://github.com/ffefef"
         try! context.save()
     }
 }
