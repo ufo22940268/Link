@@ -35,7 +35,7 @@ struct ApiHelper {
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
         
     func fetch(domain: DomainEntity) -> AnyPublisher<[ApiEntity], URLError>  {
-        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "http://biubiubiu.hopto.org:9000/link/github.json")!)
+        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: domain.url ?? "")!)
             .map { try! JSON(data: $0.data) }
             .map { self.convertToAPI(json: $0) }
             .map { self.convertToApiEntity(domain: domain, apis: $0) }

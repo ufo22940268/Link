@@ -6,31 +6,25 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import Foundation
 import Combine
+import Foundation
 
-var c: Cancellable? = nil
+var c: Cancellable?
 
 struct HealthChecker {
-    
     var domains: [DomainEntity]
-    
-    func checkHealth(_ result: ([DomainEntity]) -> Void) {
-        for domain in domains {
-            checkUrl(for: domain)
-        }
+
+    func checkHealth(_ result: ([DomainEntity]) -> Void) -> AnyPublisher<Void, URLError> {
+        let pubs = domains.map { checkUrl(for: $0) }
+        return Publishers.MergeMany(pubs).map{_ in }.eraseToAnyPublisher()
     }
-    
-    func checkUrl(for domain: DomainEntity) {
-        c = ApiHelper().fetch(domain: domain).map { apis in
+
+    func checkUrl(for domain: DomainEntity) -> AnyPublisher<(), URLError> {
+        return ApiHelper().fetch(domain: domain).map { apis in
             if apis.contains(where: { $0.watch && $0.value != $0.watchValue }) {
                 domain.status = HealthStatus.error.rawValue
             }
         }
-        .sink(receiveCompletion: { e in
-            print(e)
-        }, receiveValue: {
-            
-        })
+        .eraseToAnyPublisher()
     }
 }

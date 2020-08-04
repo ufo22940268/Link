@@ -6,16 +6,18 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import SwiftUI
+import Combine
 import CoreData
+import SwiftUI
 
 struct ContentView: View {
     @State private var selection = 0
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
-     
+    @State var cancellables = [AnyCancellable]()
+
     var body: some View {
-        TabView(selection: $selection){
+        TabView(selection: $selection) {
             DashboardView()
                 .font(.title)
                 .tabItem {
@@ -40,7 +42,7 @@ struct ContentView: View {
                 .tag(1)
         }
     }
-    
+
     func loadDomains() {
         let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest()
         if let domains = try? context.fetch(req) {
@@ -48,13 +50,14 @@ struct ContentView: View {
         } else {
             domainData = DomainData()
         }
-        
+
         HealthChecker(domains: domainData.domains).checkHealth { domains in
             domainData.domains = domains
             domainData.objectWillChange.send()
         }
-
-        domainData.objectWillChange.send()
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { _ in self.domainData.objectWillChange.send() }, receiveValue: { _ in })
+        .store(in: &cancellables)
     }
 }
 
@@ -66,4 +69,3 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
-	

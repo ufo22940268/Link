@@ -29,7 +29,7 @@ class DebugHelper {
         let a1 = ApiEntity(context: context)
         a1.domain = d
         a1.paths = "followers_url"
-        a1.watchValue = "https://api.github.com/user/followers1"
+        a1.watchValue = "https://api.github.com/user/followers"
         a1.watch = true
         
         d.addToApi(a1)
