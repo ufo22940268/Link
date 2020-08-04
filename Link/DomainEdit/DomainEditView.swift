@@ -26,19 +26,18 @@ struct DomainEditView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @State var domainUrl: String = ""
     @State var domainName: String = ""
-    @FetchRequest(entity: DomainEntity.entity(), sortDescriptors: []) var domains: FetchedResults<DomainEntity>
+    @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var domains: FetchedResults<EndPointEntity>
     
     var nextButton: some View {
         Button(action: {  
             print(self.domains)
-            var d: DomainEntity
+            var d: EndPointEntity
             if let nd =  self.domains.first(where: {$0.url == self.domainUrl}) {
                 d = nd
             } else {
-                d = DomainEntity(context: self.managedObjectContext)
+                d = EndPointEntity(context: self.managedObjectContext)
                 d.url = self.domainUrl
             }
-            d.name = self.domainName
             do {
                 try self.managedObjectContext.save()
             } catch let error as NSError {

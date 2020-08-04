@@ -36,7 +36,7 @@ class EndPointTests: XCTestCase {
         
         self.objectContext = persistentContainer.viewContext
         
-        ["DomainEntity", "ApiEntity"].forEach { self.deleteTable($0) }
+        ["EndPointEntity", "ApiEntity"].forEach { self.deleteTable($0) }
     }
 
     override func tearDownWithError() throws {
@@ -65,7 +65,7 @@ class EndPointTests: XCTestCase {
 //    }
     
     func testCoreData() {
-        let d = DomainEntity(context: objectContext)
+        let d = EndPointEntity(context: objectContext)
         d.name = "ijij"
         
         var ae = ApiEntity(context: objectContext)
@@ -83,7 +83,7 @@ class EndPointTests: XCTestCase {
         req.predicate = NSPredicate(format: "domain = %@", d.objectID)
         _ = try? objectContext.fetch(req)
         
-        _ = try? objectContext.fetch(DomainEntity.fetchRequest())
+        _ = try? objectContext.fetch(EndPointEntity.fetchRequest())
     }
     
     func testUpdate() {

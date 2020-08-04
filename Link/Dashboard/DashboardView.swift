@@ -38,7 +38,7 @@ struct DashboardView: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        let d = DomainEntity(context: context)
+        let d = EndPointEntity(context: context)
         d.url = "http://wewef.com/ff/aajjk"
         let dd = DomainData()
         dd.domains = [d]

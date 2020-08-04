@@ -43,10 +43,10 @@ struct EndPointListView: View {
 
 struct EndPointListView_Previews: PreviewProvider {
     static var previews: some View {
-        let de = DomainEntity(context: context)
+        let de = EndPointEntity(context: context)
         de.url = "https://ewfwef.com/fwef/wefwessff"
         de.status = "healthy"
-        let de2 = DomainEntity(context: context)
+        let de2 = EndPointEntity(context: context)
         de2.url = "https://ewfwef.com/fwef/22222"
         de2.status = "error"
         return EndPointListView()

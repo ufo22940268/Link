@@ -44,7 +44,7 @@ struct ContentView: View {
     }
 
     func loadDomains() {
-        let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest()
+        let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
         if let domains = try? context.fetch(req) {
             domainData.domains = domains
         } else {

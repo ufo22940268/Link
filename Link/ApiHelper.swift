@@ -34,7 +34,7 @@ struct ApiHelper {
     
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
         
-    func fetch(domain: DomainEntity) -> AnyPublisher<[ApiEntity], URLError>  {
+    func fetch(domain: EndPointEntity) -> AnyPublisher<[ApiEntity], URLError>  {
         let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: domain.url ?? "")!)
             .map { try! JSON(data: $0.data) }
             .map { self.convertToAPI(json: $0) }
@@ -49,7 +49,7 @@ struct ApiHelper {
         return r
     }
     
-    func convertToApiEntity(domain: DomainEntity, apis: [Api]) -> [ApiEntity] {
+    func convertToApiEntity(domain: EndPointEntity, apis: [Api]) -> [ApiEntity] {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["domain": domain.objectID])
         var apiEntities = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
         

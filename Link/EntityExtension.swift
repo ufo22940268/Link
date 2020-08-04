@@ -9,7 +9,7 @@
 import Foundation
 
 
-extension DomainEntity: Identifiable {
+extension EndPointEntity: Identifiable {
     public var id: String {
         self.url ?? ""
     }

@@ -26,18 +26,17 @@ func getPersistentContainer() -> NSPersistentContainer {
 }
 
 
-func getAnyDomain() throws -> DomainEntity {
-    var domain: DomainEntity
+func getAnyDomain() throws -> EndPointEntity {
+    var domain: EndPointEntity
     let persistentContainer = getPersistentContainer()
     do {
-        let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest();
+        let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest();
         let ds = try? persistentContainer.viewContext.fetch(req)
         if let ds = ds, ds.count >= 1 {
             domain = ds.first!
         } else {
-            try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: DomainEntity.fetchRequest()))
-            let d = DomainEntity(context: persistentContainer.viewContext)
-            d.name = "d"
+            try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: EndPointEntity.fetchRequest()))
+            let d = EndPointEntity(context: persistentContainer.viewContext)
             try persistentContainer.viewContext.save()
             domain = d
         }

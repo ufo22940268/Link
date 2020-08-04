@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 final class DomainData: ObservableObject {
-    @Published var domains: [DomainEntity] = []
+    @Published var domains: [EndPointEntity] = []
 }
 
 
