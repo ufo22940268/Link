@@ -54,7 +54,9 @@ struct ApiHelper {
         var apiEntities = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
         
         for api in apis {
-            if !apiEntities.contains(where: { $0.paths == api.path }) {
+            if let index = apiEntities.firstIndex(where: { $0.paths == api.path}) {
+                apiEntities[index].value = api.value
+            } else {
                 let ae = ApiEntity(context: persistentContainer.viewContext)
                 ae.paths = api.path
                 ae.value = api.value

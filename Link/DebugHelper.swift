@@ -24,10 +24,19 @@ class DebugHelper {
         
         let d = DomainEntity(context: context)
         d.name = "a"
-        d.url = "http://biubiubiu.hopto.org:9000/aass"
-        let d2 = DomainEntity(context: context)
-        d2.name = "a2"
-        d2.url = "https://github.com/ffefef"
+        d.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+        
+        let a1 = ApiEntity(context: context)
+        a1.domain = d
+        a1.paths = "followers_url"
+        a1.watchValue = "https://api.github.com/user/followers1"
+        a1.watch = true
+        
+        d.addToApi(a1)
+        
+//        let d2 = DomainEntity(context: context)
+//        d2.name = "a2"
+//        d2.url = "https://github.com/ffefef"
         try! context.save()
     }
 }

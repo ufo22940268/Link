@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-enum EndpointHealthStatus: String, RawRepresentable {
+enum HealthStatus: String, RawRepresentable {
     case healthy = "healthy"
     case error = "error"
 }
 
 struct EndPointStatus: Hashable {
     let path: String
-    let status: EndpointHealthStatus
+    let status: HealthStatus
 }
 
 struct EndPointListView: View {
@@ -31,7 +31,7 @@ struct EndPointListView: View {
                     HStack {
                         Text(s.endPointPath)
                         Spacer()
-                        if s.status == EndpointHealthStatus.error.rawValue {
+                        if s.status == HealthStatus.error.rawValue {
                             Image(systemName: "cloud.rain")
                         }
                     }
