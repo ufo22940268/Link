@@ -22,8 +22,8 @@ struct DashboardView: View {
         NavigationView {
             VStack {
                 HStack(spacing: 15) {
-                    StatisticsBlockView(status: .healthy(count: 8))
-                    StatisticsBlockView(status: .error(count: 2))
+                    StatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
+                    StatisticsBlockView(status: .error(count: domainData.errorCount()))
                 }.padding()
                 EndPointListView()
             }

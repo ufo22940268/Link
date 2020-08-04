@@ -11,6 +11,14 @@ import SwiftUI
 
 final class DomainData: ObservableObject {
     @Published var domains: [EndPointEntity] = []
+    
+    func healthyCount() -> Int {
+        return domains.filter { $0.status == HealthStatus.healthy.rawValue }.count
+    }
+    
+    func errorCount() -> Int {
+        return domains.filter { $0.status == HealthStatus.error.rawValue }.count
+    }
 }
 
 
