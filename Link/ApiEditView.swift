@@ -65,7 +65,7 @@ struct ApiEditListView: View {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         ApiHelper()
-            .fetch(domain: domain)
+            .fetch(endPoint: domain)
             .catch { error in Just([]) }
             .receive(on: DispatchQueue.main)
             .sink { apis in

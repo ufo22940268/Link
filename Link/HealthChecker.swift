@@ -20,7 +20,7 @@ struct HealthChecker {
     }
 
     func checkUrl(for domain: EndPointEntity) -> AnyPublisher<(), URLError> {
-        return ApiHelper().fetch(domain: domain).map { apis in
+        return ApiHelper().fetch(endPoint: domain).map { apis in
             if apis.contains(where: { $0.watch && $0.value != $0.watchValue }) {
                 domain.status = HealthStatus.error.rawValue
             }

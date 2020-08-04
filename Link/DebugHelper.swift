@@ -6,11 +6,10 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 class DebugHelper {
-    
     static func resetCoreData() {
         print("resetCoreData")
 
@@ -22,17 +21,23 @@ class DebugHelper {
             }
         }
         
-        let d = EndPointEntity(context: context)
-        d.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+        let d = DomainEntity(context: context)
+        d.name = "d"
+
+        let p = EndPointEntity(context: context)
+        p.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+        p.domain = d
         
+        d.endPoints?.adding(p)
+
         let a1 = ApiEntity(context: context)
-        a1.domain = d
+        a1.endPoint = p
         a1.paths = "followers_url"
         a1.watchValue = "https://api.github.com/user/followers1"
         a1.watch = true
-        
-        d.addToApi(a1)
-        
+
+        p.addToApi(a1)
+
 //        let d2 = EndPointEntity(context: context)
 //        d2.name = "a2"
 //        d2.url = "https://github.com/ffefef"
