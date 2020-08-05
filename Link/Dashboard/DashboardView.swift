@@ -41,7 +41,7 @@ struct DashboardView_Previews: PreviewProvider {
         let d = EndPointEntity(context: context)
         d.url = "http://wewef.com/ff/aajjk"
         let dd = DomainData()
-        dd.domains = [d]
+        dd.endPoints = [d]
         return Group {
             DashboardView().colorScheme(.light)
         }.environmentObject(dd)

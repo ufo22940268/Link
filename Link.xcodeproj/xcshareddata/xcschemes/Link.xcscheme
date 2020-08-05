@@ -81,7 +81,7 @@
          <EnvironmentVariable
             key = "LAUNCH_VIEW"
             value = "jsonViewer"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "LAUNCH_VIEW"

@@ -46,13 +46,13 @@ struct ContentView: View {
     func loadDomains() {
         let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
         if let domains = try? context.fetch(req) {
-            domainData.domains = domains
+            domainData.endPoints = domains
         } else {
             domainData = DomainData()
         }
 
-        HealthChecker(domains: domainData.domains).checkHealth { domains in
-            domainData.domains = domains
+        HealthChecker(domains: domainData.endPoints).checkHealth { domains in
+            domainData.endPoints = domains
             domainData.objectWillChange.send()
         }
         .receive(on: DispatchQueue.main)

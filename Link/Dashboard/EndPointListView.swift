@@ -9,8 +9,8 @@
 import SwiftUI
 
 enum HealthStatus: String, RawRepresentable {
-    case healthy = "healthy"
-    case error = "error"
+    case healthy
+    case error
 }
 
 struct EndPointStatus: Hashable {
@@ -19,20 +19,20 @@ struct EndPointStatus: Hashable {
 }
 
 struct EndPointListView: View {
-    
     let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
     @EnvironmentObject var domainData: DomainData
 
-    
     var body: some View {
         return List {
             Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                ForEach(domainData.domains) { s in
-                    HStack {
-                        Text(s.endPointPath)
-                        Spacer()
-                        if s.status == HealthStatus.error.rawValue {
-                            Image(systemName: "cloud.rain")
+                ForEach(domainData.endPoints) { s in
+                    NavigationLink(destination: JSONViewerView(json: s.data)) {
+                        HStack {
+                            Text(s.endPointPath)
+                            Spacer()
+                            if s.status == HealthStatus.error.rawValue {
+                                Image(systemName: "cloud.rain")
+                            }
                         }
                     }
                 }

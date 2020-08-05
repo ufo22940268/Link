@@ -10,16 +10,18 @@ import SwiftUI
 import SwiftyJSON
 
 struct JSONViewerView: View {
-    var json: String = "ff"
+    var json: String = ""
     
-    init(json: Data) {
-        self.json = self.format(json)
+    init(json: Data?) {
+        if let json = json {
+            self.json = self.format(json)
+        }
     }
     
     var body: some View {
         ScrollView {
             Text(json).padding()
-        }
+        }.navigationBarTitle(Text("请求结果"), displayMode: .inline)
     }
     
     private func format(_ value: Data) -> String {

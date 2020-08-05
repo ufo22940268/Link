@@ -10,14 +10,14 @@ import Combine
 import SwiftUI
 
 final class DomainData: ObservableObject {
-    @Published var domains: [EndPointEntity] = []
+    @Published var endPoints: [EndPointEntity] = []
     
     func healthyCount() -> Int {
-        return domains.filter { $0.status == HealthStatus.healthy.rawValue }.count
+        return endPoints.filter { $0.status == HealthStatus.healthy.rawValue }.count
     }
     
     func errorCount() -> Int {
-        return domains.filter { $0.status == HealthStatus.error.rawValue }.count
+        return endPoints.filter { $0.status == HealthStatus.error.rawValue }.count
     }
 }
 

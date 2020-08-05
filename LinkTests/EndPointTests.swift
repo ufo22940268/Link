@@ -64,27 +64,27 @@ class EndPointTests: XCTestCase {
 //        wait(for: [expect], timeout: 10.0)
 //    }
     
-    func testCoreData() {
-        let d = EndPointEntity(context: objectContext)
-        d.name = "ijij"
-        
-        var ae = ApiEntity(context: objectContext)
-        ae.paths = "asdf"
-        ae.watch = true
-        ae.domain = d
-
-        ae = ApiEntity(context: objectContext)
-        ae.paths = "asdf2"
-        ae.watch = false
-        ae.domain = d
-        try! objectContext.save()
-
-        let req: NSFetchRequest<ApiEntity> = NSFetchRequest<ApiEntity>(entityName: "ApiEntity")
-        req.predicate = NSPredicate(format: "domain = %@", d.objectID)
-        _ = try? objectContext.fetch(req)
-        
-        _ = try? objectContext.fetch(EndPointEntity.fetchRequest())
-    }
+//    func testCoreData() {
+//        let d = EndPointEntity(context: objectContext)
+//        d.name = "ijij"
+//        
+//        var ae = ApiEntity(context: objectContext)
+//        ae.paths = "asdf"
+//        ae.watch = true
+//        ae.domain = d
+//
+//        ae = ApiEntity(context: objectContext)
+//        ae.paths = "asdf2"
+//        ae.watch = false
+//        ae.domain = d
+//        try! objectContext.save()
+//
+//        let req: NSFetchRequest<ApiEntity> = NSFetchRequest<ApiEntity>(entityName: "ApiEntity")
+//        req.predicate = NSPredicate(format: "domain = %@", d.objectID)
+//        _ = try? objectContext.fetch(req)
+//        
+//        _ = try? objectContext.fetch(EndPointEntity.fetchRequest())
+//    }
     
     func testUpdate() {
         var r = [ApiEntity]()
