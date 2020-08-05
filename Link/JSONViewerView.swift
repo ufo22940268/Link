@@ -25,7 +25,7 @@ struct JSONViewerView: View {
 
     var body: some View {
         ScrollView {
-            Text(json).padding()
+            Text(json.replacingOccurrences(of: "\\", with: "")).padding()
         }
         .navigationBarTitle(Text("请求结果"), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
