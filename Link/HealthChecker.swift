@@ -14,12 +14,12 @@ var c: Cancellable?
 struct HealthChecker {
     var domains: [EndPointEntity]
 
-    func checkHealth(_ result: ([EndPointEntity]) -> Void) -> AnyPublisher<Void, URLError> {
+    func checkHealth(_ result: ([EndPointEntity]) -> Void) -> AnyPublisher<Void, Error> {
         let pubs = domains.map { checkUrl(for: $0) }
         return Publishers.MergeMany(pubs).map { _ in }.eraseToAnyPublisher()
     }
 
-    func checkUrl(for domain: EndPointEntity) -> AnyPublisher<Void, URLError> {
+    func checkUrl(for domain: EndPointEntity) -> AnyPublisher<Void, Error> {
         return ApiHelper().fetch(endPoint: domain)
             .filter({ apis in
                 apis.contains(where: { $0.watch && $0.value != $0.watchValue })

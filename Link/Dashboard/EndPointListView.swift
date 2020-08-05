@@ -18,25 +18,48 @@ struct EndPointStatus: Hashable {
     let status: HealthStatus
 }
 
+private struct EndPointRow: View {
+    var endPoint: EndPointEntity
+
+    var body: some View {
+        NavigationLink(destination: JSONViewerView(json: endPoint.data).environmentObject(EndPointData(endPoint: endPoint))) {
+            HStack {
+                Text(endPoint.endPointPath)
+                Spacer()
+                if endPoint.status == HealthStatus.error.rawValue {
+                    Image(systemName: "cloud.rain")
+                }
+            }
+        }
+    }
+}
+
 struct EndPointListView: View {
     let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
     @EnvironmentObject var domainData: DomainData
 
+    var domainMap: [String: [EndPointEntity]] {
+        domainData.endPoints.filter({ $0.domain?.name != nil }).reduce([String: [EndPointEntity]](), { r, entity in
+            var k = r
+            let domainName = entity.domain!.name!
+            if r[domainName] != nil {
+                k[domainName]!.append(entity)
+            } else {
+                k[domainName] = [entity]
+            }
+            return k
+        })
+    }
+
     var body: some View {
-        return List {
-            Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                ForEach(domainData.endPoints) { endPoint in
-                    NavigationLink(destination: JSONViewerView(json: endPoint.data).environmentObject(EndPointData(endPoint: endPoint))) {
-                        HStack {
-                            Text(endPoint.endPointPath)
-                            Spacer()
-                            if endPoint.status == HealthStatus.error.rawValue {
-                                Image(systemName: "cloud.rain")
-                            }
-                        }
+        List {
+            ForEach(domainMap.keys.sorted(), id: \.self) { domainName in
+                Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]), content: {
+                    ForEach(self.domainMap[domainName]!.sorted(by: { $0.url ?? "" < $1.url ?? "" })) { endPoint in
+                        EndPointRow(endPoint: endPoint)
                     }
-                }
-            }).font(.body)
+                }).font(.body)
+            }
         }
     }
 }

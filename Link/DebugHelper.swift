@@ -29,7 +29,14 @@ class DebugHelper {
         p.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         p.domain = d
         
+        
         d.endPoints?.adding(p)
+        
+        let p2 = EndPointEntity(context: context)
+        p2.url = "http://biubiubiu.hopto.org:9000/link/github.json2"
+        p2.domain = d
+        
+        d.endPoints?.adding(p2)
 
         let a1 = ApiEntity(context: context)
         a1.endPoint = p

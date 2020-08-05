@@ -33,14 +33,17 @@ typealias Path = [String]
 struct ApiHelper {
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
 
-    func fetch(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], URLError> {
+    func fetch(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
         let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: endPoint.url ?? "")!)
-            .map {
+            .tryMap {
                 endPoint.data = $0.data
-                return try! JSON(data: $0.data)
+                return try JSON(data: $0.data)
             }
             .map { self.convertToAPI(json: $0) }
             .map { self.convertToApiEntity(endPoint: endPoint, apis: $0) }
+            .tryCatch { error in
+                Just([])
+            }
             .eraseToAnyPublisher()
         return cancellable
     }
