@@ -11,25 +11,32 @@ import SwiftyJSON
 
 struct JSONViewerView: View {
     var json: String = ""
-    
+    @EnvironmentObject var endPoint: EndPointData
+
     init(json: Data?) {
         if let json = json {
-            self.json = self.format(json)
+            self.json = format(json)
         }
     }
     
+    var editButton: some View {
+        NavigationLink("编辑", destination: EndPointEditView(domain: endPoint.endPoint))
+    }
+
     var body: some View {
         ScrollView {
             Text(json).padding()
-        }.navigationBarTitle(Text("请求结果"), displayMode: .inline)
+        }
+        .navigationBarTitle(Text("请求结果"), displayMode: .inline)
+        .navigationBarItems(trailing: editButton)
     }
-    
+
     private func format(_ value: Data) -> String {
         do {
             let json = try JSON(data: value)
             return json.rawString() ?? ""
         } catch {
-          print(error)
+            print(error)
         }
         return ""
     }

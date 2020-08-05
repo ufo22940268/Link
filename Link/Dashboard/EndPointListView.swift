@@ -25,12 +25,12 @@ struct EndPointListView: View {
     var body: some View {
         return List {
             Section(header: Text("Merico").font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                ForEach(domainData.endPoints) { s in
-                    NavigationLink(destination: JSONViewerView(json: s.data)) {
+                ForEach(domainData.endPoints) { endPoint in
+                    NavigationLink(destination: JSONViewerView(json: endPoint.data).environmentObject(EndPointData(endPoint: endPoint))) {
                         HStack {
-                            Text(s.endPointPath)
+                            Text(endPoint.endPointPath)
                             Spacer()
-                            if s.status == HealthStatus.error.rawValue {
+                            if endPoint.status == HealthStatus.error.rawValue {
                                 Image(systemName: "cloud.rain")
                             }
                         }

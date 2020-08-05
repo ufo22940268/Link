@@ -21,4 +21,12 @@ final class DomainData: ObservableObject {
     }
 }
 
+final class EndPointData: ObservableObject {
+    @Published var endPoint: EndPointEntity
+    
+    init(endPoint: EndPointEntity) {
+        self.endPoint = endPoint
+    }
+}
+
 
