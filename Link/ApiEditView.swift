@@ -6,20 +6,19 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import SwiftUI
 import Combine
 import CoreData
+import SwiftUI
 
 struct ApiEditListItemView: View {
-    
     @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
     var selected: Bool = false
-    
+
     var isEditing: Bool {
-        self.mode != nil && self.mode!.wrappedValue.isEditing
+        mode != nil && mode!.wrappedValue.isEditing
     }
-    
+
     var innerBody: some View {
         var text = Text(api.paths ?? "")
         if selected {
@@ -28,7 +27,7 @@ struct ApiEditListItemView: View {
         }
         return text
     }
-    
+
     var body: some View {
         NavigationLink(destination: ApiDetailEditView(api: $api)) {
             innerBody
@@ -41,38 +40,37 @@ class Context: ObservableObject {
 }
 
 struct ApiEditListView: View {
-    
     let domain: EndPointEntity
     @State var apis = [ApiEntity]()
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
-    
+
     fileprivate func updateSelection() {
-        self.context.selection.removeAll()
-        for (i, api) in self.apis.enumerated() {
+        context.selection.removeAll()
+        for (i, api) in apis.enumerated() {
             if api.watch {
-                self.context.selection.insert(i)
+                context.selection.insert(i)
             }
         }
     }
-    
+
     fileprivate func loadData() {
         if apis.count > 0 {
-           return
+            return
         }
-        
+
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         ApiHelper()
             .fetch(endPoint: domain)
-            .catch { error in Just([]) }
+            .catch { _ in Just([]) }
             .receive(on: DispatchQueue.main)
             .sink { apis in
                 self.apis = apis
                 self.updateSelection()
-                                  
-                self.context.$selection.sink { (selections) in
+
+                self.context.$selection.sink { selections in
                     print("selection updated")
                     for index in selections {
                         self.apis[index].watch = true
@@ -81,17 +79,16 @@ struct ApiEditListView: View {
                     try! self.objectContext.save()
                 }
                 .store(in: &self.cancellables)
-        }
-        .store(in: &cancellables)
+            }
+            .store(in: &cancellables)
     }
-    
-    
+
     var body: some View {
-        List(0..<apis.count, id: \.self, selection: $context.selection) { (i: Int) in
+        List(0 ..< apis.count, id: \.self, selection: $context.selection) { (i: Int) in
             ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
         }
         .onAppear {
-            if !DebugHelper.isPreview {                
+            if !DebugHelper.isPreview {
                 self.loadData()
             }
             self.updateSelection()
@@ -100,14 +97,14 @@ struct ApiEditListView: View {
 }
 
 struct EndPointEditView: View {
-    
     var domain: EndPointEntity
-  
+
     var body: some View {
-        ApiEditListView(domain: domain).navigationBarItems(trailing: EditButton())
+        ApiEditListView(domain: domain)
+            .navigationBarItems(trailing: EditButton())
+            .navigationBarTitle("接口")
     }
 }
-
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
@@ -116,4 +113,3 @@ struct EndPointEditView_Previews: PreviewProvider {
         }
     }
 }
-
