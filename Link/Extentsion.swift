@@ -15,3 +15,5 @@ extension PreviewProvider {
         getPersistentContainer().viewContext
     }
 }
+
+extension String: Error {}

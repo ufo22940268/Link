@@ -44,4 +44,8 @@ class DebugHelper {
 //        d2.url = "https://github.com/ffefef"
         try! context.save()
     }
+    
+    static var isPreview: Bool  {
+       (ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] ?? "") == "1"
+    }
 }

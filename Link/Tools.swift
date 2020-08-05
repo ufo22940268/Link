@@ -35,10 +35,7 @@ func getAnyDomain() throws -> EndPointEntity {
         if let ds = ds, ds.count >= 1 {
             domain = ds.first!
         } else {
-            try persistentContainer.viewContext.execute(NSBatchDeleteRequest(fetchRequest: EndPointEntity.fetchRequest()))
-            let d = EndPointEntity(context: persistentContainer.viewContext)
-            try persistentContainer.viewContext.save()
-            domain = d
+            throw "Domain not founed"
         }
         return domain
     } catch {

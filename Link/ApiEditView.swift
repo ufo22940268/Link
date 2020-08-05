@@ -91,7 +91,9 @@ struct ApiEditListView: View {
             ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
         }
         .onAppear {
-            self.loadData()
+            if !DebugHelper.isPreview {                
+                self.loadData()
+            }
             self.updateSelection()
         }
     }
@@ -100,7 +102,7 @@ struct ApiEditListView: View {
 struct EndPointEditView: View {
     
     var domain: EndPointEntity
-    
+  
     var body: some View {
         ApiEditListView(domain: domain).navigationBarItems(trailing: EditButton())
     }

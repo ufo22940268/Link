@@ -31,6 +31,7 @@
 		42D2053C24C6391F00C6CC70 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 42D2053B24C6391F00C6CC70 /* SwiftyJSON */; };
 		42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */; };
 		42D2054324C675B800C6CC70 /* github.json in Resources */ = {isa = PBXBuildFile; fileRef = 42D2054224C675B800C6CC70 /* github.json */; };
+		42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DAFACB24DA3A850093869D /* JSONViewerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		42BC1B9724D8DF6E0078402B /* HealthChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthChecker.swift; sourceTree = "<group>"; };
 		42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		42D2054224C675B800C6CC70 /* github.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = github.json; sourceTree = "<group>"; };
+		42DAFACB24DA3A850093869D /* JSONViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONViewerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				427471F724D6510500883AD7 /* EntityExtension.swift */,
 				42BC1B6424D7E8590078402B /* DomainData.swift */,
 				42BC1B9724D8DF6E0078402B /* HealthChecker.swift */,
+				42DAFACB24DA3A850093869D /* JSONViewerView.swift */,
 			);
 			path = Link;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */,
 				422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */,
 				427471F824D6510500883AD7 /* EntityExtension.swift in Sources */,
 				426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */,

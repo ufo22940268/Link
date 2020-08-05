@@ -80,6 +80,11 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "LAUNCH_VIEW"
+            value = "jsonViewer"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LAUNCH_VIEW"
             value = "endPointEdit"
             isEnabled = "NO">
          </EnvironmentVariable>

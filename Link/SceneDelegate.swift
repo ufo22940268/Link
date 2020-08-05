@@ -32,6 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 return AnyView(mainView)
             case "endPointEdit":
                 return AnyView(endPointEditview)
+            case "jsonViewer":
+                let view = JSONViewerView(json: NSDataAsset(name: "fireball", bundle: .main)!.data)
+                return AnyView(view)
             default:
                 return AnyView(mainView)
             }
