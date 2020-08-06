@@ -15,7 +15,7 @@ class DebugHelper {
         print("resetCoreData")
 
         let context = getPersistentContainer().viewContext
-        let entities = [ApiEntity.self, EndPointEntity.self]
+        let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
         for entity in entities {
             for e in try! context.fetch(entity.fetchRequest()) {
                 context.delete(e as! NSManagedObject)
