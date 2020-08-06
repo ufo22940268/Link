@@ -10,7 +10,7 @@ import Combine
 import CoreData
 import SwiftUI
 
-struct ContentView: View {
+struct OnboardView: View {
     @State private var selection = 0
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
@@ -64,8 +64,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView().colorScheme(.light)
-            ContentView().colorScheme(.dark)
+            OnboardView().colorScheme(.light)
+            OnboardView().colorScheme(.dark)
         }
     }
 }

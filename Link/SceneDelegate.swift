@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     private func launchView() -> AnyView {
-        let mainView = ContentView().environment(\.managedObjectContext, context)
+        let mainView = OnboardView().environment(\.managedObjectContext, context)
         let endPointEditview = NavigationView {
             try! EndPointEditView(domain: getAnyEndPoint()).environment(\.managedObjectContext, context)
         }
