@@ -45,8 +45,15 @@ class DebugHelper {
         a1.paths = "followers_url"
         a1.watchValue = "https://api.github.com/user/followers"
         a1.watch = true
+        
+        let a2 = ApiEntity(context: context)
+        a2.endPoint = p
+        a2.paths = "feeds_url"
+        a2.watchValue = "https://api.github.com/user/feeds"
+        a2.watch = true
 
         p.addToApi(a1)
+        p.addToApi(a2)
 
         try! context.save()
     }

@@ -29,7 +29,7 @@ struct JSONViewerView: View {
         .navigationBarTitle(Text("请求结果"), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
     }
-    
+
     private func removeSlash(_ str: String) -> String {
         str.replacingOccurrences(of: "\\", with: "")
     }
