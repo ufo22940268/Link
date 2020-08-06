@@ -26,11 +26,12 @@ func getPersistentContainer() -> NSPersistentContainer {
 }
 
 
-func getAnyDomain() throws -> EndPointEntity {
+func getAnyEndPoint() throws -> EndPointEntity {
     var domain: EndPointEntity
     let persistentContainer = getPersistentContainer()
     do {
         let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest();
+        req.predicate = NSPredicate(format: "url==%@", "http://biubiubiu.hopto.org:9000/link/github.json")
         let ds = try? persistentContainer.viewContext.fetch(req)
         if let ds = ds, ds.count >= 1 {
             domain = ds.first!

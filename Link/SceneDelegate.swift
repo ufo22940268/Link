@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func launchView() -> AnyView {
         let mainView = ContentView().environment(\.managedObjectContext, context)
         let endPointEditview = NavigationView {
-            try! EndPointEditView(domain: getAnyDomain()).environment(\.managedObjectContext, context)
+            try! EndPointEditView(domain: getAnyEndPoint()).environment(\.managedObjectContext, context)
         }
                         
         if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
@@ -33,8 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             case "endPointEdit":
                 return AnyView(endPointEditview)
             case "jsonViewer":
-                let view = JSONViewerView(json: NSDataAsset(name: "fireball", bundle: .main)!.data)
-                return AnyView(view)
+                let view = JSONViewerView()
+                    .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
+                return AnyView(NavigationView { view })
             default:
                 return AnyView(mainView)
             }

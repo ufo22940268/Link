@@ -109,7 +109,7 @@ struct EndPointEditView: View {
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            try! EndPointEditView(domain: getAnyDomain())
+            try! EndPointEditView(domain: getAnyEndPoint())
         }
     }
 }

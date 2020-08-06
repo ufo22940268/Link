@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import SwiftUI
 
 class DebugHelper {
     static func resetCoreData() {
@@ -28,14 +29,15 @@ class DebugHelper {
         let p = EndPointEntity(context: context)
         p.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         p.domain = d
-        
+        p.data = NSDataAsset(name: "github", bundle: .main)!.data
         
         d.endPoints?.adding(p)
         
         let p2 = EndPointEntity(context: context)
         p2.url = "http://biubiubiu.hopto.org:9000/link/github.json2"
         p2.domain = d
-        
+        p2.data = NSDataAsset(name: "fireball", bundle: .main)!.data
+
         d.endPoints?.adding(p2)
 
         let a1 = ApiEntity(context: context)
@@ -46,9 +48,6 @@ class DebugHelper {
 
         p.addToApi(a1)
 
-//        let d2 = EndPointEntity(context: context)
-//        d2.name = "a2"
-//        d2.url = "https://github.com/ffefef"
         try! context.save()
     }
     

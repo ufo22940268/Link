@@ -22,7 +22,7 @@ private struct EndPointRow: View {
     var endPoint: EndPointEntity
 
     var body: some View {
-        NavigationLink(destination: JSONViewerView(json: endPoint.data).environmentObject(EndPointData(endPoint: endPoint))) {
+        NavigationLink(destination: JSONViewerView().environmentObject(EndPointData(endPoint: endPoint))) {
             HStack {
                 Text(endPoint.endPointPath)
                 Spacer()
