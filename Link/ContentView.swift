@@ -18,7 +18,7 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            DashboardView()
+            DomainDashboardView()
                 .font(.title)
                 .tabItem {
                     VStack {

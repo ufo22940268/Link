@@ -13,8 +13,8 @@
 		422B6CFF2498D91500D2F10D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422B6CFE2498D91500D2F10D /* Assets.xcassets */; };
 		422B6D022498D91500D2F10D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D012498D91500D2F10D /* Preview Assets.xcassets */; };
 		422B6D052498D91500D2F10D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D032498D91500D2F10D /* LaunchScreen.storyboard */; };
-		422B6D1D249ACEB300D2F10D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1C249ACEB300D2F10D /* DashboardView.swift */; };
-		422B6D1F249AE11E00D2F10D /* StatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */; };
+		422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */; };
+		422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */; };
 		422B6D21249C96CF00D2F10D /* EndPointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* EndPointListView.swift */; };
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* DomainEditView.swift */; };
@@ -55,8 +55,8 @@
 		422B6D062498D91500D2F10D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		422B6D0B2498D91500D2F10D /* LinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		422B6D112498D91500D2F10D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		422B6D1C249ACEB300D2F10D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
-		422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsBlockView.swift; sourceTree = "<group>"; };
+		422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainDashboardView.swift; sourceTree = "<group>"; };
+		422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainStatisticsBlockView.swift; sourceTree = "<group>"; };
 		422B6D20249C96CF00D2F10D /* EndPointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointListView.swift; sourceTree = "<group>"; };
 		423DD13324A984860064D321 /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
@@ -121,13 +121,15 @@
 				422B6CF82498D91400D2F10D /* AppDelegate.swift */,
 				422B6CFA2498D91400D2F10D /* SceneDelegate.swift */,
 				422B6CFC2498D91400D2F10D /* ContentView.swift */,
-				427471F324D6401F00883AD7 /* Dashboard */,
 				422B6CFE2498D91500D2F10D /* Assets.xcassets */,
 				422B6D032498D91500D2F10D /* LaunchScreen.storyboard */,
 				422B6D062498D91500D2F10D /* Info.plist */,
 				422B6D002498D91500D2F10D /* Preview Content */,
-				427471F424D6404600883AD7 /* DomainEdit */,
 				42639513249E009E00ADFBE4 /* Tools.swift */,
+				42639511249DA14200ADFBE4 /* DomainEditView.swift */,
+				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
+				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
+				422B6D20249C96CF00D2F10D /* EndPointListView.swift */,
 				423DD13224A984860064D321 /* LinkModel.xcdatamodeld */,
 				426F887324B09EE600C039E4 /* ApiEditView.swift */,
 				42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */,
@@ -157,24 +159,6 @@
 				426F887524B1450400C039E4 /* EndPointTests.swift */,
 			);
 			path = LinkTests;
-			sourceTree = "<group>";
-		};
-		427471F324D6401F00883AD7 /* Dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				422B6D1C249ACEB300D2F10D /* DashboardView.swift */,
-				422B6D1E249AE11E00D2F10D /* StatisticsBlockView.swift */,
-				422B6D20249C96CF00D2F10D /* EndPointListView.swift */,
-			);
-			path = Dashboard;
-			sourceTree = "<group>";
-		};
-		427471F424D6404600883AD7 /* DomainEdit */ = {
-			isa = PBXGroup;
-			children = (
-				42639511249DA14200ADFBE4 /* DomainEditView.swift */,
-			);
-			path = DomainEdit;
 			sourceTree = "<group>";
 		};
 		4285FE6E24D562EC002BEAEF /* Frameworks */ = {
@@ -302,11 +286,11 @@
 				426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */,
 				42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */,
 				42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */,
-				422B6D1D249ACEB300D2F10D /* DashboardView.swift in Sources */,
+				422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */,
 				422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */,
 				422B6D21249C96CF00D2F10D /* EndPointListView.swift in Sources */,
 				422B6CFD2498D91400D2F10D /* ContentView.swift in Sources */,
-				422B6D1F249AE11E00D2F10D /* StatisticsBlockView.swift in Sources */,
+				422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */,
 				427471F624D649C900883AD7 /* Extentsion.swift in Sources */,
 				4285FE3C24D3FAC5002BEAEF /* ApiDetailEditView.swift in Sources */,
 				42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */,

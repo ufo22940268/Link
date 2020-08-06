@@ -40,7 +40,7 @@ enum StatisticsBlockStatus {
     }
 }
 
-struct StatisticsBlockView: View {
+struct DomainStatisticsBlockView: View {
     var status: StatisticsBlockStatus
     var body: some View {
         return VStack {
@@ -59,8 +59,8 @@ struct StatisticsBlockView: View {
     }
 }
 
-struct StatisticsBlockView_Previews: PreviewProvider {
+struct DomainStatisticsBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsBlockView(status: .healthy(count: 10)).colorScheme(.dark)
+        DomainStatisticsBlockView(status: .healthy(count: 10)).colorScheme(.dark)
     }
 }

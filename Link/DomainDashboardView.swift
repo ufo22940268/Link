@@ -10,7 +10,7 @@ import SwiftUI
 
 
 
-struct DashboardView: View {
+struct DomainDashboardView: View {
 
     @EnvironmentObject var domainData: DomainData    
     
@@ -22,8 +22,8 @@ struct DashboardView: View {
         NavigationView {
             VStack {
                 HStack(spacing: 15) {
-                    StatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
-                    StatisticsBlockView(status: .error(count: domainData.errorCount()))
+                    DomainStatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
+                    DomainStatisticsBlockView(status: .error(count: domainData.errorCount()))
                 }.padding()
                 EndPointListView()
             }
@@ -36,14 +36,14 @@ struct DashboardView: View {
     }
 }
 
-struct DashboardView_Previews: PreviewProvider {
+struct DomainDashboardView_Previews: PreviewProvider {
     static var previews: some View {
         let d = EndPointEntity(context: context)
         d.url = "http://wewef.com/ff/aajjk"
         let dd = DomainData()
         dd.endPoints = [d]
         return Group {
-            DashboardView().colorScheme(.light)
+            DomainDashboardView().colorScheme(.light)
         }.environmentObject(dd)
     }
 } 

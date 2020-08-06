@@ -11,18 +11,14 @@ import SwiftUI
 
 extension String {
     func isValidURL() -> Bool {
-        guard !contains("..") else { return false }
-
-        let head = "((http|https)://)?([(w|W)]{3}+\\.)?"
-        let tail = "\\.+[A-Za-z]{2,3}+(\\.)?+(/(.)*)?"
-        let urlRegEx = head + "+(.)+" + tail
+        let urlRegEx = "^https?://.+$"
         let urlTest = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
-        return urlTest.evaluate(with: trimmingCharacters(in: .whitespaces))
+        let result = urlTest.evaluate(with: self)
+        return result
     }
 }
 
 struct DomainEditView: View {
-    
     @Environment(\.managedObjectContext) var context
     @State var endPointUrl: String = ""
     @State var domainName: String = ""
@@ -40,7 +36,7 @@ struct DomainEditView: View {
                 domain.name = self.domainName
                 endPoint.domain = domain
             }
-            
+
             do {
                 try self.context.save()
             } catch let error as NSError {
