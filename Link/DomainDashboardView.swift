@@ -25,7 +25,7 @@ struct DomainDashboardView: View {
                     DomainStatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
                     DomainStatisticsBlockView(status: .error(count: domainData.errorCount()))
                 }.padding()
-                EndPointListView()
+                DomainEndPointListView()
             }
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(trailing: addEndPointButton)

@@ -24,7 +24,7 @@ private struct EndPointRow: View {
     var body: some View {
         NavigationLink(destination: JSONViewerView().environmentObject(EndPointData(endPoint: endPoint))) {
             HStack {
-                Text(endPoint.endPointPath)
+                Text(endPoint.endPointPath).lineLimit(1)
                 Spacer()
                 if endPoint.status == HealthStatus.error.rawValue {
                     Image(systemName: "cloud.rain")
@@ -34,7 +34,7 @@ private struct EndPointRow: View {
     }
 }
 
-struct EndPointListView: View {
+struct DomainEndPointListView: View {
     let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
     @EnvironmentObject var domainData: DomainData
 
@@ -64,7 +64,7 @@ struct EndPointListView: View {
     }
 }
 
-struct EndPointListView_Previews: PreviewProvider {
+struct DomainEndPointListView_Previews: PreviewProvider {
     static var previews: some View {
         let de = EndPointEntity(context: context)
         de.url = "https://ewfwef.com/fwef/wefwessff"
@@ -72,7 +72,7 @@ struct EndPointListView_Previews: PreviewProvider {
         let de2 = EndPointEntity(context: context)
         de2.url = "https://ewfwef.com/fwef/22222"
         de2.status = "error"
-        return EndPointListView()
+        return DomainEndPointListView()
             .environment(\.managedObjectContext, getPersistentContainer().viewContext)
     }
 }
