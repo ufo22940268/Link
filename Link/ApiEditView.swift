@@ -45,6 +45,7 @@ struct ApiEditListView: View {
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
+    @Environment(\.endPointId) var endPointId
 
     fileprivate func updateSelection() {
         context.selection.removeAll()
@@ -69,7 +70,6 @@ struct ApiEditListView: View {
             .sink { apis in
                 self.apis = apis
                 self.updateSelection()
-
                 self.context.$selection.sink { selections in
                     print("selection updated")
                     for index in selections {

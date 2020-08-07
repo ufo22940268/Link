@@ -19,12 +19,13 @@ extension String {
 }
 
 struct EndPointEditView: View {
+    
     @Environment(\.managedObjectContext) var context
     @State var endPointUrl: String = ""
     @State var domainName: String = ""
     @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
     @EnvironmentObject var domainData: DomainData
-
+    
     var nextButton: some View {
         Button(action: {
             var endPoint: EndPointEntity

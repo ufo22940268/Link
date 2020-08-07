@@ -24,6 +24,24 @@ extension String {
         return String(subString)
     }
 }
+
+struct EndPointEntityKey: EnvironmentKey {
+    static var defaultValue: NSManagedObjectID = NSManagedObjectID()
+    typealias Value = NSManagedObjectID
+}
+
+extension EnvironmentValues {
+    var endPointId: NSManagedObjectID {
+        get {
+            self[EndPointEntityKey.self]
+        }
+        
+        set {
+            self[EndPointEntityKey.self] = newValue
+        }
+    }
+}
+
     
 
 extension String: Error {}

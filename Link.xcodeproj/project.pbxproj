@@ -17,7 +17,7 @@
 		422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */; };
 		422B6D21249C96CF00D2F10D /* DomainEndPointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */; };
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
-		42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* DomainEditView.swift */; };
+		42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* EndPointEditView.swift */; };
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
 		426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887324B09EE600C039E4 /* ApiEditView.swift */; };
 		426F887624B1450400C039E4 /* EndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887524B1450400C039E4 /* EndPointTests.swift */; };
@@ -60,7 +60,7 @@
 		422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEndPointListView.swift; sourceTree = "<group>"; };
 		423DD13324A984860064D321 /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
-		42639511249DA14200ADFBE4 /* DomainEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEditView.swift; sourceTree = "<group>"; };
+		42639511249DA14200ADFBE4 /* EndPointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditView.swift; sourceTree = "<group>"; };
 		42639513249E009E00ADFBE4 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		426F887324B09EE600C039E4 /* ApiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEditView.swift; sourceTree = "<group>"; };
 		426F887524B1450400C039E4 /* EndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointTests.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 				422B6D062498D91500D2F10D /* Info.plist */,
 				422B6D002498D91500D2F10D /* Preview Content */,
 				42639513249E009E00ADFBE4 /* Tools.swift */,
-				42639511249DA14200ADFBE4 /* DomainEditView.swift */,
+				42639511249DA14200ADFBE4 /* EndPointEditView.swift */,
 				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
 				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
 				422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */,
@@ -293,7 +293,7 @@
 				422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */,
 				427471F624D649C900883AD7 /* Extentsion.swift in Sources */,
 				4285FE3C24D3FAC5002BEAEF /* ApiDetailEditView.swift in Sources */,
-				42639512249DA14200ADFBE4 /* DomainEditView.swift in Sources */,
+				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
 				423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */,
 				42BC1B6524D7E8590078402B /* DomainData.swift in Sources */,
 				4285FE7224D58479002BEAEF /* DebugHelper.swift in Sources */,
