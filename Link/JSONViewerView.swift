@@ -11,13 +11,14 @@ import SwiftyJSON
 
 struct JSONViewerView: View {
     var jsons: [(String, Bool)] {
-        format(endPoint.endPoint.data)
+        format(endPointData.endPoint.data)
     }
 
-    @EnvironmentObject var endPoint: EndPointData
+    @EnvironmentObject var endPointData: EndPointData
 
     var editButton: some View {
-        NavigationLink("编辑", destination: ApiEditView(domain: endPoint.endPoint))
+        NavigationLink("编辑", destination: ApiEditView()
+            .environment(\.endPointId, endPointData.endPoint.objectID))
     }
 
     var body: some View {
@@ -44,7 +45,7 @@ struct JSONViewerView: View {
 
             // TODO: Find highlight key by search with regex. It may cause the wrong string fields to be hightlighted.
 
-            if let api = endPoint.endPoint.api?.anyObject() as? ApiEntity, let paths = api.paths {
+            if let api = endPointData.endPoint.api?.anyObject() as? ApiEntity, let paths = api.paths {
                 let re = try? NSRegularExpression(pattern: "(?<be>.+)(?<mi>\"\(paths)\")(?<af>.+)?", options: [.dotMatchesLineSeparators])
                 if let m = re?.firstMatch(in: rawString, options: [], range: NSRange(location: 0, length: rawString.count)), m.numberOfRanges >= 3 {
                     r.append((removeSlash(rawString[m.range(withName: "be")]), false))

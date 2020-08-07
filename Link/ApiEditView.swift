@@ -40,12 +40,16 @@ class Context: ObservableObject {
 }
 
 struct ApiEditListView: View {
-    let domain: EndPointEntity
     @State var apis = [ApiEntity]()
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
     @Environment(\.endPointId) var endPointId
+    @EnvironmentObject var domainData: DomainData
+    
+    var endPoint: EndPointEntity {
+        domainData.endPoints.first(where: { $0.objectID == self.endPointId })!
+    }
 
     fileprivate func updateSelection() {
         context.selection.removeAll()
@@ -64,7 +68,7 @@ struct ApiEditListView: View {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         ApiHelper()
-            .fetch(endPoint: domain)
+            .fetch(endPoint: endPoint)
             .catch { _ in Just([]) }
             .receive(on: DispatchQueue.main)
             .sink { apis in
@@ -97,10 +101,9 @@ struct ApiEditListView: View {
 }
 
 struct ApiEditView: View {
-    var domain: EndPointEntity
-
+    
     var body: some View {
-        ApiEditListView(domain: domain)
+        ApiEditListView()
             .navigationBarItems(trailing: EditButton())
             .navigationBarTitle("接口")
     }
@@ -109,7 +112,7 @@ struct ApiEditView: View {
 struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            try! ApiEditView(domain: getAnyEndPoint())
+            try! ApiEditView()
         }
     }
 }
