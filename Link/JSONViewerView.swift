@@ -17,7 +17,7 @@ struct JSONViewerView: View {
     @EnvironmentObject var endPoint: EndPointData
 
     var editButton: some View {
-        NavigationLink("编辑", destination: EndPointEditView(domain: endPoint.endPoint))
+        NavigationLink("编辑", destination: ApiEditView(domain: endPoint.endPoint))
     }
 
     var body: some View {

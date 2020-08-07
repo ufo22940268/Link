@@ -96,7 +96,7 @@ struct ApiEditListView: View {
     }
 }
 
-struct EndPointEditView: View {
+struct ApiEditView: View {
     var domain: EndPointEntity
 
     var body: some View {
@@ -106,10 +106,10 @@ struct EndPointEditView: View {
     }
 }
 
-struct EndPointEditView_Previews: PreviewProvider {
+struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            try! EndPointEditView(domain: getAnyEndPoint())
+            try! ApiEditView(domain: getAnyEndPoint())
         }
     }
 }

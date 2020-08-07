@@ -1,5 +1,5 @@
 //
-//  DomainEditView.swift
+//  EndPointEditView.swift
 //  Link
 //
 //  Created by Frank Cheng on 2020/6/20.
@@ -18,7 +18,7 @@ extension String {
     }
 }
 
-struct DomainEditView: View {
+struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
     @State var endPointUrl: String = ""
     @State var domainName: String = ""
@@ -79,11 +79,11 @@ struct DomainEditView: View {
     }
 }
 
-struct DomainEditView_Previews: PreviewProvider {
+struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                DomainEditView()
+                EndPointEditView()
             }
         }
     }

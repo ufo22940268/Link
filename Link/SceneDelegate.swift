@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func launchView() -> AnyView {
         let mainView = OnboardView().environment(\.managedObjectContext, context)
         let endPointEditview = NavigationView {
-            try! EndPointEditView(domain: getAnyEndPoint()).environment(\.managedObjectContext, context)
+            try! ApiEditView(domain: getAnyEndPoint()).environment(\.managedObjectContext, context)
         }
                         
         if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
