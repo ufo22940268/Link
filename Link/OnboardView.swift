@@ -31,6 +31,9 @@ struct OnboardView: View {
                 .onAppear {
                     self.loadDomains()
                 }
+                .onReceive(domainData.onAddedDomain) { () in
+                    print("reload domains")
+                }
             Text("Second View")
                 .font(.title)
                 .tabItem {

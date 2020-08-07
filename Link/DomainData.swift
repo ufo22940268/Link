@@ -11,6 +11,7 @@ import SwiftUI
 
 final class DomainData: ObservableObject {
     @Published var endPoints: [EndPointEntity] = []
+    var onAddedDomain = PassthroughSubject<Void, Never>()
     
     func healthyCount() -> Int {
         return endPoints.filter { $0.status == HealthStatus.healthy.rawValue }.count

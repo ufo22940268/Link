@@ -23,6 +23,7 @@ struct DomainEditView: View {
     @State var endPointUrl: String = ""
     @State var domainName: String = ""
     @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
+    @EnvironmentObject var domainData: DomainData
 
     var nextButton: some View {
         Button(action: {
@@ -42,6 +43,8 @@ struct DomainEditView: View {
             } catch let error as NSError {
                 print("Error: \(error), \(error.userInfo)")
             }
+            
+            self.domainData.onAddedDomain.send()
         }) {
             Text("下一步")
         }.disabled(!isFormValid)
