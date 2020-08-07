@@ -19,15 +19,14 @@ extension String {
 }
 
 struct EndPointEditView: View {
-    
     @Environment(\.managedObjectContext) var context
     @State var endPointUrl: String = ""
     @State var domainName: String = ""
     @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
     @EnvironmentObject var domainData: DomainData
-    
+
     var nextButton: some View {
-        Button(action: {
+        NavigationLink(destination: EmptyView(), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
             var endPoint: EndPointEntity
             if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
                 endPoint = nd
@@ -44,11 +43,9 @@ struct EndPointEditView: View {
             } catch let error as NSError {
                 print("Error: \(error), \(error.userInfo)")
             }
-            
+
             self.domainData.onAddedDomain.send()
-        }) {
-            Text("下一步")
-        }.disabled(!isFormValid)
+        }).disabled(!isFormValid)
     }
 
     var isFormValid: Bool {
