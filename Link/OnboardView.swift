@@ -33,6 +33,7 @@ struct OnboardView: View {
                 }
                 .onReceive(domainData.onAddedDomain) { () in
                     print("reload domains")
+                    self.loadDomains()
                 }
             Text("Second View")
                 .font(.title)
