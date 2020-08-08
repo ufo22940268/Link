@@ -19,19 +19,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func launchView() -> AnyView {
         let mainView = OnboardView().environment(\.managedObjectContext, context)
-        let endPointEditview = NavigationView {
-            ApiEditView()
-                .environment(\.managedObjectContext, context)
-        }
 
         if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
             switch viewName {
             case "main":
                 return AnyView(mainView)
             case "endPointEdit":
+                return AnyView(
+                    NavigationView {
+                        EndPointEditView()
+                            .environment(\.managedObjectContext, context)
+                            .environmentObject(DomainData.test(context: context))
+                    }
+                )
+            case "apiEdit":
+                let endPointEditview = NavigationView {
+                    ApiEditView()
+                        .environment(\.managedObjectContext, context)
+                        .environmentObject(DomainData.test(context: context))
+                }
                 return AnyView(endPointEditview)
             case "jsonViewer":
                 let view = JSONViewerView()
+                    .environmentObject(DomainData.test(context: context))
                     .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
                 return AnyView(NavigationView { view })
             default:

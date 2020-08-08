@@ -6,6 +6,7 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
+import Combine
 import CoreData
 import SwiftUI
 
@@ -18,12 +19,37 @@ extension String {
     }
 }
 
+class EndPointViewData: ObservableObject {
+    @Published var endPointURL: String = ""
+
+    var validEndPointURL: AnyPublisher<Bool, Never> {
+        $endPointURL
+            .debounce(for: 1, scheduler: DispatchQueue.main)
+            .flatMap { url in
+                ApiHelper()
+                    .test(url: url)
+            }
+            .eraseToAnyPublisher()
+//        ApiHelper()
+//            .test(url: endPointUrl)
+//            .sink {
+//                print($0)
+//            }
+//            .store(in: &cancellables)
+    }
+}
+
 struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
-    @State var endPointUrl: String = ""
-    @State var domainName: String = ""
+    @ObservedObject var viewData: EndPointViewData = EndPointViewData()
+
+    var endPointUrl: String {
+        viewData.endPointURL
+    }
+
     @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
     @EnvironmentObject var domainData: DomainData
+    @State var cancellables = [AnyCancellable]()
 
     var nextButton: some View {
         NavigationLink(destination: EmptyView(), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
@@ -52,28 +78,50 @@ struct EndPointEditView: View {
         return endPointUrl.isValidURL()
     }
 
+    var domainName: String {
+        extractDomainName(fromURL: endPointUrl)
+    }
+
     var body: some View {
         Form {
             Section(header: Text("")) {
                 HStack {
                     Text("域名地址")
                     Spacer()
-                    TextField("https://example.com", text: $endPointUrl, onEditingChanged: { b in
-                        guard !b else { return }
-                        if self.domainName == "" {
-                            self.domainName = extractDomainName(fromURL: self.endPointUrl)
-                        }
-                    }).multilineTextAlignment(.trailing).textContentType(.URL).keyboardType(.URL).autocapitalization(.none)
+                    TextField("https://example.com", text: $viewData.endPointURL)
+                        .multilineTextAlignment(.trailing)
+                        .textContentType(.URL)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
                 }
                 HStack {
                     Text("名字")
                     Spacer()
-                    TextField("example", text: $domainName).multilineTextAlignment(.trailing)
+                    TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
                 }
             }
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(trailing: nextButton)
+        .onReceive(self.viewData.validEndPointURL) { (isValid: Bool) in
+            print("isValid", isValid)
+        }
+    }
+
+    func validateURL() {
+//        if !endPointUrl.isValidURL() {
+//            return false
+//        }
+
+        if endPointUrl.isEmpty { return }
+
+        print(viewData.endPointURL)
+        ApiHelper()
+            .test(url: endPointUrl)
+            .sink {
+                print($0)
+            }
+            .store(in: &cancellables)
     }
 }
 

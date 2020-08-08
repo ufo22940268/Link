@@ -41,9 +41,20 @@ struct ApiHelper {
             }
             .map { self.convertToAPI(json: $0) }
             .map { self.convertToApiEntity(endPoint: endPoint, apis: $0) }
-            .tryCatch { error in
+            .tryCatch { _ in
                 Just([])
             }
+            .eraseToAnyPublisher()
+        return cancellable
+    }
+
+    func test(url: String) -> AnyPublisher<Bool, Never> {
+        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: url) ?? URL(string: "wefwef")!)
+            .tryMap {
+                try JSON(data: $0.data)
+            }
+            .map { $0.count > 0 }
+            .catch { _ in Just(false) }
             .eraseToAnyPublisher()
         return cancellable
     }

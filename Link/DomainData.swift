@@ -8,6 +8,7 @@
 
 import Combine
 import SwiftUI
+import CoreData
 
 final class DomainData: ObservableObject {
     
@@ -21,6 +22,14 @@ final class DomainData: ObservableObject {
     
     func errorCount() -> Int {
         return endPoints.filter { $0.status == HealthStatus.error.rawValue }.count
+    }
+    
+    static func test(context: NSManagedObjectContext) -> DomainData {
+        guard let endPoints = try? context.fetch(EndPointEntity.fetchRequest()) as? [EndPointEntity], endPoints.count > 0 else { fatalError() }
+        
+        let dd = DomainData()
+        dd.endPoints = [endPoints[0]]
+        return dd
     }
 }
 
