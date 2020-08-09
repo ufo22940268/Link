@@ -63,7 +63,7 @@ struct ApiHelper {
                     }
                 }
                 .catch { error -> AnyPublisher<ValidateURLResult, Never> in
-                    if error is URLError {
+                     if error is URLError {
                         return Just(ValidateURLResult.requestError).eraseToAnyPublisher()
                     } else {
                         return Just(ValidateURLResult.jsonError).eraseToAnyPublisher()

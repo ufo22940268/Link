@@ -50,7 +50,7 @@ class EndPointViewData: ObservableObject {
             .debounce(for: 1, scheduler: DispatchQueue.main)
             .removeDuplicates()
             .flatMap { url in
-                ApiHelper().test(url: url).print("apiTest")
+                ApiHelper().test(url: url)
             }
 
         let emitFalse = $endPointURL.map { _ in ValidateURLResult.pending }
