@@ -48,18 +48,18 @@ struct ApiHelper {
         return cancellable
     }
 
-    func test(url: String) -> AnyPublisher<Bool, Never> {
+    func test(url: String) -> AnyPublisher<ValidateURLResult, Never> {
         if let urlObj = URL(string: url) {
             let cancellable = URLSession.shared.dataTaskPublisher(for: urlObj)
                 .tryMap {
                     try JSON(data: $0.data)
-            }
-            .map { $0.count > 0 }
-            .catch { _ in Just(false) }
-            .eraseToAnyPublisher()
+                }
+                .map { $0.count > 0 ? ValidateURLResult.ok : ValidateURLResult.jsonError }
+                .catch { _ in Just(ValidateURLResult.requestError) }
+                .eraseToAnyPublisher()
             return cancellable
         } else {
-            return Just(false).eraseToAnyPublisher()
+            return Just(ValidateURLResult.pending).eraseToAnyPublisher()
         }
     }
 

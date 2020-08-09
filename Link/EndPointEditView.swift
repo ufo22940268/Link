@@ -19,10 +19,34 @@ extension String {
     }
 }
 
+enum ValidateURLResult {
+    
+    case formatError
+    case requestError
+    case jsonError
+    case pending
+    case ok
+    
+    var label: String {
+        switch self {
+        case .formatError:
+            return "地址格式不对或不完整"
+        case .requestError:
+            return "地址请求失败"
+        case .jsonError:
+            return "返回并不是合法JSON"
+        case .pending:
+            return ""
+        case .ok:
+            return ""
+        }
+    }
+}
+
 class EndPointViewData: ObservableObject {
     @Published var endPointURL: String = ""
 
-    var validEndPointURL: AnyPublisher<Bool, Never> {
+    var validEndPointURL: AnyPublisher<ValidateURLResult, Never> {
         let fetchPub = $endPointURL
             .debounce(for: 1, scheduler: DispatchQueue.main)
             .removeDuplicates()
@@ -30,9 +54,9 @@ class EndPointViewData: ObservableObject {
                 ApiHelper().test(url: url).print("apiTest")
         }
         
-        let emitFalse = $endPointURL.map { _ in false }
+        let emitFalse = $endPointURL.map { _ in ValidateURLResult.pending }
 
-        return Publishers.Merge(fetchPub, emitFalse).print().eraseToAnyPublisher()
+        return Publishers.Merge(fetchPub, emitFalse).eraseToAnyPublisher()
     }
 }
 
@@ -47,6 +71,7 @@ struct EndPointEditView: View {
     @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
     @EnvironmentObject var domainData: DomainData
     @State var cancellables = [AnyCancellable]()
+    @State var urlError: ValidateURLResult = .pending
 
     var nextButton: some View {
         NavigationLink(destination: EmptyView(), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
@@ -79,7 +104,7 @@ struct EndPointEditView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("")) {
+            Section(header: Text(""), footer: Text(urlError.label)) {
                 HStack {
                     Text("域名地址")
                     Spacer()
@@ -99,7 +124,8 @@ struct EndPointEditView: View {
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(trailing: nextButton)
         .onAppear {
-            self.viewData.validEndPointURL.assign(to: \.isFormValid, on: self)
+            self.viewData.validEndPointURL
+                .assign(to: \.urlError, on: self)
                 .store(in: &self.cancellables)
         }
     }
