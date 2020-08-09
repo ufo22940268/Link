@@ -92,6 +92,7 @@ struct ApiEditListView: View {
             ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
         }
         .onAppear {
+            print("appear")
             if !DebugHelper.isPreview {
                 self.loadData()
             }

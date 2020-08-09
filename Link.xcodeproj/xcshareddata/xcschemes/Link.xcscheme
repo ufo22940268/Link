@@ -79,6 +79,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "FILL_URL"
+            value = "true"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "LAUNCH_VIEW"
             value = "jsonViewer"
             isEnabled = "NO">
@@ -86,7 +91,7 @@
          <EnvironmentVariable
             key = "LAUNCH_VIEW"
             value = "endPointEdit"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
