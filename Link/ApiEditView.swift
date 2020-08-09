@@ -75,7 +75,6 @@ struct ApiEditListView: View {
                 self.apis = apis
                 self.updateSelection()
                 self.context.$selection.sink { selections in
-                    print("selection updated")
                     for index in selections {
                         self.apis[index].watch = true
                         self.apis[index].watchValue = self.apis[index].value
@@ -92,7 +91,6 @@ struct ApiEditListView: View {
             ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
         }
         .onAppear {
-            print("appear")
             if !DebugHelper.isPreview {
                 self.loadData()
             }
