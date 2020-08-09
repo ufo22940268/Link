@@ -74,7 +74,7 @@ struct EndPointEditView: View {
     @State var createdEndPoint: EndPointEntity?
 
     var nextButton: some View {
-        NavigationLink(destination: ApiEditView(), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
+        NavigationLink(destination: ApiEditView().environment(\.endPointId, createdEndPoint?.objectID ?? NSManagedObjectID()), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
             var endPoint: EndPointEntity
             if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
                 endPoint = nd
@@ -94,6 +94,7 @@ struct EndPointEditView: View {
 
             self.domainData.onAddedDomain.send()
             self.createdEndPoint = endPoint
+            print(1)
         }).disabled(!isFormValid)
     }
 

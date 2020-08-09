@@ -25,10 +25,10 @@ final class DomainData: ObservableObject {
     }
     
     static func test(context: NSManagedObjectContext) -> DomainData {
-        guard let endPoints = try? context.fetch(EndPointEntity.fetchRequest()) as? [EndPointEntity], endPoints.count > 0 else { fatalError() }
-        
+        let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
+        req.predicate = NSPredicate(format: "url == %@", "http://biubiubiu.hopto.org:9000/link/github.json")
         let dd = DomainData()
-        dd.endPoints = [endPoints[0]]
+        dd.endPoints = try! context.fetch(req)
         return dd
     }
 }

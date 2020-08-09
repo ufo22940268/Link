@@ -33,10 +33,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                 )
             case "apiEdit":
+                let d = DomainData.test(context: context)
                 let endPointEditview = NavigationView {
                     ApiEditView()
                         .environment(\.managedObjectContext, context)
-                        .environmentObject(DomainData.test(context: context))
+                        .environmentObject(d)
+                        .environment(\.endPointId, d.endPoints[0].objectID)
                 }
                 return AnyView(endPointEditview)
             case "jsonViewer":
