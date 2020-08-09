@@ -23,19 +23,16 @@ class EndPointViewData: ObservableObject {
     @Published var endPointURL: String = ""
 
     var validEndPointURL: AnyPublisher<Bool, Never> {
-        $endPointURL
+        let fetchPub = $endPointURL
             .debounce(for: 1, scheduler: DispatchQueue.main)
+            .removeDuplicates()
             .flatMap { url in
-                ApiHelper()
-                    .test(url: url)
-            }
-            .eraseToAnyPublisher()
-//        ApiHelper()
-//            .test(url: endPointUrl)
-//            .sink {
-//                print($0)
-//            }
-//            .store(in: &cancellables)
+                ApiHelper().test(url: url).print("apiTest")
+        }
+        
+        let emitFalse = $endPointURL.map { _ in false }
+
+        return Publishers.Merge(fetchPub, emitFalse).print().eraseToAnyPublisher()
     }
 }
 
@@ -74,9 +71,7 @@ struct EndPointEditView: View {
         }).disabled(!isFormValid)
     }
 
-    var isFormValid: Bool {
-        return endPointUrl.isValidURL()
-    }
+    @State var isFormValid = false
 
     var domainName: String {
         extractDomainName(fromURL: endPointUrl)
@@ -103,25 +98,10 @@ struct EndPointEditView: View {
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(trailing: nextButton)
-        .onReceive(self.viewData.validEndPointURL) { (isValid: Bool) in
-            print("isValid", isValid)
+        .onAppear {
+            self.viewData.validEndPointURL.assign(to: \.isFormValid, on: self)
+                .store(in: &self.cancellables)
         }
-    }
-
-    func validateURL() {
-//        if !endPointUrl.isValidURL() {
-//            return false
-//        }
-
-        if endPointUrl.isEmpty { return }
-
-        print(viewData.endPointURL)
-        ApiHelper()
-            .test(url: endPointUrl)
-            .sink {
-                print($0)
-            }
-            .store(in: &cancellables)
     }
 }
 

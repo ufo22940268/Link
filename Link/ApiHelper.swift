@@ -49,14 +49,18 @@ struct ApiHelper {
     }
 
     func test(url: String) -> AnyPublisher<Bool, Never> {
-        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: url) ?? URL(string: "wefwef")!)
-            .tryMap {
-                try JSON(data: $0.data)
+        if let urlObj = URL(string: url) {
+            let cancellable = URLSession.shared.dataTaskPublisher(for: urlObj)
+                .tryMap {
+                    try JSON(data: $0.data)
             }
             .map { $0.count > 0 }
             .catch { _ in Just(false) }
             .eraseToAnyPublisher()
-        return cancellable
+            return cancellable
+        } else {
+            return Just(false).eraseToAnyPublisher()
+        }
     }
 
     func convertToAPI(json: JSON) -> [Api] {
