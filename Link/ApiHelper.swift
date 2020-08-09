@@ -51,11 +51,20 @@ struct ApiHelper {
     func test(url: String) -> AnyPublisher<ValidateURLResult, Never> {
         if let urlObj = URL(string: url) {
             let cancellable = URLSession.shared.dataTaskPublisher(for: urlObj)
-                .tryMap {
-                    try JSON(data: $0.data)
+                .tryMap { ar in
+                    if (try JSON(data: ar.data)).count > 0 {
+                        return ValidateURLResult.ok
+                    } else {
+                        return ValidateURLResult.jsonError
+                    }
                 }
-                .map { $0.count > 0 ? ValidateURLResult.ok : ValidateURLResult.jsonError }
-                .catch { _ in Just(ValidateURLResult.requestError) }
+                .catch { error -> AnyPublisher<ValidateURLResult, Never> in
+                    if error is URLError {
+                        return Just(ValidateURLResult.requestError).eraseToAnyPublisher()
+                    } else {
+                        return Just(ValidateURLResult.jsonError).eraseToAnyPublisher()
+                    }
+                }
                 .eraseToAnyPublisher()
             return cancellable
         } else {
