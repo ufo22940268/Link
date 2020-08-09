@@ -52,6 +52,10 @@ struct ApiHelper {
         if let urlObj = URL(string: url) {
             let cancellable = URLSession.shared.dataTaskPublisher(for: urlObj)
                 .tryMap { ar in
+                    if  !ar.response.ok {
+                        return ValidateURLResult.requestError
+                    }
+                    
                     if (try JSON(data: ar.data)).count > 0 {
                         return ValidateURLResult.ok
                     } else {

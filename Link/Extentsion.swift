@@ -42,6 +42,16 @@ extension EnvironmentValues {
     }
 }
 
+extension URLResponse {
+    var ok: Bool {
+        if let res = self as? HTTPURLResponse, (200...299).contains(res.statusCode) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
     
 
 extension String: Error {}

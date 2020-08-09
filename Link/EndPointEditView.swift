@@ -20,13 +20,12 @@ extension String {
 }
 
 enum ValidateURLResult {
-    
     case formatError
     case requestError
     case jsonError
     case pending
     case ok
-    
+
     var label: String {
         switch self {
         case .formatError:
@@ -52,8 +51,8 @@ class EndPointViewData: ObservableObject {
             .removeDuplicates()
             .flatMap { url in
                 ApiHelper().test(url: url).print("apiTest")
-        }
-        
+            }
+
         let emitFalse = $endPointURL.map { _ in ValidateURLResult.pending }
 
         return Publishers.Merge(fetchPub, emitFalse).eraseToAnyPublisher()
@@ -71,7 +70,7 @@ struct EndPointEditView: View {
     @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
     @EnvironmentObject var domainData: DomainData
     @State var cancellables = [AnyCancellable]()
-    @State var urlError: ValidateURLResult = .pending
+    @State var urlTestResult: ValidateURLResult = .pending
 
     var nextButton: some View {
         NavigationLink(destination: EmptyView(), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
@@ -96,7 +95,9 @@ struct EndPointEditView: View {
         }).disabled(!isFormValid)
     }
 
-    @State var isFormValid = false
+    var isFormValid: Bool {
+        urlTestResult == .ok
+    }
 
     var domainName: String {
         extractDomainName(fromURL: endPointUrl)
@@ -104,7 +105,7 @@ struct EndPointEditView: View {
 
     var body: some View {
         Form {
-            Section(header: Text(""), footer: Text(urlError.label)) {
+            Section(header: Text(""), footer: Text(urlTestResult.label)) {
                 HStack {
                     Text("域名地址")
                     Spacer()
@@ -125,7 +126,7 @@ struct EndPointEditView: View {
         .navigationBarItems(trailing: nextButton)
         .onAppear {
             self.viewData.validEndPointURL
-                .assign(to: \.urlError, on: self)
+                .assign(to: \.urlTestResult, on: self)
                 .store(in: &self.cancellables)
         }
     }
