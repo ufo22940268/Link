@@ -71,10 +71,10 @@ struct EndPointEditView: View {
     @EnvironmentObject var domainData: DomainData
     @State var cancellables = [AnyCancellable]()
     @State var urlTestResult: ValidateURLResult = .pending
-    @State var createdEndPoint: EndPointEntity?
+    @State var endPointId: NSManagedObjectID?
 
     var nextButton: some View {
-        NavigationLink(destination: ApiEditView().environment(\.endPointId, createdEndPoint?.objectID ?? NSManagedObjectID()), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
+        NavigationLink(destination: ApiEditView().environment(\.endPointId, endPointId!), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
             var endPoint: EndPointEntity
             if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
                 endPoint = nd
@@ -93,8 +93,7 @@ struct EndPointEditView: View {
             }
 
             self.domainData.onAddedDomain.send()
-            self.createdEndPoint = endPoint
-            print(1)
+            self.endPointId = endPoint.objectID
         }).disabled(!isFormValid)
     }
 

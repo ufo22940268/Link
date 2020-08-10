@@ -44,7 +44,7 @@ class DebugHelper {
         a1.endPoint = p
         a1.paths = "followers_url"
         a1.watchValue = "https://api.github.com/user/followers"
-        a1.watch = true
+        a1.watch = false
         
         let a2 = ApiEntity(context: context)
         a2.endPoint = p

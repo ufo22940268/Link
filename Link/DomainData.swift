@@ -7,23 +7,26 @@
 //
 
 import Combine
-import SwiftUI
 import CoreData
+import SwiftUI
 
 final class DomainData: ObservableObject {
-    
     @Published var endPoints: [EndPointEntity] = []
-    
+
     var onAddedDomain = PassthroughSubject<Void, Never>()
-    
+
     func healthyCount() -> Int {
         return endPoints.filter { $0.status == HealthStatus.healthy.rawValue }.count
     }
-    
+
     func errorCount() -> Int {
         return endPoints.filter { $0.status == HealthStatus.error.rawValue }.count
     }
-    
+
+    func findEndPointEntity(by id: NSManagedObjectID) -> EndPointEntity {
+        endPoints.first { $0.objectID == id }!
+    }
+
     static func test(context: NSManagedObjectContext) -> DomainData {
         let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
         req.predicate = NSPredicate(format: "url == %@", "http://biubiubiu.hopto.org:9000/link/github.json")
@@ -35,10 +38,8 @@ final class DomainData: ObservableObject {
 
 final class EndPointData: ObservableObject {
     @Published var endPoint: EndPointEntity
-    
+
     init(endPoint: EndPointEntity) {
         self.endPoint = endPoint
     }
 }
-
-

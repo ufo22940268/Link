@@ -86,7 +86,7 @@
          <EnvironmentVariable
             key = "LAUNCH_VIEW"
             value = "apiEdit"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "LAUNCH_VIEW"

@@ -111,7 +111,7 @@ struct ApiEditView: View {
 struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            try! ApiEditView()
+            ApiEditView()
         }
     }
 }
