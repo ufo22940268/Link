@@ -51,15 +51,6 @@ struct ApiEditView: View {
         domainData.endPoints.first(where: { $0.objectID == self.endPointId })!
     }
 
-    fileprivate func updateSelection() {
-        context.selection.removeAll()
-        for (i, api) in apis.enumerated() {
-            if api.watch {
-                context.selection.insert(i)
-            }
-        }
-    }
-
     fileprivate func loadData() {
         if apis.count > 0 {
             return
@@ -73,7 +64,6 @@ struct ApiEditView: View {
             .receive(on: DispatchQueue.main)
             .sink { apis in
                 self.apis = apis
-                self.updateSelection()
                 self.context.$selection.sink { selections in
                     for index in selections {
                         self.apis[index].watch = true
@@ -90,7 +80,7 @@ struct ApiEditView: View {
         Section(header: Text("接口")) {
             Group {
                 ForEach(0 ..< apis.count, id: \.self) { i in
-                    ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
+                    ApiEditListItemView(api: self.$apis[i], selected: self.apis[i].watch)
                 }
             }
         }
@@ -98,7 +88,6 @@ struct ApiEditView: View {
             if !DebugHelper.isPreview {
                 self.loadData()
             }
-            self.updateSelection()
         }
     }
 }
