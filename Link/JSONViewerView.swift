@@ -16,9 +16,9 @@ struct JSONViewerView: View {
     }
     
     @EnvironmentObject var domainData: DomainData
-    @Environment(\.endPointId) var endPointId: NSManagedObjectID
+    @Environment(\.endPointId) var endPointId: NSManagedObjectID?
     var endPoint: EndPointEntity {
-        domainData.findEndPointEntity(by: endPointId)
+        domainData.findEndPointEntity(by: endPointId!)!
     }
 
     var editButton: some View {

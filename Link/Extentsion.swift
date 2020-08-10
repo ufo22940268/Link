@@ -26,12 +26,12 @@ extension String {
 }
 
 struct EndPointEntityKey: EnvironmentKey {
-    static var defaultValue: NSManagedObjectID = NSManagedObjectID()
-    typealias Value = NSManagedObjectID
+    static var defaultValue: NSManagedObjectID?
+    typealias Value = NSManagedObjectID?
 }
 
 extension EnvironmentValues {
-    var endPointId: NSManagedObjectID {
+    var endPointId: NSManagedObjectID? {
         get {
             self[EndPointEntityKey.self]
         }

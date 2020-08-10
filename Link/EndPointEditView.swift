@@ -71,21 +71,26 @@ struct EndPointEditView: View {
     @EnvironmentObject var domainData: DomainData
     @State var cancellables = [AnyCancellable]()
     @State var urlTestResult: ValidateURLResult = .pending
-    @State var endPointId: NSManagedObjectID?
+    @Environment(\.endPointId) var endPointId: NSManagedObjectID?
+    @State var createdEndPointId: NSManagedObjectID?
 
     var nextButton: some View {
-        NavigationLink(destination: ApiEditView().environment(\.endPointId, endPointId!), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
+        NavigationLink(destination: ApiEditView().environment(\.endPointId, createdEndPointId == nil ? endPointId : createdEndPointId!), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
             var endPoint: EndPointEntity
-            if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
+            
+            if let endPointId = self.endPointId {
+                endPoint = self.domainData.findEndPointEntity(by: endPointId)!
+            } else if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
                 endPoint = nd
             } else {
                 endPoint = EndPointEntity(context: self.context)
-                endPoint.url = self.endPointUrl
                 let domain = DomainEntity(context: self.context)
                 domain.name = self.domainName
                 endPoint.domain = domain
+                self.createdEndPointId = endPoint.objectID
             }
-
+            endPoint.url = self.endPointUrl
+            
             do {
                 try self.context.save()
             } catch let error as NSError {
@@ -93,7 +98,6 @@ struct EndPointEditView: View {
             }
 
             self.domainData.onAddedDomain.send()
-            self.endPointId = endPoint.objectID
         }).disabled(!isFormValid)
     }
 

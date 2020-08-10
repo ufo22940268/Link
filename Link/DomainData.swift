@@ -23,8 +23,8 @@ final class DomainData: ObservableObject {
         return endPoints.filter { $0.status == HealthStatus.error.rawValue }.count
     }
 
-    func findEndPointEntity(by id: NSManagedObjectID) -> EndPointEntity {
-        endPoints.first { $0.objectID == id }!
+    func findEndPointEntity(by id: NSManagedObjectID) -> EndPointEntity? {
+        endPoints.first { $0.objectID == id }
     }
 
     static func test(context: NSManagedObjectContext) -> DomainData {
