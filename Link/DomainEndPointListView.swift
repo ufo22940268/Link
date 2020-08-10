@@ -20,9 +20,12 @@ struct EndPointStatus: Hashable {
 
 private struct EndPointRow: View {
     var endPoint: EndPointEntity
+    @EnvironmentObject var domainData: DomainData
 
     var body: some View {
-        NavigationLink(destination: JSONViewerView().environment(\.endPointId, endPoint.objectID)) {
+        NavigationLink(destination: JSONViewerView()
+            .environment(\.endPointId, endPoint.objectID)
+            .environmentObject(domainData)) {
             HStack {
                 Text(endPoint.endPointPath).lineLimit(1)
                 Spacer()

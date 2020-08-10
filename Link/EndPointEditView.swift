@@ -72,7 +72,9 @@ struct EndPointEditView: View {
     @State var cancellables = [AnyCancellable]()
     @State var urlTestResult: ValidateURLResult = .pending
     @Environment(\.endPointId) var endPointId: NSManagedObjectID?
+    @Environment(\.presentationMode) var presentationMode
     @State var createdEndPointId: NSManagedObjectID?
+    @State var showingEdit = false
 
     var nextButton: some View {
         NavigationLink(destination: ApiEditView().environment(\.endPointId, createdEndPointId == nil ? endPointId : createdEndPointId!), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
@@ -130,7 +132,9 @@ struct EndPointEditView: View {
             }
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
-        .navigationBarItems(trailing: nextButton)
+        .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {
+            Text("取消")
+        }), trailing: nextButton)
         .onAppear {
             self.viewData.validEndPointURL
                 .assign(to: \.urlTestResult, on: self)
@@ -140,6 +144,11 @@ struct EndPointEditView: View {
                 self.viewData.endPointURL = "http://biubiubiu.hopto.org:9000/link/github.json"
             }
         }
+        .sheet(isPresented: $showingEdit, content: {
+            ApiEditView()
+                .environmentObject(self.domainData)
+                .environment(\.endPointId, self.createdEndPointId == nil ? self.endPointId : self.createdEndPointId!)
+        })
     }
 }
 
