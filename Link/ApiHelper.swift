@@ -80,7 +80,8 @@ struct ApiHelper {
         r.sort { l, r in l.path > r.path }
         return r
     }
-
+    
+    /// TODO Shouldn't update entity in db when test end point.
     func convertToApiEntity(endPoint: EndPointEntity, apis: [Api]) -> [ApiEntity] {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["endPoint": endPoint.objectID])
         var apiEntities = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]

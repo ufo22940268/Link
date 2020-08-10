@@ -77,7 +77,7 @@ struct EndPointEditView: View {
     var nextButton: some View {
         NavigationLink(destination: ApiEditView().environment(\.endPointId, createdEndPointId == nil ? endPointId : createdEndPointId!), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
             var endPoint: EndPointEntity
-            
+
             if let endPointId = self.endPointId {
                 endPoint = self.domainData.findEndPointEntity(by: endPointId)!
             } else if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
@@ -90,7 +90,7 @@ struct EndPointEditView: View {
                 self.createdEndPointId = endPoint.objectID
             }
             endPoint.url = self.endPointUrl
-            
+
             do {
                 try self.context.save()
             } catch let error as NSError {
@@ -117,6 +117,7 @@ struct EndPointEditView: View {
                     Spacer()
                     TextField("https://example.com", text: $viewData.endPointURL)
                         .multilineTextAlignment(.trailing)
+                        .lineLimit(3)
                         .textContentType(.URL)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
@@ -134,9 +135,9 @@ struct EndPointEditView: View {
             self.viewData.validEndPointURL
                 .assign(to: \.urlTestResult, on: self)
                 .store(in: &self.cancellables)
-            
+
             if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
-                self.viewData.endPointURL = "http://biubiubiu.hopto.org:9000/link/github2.json"
+                self.viewData.endPointURL = "http://biubiubiu.hopto.org:9000/link/github.json"
             }
         }
     }
