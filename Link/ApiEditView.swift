@@ -39,14 +39,14 @@ class Context: ObservableObject {
     @Published var selection = Set<Int>()
 }
 
-struct ApiEditListView: View {
+struct ApiEditView: View {
     @State var apis = [ApiEntity]()
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
     @Environment(\.endPointId) var endPointId
     @EnvironmentObject var domainData: DomainData
-    
+
     var endPoint: EndPointEntity {
         domainData.endPoints.first(where: { $0.objectID == self.endPointId })!
     }
@@ -87,8 +87,12 @@ struct ApiEditListView: View {
     }
 
     var body: some View {
-        List(0 ..< apis.count, id: \.self, selection: $context.selection) { (i: Int) in
-            ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
+        Section(header: Text("接口")) {
+            Group {
+                ForEach(0 ..< apis.count, id: \.self) { i in
+                    ApiEditListItemView(api: self.$apis[i], selected: self.context.selection.contains(i))
+                }
+            }
         }
         .onAppear {
             if !DebugHelper.isPreview {
@@ -96,15 +100,6 @@ struct ApiEditListView: View {
             }
             self.updateSelection()
         }
-    }
-}
-
-struct ApiEditView: View {
-    
-    var body: some View {
-        ApiEditListView()
-            .navigationBarItems(trailing: EditButton())
-            .navigationBarTitle("接口")
     }
 }
 

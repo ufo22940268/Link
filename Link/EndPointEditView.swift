@@ -130,6 +130,8 @@ struct EndPointEditView: View {
                     TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
                 }
             }
+            
+            ApiEditView()
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {
@@ -144,11 +146,6 @@ struct EndPointEditView: View {
                 self.viewData.endPointURL = "http://biubiubiu.hopto.org:9000/link/github.json"
             }
         }
-        .sheet(isPresented: $showingEdit, content: {
-            ApiEditView()
-                .environmentObject(self.domainData)
-                .environment(\.endPointId, self.createdEndPointId == nil ? self.endPointId : self.createdEndPointId!)
-        })
     }
 }
 

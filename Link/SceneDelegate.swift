@@ -25,11 +25,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             case "main":
                 return AnyView(mainView)
             case "endPointEdit":
+                let testDomain = DomainData.test(context: context)
                 return AnyView(
                     NavigationView {
                         EndPointEditView()
                             .environment(\.managedObjectContext, context)
-                            .environmentObject(DomainData.test(context: context))
+                            .environmentObject(testDomain)
+                            .environment(\.endPointId, testDomain.endPoints.first!.objectID)
                     }
                 )
             case "apiEdit":
