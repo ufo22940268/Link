@@ -23,11 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             case "endPointEdit":
                 let testDomain = DomainData.test(context: context)
                 return AnyView(
-                    NavigationView {
-                        EndPointEditView(endPointId: testDomain.endPoints.first!.objectID)
-                            .environment(\.managedObjectContext, context)
-                            .environmentObject(testDomain)
-                    }
+                    EndPointEditView(endPointId: testDomain.endPoints.first!.objectID)
+                        .environment(\.managedObjectContext, context)
+                        .environmentObject(testDomain)
                 )
             case "apiEdit":
                 let d = DomainData.test(context: context)
@@ -47,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 fatalError()
             }
         }
-        
+
         let mainView = OnboardView().environment(\.managedObjectContext, context)
         return AnyView(mainView)
     }
