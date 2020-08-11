@@ -55,6 +55,11 @@ struct ApiEditView: View {
         if apis.count > 0 {
             return
         }
+        
+        if endPointId == nil {
+            apis = []
+            return 
+        }
 
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()

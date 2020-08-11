@@ -63,44 +63,17 @@ struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var viewData: EndPointViewData = EndPointViewData()
 
-    var endPointUrl: String {
-        viewData.endPointURL
-    }
-
-    @FetchRequest(entity: EndPointEntity.entity(), sortDescriptors: []) var endPoints: FetchedResults<EndPointEntity>
     @EnvironmentObject var domainData: DomainData
     @State var cancellables = [AnyCancellable]()
     @State var urlTestResult: ValidateURLResult = .pending
-    @Environment(\.endPointId) var endPointId: NSManagedObjectID?
     @Environment(\.presentationMode) var presentationMode
-    @State var createdEndPointId: NSManagedObjectID?
-    @State var showingEdit = false
+    @State var endPointId: NSManagedObjectID?
 
-    var nextButton: some View {
-        NavigationLink(destination: ApiEditView().environment(\.endPointId, createdEndPointId == nil ? endPointId : createdEndPointId!), label: { Text("下一步") }).simultaneousGesture(TapGesture().onEnded {
-            var endPoint: EndPointEntity
-
-            if let endPointId = self.endPointId {
-                endPoint = self.domainData.findEndPointEntity(by: endPointId)!
-            } else if let nd = self.endPoints.first(where: { $0.url == self.endPointUrl }) {
-                endPoint = nd
-            } else {
-                endPoint = EndPointEntity(context: self.context)
-                let domain = DomainEntity(context: self.context)
-                domain.name = self.domainName
-                endPoint.domain = domain
-                self.createdEndPointId = endPoint.objectID
-            }
-            endPoint.url = self.endPointUrl
-
-            do {
-                try self.context.save()
-            } catch let error as NSError {
-                print("Error: \(error), \(error.userInfo)")
-            }
-
-            self.domainData.onAddedDomain.send()
-        }).disabled(!isFormValid)
+    var doneButton: some View {
+        return Button("完成") {
+            print(Date(), "done")
+            self.presentationMode.wrappedValue.dismiss()
+        }.disabled(!isFormValid)
     }
 
     var isFormValid: Bool {
@@ -108,42 +81,75 @@ struct EndPointEditView: View {
     }
 
     var domainName: String {
-        extractDomainName(fromURL: endPointUrl)
+        extractDomainName(fromURL: viewData.endPointURL)
+    }
+
+    func updateEndPointEntity() {
+        var endPoint: EndPointEntity
+
+        if let endPointId = self.endPointId {
+            endPoint = domainData.findEndPointEntity(by: endPointId)!
+        } else if let nd = domainData.endPoints.first(where: { $0.url == self.viewData.endPointURL }) {
+            endPoint = nd
+        } else {
+            endPoint = EndPointEntity(context: context)
+            let domain = DomainEntity(context: context)
+            domain.name = domainName
+            endPoint.domain = domain
+        }
+        endPoint.url = viewData.endPointURL
+        endPointId = endPoint.objectID
+
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print("Error: \(error), \(error.userInfo)")
+        }
     }
 
     var body: some View {
-        Form {
-            Section(header: Text(""), footer: Text(urlTestResult.label)) {
-                HStack {
-                    Text("域名地址")
-                    Spacer()
-                    TextField("https://example.com", text: $viewData.endPointURL)
-                        .multilineTextAlignment(.trailing)
-                        .lineLimit(3)
-                        .textContentType(.URL)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
+        NavigationView {
+            Form {
+                Section(header: Text(""), footer: Text(urlTestResult.label)) {
+                    HStack {
+                        Text("域名地址")
+                        Spacer()
+                        TextField("https://example.com", text: $viewData.endPointURL)
+                            .multilineTextAlignment(.trailing)
+                            .lineLimit(3)
+                            .textContentType(.URL)
+                            .keyboardType(.URL)
+                            .autocapitalization(.none)
+                    }
+                    HStack {
+                        Text("名字")
+                        Spacer()
+                        TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
+                    }
                 }
-                HStack {
-                    Text("名字")
-                    Spacer()
-                    TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
-                }
-            }
-            
-            ApiEditView()
-        }
-        .navigationBarTitle("输入域名", displayMode: .inline)
-        .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {
-            Text("取消")
-        }), trailing: nextButton)
-        .onAppear {
-            self.viewData.validEndPointURL
-                .assign(to: \.urlTestResult, on: self)
-                .store(in: &self.cancellables)
 
-            if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
-                self.viewData.endPointURL = "http://biubiubiu.hopto.org:9000/link/github.json"
+                ApiEditView().environment(\.endPointId, endPointId)
+            }
+            .navigationBarTitle("输入域名", displayMode: .inline)
+            .navigationBarItems(leading: Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Text("取消")
+            }), trailing: doneButton)
+            .onAppear {
+                self.viewData.validEndPointURL
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveValue: { result in
+                        self.urlTestResult = result
+                        if result == .ok {
+                            self.updateEndPointEntity()
+                        }
+                    })
+                    .store(in: &self.cancellables)
+
+                if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
+                    self.viewData.endPointURL = "http://biubiubiu.hopto.org:9000/link/github.json"
+                }
             }
         }
     }

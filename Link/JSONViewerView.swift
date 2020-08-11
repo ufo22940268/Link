@@ -26,10 +26,14 @@ struct JSONViewerView: View {
 
     var editButton: some View {
         Button(action: {
-            self.showingEdit.toggle()
+            self.showingEdit = true
         }) {
             Text("编辑")
-        }
+        }.sheet(isPresented: $showingEdit, content: {
+            EndPointEditView(endPointId: self.endPoint.objectID)
+                .environment(\.managedObjectContext, self.context)
+                .environmentObject(self.domainData)
+        })
     }
 
     var body: some View {
@@ -40,14 +44,6 @@ struct JSONViewerView: View {
         }
         .navigationBarTitle(Text("请求结果"), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
-        .sheet(isPresented: $showingEdit, content: {
-            NavigationView {
-                EndPointEditView()
-                    .environment(\.endPointId, self.endPoint.objectID)
-                    .environment(\.managedObjectContext, self.context)
-                    .environmentObject(self.domainData)
-            }
-        })
     }
 
     private func removeSlash(_ str: String) -> String {

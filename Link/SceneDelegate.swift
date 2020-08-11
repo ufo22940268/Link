@@ -18,20 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func launchView() -> AnyView {
-        let mainView = OnboardView().environment(\.managedObjectContext, context)
-
         if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
             switch viewName {
-            case "main":
-                return AnyView(mainView)
             case "endPointEdit":
                 let testDomain = DomainData.test(context: context)
                 return AnyView(
                     NavigationView {
-                        EndPointEditView()
+                        EndPointEditView(endPointId: testDomain.endPoints.first!.objectID)
                             .environment(\.managedObjectContext, context)
                             .environmentObject(testDomain)
-                            .environment(\.endPointId, testDomain.endPoints.first!.objectID)
                     }
                 )
             case "apiEdit":
@@ -49,10 +44,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
                 return AnyView(NavigationView { view })
             default:
-                return AnyView(mainView)
+                fatalError()
             }
         }
-
+        
+        let mainView = OnboardView().environment(\.managedObjectContext, context)
         return AnyView(mainView)
     }
 
