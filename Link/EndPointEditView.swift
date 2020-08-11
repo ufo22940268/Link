@@ -117,14 +117,24 @@ struct EndPointEditView: View {
                 ApiHelper().test(url: url)
             }
         let falsePub = changeURLSubject.map { _ in ValidateURLResult.pending }
+
         Publishers.Merge(fetchPub, falsePub)
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { result in
+            .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.urlTestResult = result
                 if result == .ok {
                     self.updateEndPointEntity()
+                    return ApiHelper()
+                        .fetch(endPoint: self.domainData.findEndPointEntity(by: self.endPointId!)!)
+                        .catch { _ in Just([]) }
+                        .eraseToAnyPublisher()
+                } else {
+                    return Just([]).eraseToAnyPublisher()
                 }
-            })
+            }
+            .sink { apis in
+                print("apis", apis)
+            }
             .store(in: &cancellables)
     }
 
