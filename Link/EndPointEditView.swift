@@ -129,7 +129,7 @@ struct EndPointEditView: View {
     }
 
     var body: some View {
-        var urlBinding = Binding<String>(get: {
+        let urlBinding = Binding<String>(get: {
             self.url
         }, set: {
             self.url = $0
