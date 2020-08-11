@@ -71,6 +71,7 @@ struct EndPointEditView: View {
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
     @State var url: String = ""
+    @ObservedObject var apiEditData = ApiEditData()
 
     var doneButton: some View {
         return Button("完成") {
@@ -119,7 +120,8 @@ struct EndPointEditView: View {
             }
         let falsePub = changeURLSubject.map { _ in ValidateURLResult.pending }
 
-        Publishers.Merge(fetchPub, falsePub)
+//        Publishers.Merge(fetchPub, falsePub)
+        fetchPub
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.urlTestResult = result
@@ -134,7 +136,7 @@ struct EndPointEditView: View {
                 }
             }
             .sink { apis in
-                self.apiEntitiesOfDomain = apis
+                self.apiEditData.apis = apis
                 print("apis", apis)
             }
             .store(in: &cancellables)
@@ -168,7 +170,7 @@ struct EndPointEditView: View {
                     }
                 }
 
-                ApiEditView(apis: $apiEntitiesOfDomain).environment(\.endPointId, endPointId)
+                ApiEditView().environment(\.endPointId, endPointId).environmentObject(apiEditData)
             }
             .navigationBarTitle("输入域名", displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
@@ -179,10 +181,10 @@ struct EndPointEditView: View {
             .onAppear {
                 self.listenToURLChange()
 
-                if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
-                    self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
-                    urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
-                }
+//                if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
+//                    self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+//                    urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
+//                }
             }
         }
     }

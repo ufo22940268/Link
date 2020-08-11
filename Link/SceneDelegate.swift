@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             case "apiEdit":
                 let d = DomainData.test(context: context)
                 let endPointEditview = NavigationView {
-                    ApiEditView(apis: Binding.constant([ApiEntity]()))
+                    ApiEditView()
                         .environment(\.managedObjectContext, context)
                         .environmentObject(d)
                         .environment(\.endPointId, d.endPoints[0].objectID)

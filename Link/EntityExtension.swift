@@ -19,4 +19,10 @@ extension EndPointEntity: Identifiable {
     }
 }
 
+extension ApiEntity: Identifiable {
+    public var id: String {
+        self.objectID.uriRepresentation().absoluteString
+    }
+}
+
 
