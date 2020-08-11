@@ -70,8 +70,9 @@ struct EndPointEditView: View {
     @State var changeURLSubject = CurrentValueSubject<String, Never>("")
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
-    @State var url: String = ProcessInfo.processInfo.environment["FILL_URL"] != nil ? "http://biubiubiu.hopto.org:9000/link/github.json" : ""
+    @State var url: String = ""
     @ObservedObject var apiEditData = ApiEditData()
+    @State var launched = false
 
     var doneButton: some View {
         return Button("完成") {
@@ -178,6 +179,13 @@ struct EndPointEditView: View {
             }), trailing: doneButton)
             .onAppear {
                 self.listenToURLChange()
+                
+                if !self.launched {
+                    if  ProcessInfo.processInfo.environment["FILL_URL"] != nil {
+                        self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+                        urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
+                    }
+                }
             }
         }
     }

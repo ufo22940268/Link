@@ -87,17 +87,6 @@ class EndPointTests: XCTestCase {
 //    }
     
     func testUpdate() {
-        var r = [ApiEntity]()
-        let ae = ApiEntity(context: persistentContainer.viewContext)
-        ae.paths = "10";
-        try? persistentContainer.viewContext.save()
-        r.append(ae)
-
-        let j = r
-        j[0].paths = "11"
-        print("--------", persistentContainer.viewContext.updatedObjects)
-        try? persistentContainer.viewContext.save()
-        
-//        print((try? objectContext.fetch(ApiEntity.fetchRequest()) ?? [])
+        let app = XCUIApplication()
     }
 }
