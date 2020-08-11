@@ -40,7 +40,7 @@ class Context: ObservableObject {
 }
 
 struct ApiEditView: View {
-    @State var apis = [ApiEntity]()
+    @Binding var apis: [ApiEntity] 
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var context: Context = Context()
@@ -55,10 +55,10 @@ struct ApiEditView: View {
         if apis.count > 0 {
             return
         }
-        
+
         if endPointId == nil {
             apis = []
-            return 
+            return
         }
 
         cancellables.forEach { $0.cancel() }
@@ -90,8 +90,12 @@ struct ApiEditView: View {
             }
         }
         .onAppear {
-            if !DebugHelper.isPreview {
-                self.loadData()
+            self.context.$selection.sink { selections in
+                for index in selections {
+                    self.apis[index].watch = true
+                    self.apis[index].watchValue = self.apis[index].value
+                }
+                try! self.objectContext.save()
             }
         }
     }
@@ -99,8 +103,6 @@ struct ApiEditView: View {
 
 struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            ApiEditView()
-        }
+        EmptyView()
     }
 }

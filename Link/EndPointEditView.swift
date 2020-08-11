@@ -68,6 +68,7 @@ struct EndPointEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var endPointId: NSManagedObjectID?
     @State var changeURLSubject = CurrentValueSubject<String, Never>("")
+    @State var apiEntitiesOfDomain = [ApiEntity]()
 
     @State var url: String = ""
 
@@ -133,6 +134,7 @@ struct EndPointEditView: View {
                 }
             }
             .sink { apis in
+                self.apiEntitiesOfDomain = apis
                 print("apis", apis)
             }
             .store(in: &cancellables)
@@ -166,7 +168,7 @@ struct EndPointEditView: View {
                     }
                 }
 
-                ApiEditView().environment(\.endPointId, endPointId)
+                ApiEditView(apis: $apiEntitiesOfDomain).environment(\.endPointId, endPointId)
             }
             .navigationBarTitle("输入域名", displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
