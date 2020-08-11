@@ -30,7 +30,7 @@ struct JSONViewerView: View {
         }) {
             Text("编辑")
         }.sheet(isPresented: $showingEdit, content: {
-            EndPointEditView(endPointId: self.endPoint.objectID)
+            return EndPointEditView(endPointId: self.endPoint.objectID)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.domainData)
         })

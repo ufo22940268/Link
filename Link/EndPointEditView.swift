@@ -70,7 +70,7 @@ struct EndPointEditView: View {
     @State var changeURLSubject = CurrentValueSubject<String, Never>("")
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
-    @State var url: String = ""
+    @State var url: String = ProcessInfo.processInfo.environment["FILL_URL"] != nil ? "http://biubiubiu.hopto.org:9000/link/github.json" : ""
     @ObservedObject var apiEditData = ApiEditData()
 
     var doneButton: some View {
@@ -118,9 +118,7 @@ struct EndPointEditView: View {
             .flatMap { url in
                 ApiHelper().test(url: url)
             }
-        let falsePub = changeURLSubject.map { _ in ValidateURLResult.pending }
 
-//        Publishers.Merge(fetchPub, falsePub)
         fetchPub
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
@@ -135,9 +133,9 @@ struct EndPointEditView: View {
                     return Just([]).eraseToAnyPublisher()
                 }
             }
+            .receive(on: DispatchQueue.main)
             .sink { apis in
                 self.apiEditData.apis = apis
-                print("apis", apis)
             }
             .store(in: &cancellables)
     }
@@ -180,11 +178,6 @@ struct EndPointEditView: View {
             }), trailing: doneButton)
             .onAppear {
                 self.listenToURLChange()
-
-//                if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
-//                    self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
-//                    urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
-//                }
             }
         }
     }
