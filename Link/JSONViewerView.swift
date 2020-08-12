@@ -23,6 +23,7 @@ struct JSONViewerView: View {
     }
 
     @State var showingEdit = false
+    let apiEditData = ApiEditData()
 
     var editButton: some View {
         Button(action: {
@@ -30,7 +31,7 @@ struct JSONViewerView: View {
         }) {
             Text("编辑")
         }.sheet(isPresented: $showingEdit, content: {
-            return EndPointEditView(endPointId: self.endPoint.objectID)
+            return EndPointEditView(endPointId: self.endPoint.objectID, apiEditData: self.apiEditData)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.domainData)
         })

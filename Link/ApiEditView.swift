@@ -43,19 +43,19 @@ class ApiEditData: ObservableObject {
 struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var objectContext
-    @EnvironmentObject var context: ApiEditData
+    @ObservedObject var apiEditData: ApiEditData
     @Environment(\.endPointId) var endPointId
         
     var body: some View {
         Section(header: Text("接口")) {
             Group {
-                ForEach(context.apis.indices, id: \.self) { i in
-                    ApiEditListItemView(api: self.$context.apis[i], selected: self.context.apis[i].watch)
+                ForEach(apiEditData.apis.indices, id: \.self) { i in
+                    ApiEditListItemView(api: self.$apiEditData.apis[i], selected: self.apiEditData.apis[i].watch)
                 }
             }
         }
         .onAppear {
-            self.context.$selection.sink { selections in
+            self.apiEditData.$selection.sink { selections in
                 for index in selections {
 //                    self.apis[index].watch = true
 //                    self.apis[index].watchValue = self.apis[index].value

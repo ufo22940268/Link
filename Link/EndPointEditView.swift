@@ -71,7 +71,7 @@ struct EndPointEditView: View {
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
     @State var url: String = ""
-    @ObservedObject var apiEditData = ApiEditData()
+    var apiEditData = ApiEditData()
     @State var launched = false
 
     var doneButton: some View {
@@ -169,7 +169,9 @@ struct EndPointEditView: View {
                     }
                 }
 
-                ApiEditView().environment(\.endPointId, endPointId).environmentObject(apiEditData)
+                ApiEditView(apiEditData: self.apiEditData)
+                    .environment(\.endPointId, endPointId)
+                    .environmentObject(apiEditData)
             }
             .navigationBarTitle("输入域名", displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
@@ -179,9 +181,9 @@ struct EndPointEditView: View {
             }), trailing: doneButton)
             .onAppear {
                 self.listenToURLChange()
-                
+
                 if !self.launched {
-                    if  ProcessInfo.processInfo.environment["FILL_URL"] != nil {
+                    if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
                         self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
                         urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                     }

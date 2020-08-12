@@ -96,7 +96,7 @@
          <EnvironmentVariable
             key = "LAUNCH_VIEW"
             value = "endPointEdit"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

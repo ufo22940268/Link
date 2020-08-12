@@ -43,6 +43,7 @@ class EndPointTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    
     private func deleteTable(_ tableName: String) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: tableName)
         for obj in try! objectContext.fetch(fetchRequest) {
@@ -87,6 +88,6 @@ class EndPointTests: XCTestCase {
 //    }
     
     func testUpdate() {
-        let app = XCUIApplication()
+//        let app = XCUIApplication()
     }
 }
