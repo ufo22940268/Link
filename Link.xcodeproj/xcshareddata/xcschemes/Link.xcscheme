@@ -76,7 +76,7 @@
          <EnvironmentVariable
             key = "RESET_CORE_DATA"
             value = "true"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "FILL_URL"

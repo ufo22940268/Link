@@ -57,8 +57,8 @@ struct ApiEditView: View {
         .onAppear {
             self.apiEditData.$selection.sink { selections in
                 for index in selections {
-//                    self.apis[index].watch = true
-//                    self.apis[index].watchValue = self.apis[index].value
+                    self.apiEditData.apis[index].watch = true
+                    self.apiEditData.apis[index].watchValue = self.apiEditData.apis[index].value
                 }
                 try! self.objectContext.save()
             }.store(in: &self.cancellables)
