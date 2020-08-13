@@ -62,7 +62,7 @@ struct JSONViewerView: View {
             let rawString = json.rawString() ?? ""
 
             // TODO: Find highlight key by search with regex. It may cause the wrong string fields to be hightlighted.
-            if let api = endPoint.api?.anyObject() as? ApiEntity, let paths = api.paths {
+            if let apis = endPoint.api?.allObjects as? [ApiEntity], let paths = apis.first(where: { $0.watch })?.paths {
                 let re = try? NSRegularExpression(pattern: "(?<be>.+)(?<mi>\"\(paths)\")(?<af>.+)?", options: [.dotMatchesLineSeparators])
                 if let m = re?.firstMatch(in: rawString, options: [], range: NSRange(location: 0, length: rawString.count)), m.numberOfRanges >= 3 {
                     r.append((removeSlash(rawString[m.range(withName: "be")]), false))
