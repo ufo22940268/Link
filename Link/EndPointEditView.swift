@@ -61,8 +61,8 @@ class EndPointViewData: ObservableObject {
 
 struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
+    @EnvironmentObject var dataSource: DataSource
 
-    @EnvironmentObject var domainData: DomainData
     @State var cancellables = [AnyCancellable]()
     @State var urlTestResult: ValidateURLResult = .pending
     @Environment(\.presentationMode) var presentationMode
@@ -93,8 +93,8 @@ struct EndPointEditView: View {
         var endPoint: EndPointEntity
 
         if let endPointId = self.endPointId {
-            endPoint = domainData.findEndPointEntity(by: endPointId)!
-        } else if let nd = domainData.endPoints.first(where: { $0.url == self.url }) {
+            endPoint = dataSource.fetchEntityPoint(id: endPointId)!
+        } else if let nd = dataSource.fetchEntityPoint(url: url) {
             endPoint = nd
         } else {
             endPoint = EndPointEntity(context: context)
@@ -127,7 +127,7 @@ struct EndPointEditView: View {
                 if result == .ok {
                     self.updateEndPointEntity()
                     return ApiHelper()
-                        .fetch(endPoint: self.domainData.findEndPointEntity(by: self.endPointId!)!)
+                        .fetch(endPoint: self.dataSource.fetchEntityPoint(id: self.endPointId!)!)
                         .catch { _ in Just([]) }
                         .eraseToAnyPublisher()
                 } else {

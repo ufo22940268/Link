@@ -56,7 +56,7 @@ class DebugHelper {
         p.addToApi(a2)
 
         try! context.save()
-    }
+   }
     
     static var isPreview: Bool  {
        (ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] ?? "") == "1"

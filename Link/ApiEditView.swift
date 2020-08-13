@@ -45,7 +45,7 @@ struct ApiEditView: View {
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var apiEditData: ApiEditData
     @Environment(\.endPointId) var endPointId
-        
+
     var body: some View {
         Section(header: Text("接口")) {
             Group {
@@ -59,6 +59,10 @@ struct ApiEditView: View {
                 for index in selections {
                     self.apiEditData.apis[index].watch = true
                     self.apiEditData.apis[index].watchValue = self.apiEditData.apis[index].value
+                }
+
+                if self.objectContext.updatedObjects.count > 0 {
+//                    self.domainData.onApiWatchChanged.send()
                 }
                 try! self.objectContext.save()
             }.store(in: &self.cancellables)

@@ -16,6 +16,7 @@ struct JSONViewerView: View {
     }
 
     @EnvironmentObject var domainData: DomainData
+    @EnvironmentObject var dataSource: DataSource
     @Environment(\.endPointId) var endPointId: NSManagedObjectID?
     @Environment(\.managedObjectContext) var context
     var endPoint: EndPointEntity {
@@ -31,9 +32,9 @@ struct JSONViewerView: View {
         }) {
             Text("编辑")
         }.sheet(isPresented: $showingEdit, content: {
-            return EndPointEditView(endPointId: self.endPoint.objectID, apiEditData: self.apiEditData)
+            EndPointEditView(endPointId: self.endPoint.objectID, apiEditData: self.apiEditData)
                 .environment(\.managedObjectContext, self.context)
-                .environmentObject(self.domainData)
+                .environmentObject(self.dataSource)
         })
     }
 

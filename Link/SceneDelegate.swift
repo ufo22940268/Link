@@ -18,35 +18,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func launchView() -> AnyView {
-        if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
-            switch viewName {
-            case "endPointEdit":
-                let testDomain = DomainData.test(context: context)
-                return AnyView(
-                    EndPointEditView(endPointId: testDomain.endPoints.first!.objectID)
-                        .environment(\.managedObjectContext, context)
-                        .environmentObject(testDomain)
-                )
-            case "apiEdit":
-                let d = DomainData.test(context: context)
-                let endPointEditview = NavigationView {
-                    ApiEditView(apiEditData: ApiEditData())
-                        .environment(\.managedObjectContext, context)
-                        .environmentObject(d)
-                        .environment(\.endPointId, d.endPoints[0].objectID)
-                }
-                return AnyView(endPointEditview)
-            case "jsonViewer":
-                let view = JSONViewerView()
-                    .environmentObject(DomainData.test(context: context))
-                    .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
-                return AnyView(NavigationView { view })
-            default:
-                fatalError()
-            }
-        }
+//        if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
+//            switch viewName {
+//            case "endPointEdit":
+//                let testDomain = DomainData.test(context: context)
+//                return AnyView(
+//                    EndPointEditView(endPointId: testDomain.endPoints.first!.objectID)
+//                        .environment(\.managedObjectContext, context)
+//                        .environmentObject(testDomain)
+//                )
+//            case "apiEdit":
+//                let d = DomainData.test(context: context)
+//                let endPointEditview = NavigationView {
+//                    ApiEditView(apiEditData: ApiEditData())
+//                        .environment(\.managedObjectContext, context)
+//                        .environmentObject(d)
+//                        .environment(\.endPointId, d.endPoints[0].objectID)
+//                }
+//                return AnyView(endPointEditview)
+//            case "jsonViewer":
+//                let view = JSONViewerView()
+//                    .environmentObject(DomainData.test(context: context))
+//                    .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
+//                return AnyView(NavigationView { view })
+//            default:
+//                fatalError()
+//            }
+//        }
 
-        let mainView = OnboardView().environment(\.managedObjectContext, context)
+        let mainView = OnboardView()
+            .environment(\.managedObjectContext, context)
+            .environmentObject(DataSource(context: context))
         return AnyView(mainView)
     }
 

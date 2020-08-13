@@ -15,6 +15,7 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
+        
 
     var body: some View {
         TabView(selection: $selection) {
@@ -32,6 +33,9 @@ struct OnboardView: View {
                     self.loadDomains()
                 }
                 .onReceive(domainData.onAddedDomain) { () in
+                    self.loadDomains()
+                }
+                .onReceive(domainData.onApiWatchChanged) { () in
                     self.loadDomains()
                 }
             Text("Second View")
