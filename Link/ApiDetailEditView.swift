@@ -33,9 +33,6 @@ struct ApiDetailEditView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段"), displayMode: .inline)
-        .onAppear {
-            try? self.context.save()
-        }
     }
 }
 

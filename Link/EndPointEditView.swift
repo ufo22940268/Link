@@ -75,11 +75,21 @@ struct EndPointEditView: View {
     @State var launched = false
 
     var doneButton: some View {
-        return Button("完成") {
+        Button("完成") {
             try? self.context.save()
             self.presentationMode.wrappedValue.dismiss()
         }.disabled(!isFormValid)
     }
+    
+    var cancelButton: some View {
+        Button(action: {
+            self.context.rollback()
+            self.presentationMode.wrappedValue.dismiss()
+        }, label: {
+            Text("取消")
+        })
+    }
+
 
     var isFormValid: Bool {
         urlTestResult == .ok
@@ -92,6 +102,7 @@ struct EndPointEditView: View {
     func updateEndPointEntity() {
         var endPoint: EndPointEntity
 
+        var needSave = false
         if let endPointId = self.endPointId {
             endPoint = dataSource.fetchEntityPoint(id: endPointId)!
         } else if let nd = dataSource.fetchEntityPoint(url: url) {
@@ -101,14 +112,14 @@ struct EndPointEditView: View {
             let domain = DomainEntity(context: context)
             domain.name = domainName
             endPoint.domain = domain
+            needSave = true
         }
         endPoint.url = url
         endPointId = endPoint.objectID
 
-        do {
-            try context.save()
-        } catch let error as NSError {
-            print("Error: \(error), \(error.userInfo)")
+        if needSave {
+            print("save in update entity")
+            try! context.save()
         }
     }
 
@@ -168,17 +179,12 @@ struct EndPointEditView: View {
                         TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
                     }
                 }
-
                 ApiEditView(apiEditData: self.apiEditData)
                     .environment(\.endPointId, endPointId)
                     .environmentObject(apiEditData)
             }
             .navigationBarTitle("输入域名", displayMode: .inline)
-            .navigationBarItems(leading: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Text("取消")
-            }), trailing: doneButton)
+            .navigationBarItems(leading: cancelButton, trailing: doneButton)
             .onAppear {
                 self.listenToURLChange()
 
