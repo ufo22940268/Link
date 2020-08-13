@@ -40,7 +40,7 @@ struct ApiHelper {
             }
             .map { self.convertToAPI(json: $0) }
             .map { self.convertToApiEntity(endPoint: endPoint, apis: $0) }
-            .tryCatch { _ in
+           .tryCatch { _ in
                 Just([])
             }
             .eraseToAnyPublisher()
@@ -51,10 +51,10 @@ struct ApiHelper {
         if let urlObj = URL(string: url) {
             let cancellable = URLSession.shared.dataTaskPublisher(for: urlObj)
                 .tryMap { ar in
-                    if  !ar.response.ok {
+                    if !ar.response.ok {
                         return ValidateURLResult.requestError
                     }
-                    
+
                     if (try JSON(data: ar.data)).count > 0 {
                         return ValidateURLResult.ok
                     } else {
@@ -62,7 +62,7 @@ struct ApiHelper {
                     }
                 }
                 .catch { error -> AnyPublisher<ValidateURLResult, Never> in
-                     if error is URLError {
+                    if error is URLError {
                         return Just(ValidateURLResult.requestError).eraseToAnyPublisher()
                     } else {
                         return Just(ValidateURLResult.jsonError).eraseToAnyPublisher()
@@ -80,11 +80,11 @@ struct ApiHelper {
         r.sort { l, r in l.path > r.path }
         return r
     }
-    
-    /// TODO Shouldn't update entity in db when test end point.
+
+    // TODO: Shouldn't update entity in db when test end point.
     func convertToApiEntity(endPoint: EndPointEntity, apis: [Api]) -> [ApiEntity] {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["endPoint": endPoint.objectID])
-        var apiEntities = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
+        var apiEntities: [ApiEntity] = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
 
         for api in apis {
             if let index = apiEntities.firstIndex(where: { $0.paths == api.path }) {
@@ -98,7 +98,8 @@ struct ApiHelper {
             }
         }
         try? persistentContainer.viewContext.save()
-        return apiEntities
+        
+        return apiEntities.sorted { $0.paths ?? "" < $1.paths ?? "" }
     }
 
     private func traverseJson(json: JSON, path: Path) -> [Api] {
@@ -114,5 +115,5 @@ struct ApiHelper {
             return ar
         }
         return [Api(path: path.joined(separator: "."), value: json.stringValue)]
-   }
+    }
 }
