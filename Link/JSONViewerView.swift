@@ -35,6 +35,7 @@ struct JSONViewerView: View {
             EndPointEditView(endPointId: self.endPoint.objectID, apiEditData: self.apiEditData)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.dataSource)
+                .environmentObject(self.domainData)
         })
     }
 

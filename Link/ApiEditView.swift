@@ -36,7 +36,6 @@ struct ApiEditListItemView: View {
 }
 
 class ApiEditData: ObservableObject {
-    @Published var selection = Set<Int>()
     @Published var apis = [ApiEntity]()
 }
 
@@ -45,27 +44,18 @@ struct ApiEditView: View {
     @Environment(\.managedObjectContext) var objectContext
     @ObservedObject var apiEditData: ApiEditData
     @Environment(\.endPointId) var endPointId
+    @EnvironmentObject var domainData: DomainData
+    @State var d: ApiEditData = ApiEditData()
 
     var body: some View {
         Section(header: Text("接口")) {
             Group {
-                ForEach(apiEditData.apis.indices, id: \.self) { i in
+                ForEach(self.apiEditData.apis.indices, id: \.self) { i in
                     ApiEditListItemView(api: self.$apiEditData.apis[i], selected: self.apiEditData.apis[i].watch)
                 }
             }
         }
         .onAppear {
-            self.apiEditData.$selection.sink { selections in
-                for index in selections {
-                    self.apiEditData.apis[index].watch = true
-                    self.apiEditData.apis[index].watchValue = self.apiEditData.apis[index].value
-                }
-
-                if self.objectContext.updatedObjects.count > 0 {
-//                    self.domainData.onApiWatchChanged.send()
-                }
-                try! self.objectContext.save()
-            }.store(in: &self.cancellables)
         }
     }
 }

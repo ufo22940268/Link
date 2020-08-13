@@ -71,12 +71,12 @@ struct EndPointEditView: View {
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
     @State var url: String = ""
-    var apiEditData = ApiEditData()
+    @State var apiEditData = ApiEditData()
     @State var launched = false
 
     var doneButton: some View {
         return Button("完成") {
-            print(Date(), "done")
+            try? self.context.save()
             self.presentationMode.wrappedValue.dismiss()
         }.disabled(!isFormValid)
     }
