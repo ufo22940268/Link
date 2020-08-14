@@ -20,7 +20,8 @@ struct JSONView: View {
     }
 
     var highlightIndexes: [Range<String.Index>] {
-        return [jsonStr.index(jsonStr.startIndex, offsetBy: 3) ..< jsonStr.index(jsonStr.startIndex, offsetBy: 8)]
+        highlightPaths.map { jsonStr.range(of: "\"\($0)\"") }
+            .filter { $0 != nil }.map { $0! }
     }
 
     var segments: [(String, Bool)] {
@@ -57,6 +58,6 @@ struct JSONView_Previews: PreviewProvider {
         let d = """
         {"a": 1, "b": "2/wefwef"}
         """.data(using: .utf8)!
-        return JSONView(data: d)
+        return JSONView(data: d, highlight: ["a", "b"])
     }
 }
