@@ -18,8 +18,7 @@ struct JSONView: View {
     }
 
     var jsonStr: String {
-        (jsonData?.rawString(options: [.sortedKeys, .prettyPrinted]) ?? "")
-            .replacingOccurrences(of: "\\", with: "")
+        (jsonData?.rawString(options: [.sortedKeys, .prettyPrinted, .withoutEscapingSlashes]) ?? "")
     }
 
     var body: some View {
@@ -32,7 +31,7 @@ struct JSONView: View {
 struct JSONView_Previews: PreviewProvider {
     static var previews: some View {
         let d = """
-        {"a": 1, "b": 2}
+        {"a": 1, "b": "2/wefwef"}
         """.data(using: .utf8)!
         return JSONView(data: d)
     }
