@@ -28,16 +28,24 @@ struct JSONViewerView: View {
         }) {
             Text("编辑")
         }.sheet(isPresented: $showingEdit, content: {
-            EndPointEditView(endPointId: self.endPoint.objectID, apiEditData: self.apiEditData)
+            EndPointEditView(endPointId: self.endPoint.objectID,
+                             apiEditData: self.apiEditData)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.dataSource)
                 .environmentObject(self.domainData)
         })
     }
 
+    var highlightPaths: [String] {
+        if let apis = endPoint.api?.allObjects as? [ApiEntity] {
+            return apis.filter { $0.watch && $0.paths != nil } .map { $0.paths! }
+        }
+        return []
+    }
+
     var body: some View {
         ScrollView {
-            JSONView(data: endPoint.data).padding()
+            JSONView(data: endPoint.data, highlight: highlightPaths).padding()
         }
         .navigationBarTitle(Text("请求结果"), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
