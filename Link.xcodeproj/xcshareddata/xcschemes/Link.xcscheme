@@ -79,6 +79,11 @@
             isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "LAUNCH_VIEW"
+            value = "jsonView"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "FILL_URL"
             value = "true"
             isEnabled = "YES">

@@ -17,9 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
 
-    private func launchView() -> AnyView {
-//        if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
-//            switch viewName {
+    private func launchView() -> some View {
+        if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
+            switch viewName {
 //            case "endPointEdit":
 //                let testDomain = DomainData.test(context: context)
 //                return AnyView(
@@ -41,10 +41,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                    .environmentObject(DomainData.test(context: context))
 //                    .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
 //                return AnyView(NavigationView { view })
-//            default:
-//                fatalError()
-//            }
-//        }
+            case "jsonView":
+                let d = """
+                {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
+                """.data(using: .utf8)!
+                let view = JSONView(data: d, highlight: ["b"])
+                return AnyView(view)
+            default:
+                fatalError()
+            }
+        }
 
         let mainView = OnboardView()
             .environment(\.managedObjectContext, context)

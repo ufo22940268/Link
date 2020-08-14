@@ -21,7 +21,7 @@ struct JSONView: View {
 
     var highlightIndexes: [Range<String.Index>] {
         highlightPaths.map { jsonStr.range(of: "\"\($0)\"") }
-            .filter { $0 != nil }.map { $0! }
+            .filter { $0 != nil }.map { jsonStr.lineRange(for: $0!) }
     }
 
     var segments: [(String, Bool)] {
@@ -30,7 +30,7 @@ struct JSONView: View {
         var c = str.startIndex
         for r in highlightIndexes.sorted(by: { $0.lowerBound < $1.lowerBound }) {
             if r.lowerBound != str.startIndex && c < str.index(before: r.lowerBound) {
-                segs.append((String(str[c ..< str.index(before: r.lowerBound)]), false))
+                segs.append((String(str[c ..< r.lowerBound]), false))
             }
             segs.append((String(str[r]), true))
             c = r.upperBound
@@ -59,7 +59,7 @@ struct JSONView: View {
 struct JSONView_Previews: PreviewProvider {
     static var previews: some View {
         let d = """
-        {"a": 1, "b": "2/wefwef"}
+        {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """.data(using: .utf8)!
         return JSONView(data: d, highlight: ["b"])
     }
