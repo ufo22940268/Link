@@ -58,6 +58,6 @@ struct JSONView_Previews: PreviewProvider {
         let d = """
         {"a": 1, "b": "2/wefwef"}
         """.data(using: .utf8)!
-        return JSONView(data: d, highlight: ["a", "b"])
+        return JSONView(data: d, highlight: [ "b"])
     }
 }
