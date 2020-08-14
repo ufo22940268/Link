@@ -48,7 +48,10 @@ struct JSONView: View {
 
     var body: some View {
         ZStack {
-            segments.reduce(Text(""), { $0 + Text($1.0).foregroundColor($1.1 ? Color.accentColor : nil) })
+            segments.reduce(Text(""), { $0 + Text($1.0)
+                    .foregroundColor($1.1 ? Color.accentColor : nil)
+                    .font(Font.footnote)
+            })
         }
     }
 }
@@ -58,6 +61,6 @@ struct JSONView_Previews: PreviewProvider {
         let d = """
         {"a": 1, "b": "2/wefwef"}
         """.data(using: .utf8)!
-        return JSONView(data: d, highlight: [ "b"])
+        return JSONView(data: d, highlight: ["b"])
     }
 }
