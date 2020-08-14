@@ -9,7 +9,6 @@
 import Combine
 import CoreData
 import Foundation
-import SwiftyJSON
 
 public struct Api: Identifiable {
     public var id: String {

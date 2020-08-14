@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ApiEntity" representedClassName=".ApiEntity" syncable="YES" codeGenerationType="class">
         <attribute name="paths" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="String"/>
@@ -7,7 +7,7 @@
         <attribute name="watchValue" optional="YES" attributeType="String"/>
         <relationship name="endPoint" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EndPointEntity" inverseName="api" inverseEntity="EndPointEntity"/>
     </entity>
-    <entity name="DomainEntity" representedClassName="DomainEntity" syncable="YES" codeGenerationType="class">
+    <entity name="DomainEntity" representedClassName=".DomainEntity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>
         <relationship name="endPoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EndPointEntity" inverseName="domain" inverseEntity="EndPointEntity"/>
@@ -21,8 +21,8 @@
     </entity>
     <fetchRequest name="FetchApiByDomain" entity="ApiEntity" predicateString="endPoint == $endPoint"/>
     <elements>
-        <element name="ApiEntity" positionX="-36" positionY="27" width="128" height="118"/>
-        <element name="DomainEntity" positionX="43.05859375" positionY="286.96875" width="128" height="88"/>
+        <element name="ApiEntity" positionX="-36" positionY="27" width="128" height="28"/>
+        <element name="DomainEntity" positionX="43.05859375" positionY="286.96875" width="128" height="28"/>
         <element name="EndPointEntity" positionX="520.20703125" positionY="71.5234375" width="128" height="118"/>
     </elements>
 </model>
