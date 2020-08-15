@@ -45,7 +45,7 @@ struct JSONViewerView: View {
 
     var body: some View {
         ScrollView {
-            JSONView(data: endPoint.data, highlight: highlightPaths).padding()
+            JSONView(data: endPoint.data, healthy: highlightPaths).padding()
         }
         .navigationBarTitle(Text("请求结果"), displayMode: .inline)
         .navigationBarItems(trailing: editButton)

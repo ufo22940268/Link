@@ -45,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let d = """
                 {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
                 """.data(using: .utf8)!
-                let view = JSONView(data: d, highlight: ["b"])
+                let view = JSONView(data: d, healthy: ["b"])
                 return AnyView(view)
             default:
                 fatalError()
