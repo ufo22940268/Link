@@ -30,8 +30,15 @@ struct JSONViewerView: View {
             EndPointEditView(endPointId: self.endPoint.objectID)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.dataSource)
-                .environmentObject(self.domainData)
         })
+    }
+
+    var lastPartOfPath: String {
+        if let r = endPoint.endPointPath.range(of: #"(?<=/).+?$"#, options: .regularExpression) {
+            return String(endPoint.endPointPath[r])
+        }
+
+        return ""
     }
 
     var healthyPaths: [String] {
@@ -52,7 +59,7 @@ struct JSONViewerView: View {
         ScrollView {
             JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths).padding()
         }
-        .navigationBarTitle(Text("请求结果"), displayMode: .inline)
+        .navigationBarTitle(Text(lastPartOfPath))
         .navigationBarItems(trailing: editButton)
     }
 }

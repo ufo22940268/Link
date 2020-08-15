@@ -20,7 +20,7 @@ enum LineType {
         case .error:
             return .red
         case .normal:
-            return nil
+            return .primary
         }
     }
 
@@ -96,8 +96,7 @@ struct JSONView: View {
                 return $0 + text
             })
         }
-        .animation(.easeIn)
-    }
+   }
 }
 
 struct JSONView_Previews: PreviewProvider {
