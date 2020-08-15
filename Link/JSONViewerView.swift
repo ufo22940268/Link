@@ -11,7 +11,7 @@ import SwiftUI
 
 class JSONViewerData: ObservableObject {
     @Published var endPoint: EndPointEntity = EndPointEntity()
-    
+
     init(endPoint: EndPointEntity) {
         self.endPoint = endPoint
     }
@@ -19,9 +19,7 @@ class JSONViewerData: ObservableObject {
 
 struct JSONViewerView: View {
     @EnvironmentObject var dataSource: DataSource
-    @Environment(\.endPointId) var endPointId: NSManagedObjectID?
     @Environment(\.managedObjectContext) var context
-
     @ObservedObject var modelData: JSONViewerData
 
     var endPoint: EndPointEntity {
@@ -77,17 +75,15 @@ struct JSONViewerView: View {
 
 struct JSONViewerView_Previews: PreviewProvider {
     static var previews: some View {
-        _ = """
-        {
-            "a": 3
-            "b": { "c": 4 }
-        }
+        let j = """
+        {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """
-        let ee = EndPointEntity()
-        let ae = ApiEntity()
+        let ee = EndPointEntity(context: context)
+        ee.data = j.data(using: .utf8)
+        let ae = ApiEntity(context: context)
         ae.paths = "b.c"
         ee.api?.adding(ae)
-//        return JSONViewerView().environmentObject(EndPointData(endPoint: ee))
-        return EmptyView()
+        return JSONViewerView(modelData: JSONViewerData(endPoint: ee))
+            .environment(\.managedObjectContext, context)
     }
 }

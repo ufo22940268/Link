@@ -31,4 +31,15 @@ class EndPointTests: XCTestCase {
         let s = j.rawString(options: [JSONSerialization.WritingOptions.sortedKeys])
         print("-------------", s)
     }
+
+    func testAaa() {
+        let j = """
+        {
+            "a": 3
+            "b": { "c": 4 }
+        }
+        """
+        let ee = EndPointEntity(context: getPersistentContainer().viewContext)
+        ee.data = j.data(using: .utf8)
+    }
 }
