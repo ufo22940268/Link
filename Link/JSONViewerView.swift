@@ -20,7 +20,6 @@ struct JSONViewerView: View {
     }
 
     @State var showingEdit = false
-    let apiEditData = ApiEditData()
 
     var editButton: some View {
         Button(action: {
@@ -28,8 +27,7 @@ struct JSONViewerView: View {
         }) {
             Text("编辑")
         }.sheet(isPresented: $showingEdit, content: {
-            EndPointEditView(endPointId: self.endPoint.objectID,
-                             apiEditData: self.apiEditData)
+            EndPointEditView(endPointId: self.endPoint.objectID)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.dataSource)
                 .environmentObject(self.domainData)
@@ -38,14 +36,14 @@ struct JSONViewerView: View {
 
     var healthyPaths: [String] {
         if let apis = endPoint.api?.allObjects as? [ApiEntity] {
-            return apis.filter { $0.watch && $0.healthyStatus! == .healthy } .map { $0.paths! }
+            return apis.filter { $0.watch && $0.healthyStatus! == .healthy }.map { $0.paths! }
         }
         return []
     }
-    
+
     var errorPaths: [String] {
         if let apis = endPoint.api?.allObjects as? [ApiEntity] {
-            return apis.filter { $0.watch && $0.healthyStatus! == .error } .map { $0.paths! }
+            return apis.filter { $0.watch && $0.healthyStatus! == .error }.map { $0.paths! }
         }
         return []
     }

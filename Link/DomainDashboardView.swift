@@ -15,7 +15,8 @@ struct DomainDashboardView: View {
     @EnvironmentObject var domainData: DomainData    
     
     var addEndPointButton: some View {
-        NavigationLink("添加监控", destination: EndPointEditView())
+//        NavigationLink("添加监控", destination: EndPointEditView())
+        EmptyView()
     }
     
     var body: some View {

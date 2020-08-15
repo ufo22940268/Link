@@ -71,7 +71,7 @@ struct EndPointEditView: View {
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
     @State var url: String = ""
-    @State var apiEditData = ApiEditData()
+    @State var apiEditData: ApiEditData = ApiEditData()
     @State var launched = false
 
     var doneButton: some View {
@@ -203,7 +203,7 @@ struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                EndPointEditView()
+                EndPointEditView(apiEditData: ApiEditData())
             }
         }
     }

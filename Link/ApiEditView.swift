@@ -45,7 +45,6 @@ struct ApiEditView: View {
     @ObservedObject var apiEditData: ApiEditData
     @Environment(\.endPointId) var endPointId
     @EnvironmentObject var domainData: DomainData
-    @State var d: ApiEditData = ApiEditData()
 
     var body: some View {
         Section(header: Text("接口")) {
