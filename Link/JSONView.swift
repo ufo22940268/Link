@@ -38,13 +38,15 @@ struct JSONView: View {
     var jsonData: JSON?
     var healthyPaths: [String]
     var errorPaths: [String]
+    var showColors: Bool
 
-    init(data: Data?, healthy paths: [String] = [], error errorPaths: [String] = []) {
+    init(data: Data?, healthy paths: [String] = [], error errorPaths: [String] = [], showColors: Bool = true) {
         if let data = data {
             jsonData = JSON(data)
         }
         healthyPaths = paths
         self.errorPaths = errorPaths
+        self.showColors = showColors
     }
 
     private func getIndexes(for texts: [String]) -> [Range<String.Index>] {
@@ -82,14 +84,19 @@ struct JSONView: View {
         ZStack {
             segments.reduce(Text(""), {
                 var text = Text($1.0)
-                    .foregroundColor($1.1.fontColor)
                     .font(Font.footnote)
+
                 if $1.1.bold {
                     text = text.bold()
+                }
+
+                if showColors {
+                    text = text.foregroundColor($1.1.fontColor)
                 }
                 return $0 + text
             })
         }
+        .animation(.easeIn)
     }
 }
 
@@ -98,6 +105,8 @@ struct JSONView_Previews: PreviewProvider {
         let d = """
         {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """.data(using: .utf8)!
-        return JSONView(data: d, healthy: ["b"], error: ["a", "aa"])
+        var v = JSONView(data: d, healthy: ["b"], error: ["a", "aa"], showColors: false)
+        v.showColors = true
+        return v
     }
 }
