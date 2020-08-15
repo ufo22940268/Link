@@ -36,16 +36,23 @@ struct JSONViewerView: View {
         })
     }
 
-    var highlightPaths: [String] {
+    var healthyPaths: [String] {
         if let apis = endPoint.api?.allObjects as? [ApiEntity] {
-            return apis.filter { $0.watch && $0.paths != nil } .map { $0.paths! }
+            return apis.filter { $0.watch && $0.healthyStatus! == .healthy } .map { $0.paths! }
+        }
+        return []
+    }
+    
+    var errorPaths: [String] {
+        if let apis = endPoint.api?.allObjects as? [ApiEntity] {
+            return apis.filter { $0.watch && $0.healthyStatus! == .error } .map { $0.paths! }
         }
         return []
     }
 
     var body: some View {
         ScrollView {
-            JSONView(data: endPoint.data, healthy: highlightPaths).padding()
+            JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths).padding()
         }
         .navigationBarTitle(Text("请求结果"), displayMode: .inline)
         .navigationBarItems(trailing: editButton)

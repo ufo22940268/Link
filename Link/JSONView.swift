@@ -18,7 +18,7 @@ enum LineType {
         case .healthy:
             return .accentColor
         case .error:
-            return .orange
+            return .red
         case .normal:
             return nil
         }

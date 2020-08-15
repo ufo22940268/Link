@@ -23,6 +23,16 @@ extension ApiEntity: Identifiable {
     public var id: String {
         self.objectID.uriRepresentation().absoluteString
     }
+
+    var healthyStatus: HealthStatus? {
+        guard let watchValue = self.watchValue, self.watch else { return nil }
+        
+        if watchValue == value {
+            return .healthy
+        } else {
+            return .error
+        }
+    }
 }
 
 
