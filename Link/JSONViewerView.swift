@@ -9,14 +9,23 @@
 import CoreData
 import SwiftUI
 
+class JSONViewerData: ObservableObject {
+    @Published var endPoint: EndPointEntity = EndPointEntity()
+    
+    init(endPoint: EndPointEntity) {
+        self.endPoint = endPoint
+    }
+}
+
 struct JSONViewerView: View {
-    @EnvironmentObject var domainData: DomainData
     @EnvironmentObject var dataSource: DataSource
     @Environment(\.endPointId) var endPointId: NSManagedObjectID?
     @Environment(\.managedObjectContext) var context
 
+    @ObservedObject var modelData: JSONViewerData
+
     var endPoint: EndPointEntity {
-        domainData.findEndPointEntity(by: endPointId!)!
+        modelData.endPoint
     }
 
     @State var showingEdit = false
@@ -56,8 +65,10 @@ struct JSONViewerView: View {
     }
 
     var body: some View {
-        ScrollView {
-            JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths).padding()
+        VStack {
+            ScrollView {
+                JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths).padding()
+            }
         }
         .navigationBarTitle(Text(lastPartOfPath))
         .navigationBarItems(trailing: editButton)
@@ -76,6 +87,7 @@ struct JSONViewerView_Previews: PreviewProvider {
         let ae = ApiEntity()
         ae.paths = "b.c"
         ee.api?.adding(ae)
-        return JSONViewerView().environmentObject(EndPointData(endPoint: ee))
+//        return JSONViewerView().environmentObject(EndPointData(endPoint: ee))
+        return EmptyView()
     }
 }

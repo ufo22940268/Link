@@ -23,7 +23,7 @@ private struct EndPointRow: View {
     @EnvironmentObject var domainData: DomainData
 
     var body: some View {
-        NavigationLink(destination: JSONViewerView()
+        NavigationLink(destination: JSONViewerView(modelData: JSONViewerData(endPoint: endPoint))
             .environment(\.endPointId, endPoint.objectID)
             .environmentObject(domainData)) {
             HStack {
