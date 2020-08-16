@@ -61,7 +61,7 @@ struct OnboardView: View {
 
         HealthChecker(domains: domainData.endPoints).checkHealth { domains in
             domainData.endPoints = domains
-            domainData.objectWillChange.send()
+            try? context.save()
         }
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in self.domainData.objectWillChange.send() }, receiveValue: { _ in })

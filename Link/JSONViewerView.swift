@@ -65,9 +65,11 @@ struct JSONViewerView: View {
     var body: some View {
         VStack {
             ScrollView {
-                JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths).padding()
+                JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
+                    .padding()
             }
         }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .navigationBarTitle(Text(lastPartOfPath))
         .navigationBarItems(trailing: editButton)
     }
@@ -83,7 +85,9 @@ struct JSONViewerView_Previews: PreviewProvider {
         let ae = ApiEntity(context: context)
         ae.paths = "b.c"
         ee.api?.adding(ae)
-        return JSONViewerView(modelData: JSONViewerData(endPoint: ee))
-            .environment(\.managedObjectContext, context)
+        return NavigationView {
+            JSONViewerView(modelData: JSONViewerData(endPoint: ee))
+                .environment(\.managedObjectContext, context)
+        }.environment(\.colorScheme, .dark)
     }
 }
