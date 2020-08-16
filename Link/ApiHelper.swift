@@ -32,18 +32,17 @@ typealias Path = [String]
 struct ApiHelper {
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
     func fetch(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
-        let cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: endPoint.url ?? "")!)
+        return URLSession(configuration: .ephemeral).dataTaskPublisher(for: URL(string: endPoint.url ?? "")!)
             .tryMap {
                 endPoint.data = $0.data
                 return try JSON(data: $0.data)
             }
             .map { self.convertToAPI(json: $0) }
             .map { self.convertToApiEntity(endPoint: endPoint, apis: $0) }
-           .tryCatch { _ in
+            .tryCatch { _ in
                 Just([])
             }
             .eraseToAnyPublisher()
-        return cancellable
     }
 
     func test(url: String) -> AnyPublisher<ValidateURLResult, Never> {
@@ -80,7 +79,6 @@ struct ApiHelper {
         return r
     }
 
-    // TODO: Shouldn't update entity in db when test end point.
     func convertToApiEntity(endPoint: EndPointEntity, apis: [Api]) -> [ApiEntity] {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["endPoint": endPoint.objectID])
         var apiEntities: [ApiEntity] = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
@@ -97,7 +95,7 @@ struct ApiHelper {
             }
         }
         try? persistentContainer.viewContext.save()
-        
+
         return apiEntities.sorted { $0.paths ?? "" < $1.paths ?? "" }
     }
 

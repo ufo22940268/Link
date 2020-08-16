@@ -15,7 +15,6 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
-        
 
     var body: some View {
         TabView(selection: $selection) {
@@ -64,7 +63,9 @@ struct OnboardView: View {
             try? context.save()
         }
         .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { _ in self.domainData.objectWillChange.send() }, receiveValue: { _ in })
+        .sink(receiveCompletion: { _ in
+            self.domainData.objectWillChange.send()
+        }, receiveValue: { _ in })
         .store(in: &cancellables)
     }
 }

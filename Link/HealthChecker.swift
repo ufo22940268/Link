@@ -16,20 +16,21 @@ struct HealthChecker {
 
     func checkHealth(_ result: ([EndPointEntity]) -> Void) -> AnyPublisher<Void, Error> {
         let pubs = domains.map { checkUrl(for: $0) }
-        return Publishers.MergeMany(pubs).map { _ in }.eraseToAnyPublisher()
+        return Publishers.MergeMany(pubs).collect().map { _ in }.eraseToAnyPublisher()
     }
 
-    func checkUrl(for domain: EndPointEntity) -> AnyPublisher<Void, Error> {
-        return ApiHelper().fetch(endPoint: domain)
+    func checkUrl(for endpoint: EndPointEntity) -> AnyPublisher<Void, Error> {
+        return ApiHelper()
+            .fetch(endPoint: endpoint)
             .filter({ apis in
                 apis.contains(where: { $0.watch && $0.value != $0.watchValue })
             })
             .collect()
             .map({ errorApis in
                 if errorApis.count > 0 {
-                    domain.status = HealthStatus.error.rawValue
+                    endpoint.status = HealthStatus.error.rawValue
                 } else {
-                    domain.status = HealthStatus.healthy.rawValue
+                    endpoint.status = HealthStatus.healthy.rawValue
                 }
             })
             .eraseToAnyPublisher()
