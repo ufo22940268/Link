@@ -33,13 +33,13 @@ class EndPointTests: XCTestCase {
     }
 
     func testAaa() {
-        let j = """
-        {
-            "a": 3
-            "b": { "c": 4 }
-        }
-        """
-        let ee = EndPointEntity(context: getPersistentContainer().viewContext)
-        ee.data = j.data(using: .utf8)
+        let context = getPersistentContainer().viewContext
+        let domain = DomainEntity(context: context)
+        domain.name = "dfef"
+        domain.endPoints = []
+        let d = EndPointEntity(context: context)
+        d.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+        d.domain = domain
+        try? context.save()
     }
 }

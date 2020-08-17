@@ -7,18 +7,16 @@
 //
 
 import SwiftUI
-
-
+import CoreData
 
 struct DomainDashboardView: View {
+    @EnvironmentObject var domainData: DomainData
 
-    @EnvironmentObject var domainData: DomainData    
-    
     var addEndPointButton: some View {
 //        NavigationLink("添加监控", destination: EndPointEditView())
         EmptyView()
     }
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -30,7 +28,6 @@ struct DomainDashboardView: View {
             }
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(trailing: addEndPointButton)
-
         }
         .background(Color(UIColor.systemBackground))
         .font(.body)
@@ -39,12 +36,12 @@ struct DomainDashboardView: View {
 
 struct DomainDashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        let d = EndPointEntity(context: context)
-        d.url = "http://wewef.com/ff/aajjk"
         let dd = DomainData()
-        dd.endPoints = [d]
+        dd.endPoints = try! context.fetch(EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>)
         return Group {
             DomainDashboardView().colorScheme(.light)
-        }.environmentObject(dd)
+        }
+        .environment(\.managedObjectContext, context)
+        .environmentObject(dd)
     }
-} 
+}

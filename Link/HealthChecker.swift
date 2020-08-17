@@ -14,7 +14,7 @@ var c: Cancellable?
 struct HealthChecker {
     var domains: [EndPointEntity]
 
-    func checkHealth(_ result: ([EndPointEntity]) -> Void) -> AnyPublisher<Void, Error> {
+    func checkHealth() -> AnyPublisher<Void, Error> {
         let pubs = domains.map { checkUrl(for: $0) }
         return Publishers.MergeMany(pubs).collect().map { _ in }.eraseToAnyPublisher()
     }
