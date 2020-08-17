@@ -36,7 +36,8 @@ struct JSONViewerView: View {
             self.showingEdit = true
         }) {
             Text("编辑")
-        }.sheet(isPresented: $showingEdit, content: {
+        }
+        .sheet(isPresented: $showingEdit, content: {
             EndPointEditView(endPointId: self.endPoint.objectID)
                 .environment(\.managedObjectContext, self.context)
                 .environmentObject(self.dataSource)
@@ -69,7 +70,13 @@ struct JSONViewerView: View {
         Form {
             if endPoint.apis.count > 0 {
                 Section(header: Text("监控字段")) {
-                    Text("asdfasdf")
+                    ForEach(endPoint.apis) { api in
+                        HStack {
+                            Text(api.paths ?? "")
+                            Spacer()
+                            Text("value").foregroundColor(.gray)
+                        }
+                    }
                 }
             }
             Section(header: Text("返回结果")) {
