@@ -26,13 +26,14 @@ struct HealthChecker {
                 apis.contains(where: { $0.watch && $0.value != $0.watchValue })
             })
             .collect()
-            .map({ errorApis in
-                if errorApis.count > 0 {
-                    endpoint.status = HealthStatus.error.rawValue
-                } else {
-                    endpoint.status = HealthStatus.healthy.rawValue
-                }
-            })
+//            .map({ errorApis in
+//                if errorApis.count > 0 {
+//                    endpoint.status = HealthStatus.error.rawValue
+//                } else {
+//                    endpoint.status = HealthStatus.healthy.rawValue
+//                }
+//            })
+            .map { _ in }
             .eraseToAnyPublisher()
     }
 }

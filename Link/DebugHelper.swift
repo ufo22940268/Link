@@ -24,7 +24,6 @@ class DebugHelper {
         
         let d = DomainEntity(context: context)
         d.name = "d"
-        d.status = HealthStatus.error.rawValue
 
         let p = EndPointEntity(context: context)
         p.url = "http://biubiubiu.hopto.org:9000/link/github.json"

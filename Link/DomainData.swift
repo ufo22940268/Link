@@ -17,11 +17,11 @@ final class DomainData: ObservableObject {
     var onApiWatchChanged = PassthroughSubject<Void, Never>()
 
     func healthyCount() -> Int {
-        return endPoints.filter { $0.status == HealthStatus.healthy.rawValue }.count
+        return endPoints.filter { $0.status == HealthStatus.healthy }.count
     }
 
     func errorCount() -> Int {
-        return endPoints.filter { $0.status == HealthStatus.error.rawValue }.count
+        return endPoints.filter { $0.status == HealthStatus.error }.count
     }
 
     func findEndPointEntity(by id: NSManagedObjectID) -> EndPointEntity? {

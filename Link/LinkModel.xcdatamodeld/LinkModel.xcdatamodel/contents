@@ -9,12 +9,10 @@
     </entity>
     <entity name="DomainEntity" representedClassName=".DomainEntity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="status" optional="YES" attributeType="String"/>
         <relationship name="endPoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EndPointEntity" inverseName="domain" inverseEntity="EndPointEntity"/>
     </entity>
     <entity name="EndPointEntity" representedClassName=".EndPointEntity" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
-        <attribute name="status" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <relationship name="api" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ApiEntity" inverseName="endPoint" inverseEntity="ApiEntity"/>
         <relationship name="domain" maxCount="1" deletionRule="Nullify" destinationEntity="DomainEntity" inverseName="endPoints" inverseEntity="DomainEntity"/>
@@ -22,7 +20,7 @@
     <fetchRequest name="FetchApiByDomain" entity="ApiEntity" predicateString="endPoint == $endPoint"/>
     <elements>
         <element name="ApiEntity" positionX="-36" positionY="27" width="128" height="28"/>
-        <element name="DomainEntity" positionX="43.05859375" positionY="286.96875" width="128" height="28"/>
-        <element name="EndPointEntity" positionX="520.20703125" positionY="71.5234375" width="128" height="118"/>
+        <element name="DomainEntity" positionX="43.05859375" positionY="286.96875" width="128" height="73"/>
+        <element name="EndPointEntity" positionX="520.20703125" positionY="71.5234375" width="128" height="103"/>
     </elements>
 </model>

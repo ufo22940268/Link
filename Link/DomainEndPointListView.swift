@@ -11,6 +11,7 @@ import SwiftUI
 enum HealthStatus: String, RawRepresentable {
     case healthy
     case error
+    case other
 }
 
 struct EndPointStatus: Hashable {
@@ -29,7 +30,7 @@ private struct EndPointRow: View {
             HStack {
                 Text(endPoint.endPointPath).lineLimit(1)
                 Spacer()
-                if endPoint.status == HealthStatus.error.rawValue {
+                if endPoint.status == HealthStatus.error {
                     Image(systemName: "cloud.rain")
                 }
             }
@@ -71,10 +72,8 @@ struct DomainEndPointListView_Previews: PreviewProvider {
     static var previews: some View {
         let de = EndPointEntity(context: context)
         de.url = "https://ewfwef.com/fwef/wefwessff"
-        de.status = "healthy"
         let de2 = EndPointEntity(context: context)
         de2.url = "https://ewfwef.com/fwef/22222"
-        de2.status = "error"
         return DomainEndPointListView()
             .environment(\.managedObjectContext, getPersistentContainer().viewContext)
     }

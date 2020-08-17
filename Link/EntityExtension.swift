@@ -17,6 +17,23 @@ extension EndPointEntity: Identifiable {
     var endPointPath: String {
         return URLHelper.extractEndPointPath(url: url ?? "")
     }
+    
+    var status: HealthStatus {
+        if let apis = api?.allObjects as? [ApiEntity] {
+            if apis.allSatisfy({ $0.watch == false }) {
+                return .other
+            }
+            
+            let errorApis = apis.filter{ $0.watch && $0.value != $0.watchValue }
+            if errorApis.count > 0 {
+                return .error
+            } else {
+                return .healthy
+            }
+        }
+        
+        return .other
+    }
 }
 
 extension ApiEntity: Identifiable {
