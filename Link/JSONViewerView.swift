@@ -79,9 +79,9 @@ struct JSONViewerView: View {
             }
             Section(header: Text("返回结果")) {
                 ScrollView {
-                    JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)                        
+                    JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
             }
         }
         .navigationBarTitle(Text(lastPartOfPath))
