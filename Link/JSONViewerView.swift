@@ -71,15 +71,9 @@ struct JSONViewerView: View {
             if endPoint.apis.count > 0 {
                 Section(header: Text("报警")) {
                     ForEach(endPoint.apis) { api in
-                        HStack {
+                        NavigationLink(destination: EmptyView(), label: {
                             Text(api.paths ?? "")
-                            Spacer()
-                            VStack(alignment: .leading) {
-                                Text(api.value ?? "").foregroundColor(.red)
-                                Text("预设: \(api.watchValue ?? "")")
-                                    .foregroundColor(.gray).font(.footnote)
-                            }
-                        }
+                        })
                     }
                 }
             }
@@ -107,7 +101,7 @@ struct JSONViewerView_Previews: PreviewProvider {
 
         let ae = ApiEntity(context: context)
         ae.paths = "aa"
-        ae.value = "123wef"
+        ae.value = "3"
         ae.watch = true
         ae.watchValue = "4"
         ae.endPoint = ee
