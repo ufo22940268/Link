@@ -66,12 +66,21 @@ struct JSONViewerView: View {
         return []
     }
 
+    func getApiBinding(api: ApiEntity) -> Binding<ApiEntity> {
+        Binding(get: {
+            self.endPoint.apis.filter { $0.id == api.id }.first!
+        }) { na in
+            self.endPoint.api?.adding(na)
+            self.modelData.objectWillChange.send()
+        }
+    }
+
     var body: some View {
         Form {
             if endPoint.apis.count > 0 {
                 Section(header: Text("报警")) {
-                    ForEach(endPoint.apis) { api in
-                        NavigationLink(destination: ApiDetailView(api: Binding.constant(api)), label: {
+                    ForEach(endPoint.apis.filter { $0.watch }) { api in
+                        NavigationLink(destination: ApiDetailView(api: self.getApiBinding(api: api)), label: {
                             Text(api.paths ?? "")
                         })
                     }

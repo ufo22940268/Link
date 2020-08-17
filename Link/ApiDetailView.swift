@@ -20,10 +20,6 @@ struct ApiDetailView: View {
 
     var body: some View {
         List {
-            Section {
-                Toggle("开启", isOn: $isOn)
-            }
-            
             Section(header: Text("Key")) {
                 Text(api.paths ?? "")
             }
@@ -38,13 +34,17 @@ struct ApiDetailView: View {
                     Text(api.watchValue ?? "")
                 }
             }
-         }
+            
+            Section(header: Text("操作")) {
+                Toggle("开启", isOn: $isOn)
+            }
+        }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段"), displayMode: .inline)
     }
 }
 
-struct ApiDetailEditView_Previews: PreviewProvider {
+struct ApiDetailView_Previews: PreviewProvider {
     static var previews: some View {
         PreviewWrapper()
     }
