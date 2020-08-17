@@ -34,6 +34,14 @@ extension EndPointEntity: Identifiable {
         
         return .other
     }
+    
+    var apis: [ApiEntity] {
+        guard let apis = api?.allObjects as? [ApiEntity] else {
+            return []
+        }
+
+        return apis
+    }
 }
 
 extension ApiEntity: Identifiable {

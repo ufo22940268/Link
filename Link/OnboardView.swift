@@ -29,7 +29,9 @@ struct OnboardView: View {
                 .tag(0)
                 .environmentObject(self.domainData)
                 .onAppear {
-                    self.loadDomains()
+                    if !DebugHelper.isPreview {
+                        self.loadDomains()
+                    }
                 }
                 .onReceive(domainData.onAddedDomain) { () in
                     self.loadDomains()
@@ -61,7 +63,7 @@ struct OnboardView: View {
         HealthChecker(domains: domainData.endPoints)
             .checkHealth()
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in                
+            .sink(receiveCompletion: { _ in
                 self.domainData.objectWillChange.send()
             }, receiveValue: { _ in })
             .store(in: &cancellables)

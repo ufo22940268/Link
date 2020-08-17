@@ -18,7 +18,10 @@ class JSONViewerData: ObservableObject {
 }
 
 struct JSONViewerView: View {
-    @EnvironmentObject var dataSource: DataSource
+    var dataSource: DataSource {
+        return DataSource(context: context)
+    }
+
     @Environment(\.managedObjectContext) var context
     @ObservedObject var modelData: JSONViewerData
 
@@ -63,13 +66,20 @@ struct JSONViewerView: View {
     }
 
     var body: some View {
-        VStack {
-            ScrollView {
-                JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
-                    .padding()
+        Form {
+            if endPoint.apis.count > 0 {
+                Section(header: Text("监控字段")) {
+                    Text("asdfasdf")
+                }
+            }
+            Section(header: Text("返回结果")) {
+                ScrollView {
+                    JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
+                        .padding()
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             }
         }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .navigationBarTitle(Text(lastPartOfPath))
         .navigationBarItems(trailing: editButton)
     }
@@ -77,14 +87,21 @@ struct JSONViewerView: View {
 
 struct JSONViewerView_Previews: PreviewProvider {
     static var previews: some View {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let j = """
         {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """
         let ee = EndPointEntity(context: context)
         ee.data = j.data(using: .utf8)
+        
         let ae = ApiEntity(context: context)
-        ae.paths = "b.c"
-        ee.api?.adding(ae)
+        ae.paths = "aa"
+        ae.watch = true
+        ae.watchValue = "4"
+        ae.endPoint = ee
+
+        ee.api = NSSet(objects: ae)
+//        ee.api?.adding(ae)
         return NavigationView {
             JSONViewerView(modelData: JSONViewerData(endPoint: ee))
                 .environment(\.managedObjectContext, context)
