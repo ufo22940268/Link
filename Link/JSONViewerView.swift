@@ -69,12 +69,16 @@ struct JSONViewerView: View {
     var body: some View {
         Form {
             if endPoint.apis.count > 0 {
-                Section(header: Text("监控字段")) {
+                Section(header: Text("报警")) {
                     ForEach(endPoint.apis) { api in
                         HStack {
                             Text(api.paths ?? "")
                             Spacer()
-                            Text("value").foregroundColor(.gray)
+                            VStack(alignment: .leading) {
+                                Text(api.value ?? "").foregroundColor(.red)
+                                Text("预设: \(api.watchValue ?? "")")
+                                    .foregroundColor(.gray).font(.footnote)
+                            }
                         }
                     }
                 }
@@ -100,15 +104,15 @@ struct JSONViewerView_Previews: PreviewProvider {
         """
         let ee = EndPointEntity(context: context)
         ee.data = j.data(using: .utf8)
-        
+
         let ae = ApiEntity(context: context)
         ae.paths = "aa"
+        ae.value = "123wef"
         ae.watch = true
         ae.watchValue = "4"
         ae.endPoint = ee
 
         ee.api = NSSet(objects: ae)
-//        ee.api?.adding(ae)
         return NavigationView {
             JSONViewerView(modelData: JSONViewerData(endPoint: ee))
                 .environment(\.managedObjectContext, context)
