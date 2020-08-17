@@ -75,17 +75,24 @@ struct JSONViewerView: View {
         }
     }
 
+    var errorApis: [ApiEntity] {
+        endPoint.apis.filter { $0.watch && !$0.match }
+    }
+
+    var healthyApis: [ApiEntity] {
+        endPoint.apis.filter { $0.watch && $0.match }
+    }
+
     var body: some View {
         Form {
-            if endPoint.apis.count > 0 {
-                Section(header: Text("报警")) {
-                    ForEach(endPoint.apis.filter { $0.watch }) { api in
-                        NavigationLink(destination: ApiDetailView(api: self.getApiBinding(api: api)), label: {
-                            Text(api.paths ?? "")
-                        })
-                    }
-                }
+            if errorApis.count > 0 {
+                ApiSection(apis: errorApis, title: "报警")
             }
+
+            if healthyApis.count > 0 {
+                ApiSection(apis: healthyApis, title: "正常")
+            }
+
             Section(header: Text("返回结果")) {
                 ScrollView {
                     JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
@@ -105,6 +112,7 @@ struct JSONViewerView_Previews: PreviewProvider {
         {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """
         let ee = EndPointEntity(context: context)
+        ee.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         ee.data = j.data(using: .utf8)
 
         let ae = ApiEntity(context: context)
@@ -114,10 +122,32 @@ struct JSONViewerView_Previews: PreviewProvider {
         ae.watchValue = "4"
         ae.endPoint = ee
 
-        ee.api = NSSet(objects: ae)
+        let ae2 = ApiEntity(context: context)
+        ae2.paths = "d"
+        ae2.value = "4"
+        ae2.watch = true
+        ae2.watchValue = "4"
+        ae2.endPoint = ee
+
+        ee.api = NSSet(array: [ae, ae2])
         return NavigationView {
             JSONViewerView(modelData: JSONViewerData(endPoint: ee))
                 .environment(\.managedObjectContext, context)
         }.environment(\.colorScheme, .dark)
+    }
+}
+
+private struct ApiSection: View {
+    var apis: [ApiEntity]
+    var title: String
+
+    var body: some View {
+        Section(header: Text(title)) {
+            ForEach(self.apis) { api in
+                NavigationLink(destination: ApiDetailView(api: api), label: {
+                    Text(api.paths ?? "")
+                })
+            }
+        }
     }
 }

@@ -9,14 +9,8 @@
 import SwiftUI
 
 struct ApiDetailView: View {
-    @Binding var api: ApiEntity
-    @Binding var isOn: Bool
+    var api: ApiEntity
     @Environment(\.managedObjectContext) var context
-
-    init(api: Binding<ApiEntity>) {
-        _api = api
-        _isOn = api.watch
-    }
 
     var body: some View {
         List {
@@ -33,10 +27,6 @@ struct ApiDetailView: View {
                 Section(header: Text("参考值")) {
                     Text(api.watchValue ?? "")
                 }
-            }
-            
-            Section(header: Text("操作")) {
-                Toggle("开启", isOn: $isOn)
             }
         }
         .listStyle(GroupedListStyle())
@@ -56,7 +46,7 @@ struct ApiDetailView_Previews: PreviewProvider {
             api.paths = "asaa"
             api.value = "vvv"
             api.watchValue = "wefwef"
-            return ApiDetailView(api: $api).environment(\.colorScheme, .dark)
+            return ApiDetailView(api: api).environment(\.colorScheme, .dark)
         }
     }
 }

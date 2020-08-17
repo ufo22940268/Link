@@ -39,7 +39,7 @@ extension EndPointEntity: Identifiable {
             return []
         }
 
-        return apis
+        return apis.sorted { $0.paths ?? "" < $1.paths ?? "" }
     }
 }
 
