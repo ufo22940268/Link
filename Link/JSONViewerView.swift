@@ -71,7 +71,7 @@ struct JSONViewerView: View {
             if endPoint.apis.count > 0 {
                 Section(header: Text("报警")) {
                     ForEach(endPoint.apis) { api in
-                        NavigationLink(destination: EmptyView(), label: {
+                        NavigationLink(destination: ApiDetailView(api: Binding.constant(api)), label: {
                             Text(api.paths ?? "")
                         })
                     }

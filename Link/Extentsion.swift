@@ -7,8 +7,7 @@
 //
 
 import CoreData
-import  SwiftUI
-
+import SwiftUI
 
 extension PreviewProvider {
     static var context: NSManagedObjectContext {
@@ -18,18 +17,22 @@ extension PreviewProvider {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
-        
+
         return container.viewContext
     }
 }
 
 extension String {
     subscript(_ range: NSRange) -> String {
-        let start = self.index(self.startIndex, offsetBy: range.lowerBound)
-        let end = self.index(self.startIndex, offsetBy: range.upperBound)
-        let subString = self[start..<end]
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(startIndex, offsetBy: range.upperBound)
+        let subString = self[start ..< end]
         return String(subString)
     }
+}
+
+extension Color {
+    static let error = Color.red
 }
 
 struct EndPointEntityKey: EnvironmentKey {
@@ -42,7 +45,7 @@ extension EnvironmentValues {
         get {
             self[EndPointEntityKey.self]
         }
-        
+
         set {
             self[EndPointEntityKey.self] = newValue
         }
@@ -51,7 +54,7 @@ extension EnvironmentValues {
 
 extension URLResponse {
     var ok: Bool {
-        if let res = self as? HTTPURLResponse, (200...299).contains(res.statusCode) {
+        if let res = self as? HTTPURLResponse, (200 ... 299).contains(res.statusCode) {
             return true
         } else {
             return false
@@ -60,5 +63,3 @@ extension URLResponse {
 }
 
 extension String: Error {}
-
-
