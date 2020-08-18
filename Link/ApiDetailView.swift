@@ -12,6 +12,7 @@ struct ApiDetailView: View {
     var api: ApiEntity
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
+    @Environment(\.presentationMode) var presentationMode
 
     var actionView: some View {
         if api.watch {
@@ -22,11 +23,13 @@ struct ApiDetailView: View {
                 .alert(isPresented: $showingAlert, content: {
                     Alert(title: Text("确定取消监控吗?"), message: nil, primaryButton: .default(Text("确定"), action: {
                         self.api.watch = false
+                        self.presentationMode.wrappedValue.dismiss()
                     }), secondaryButton: .cancel())
                 }))
         } else {
             return AnyView(Button("加入监控", action: {
                 self.api.watch = true
+                self.presentationMode.wrappedValue.dismiss()
             }).foregroundColor(.accentColor))
         }
     }
