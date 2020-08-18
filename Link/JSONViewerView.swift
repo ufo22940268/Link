@@ -66,15 +66,6 @@ struct JSONViewerView: View {
         return []
     }
 
-    func getApiBinding(api: ApiEntity) -> Binding<ApiEntity> {
-        Binding(get: {
-            self.endPoint.apis.filter { $0.id == api.id }.first!
-        }) { na in
-            self.endPoint.api?.adding(na)
-            self.modelData.objectWillChange.send()
-        }
-    }
-
     var errorApis: [ApiEntity] {
         endPoint.apis.filter { $0.watch && !$0.match }
     }
@@ -82,19 +73,19 @@ struct JSONViewerView: View {
     var healthyApis: [ApiEntity] {
         endPoint.apis.filter { $0.watch && $0.match }
     }
-    
+
     func onEditComplete() {
-        self.modelData.objectWillChange.send()
+        modelData.objectWillChange.send()
     }
 
     var body: some View {
         List {
             if errorApis.count > 0 {
-                ApiSection(getBindingFunc: self.getApiBinding, onComplete: self.onEditComplete,  apis: errorApis, title: "报警")
+                ApiSection(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
             }
 
             if healthyApis.count > 0 {
-                ApiSection(getBindingFunc: self.getApiBinding, onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
+                ApiSection(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
             }
 
             Section(header: Text("返回结果")) {
@@ -143,7 +134,6 @@ struct JSONViewerView_Previews: PreviewProvider {
 }
 
 private struct ApiSection: View {
-    var getBindingFunc: (ApiEntity) -> Binding<ApiEntity>
     var onComplete: () -> Void
     var apis: [ApiEntity]
     var title: String
@@ -151,7 +141,7 @@ private struct ApiSection: View {
     var body: some View {
         Section(header: Text(title)) {
             ForEach(self.apis) { api in
-                NavigationLink(destination: ApiDetailView(api: self.getBindingFunc(api), onComplete: self.onComplete), label: {
+                NavigationLink(destination: ApiDetailView(api: Binding.constant(api), onComplete: self.onComplete), label: {
                     Text(api.paths ?? "")
                 })
             }

@@ -24,7 +24,6 @@ struct ApiDetailView: View {
                 .alert(isPresented: $showingAlert, content: {
                     Alert(title: Text("确定取消监控吗?"), message: nil, primaryButton: .default(Text("确定"), action: {
                         self.api.watch = false
-                        self.onComplete?()
                         self.presentationMode.wrappedValue.dismiss()
                     }), secondaryButton: .cancel())
                 }))
