@@ -29,7 +29,7 @@ struct ApiEditListItemView: View {
     }
 
     var body: some View {
-        NavigationLink(destination: ApiDetailView(api: api)) {
+        NavigationLink(destination: ApiDetailView(api: $api)) {
             innerBody
         }
     }
