@@ -11,9 +11,30 @@ import SwiftUI
 struct ApiDetailView: View {
     var api: ApiEntity
     @Environment(\.managedObjectContext) var context
+    @State private var showingAlert = false
+
+    var actionView: some View {
+        if api.watch {
+            return AnyView(Button("忽略监控", action: {
+                self.showingAlert = true
+            })
+                .foregroundColor(.red)
+                .alert(isPresented: $showingAlert, content: {
+                    Alert(title: Text("确定取消监控吗?"), message: nil, primaryButton: .default(Text("确定"), action: {
+                        self.api.watch = false
+                    }), secondaryButton: .cancel())
+                }))
+        } else {
+            return AnyView(Button("加入监控", action: {
+                self.api.watch = true
+            }).foregroundColor(.accentColor))
+        }
+    }
 
     var body: some View {
         List {
+            actionView
+
             Section(header: Text("Key")) {
                 Text(api.paths ?? "")
             }

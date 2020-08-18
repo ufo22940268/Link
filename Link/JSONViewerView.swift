@@ -84,7 +84,7 @@ struct JSONViewerView: View {
     }
 
     var body: some View {
-        Form {
+        List {
             if errorApis.count > 0 {
                 ApiSection(apis: errorApis, title: "报警")
             }
@@ -100,6 +100,7 @@ struct JSONViewerView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
             }
         }
+        .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(lastPartOfPath))
         .navigationBarItems(trailing: editButton)
     }

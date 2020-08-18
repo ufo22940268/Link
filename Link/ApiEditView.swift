@@ -54,8 +54,6 @@ struct ApiEditView: View {
                 }
             }
         }
-        .onAppear {
-        }
     }
 }
 
