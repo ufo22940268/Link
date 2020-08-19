@@ -20,10 +20,9 @@ struct DomainDashboardView: View {
     }
 
     var addEndPointButton: some View {
-        Button(action: {}) {
+        NavigationLink(destination: EndPointEditView(type: .add), label: {
             Image(systemName: "plus")
-        }
-//        NavigationLink("添加监控", destination: EndPointEditView())
+        })
     }
 
     var body: some View {

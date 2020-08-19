@@ -74,13 +74,20 @@ struct EndPointEditView: View {
     @State var apiEditData: ApiEditData = ApiEditData()
     @State var launched = false
 
+    var type: EditType
+
+    enum EditType {
+        case edit
+        case add
+    }
+
     var doneButton: some View {
         Button("完成") {
             try? self.context.save()
             self.presentationMode.wrappedValue.dismiss()
         }.disabled(!isFormValid)
     }
-    
+
     var cancelButton: some View {
         Button(action: {
             self.context.rollback()
@@ -89,7 +96,6 @@ struct EndPointEditView: View {
             Text("取消")
         })
     }
-
 
     var isFormValid: Bool {
         urlTestResult == .ok
@@ -160,41 +166,45 @@ struct EndPointEditView: View {
             self.changeURLSubject.send($0)
         })
 
-        return NavigationView {
-            Form {
-                Section(header: Text(""), footer: Text(urlTestResult.label)) {
-                    HStack {
-                        Text("域名地址")
-                        Spacer()
-                        TextField("https://example.com", text: urlBinding)
-                            .multilineTextAlignment(.trailing)
-                            .lineLimit(3)
-                            .textContentType(.URL)
-                            .keyboardType(.URL)
-                            .autocapitalization(.none)
-                    }
-                    HStack {
-                        Text("名字")
-                        Spacer()
-                        TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
-                    }
+        let form =  Form {
+            Section(header: Text(""), footer: Text(urlTestResult.label)) {
+                HStack {
+                    Text("域名地址")
+                    Spacer()
+                    TextField("https://example.com", text: urlBinding)
+                        .multilineTextAlignment(.trailing)
+                        .lineLimit(3)
+                        .textContentType(.URL)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
                 }
-                ApiEditView(apiEditData: self.apiEditData)
-                    .environment(\.endPointId, endPointId)
-                    .environmentObject(apiEditData)
+                HStack {
+                    Text("名字")
+                    Spacer()
+                    TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
+                }
             }
-            .navigationBarTitle("输入域名", displayMode: .inline)
-            .navigationBarItems(leading: cancelButton, trailing: doneButton)
-            .onAppear {
-                self.listenToURLChange()
+            ApiEditView(apiEditData: self.apiEditData)
+                .environment(\.endPointId, endPointId)
+                .environmentObject(apiEditData)
+        }
+        .navigationBarTitle("输入域名", displayMode: .inline)
+        .navigationBarItems(leading: cancelButton, trailing: doneButton)
+        .onAppear {
+            self.listenToURLChange()
 
-                if !self.launched {
-                    if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
-                        self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
-                        urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
-                    }
+            if !self.launched {
+                if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
+                    self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+                    urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                 }
             }
+        }
+
+        if .add  == type {
+            return AnyView(form.navigationBarItems(trailing: doneButton))
+        } else {
+            return AnyView(form.navigationBarItems(leading: cancelButton, trailing: doneButton))
         }
     }
 }
@@ -203,7 +213,7 @@ struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                EndPointEditView(apiEditData: ApiEditData())
+                EndPointEditView(apiEditData: ApiEditData(), type: .edit)
             }
         }
     }
