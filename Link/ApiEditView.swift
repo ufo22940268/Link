@@ -44,12 +44,12 @@ struct ApiEditView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: ApiEditData
     @EnvironmentObject var domainData: DomainData
-    @Binding var dismissPresentationMode: PresentationMode
-    
+    @Binding var dismissPresentationMode: PresentationMode?
+
     var doneButton: some View {
         Button("完成", action: {
             try? self.context.save()
-            self.dismissPresentationMode.dismiss()
+            self.dismissPresentationMode?.dismiss()
         })
     }
 
@@ -65,6 +65,6 @@ struct ApiEditView: View {
 
 struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyView()
+        ApiEditView(apiEditData: ApiEditData(), dismissPresentationMode: Binding.constant(nil))
     }
 }

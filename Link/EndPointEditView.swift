@@ -85,7 +85,7 @@ struct EndPointEditView: View {
     }
 
     var editView: some View {
-        ApiEditView(apiEditData: self.apiEditData, dismissPresentationMode: presentationMode)
+        ApiEditView(apiEditData: self.apiEditData,  dismissPresentationMode: Binding(presentationMode))
             .environmentObject(apiEditData)
     }
 
