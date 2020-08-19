@@ -13,7 +13,9 @@ struct DomainDashboardView: View {
     @EnvironmentObject var domainData: DomainData
 
     var refreshButton: some View {
-        Button(domainData.isLoading ? "刷新中" : "刷新", action: {})
+        Button(domainData.isLoading ? "刷新中" : "刷新", action: {
+            self.domainData.needReload.send()
+        })
             .disabled(domainData.isLoading)
     }
 
