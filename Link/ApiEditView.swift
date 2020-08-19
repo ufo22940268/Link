@@ -41,19 +41,25 @@ class ApiEditData: ObservableObject {
 
 struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
-    @Environment(\.managedObjectContext) var objectContext
+    @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: ApiEditData
-    @Environment(\.endPointId) var endPointId
     @EnvironmentObject var domainData: DomainData
+    @Binding var dismissPresentationMode: PresentationMode
+    
+    var doneButton: some View {
+        Button("完成", action: {
+            try? self.context.save()
+            self.dismissPresentationMode.dismiss()
+        })
+    }
 
     var body: some View {
-        Section(header: Text("接口")) {
-            Group {
-                ForEach(self.apiEditData.apis.indices, id: \.self) { i in
-                    ApiEditListItemView(api: self.$apiEditData.apis[i], selected: self.apiEditData.apis[i].watch)
-                }
+        List {
+            ForEach(self.apiEditData.apis.indices, id: \.self) { i in
+                ApiEditListItemView(api: self.$apiEditData.apis[i], selected: self.apiEditData.apis[i].watch)
             }
         }
+        .navigationBarItems(trailing: doneButton)
     }
 }
 

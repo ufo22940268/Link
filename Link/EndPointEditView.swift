@@ -61,7 +61,10 @@ class EndPointViewData: ObservableObject {
 
 struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
-    @EnvironmentObject var dataSource: DataSource
+
+    var dataSource: DataSource {
+        DataSource(context: context)
+    }
 
     @State var cancellables = [AnyCancellable]()
     @State var urlTestResult: ValidateURLResult = .pending
@@ -81,11 +84,15 @@ struct EndPointEditView: View {
         case add
     }
 
+    var editView: some View {
+        ApiEditView(apiEditData: self.apiEditData, dismissPresentationMode: presentationMode)
+            .environmentObject(apiEditData)
+    }
+
     var doneButton: some View {
-        Button("完成") {
-            try? self.context.save()
-            self.presentationMode.wrappedValue.dismiss()
-        }.disabled(!isFormValid)
+        NavigationLink(destination: editView, label: {
+            Text("下一步").disabled(!isFormValid)
+        })
     }
 
     var cancelButton: some View {
@@ -184,9 +191,6 @@ struct EndPointEditView: View {
                     TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
                 }
             }
-            ApiEditView(apiEditData: self.apiEditData)
-                .environment(\.endPointId, endPointId)
-                .environmentObject(apiEditData)
         }
         .navigationBarTitle("输入域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
