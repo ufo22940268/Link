@@ -166,7 +166,7 @@ struct EndPointEditView: View {
             self.changeURLSubject.send($0)
         })
 
-        let form =  Form {
+        let form = Form {
             Section(header: Text(""), footer: Text(urlTestResult.label)) {
                 HStack {
                     Text("域名地址")
@@ -201,7 +201,7 @@ struct EndPointEditView: View {
             }
         }
 
-        if .add  == type {
+        if .add == type {
             return AnyView(form.navigationBarItems(trailing: doneButton))
         } else {
             return AnyView(form.navigationBarItems(leading: cancelButton, trailing: doneButton))
@@ -211,10 +211,8 @@ struct EndPointEditView: View {
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            NavigationView {
-                EndPointEditView(apiEditData: ApiEditData(), type: .edit)
-            }
+        NavigationView {
+            EndPointEditView(apiEditData: ApiEditData(), type: .edit)
         }
     }
 }

@@ -24,6 +24,25 @@ struct DomainDashboardView: View {
             Image(systemName: "plus")
         })
     }
+    
+    func formatDate(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.dateStyle = .short
+        f.timeStyle = .short
+        return f.string(from: date)
+    }
+
+    var lastUpdateView: some View {
+        if let lastUpdate = domainData.lastUpdateTime {
+            return AnyView(VStack(alignment: .leading) {
+                Text("更新时间: \(self.formatDate(lastUpdate))").font(.footnote).foregroundColor(.gray)
+            }
+            .padding(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading))
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -32,6 +51,7 @@ struct DomainDashboardView: View {
                     DomainStatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
                     DomainStatisticsBlockView(status: .error(count: domainData.errorCount()))
                 }.padding()
+                lastUpdateView
                 DomainEndPointListView()
             }
             .navigationBarTitle(Text("概览"))
@@ -45,9 +65,10 @@ struct DomainDashboardView: View {
 struct DomainDashboardView_Previews: PreviewProvider {
     static var previews: some View {
         let dd = DomainData()
+        dd.lastUpdateTime = Date()
         dd.endPoints = try! context.fetch(EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>)
         return Group {
-            DomainDashboardView().colorScheme(.light)
+            DomainDashboardView().colorScheme(.dark)
         }
         .environment(\.managedObjectContext, context)
         .environmentObject(dd)

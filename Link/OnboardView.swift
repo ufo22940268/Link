@@ -18,7 +18,7 @@ struct OnboardView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            DomainDashboardView()
+            DomainDashboardView()                
                 .font(.title)
                 .tabItem {
                     VStack {
@@ -28,6 +28,7 @@ struct OnboardView: View {
                 }
                 .tag(0)
                 .environmentObject(self.domainData)
+
                 .onAppear {
                     if !DebugHelper.isPreview {
                         self.domainData.needReload.send()

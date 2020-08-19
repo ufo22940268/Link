@@ -13,6 +13,7 @@ import SwiftUI
 final class DomainData: ObservableObject {
     @Published var endPoints: [EndPointEntity] = []
     @Published var isLoading = false
+    @Published var lastUpdateTime: Date?
 
     var needReload = PassthroughSubject<Void, Never>()
 
