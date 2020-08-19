@@ -12,9 +12,9 @@ import SwiftUI
 
 final class DomainData: ObservableObject {
     @Published var endPoints: [EndPointEntity] = []
+    @Published var isLoading = false
 
-    var onAddedDomain = PassthroughSubject<Void, Never>()
-    var onApiWatchChanged = PassthroughSubject<Void, Never>()
+    var needReload = PassthroughSubject<Void, Never>()
 
     func healthyCount() -> Int {
         return endPoints.filter { $0.status == HealthStatus.healthy }.count

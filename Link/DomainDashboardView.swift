@@ -13,7 +13,8 @@ struct DomainDashboardView: View {
     @EnvironmentObject var domainData: DomainData
 
     var refreshButton: some View {
-        Button("刷新", action: {})
+        Button(domainData.isLoading ? "刷新中" : "刷新", action: {})
+            .disabled(domainData.isLoading)
     }
 
     var addEndPointButton: some View {

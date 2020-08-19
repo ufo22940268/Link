@@ -15,7 +15,7 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
-    
+
     var body: some View {
         TabView(selection: $selection) {
             DomainDashboardView()
@@ -30,13 +30,10 @@ struct OnboardView: View {
                 .environmentObject(self.domainData)
                 .onAppear {
                     if !DebugHelper.isPreview {
-                        self.loadDomains()
+                        self.domainData.needReload.send()
                     }
                 }
-                .onReceive(domainData.onAddedDomain) { () in
-                    self.loadDomains()
-                }
-                .onReceive(domainData.onApiWatchChanged) { () in
+                .onReceive(domainData.needReload) { () in
                     self.loadDomains()
                 }
             Text("Second View")
@@ -60,11 +57,13 @@ struct OnboardView: View {
             domainData = DomainData()
         }
 
+        domainData.isLoading = true
         HealthChecker(domains: domainData.endPoints)
             .checkHealth()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
                 self.domainData.objectWillChange.send()
+                self.domainData.isLoading = false
             }, receiveValue: { _ in })
             .store(in: &cancellables)
     }
