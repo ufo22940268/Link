@@ -6,15 +6,21 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct DomainDashboardView: View {
     @EnvironmentObject var domainData: DomainData
 
+    var refreshButton: some View {
+        Button("刷新", action: {})
+    }
+
     var addEndPointButton: some View {
+        Button(action: {}) {
+            Image(systemName: "plus")
+        }
 //        NavigationLink("添加监控", destination: EndPointEditView())
-        EmptyView()
     }
 
     var body: some View {
@@ -27,7 +33,7 @@ struct DomainDashboardView: View {
                 DomainEndPointListView()
             }
             .navigationBarTitle(Text("概览"))
-            .navigationBarItems(trailing: addEndPointButton)
+            .navigationBarItems(leading: refreshButton, trailing: addEndPointButton)
         }
         .background(Color(UIColor.systemBackground))
         .font(.body)

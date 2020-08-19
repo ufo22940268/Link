@@ -15,7 +15,7 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
-
+    
     var body: some View {
         TabView(selection: $selection) {
             DomainDashboardView()
@@ -70,11 +70,8 @@ struct OnboardView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct OnBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            OnboardView().colorScheme(.light)
-            OnboardView().colorScheme(.dark)
-        }
+        OnboardView().colorScheme(.dark)
     }
 }
