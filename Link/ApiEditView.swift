@@ -37,7 +37,6 @@ struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: ApiEditData
-    @EnvironmentObject var domainData: DomainData
     @Binding var dismissPresentationMode: PresentationMode?
     @State var segmentSelection = Segment.all.rawValue
 
