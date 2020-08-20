@@ -40,12 +40,18 @@ struct ApiEditView: View {
     @EnvironmentObject var domainData: DomainData
     @Binding var dismissPresentationMode: PresentationMode?
     @State var segmentSelection = Segment.all.rawValue
+    @State var selection: Set<ApiEntity> = Set<ApiEntity>()
+    @Environment(\.editMode) var editMode
 
     var doneButton: some View {
-        Button("完成", action: {
-            try? self.context.save()
-            self.dismissPresentationMode?.dismiss()
-        })
+        if let editMode = editMode, .active != editMode.wrappedValue {
+            return AnyView(Button("完成", action: {
+                try? self.context.save()
+                self.dismissPresentationMode?.dismiss()
+            }))
+        } else {
+            return AnyView(EmptyView())
+        }
     }
 
     var editButton: some View {
@@ -90,10 +96,8 @@ struct ApiEditView: View {
     var body: some View {
         VStack {
             categorySelectorView
-            List {
-                ForEach(self.categoryApis, id: \.self) { api in
-                    ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch)
-                }
+            List(self.categoryApis, id: \.self, selection: $selection) { api in
+                ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch)
             }
         }
         .navigationBarItems(leading: editButton, trailing: doneButton)
