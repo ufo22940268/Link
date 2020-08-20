@@ -29,6 +29,14 @@ extension String {
         let subString = self[start ..< end]
         return String(subString)
     }
+
+    var lastPropertyPath: String {
+        if let r = self.range(of: #"(?<=\.)[^\.]+?$"#, options: .regularExpression) {
+            return String(self[r])
+        } else {
+            return self
+        }
+    }
 }
 
 extension Color {

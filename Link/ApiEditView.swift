@@ -19,14 +19,13 @@ struct ApiEditListItemView: View {
         mode != nil && mode!.wrappedValue.isEditing
     }
 
-    var innerBody: some View {
-        Text(api.paths ?? "")
-    }
-
     var body: some View {
         NavigationLink(destination: ApiDetailView(api: $api)) {
-            innerBody
-        }
+            VStack(alignment: .leading) {
+                Text((api.paths ?? "").lastPropertyPath).bold()
+                Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
+            }
+        }.isDetailLink(true)
     }
 }
 
@@ -101,10 +100,12 @@ struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
         let d = ApiEditData()
         let a = ApiEntity(context: context)
-        a.paths = "wefwef"
+        a.paths = "aa.bnb.cc.wefwef"
+        a.value = "CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity'"
         a.watch = true
         let a2 = ApiEntity(context: context)
         a2.paths = "wefwef2"
+        a2.value = "12322"
         a2.watch = false
         d.apis = [a, a2]
         return NavigationView {
