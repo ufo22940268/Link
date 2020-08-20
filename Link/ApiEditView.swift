@@ -40,7 +40,17 @@ struct ApiEditView: View {
     @EnvironmentObject var domainData: DomainData
     @Binding var dismissPresentationMode: PresentationMode?
     @State var segmentSelection = Segment.all.rawValue
-    @State var selection: Set<ApiEntity> = Set<ApiEntity>()
+
+    func buildApiSelection() -> Binding<Set<ApiEntity>> {
+        Binding<Set<ApiEntity>>(get: { () -> Set<ApiEntity> in
+            Set<ApiEntity>(self.apiEditData.apis.filter { $0.watch })
+        }) { apis in
+            self.apiEditData.apis.forEach { api in
+                api.watch = apis.contains(api)
+            }
+        }
+    }
+
     @Environment(\.editMode) var editMode
 
     var doneButton: some View {
@@ -96,7 +106,7 @@ struct ApiEditView: View {
     var body: some View {
         VStack {
             categorySelectorView
-            List(self.categoryApis, id: \.self, selection: $selection) { api in
+            List(self.categoryApis, id: \.self, selection: buildApiSelection()) { api in
                 ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch)
             }
         }
