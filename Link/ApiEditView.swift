@@ -14,13 +14,14 @@ struct ApiEditListItemView: View {
     @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
     var selected: Bool = false
+    var onComplete: () -> Void
 
     var isEditing: Bool {
         mode != nil && mode!.wrappedValue.isEditing
     }
 
     var body: some View {
-        NavigationLink(destination: ApiDetailView(api: $api)) {
+        NavigationLink(destination: ApiDetailView(api: $api, onComplete: onComplete)) {
             VStack(alignment: .leading) {
                 Text((api.paths ?? "").lastPropertyPath).bold()
                 Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
@@ -106,12 +107,17 @@ struct ApiEditView: View {
         VStack {
             categorySelectorView
             List(self.categoryApis, id: \.self, selection: buildApiSelection()) { api in
-                ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch)
+                ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch, onComplete: {
+                    self.apiEditData.objectWillChange.send()
+                })
             }
         }
         .navigationBarItems(leading: editButton, trailing: doneButton)
         .navigationBarTitle("字段", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
+        .onReceive(apiEditData.$apis) { (_) in
+            print("apis changes")
+        }
     }
 }
 
