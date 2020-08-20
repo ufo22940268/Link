@@ -10,10 +10,25 @@ import Combine
 import CoreData
 import SwiftUI
 
+enum Segment: Int, RawRepresentable, CaseIterable {
+    case all = 0
+    case watch = 1
+
+    var label: String {
+        switch self {
+        case .all:
+            return "全部"
+        case .watch:
+            return "已关注"
+        }
+    }
+}
+
+
 struct ApiEditListItemView: View {
     @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
-    var selected: Bool = false
+    var segment: Segment
     var onComplete: () -> Void
 
     var isEditing: Bool {
@@ -21,12 +36,25 @@ struct ApiEditListItemView: View {
     }
 
     var body: some View {
-        NavigationLink(destination: ApiDetailView(api: $api, onComplete: onComplete)) {
-            VStack(alignment: .leading) {
-                Text((api.paths ?? "").lastPropertyPath).bold()
-                Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
+        HStack {
+            if .all == segment {
+                if api.watch {
+                    Image(systemName: "star.fill").foregroundColor(.yellow).font(.footnote)
+                } else {
+                    Text("").font(.footnote).fixedSize().frame(width: 13, height: 1, alignment: .leading)
+                }
+            } else {
+                Text("").font(.footnote).fixedSize().frame(width: 13, height: 1, alignment: .leading)
             }
-        }.isDetailLink(true)
+            NavigationLink(destination: ApiDetailView(api: $api, onComplete: onComplete)) {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text((api.paths ?? "").lastPropertyPath).bold()
+                    }
+                    Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
+                }
+            }
+        }
     }
 }
 
@@ -39,7 +67,8 @@ struct ApiEditView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: ApiEditData
     @Binding var dismissPresentationMode: PresentationMode?
-    @State var segmentSelection = Segment.all.rawValue
+    @State var segment = Segment.all.rawValue
+    @Environment(\.editMode) var editMode
 
     func buildApiSelection() -> Binding<Set<ApiEntity>> {
         Binding<Set<ApiEntity>>(get: { () -> Set<ApiEntity> in
@@ -51,7 +80,6 @@ struct ApiEditView: View {
         }
     }
 
-    @Environment(\.editMode) var editMode
 
     var doneButton: some View {
         if let editMode = editMode, .active != editMode.wrappedValue {
@@ -68,22 +96,8 @@ struct ApiEditView: View {
         EditButton()
     }
 
-    enum Segment: Int, RawRepresentable, CaseIterable {
-        case all = 0
-        case watch = 1
-
-        var label: String {
-            switch self {
-            case .all:
-                return "全部"
-            case .watch:
-                return "已关注"
-            }
-        }
-    }
-
     var categorySelectorView: some View {
-        Picker("Select api category", selection: $segmentSelection) {
+        Picker("Select api category", selection: $segment) {
             ForEach(Segment.allCases, id: \.self.rawValue) { segment in
                 Text(segment.label).tag(segment.rawValue)
             }
@@ -91,7 +105,7 @@ struct ApiEditView: View {
     }
 
     var categoryApis: [ApiEntity] {
-        if segmentSelection == Segment.all.rawValue {
+        if segment == Segment.all.rawValue {
             return apiEditData.apis
         } else {
             return apiEditData.apis.filter { $0.watch }
@@ -107,7 +121,7 @@ struct ApiEditView: View {
         VStack {
             categorySelectorView
             List(self.categoryApis, id: \.self, selection: buildApiSelection()) { api in
-                ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch, onComplete: {
+                ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
                     self.apiEditData.objectWillChange.send()
                 })
             }
@@ -115,7 +129,7 @@ struct ApiEditView: View {
         .navigationBarItems(leading: editButton, trailing: doneButton)
         .navigationBarTitle("字段", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
-        .onReceive(apiEditData.$apis) { (_) in
+        .onReceive(apiEditData.$apis) { _ in
             print("apis changes")
         }
     }
