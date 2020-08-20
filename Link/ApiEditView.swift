@@ -20,12 +20,7 @@ struct ApiEditListItemView: View {
     }
 
     var innerBody: some View {
-        var text = Text(api.paths ?? "")
-        if selected {
-            text = text.bold()
-                .foregroundColor(.accentColor)
-        }
-        return text
+        Text(api.paths ?? "")
     }
 
     var body: some View {
@@ -98,7 +93,7 @@ struct ApiEditView: View {
                     ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch)
                 }
             }
-        }.navigationBarItems(trailing: doneButton).navigationBarTitle("字段")
+        }.navigationBarItems(trailing: doneButton).navigationBarTitle("字段", displayMode: .inline)
     }
 }
 
@@ -115,7 +110,7 @@ struct ApiEditView_Previews: PreviewProvider {
         return NavigationView {
             ApiEditView(apiEditData: d, dismissPresentationMode: Binding.constant(nil))
                 .environment(\.managedObjectContext, context)
-                .colorScheme(.dark)
+                .colorScheme(.light)
         }
     }
 }

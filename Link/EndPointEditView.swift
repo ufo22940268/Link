@@ -192,7 +192,7 @@ struct EndPointEditView: View {
                 }
             }
         }
-        .navigationBarTitle("输入域名", displayMode: .inline)
+        .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onAppear {
             self.listenToURLChange()
