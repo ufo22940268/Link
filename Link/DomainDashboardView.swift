@@ -11,6 +11,8 @@ import SwiftUI
 
 struct DomainDashboardView: View {
     @EnvironmentObject var domainData: DomainData
+    @State var showingAddEndPoint: Bool = false
+    @Environment(\.managedObjectContext) var context
 
     var refreshButton: some View {
         Button(domainData.isLoading ? "刷新中" : "刷新", action: {
@@ -20,11 +22,15 @@ struct DomainDashboardView: View {
     }
 
     var addEndPointButton: some View {
-        NavigationLink(destination: EndPointEditView(type: .add), label: {
+        Button(action: {
+            self.showingAddEndPoint = true
+        }, label: {
             Image(systemName: "plus")
+        }).sheet(isPresented: $showingAddEndPoint, content: {
+            EndPointEditView(type: .add).environment(\.managedObjectContext, self.context)
         })
     }
-    
+
     func formatDate(_ date: Date) -> String {
         let f = DateFormatter()
         f.dateStyle = .short

@@ -38,11 +38,8 @@ struct JSONViewerView: View {
             Text("编辑")
         }
         .sheet(isPresented: $showingEdit, content: {
-            NavigationView {                
-                EndPointEditView(endPointId: self.endPoint.objectID, type: .edit)
-                    .environment(\.managedObjectContext, self.context)
-                    .environmentObject(self.dataSource)
-            }
+            EndPointEditView(endPointId: self.endPoint.objectID, type: .edit)
+                .environment(\.managedObjectContext, self.context)
         })
     }
 

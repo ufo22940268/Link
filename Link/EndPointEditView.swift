@@ -35,9 +35,18 @@ enum ValidateURLResult {
         case .jsonError:
             return "返回并不是合法JSON"
         case .pending:
-            return ""
+            return "检查中..."
         case .ok:
             return ""
+        }
+    }
+
+    var color: Color? {
+        switch self {
+        case .formatError, .requestError, .jsonError:
+            return .red
+        default:
+            return nil
         }
     }
 }
@@ -85,7 +94,7 @@ struct EndPointEditView: View {
     }
 
     var editView: some View {
-        ApiEditView(apiEditData: self.apiEditData,  dismissPresentationMode: Binding(presentationMode))
+        ApiEditView(apiEditData: self.apiEditData, dismissPresentationMode: Binding(presentationMode))
             .environmentObject(apiEditData)
     }
 
@@ -174,7 +183,7 @@ struct EndPointEditView: View {
         })
 
         let form = Form {
-            Section(header: Text(""), footer: Text(urlTestResult.label)) {
+            Section(header: Text(""), footer: Text(urlTestResult.label).foregroundColor(urlTestResult.color)) {
                 HStack {
                     Text("域名地址")
                     Spacer()
@@ -205,18 +214,23 @@ struct EndPointEditView: View {
             }
         }
 
-        if .add == type {
-            return AnyView(form.navigationBarItems(trailing: doneButton))
-        } else {
-            return AnyView(form.navigationBarItems(leading: cancelButton, trailing: doneButton))
-        }
+        return NavigationView { form.navigationBarItems(leading: cancelButton, trailing: doneButton) }
     }
 }
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            EndPointEditView(apiEditData: ApiEditData(), type: .edit)
+        let v2 = EndPointEditView(apiEditData: ApiEditData(), type: .edit)
+        v2.urlTestResult = .formatError
+
+        return Group {
+            NavigationView {
+                EndPointEditView(apiEditData: ApiEditData(), type: .edit)
+            }
+
+            NavigationView {
+                v2
+            }
         }
     }
 }
