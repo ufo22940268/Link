@@ -48,6 +48,10 @@ struct ApiEditView: View {
         })
     }
 
+    var editButton: some View {
+        EditButton()
+    }
+
     enum Segment: Int, RawRepresentable, CaseIterable {
         case all = 0
         case watch = 1
@@ -86,13 +90,15 @@ struct ApiEditView: View {
     var body: some View {
         VStack {
             categorySelectorView
-
             List {
                 ForEach(self.categoryApis, id: \.self) { api in
                     ApiEditListItemView(api: self.getApiBinding(api), selected: api.watch)
                 }
             }
-        }.navigationBarItems(trailing: doneButton).navigationBarTitle("字段", displayMode: .inline)
+        }
+        .navigationBarItems(leading: editButton, trailing: doneButton)
+        .navigationBarTitle("字段", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
