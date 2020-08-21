@@ -87,6 +87,8 @@ struct JSONViewerView: View {
                 ApiSection(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
             }
 
+            editButton
+
             Section(header: Text("返回结果")) {
                 ScrollView {
                     JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
@@ -95,7 +97,7 @@ struct JSONViewerView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text(lastPartOfPath))
+        .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
     }
 }
