@@ -37,7 +37,7 @@ enum ValidateURLResult {
         case .pending:
             return "检查中..."
         case .ok:
-            return ""
+            return "地址正常"
         }
     }
 

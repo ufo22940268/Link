@@ -18,7 +18,7 @@ struct OnboardView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            DomainDashboardView()                
+            DomainDashboardView()
                 .font(.title)
                 .tabItem {
                     VStack {
@@ -63,6 +63,7 @@ struct OnboardView: View {
             .checkHealth()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
+                self.domainData.lastUpdateTime = Date()
                 self.domainData.objectWillChange.send()
                 self.domainData.isLoading = false
             }, receiveValue: { _ in })
