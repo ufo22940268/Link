@@ -83,18 +83,19 @@ struct ApiHelper {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["endPoint": endPoint.objectID])
         var apiEntities: [ApiEntity] = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
 
+        let context = persistentContainer.newBackgroundContext()
         for api in apis {
             if let index = apiEntities.firstIndex(where: { $0.paths == api.path }) {
                 apiEntities[index].value = api.value
             } else {
-                let ae = ApiEntity(context: persistentContainer.viewContext)
+                let ae = ApiEntity(context: context)
                 ae.paths = api.path
                 ae.value = api.value
                 ae.endPoint = endPoint
                 apiEntities.append(ae)
             }
         }
-        try? persistentContainer.viewContext.save()
+        try? context.save()
 
         return apiEntities.sorted { $0.paths ?? "" < $1.paths ?? "" }
     }
