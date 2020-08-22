@@ -10,7 +10,7 @@ import CoreData
 import SwiftUI
 
 class JSONViewerData: ObservableObject {
-    @Published var endPoint: EndPointEntity = EndPointEntity()
+    @Published var endPoint: EndPointEntity?
 
     init(endPoint: EndPointEntity) {
         self.endPoint = endPoint
@@ -26,7 +26,7 @@ struct JSONViewerView: View {
     @ObservedObject var modelData: JSONViewerData
 
     var endPoint: EndPointEntity {
-        modelData.endPoint
+        modelData.endPoint!
     }
 
     @State var showingEdit = false
