@@ -117,9 +117,7 @@ struct EndPointEditView: View {
         urlTestResult == .ok
     }
 
-    var domainName: String {
-        extractDomainName(fromURL: url)
-    }
+    @State var domainName: String = ""
 
     func updateEndPointEntity() {
         var endPoint: EndPointEntity
@@ -167,11 +165,16 @@ struct EndPointEditView: View {
                     return Just([]).eraseToAnyPublisher()
                 }
             }
-            .receive(on: DispatchQueue.main)
             .sink { apis in
                 self.apiEditData.apis = apis
             }
             .store(in: &cancellables)
+
+        changeURLSubject.map { url in
+            extractDomainName(fromURL: url)
+        }
+        .assign(to: \.domainName, on: self)
+        .store(in: &cancellables)
     }
 
     var body: some View {
@@ -197,7 +200,7 @@ struct EndPointEditView: View {
                 HStack {
                     Text("名字")
                     Spacer()
-                    TextField("example", text: Binding.constant(self.domainName)).multilineTextAlignment(.trailing)
+                    TextField("example", text: $domainName).multilineTextAlignment(.trailing)
                 }
             }
         }
@@ -224,13 +227,8 @@ struct EndPointEditView_Previews: PreviewProvider {
         v2.urlTestResult = .formatError
 
         return Group {
-            NavigationView {
-                EndPointEditView(apiEditData: ApiEditData(), type: .edit)
-            }
-
-            NavigationView {
-                v2
-            }
+            EndPointEditView(apiEditData: ApiEditData(), type: .edit)
+            v2
         }
     }
 }
