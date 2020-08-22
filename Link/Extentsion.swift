@@ -11,14 +11,8 @@ import SwiftUI
 
 extension PreviewProvider {
     static var context: NSManagedObjectContext {
-        let container = NSPersistentContainer(name: "LinkModel")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
-
-        return container.viewContext
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        return context
     }
 }
 

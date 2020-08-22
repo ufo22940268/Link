@@ -33,8 +33,10 @@ struct ApiHelper {
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
     func fetch(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
         return URLSession(configuration: .ephemeral).dataTaskPublisher(for: URL(string: endPoint.url ?? "")!)
+            .receive(on: DispatchQueue.main)
             .tryMap {
                 endPoint.data = $0.data
+                try! self.persistentContainer.viewContext.save()
                 return try JSON(data: $0.data)
             }
             .map { self.convertToAPI(json: $0) }
@@ -83,7 +85,7 @@ struct ApiHelper {
         let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["endPoint": endPoint.objectID])
         var apiEntities: [ApiEntity] = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
 
-        let context = persistentContainer.newBackgroundContext()
+        let context = persistentContainer.viewContext
         for api in apis {
             if let index = apiEntities.firstIndex(where: { $0.paths == api.path }) {
                 apiEntities[index].value = api.value

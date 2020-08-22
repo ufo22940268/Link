@@ -77,6 +77,14 @@ struct JSONViewerView: View {
         modelData.objectWillChange.send()
     }
 
+    var isValidJson: Bool {
+        if let data = endPoint.data, let _ = try? JSON(data: data) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     var body: some View {
         List {
             if errorApis.count > 0 {
@@ -87,7 +95,7 @@ struct JSONViewerView: View {
                 ApiSection(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
             }
 
-            Section(header: Text("返回结果")) {
+            Section(header: Text("返回结果"), footer: isValidJson ? AnyView(EmptyView()) : AnyView(Text("返回格式错误").foregroundColor(.red))) {
                 ScrollView {
                     JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
                 }
@@ -100,9 +108,24 @@ struct JSONViewerView: View {
     }
 }
 
+private struct ApiSection: View {
+    var onComplete: () -> Void
+    var apis: [ApiEntity]
+    var title: String
+
+    var body: some View {
+        Section(header: Text(title)) {
+            ForEach(self.apis) { api in
+                NavigationLink(destination: ApiDetailView(api: Binding.constant(api), onComplete: self.onComplete), label: {
+                    Text(api.paths ?? "")
+                })
+            }
+        }
+    }
+}
+
 struct JSONViewerView_Previews: PreviewProvider {
-    static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    static var validEndPointEntity: EndPointEntity {
         let j = """
         {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """
@@ -125,25 +148,46 @@ struct JSONViewerView_Previews: PreviewProvider {
         ae2.endPoint = ee
 
         ee.api = NSSet(array: [ae, ae2])
-        return NavigationView {
-            JSONViewerView(modelData: JSONViewerData(endPoint: ee))
-                .environment(\.managedObjectContext, context)
-        }.environment(\.colorScheme, .dark)
+        return ee
     }
-}
 
-private struct ApiSection: View {
-    var onComplete: () -> Void
-    var apis: [ApiEntity]
-    var title: String
+    static var invalidEndPointEntity: EndPointEntity {
+        let j = """
+            <body>error</body>
+        """
+        let ee = EndPointEntity(context: context)
+        ee.url = "http://biubiubiu.hopto.org:9000/link/github.json2"
+        ee.data = j.data(using: .utf8)
 
-    var body: some View {
-        Section(header: Text(title)) {
-            ForEach(self.apis) { api in
-                NavigationLink(destination: ApiDetailView(api: Binding.constant(api), onComplete: self.onComplete), label: {
-                    Text(api.paths ?? "")
-                })
-            }
+        let ae = ApiEntity(context: context)
+        ae.paths = "aaasdf"
+        ae.value = "3"
+        ae.watch = true
+        ae.watchValue = "4"
+        ae.endPoint = ee
+        
+        let ae2 = ApiEntity(context: context)
+        ae2.paths = "d2"
+        ae2.value = "4"
+        ae2.watch = true
+        ae2.watchValue = "4"
+        ae2.endPoint = ee
+
+        ee.api = NSSet(array: [ae, ae2])
+        return ee
+    }
+
+    static var previews: some View {
+        return Group {
+            NavigationView {
+                JSONViewerView(modelData: JSONViewerData(endPoint: validEndPointEntity))
+                    .environment(\.managedObjectContext, context)
+            }.environment(\.colorScheme, .dark)
+            
+            NavigationView {
+                JSONViewerView(modelData: JSONViewerData(endPoint: invalidEndPointEntity))
+                    .environment(\.managedObjectContext, context)
+            }.environment(\.colorScheme, .dark)
         }
     }
 }

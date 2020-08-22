@@ -16,7 +16,7 @@ enum LineType {
     var fontColor: Color? {
         switch self {
         case .healthy:
-            return .accentColor
+            return .primary
         case .error:
             return .red
         case .normal:
@@ -39,11 +39,16 @@ struct JSONView: View {
     var healthyPaths: [String]
     var errorPaths: [String]
     var showColors: Bool
+    var rawString: String?
 
     init(data: Data?, healthy paths: [String] = [], error errorPaths: [String] = [], showColors: Bool = true) {
         if let data = data {
-            jsonData = JSON(data)
+            jsonData = try? JSON(data: data)
+            rawString = String(data: data, encoding: .utf8)
+        } else {
+            rawString = ""
         }
+
         healthyPaths = paths
         self.errorPaths = errorPaths
         self.showColors = showColors
@@ -82,21 +87,24 @@ struct JSONView: View {
 
     var body: some View {
         ZStack {
-            segments.reduce(Text(""), {
-                var text = Text($1.0)
-                    .font(Font.footnote)
+            if jsonData != nil {
+                segments.reduce(Text(""), {
+                    var text = Text($1.0)
 
-                if $1.1.bold {
-                    text = text.bold()
-                }
+                    if $1.1.bold {
+                        text = text.bold()
+                    }
 
-                if showColors {
-                    text = text.foregroundColor($1.1.fontColor)
-                }
-                return $0 + text
-            })
-        }
-   }
+                    if showColors {
+                        text = text.foregroundColor($1.1.fontColor)
+                    }
+                    return $0 + text
+                })
+            } else {
+                Text(rawString ?? "")
+            }
+        }.font(Font.footnote)
+    }
 }
 
 struct JSONView_Previews: PreviewProvider {
@@ -104,8 +112,15 @@ struct JSONView_Previews: PreviewProvider {
         let d = """
         {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
         """.data(using: .utf8)!
+        let d2 = """
+            <body></body>
+        """.data(using: .utf8)!
+
         var v = JSONView(data: d, healthy: ["b"], error: ["a", "aa"], showColors: false)
         v.showColors = true
-        return v
+        return Group {
+            JSONView(data: d2, healthy: ["b"], error: ["a", "aa"], showColors: false)
+            v
+        }
     }
 }
