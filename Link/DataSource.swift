@@ -20,13 +20,13 @@ final class DataSource: ObservableObject {
 // MARK: EndPoints api
 
 extension DataSource {
-    func fetchEntityPoint(id: NSManagedObjectID) -> EndPointEntity? {
+    func fetchEndPoint(id: NSManagedObjectID) -> EndPointEntity? {
         let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
         req.predicate = NSPredicate(format: "self == %@", id)
         return try? context.fetch(req).first
     }
 
-    func fetchEntityPoint(url: String) -> EndPointEntity? {
+    func fetchEndPoint(url: String) -> EndPointEntity? {
         let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
         req.predicate = NSPredicate(format: "url == %@", url)
         return try? context.fetch(req).first

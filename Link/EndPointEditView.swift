@@ -124,8 +124,8 @@ struct EndPointEditView: View {
 
         var needSave = false
         if let endPointId = self.endPointId {
-            endPoint = dataSource.fetchEntityPoint(id: endPointId)!
-        } else if let nd = dataSource.fetchEntityPoint(url: url) {
+            endPoint = dataSource.fetchEndPoint(id: endPointId)!
+        } else if let nd = dataSource.fetchEndPoint(url: url) {
             endPoint = nd
         } else {
             endPoint = EndPointEntity(context: context)
@@ -158,7 +158,7 @@ struct EndPointEditView: View {
                 if result == .ok {
                     self.updateEndPointEntity()
                     return ApiHelper()
-                        .fetch(endPoint: self.dataSource.fetchEntityPoint(id: self.endPointId!)!)
+                        .fetch(endPoint: self.dataSource.fetchEndPoint(id: self.endPointId!)!)
                         .catch { _ in Just([]) }
                         .eraseToAnyPublisher()
                 } else {
@@ -170,11 +170,12 @@ struct EndPointEditView: View {
             }
             .store(in: &cancellables)
 
-        changeURLSubject.map { url in
-            extractDomainName(fromURL: url)
-        }
-        .assign(to: \.domainName, on: self)
-        .store(in: &cancellables)
+        changeURLSubject
+            .map {
+                extractDomainName(fromURL: $0)
+            }
+            .assign(to: \.domainName, on: self)
+            .store(in: &cancellables)
     }
 
     var body: some View {
@@ -200,7 +201,7 @@ struct EndPointEditView: View {
                 HStack {
                     Text("名字")
                     Spacer()
-                    TextField("example", text: $domainName).multilineTextAlignment(.trailing)
+                    Text(domainName)
                 }
             }
         }
