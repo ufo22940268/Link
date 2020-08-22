@@ -35,6 +35,7 @@ struct DomainDashboardView: View {
         let f = DateFormatter()
         f.dateStyle = .short
         f.timeStyle = .short
+        f.doesRelativeDateFormatting = true
         return f.string(from: date)
     }
 
