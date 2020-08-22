@@ -24,6 +24,7 @@ struct JSONViewerView: View {
 
     @Environment(\.managedObjectContext) var context
     @ObservedObject var modelData: JSONViewerData
+    @EnvironmentObject var domainData: DomainData
 
     var endPoint: EndPointEntity {
         modelData.endPoint!
@@ -37,7 +38,7 @@ struct JSONViewerView: View {
         }) {
             Text("编辑")
         }
-        .sheet(isPresented: $showingEdit, content: {
+        .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
             EndPointEditView(endPointId: self.endPoint.objectID, type: .edit)
                 .environment(\.managedObjectContext, self.context)
         })
@@ -165,7 +166,7 @@ struct JSONViewerView_Previews: PreviewProvider {
         ae.watch = true
         ae.watchValue = "4"
         ae.endPoint = ee
-        
+
         let ae2 = ApiEntity(context: context)
         ae2.paths = "d2"
         ae2.value = "4"
@@ -183,7 +184,7 @@ struct JSONViewerView_Previews: PreviewProvider {
                 JSONViewerView(modelData: JSONViewerData(endPoint: validEndPointEntity))
                     .environment(\.managedObjectContext, context)
             }.environment(\.colorScheme, .dark)
-            
+
             NavigationView {
                 JSONViewerView(modelData: JSONViewerData(endPoint: invalidEndPointEntity))
                     .environment(\.managedObjectContext, context)

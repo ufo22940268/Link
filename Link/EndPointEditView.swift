@@ -209,7 +209,6 @@ struct EndPointEditView: View {
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onAppear {
             self.listenToURLChange()
-
             if !self.launched {
                 if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
                     self.url = "http://biubiubiu.hopto.org:9000/link/github.json"

@@ -24,7 +24,6 @@ enum Segment: Int, RawRepresentable, CaseIterable {
     }
 }
 
-
 struct ApiEditListItemView: View {
     @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
@@ -37,7 +36,7 @@ struct ApiEditListItemView: View {
 
     var body: some View {
         HStack {
-            if .all == segment {
+            if segment == .all {
                 if api.watch {
                     Image(systemName: "star.fill").foregroundColor(.yellow).font(.footnote)
                 } else {
@@ -52,7 +51,7 @@ struct ApiEditListItemView: View {
                         Text((api.paths ?? "").lastPropertyPath).bold()
                     }
                     Text(api.value ?? "").font(.footnote).foregroundColor(.gray)
-                    .lineLimit(2)
+                        .lineLimit(2)
                 }
             }
         }
@@ -81,9 +80,8 @@ struct ApiEditView: View {
         }
     }
 
-
     var doneButton: some View {
-        if let editMode = editMode, .active != editMode.wrappedValue {
+        if let editMode = editMode, editMode.wrappedValue != .active {
             return AnyView(Button("完成", action: {
                 try? self.context.save()
                 self.dismissPresentationMode?.dismiss()

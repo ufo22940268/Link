@@ -43,7 +43,7 @@ struct DomainEndPointListView: View {
     @EnvironmentObject var domainData: DomainData
 
     var domainMap: [String: [EndPointEntity]] {
-        domainData.endPoints.filter({ $0.domain?.name != nil }).reduce([String: [EndPointEntity]](), { r, entity in
+        domainData.endPoints.filter { $0.domain?.name != nil }.reduce([String: [EndPointEntity]]()) { r, entity in
             var k = r
             let domainName = entity.domain!.name!
             if r[domainName] != nil {
@@ -52,7 +52,7 @@ struct DomainEndPointListView: View {
                 k[domainName] = [entity]
             }
             return k
-        })
+        }
     }
 
     var body: some View {
