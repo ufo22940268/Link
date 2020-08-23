@@ -97,10 +97,8 @@ struct JSONViewerView: View {
             }
 
             Section(header: Text("返回结果"), footer: isValidJson ? AnyView(EmptyView()) : AnyView(Text("返回格式错误").foregroundColor(.red))) {
-                ScrollView {
-                    JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
-                }
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+                JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
             }
         }
         .listStyle(GroupedListStyle())

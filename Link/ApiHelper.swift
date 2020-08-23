@@ -36,7 +36,7 @@ struct ApiHelper {
             .receive(on: DispatchQueue.main)
             .tryMap {
                 endPoint.data = $0.data
-                try! self.persistentContainer.viewContext.save()
+//                try! self.persistentContainer.viewContext.save()
                 return try JSON(data: $0.data)
             }
             .map { self.convertToAPI(json: $0) }
