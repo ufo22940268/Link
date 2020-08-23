@@ -88,6 +88,13 @@ struct EndPointEditView: View {
 
     var type: EditType
 
+    internal init(endPointId: NSManagedObjectID? = nil, type: EndPointEditView.EditType) {
+        self.type = type
+        if endPointId != nil {
+            _endPointId = State(initialValue: endPointId)
+        }
+    }
+
     enum EditType {
         case edit
         case add
@@ -208,7 +215,17 @@ struct EndPointEditView: View {
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onAppear {
+            if let endPointId = self.endPointId,
+                let ee = self.dataSource.fetchEndPoint(id: endPointId),
+                let url = ee.url
+            {
+                self.url = url
+                self.domainName = extractDomainName(fromURL: url)
+                self.urlTestResult = .ok
+            }
+
             self.listenToURLChange()
+
             if !self.launched {
                 if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
                     self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
@@ -223,12 +240,14 @@ struct EndPointEditView: View {
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
-        let v2 = EndPointEditView(apiEditData: ApiEditData(), type: .edit)
+        let ee = EndPointEntity(context: context)
+        ee.url = "http://wefwef.com"
+        let v2 = EndPointEditView(type: .edit)
         v2.urlTestResult = .formatError
 
         return Group {
-            EndPointEditView(apiEditData: ApiEditData(), type: .edit)
-            v2
+            EndPointEditView(endPointId: ee.objectID, type: .edit).environment(\.managedObjectContext, context)
+            v2.environment(\.managedObjectContext, context)
         }
     }
 }

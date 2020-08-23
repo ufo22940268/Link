@@ -68,13 +68,13 @@ struct DomainEndPointListView: View {
     }
 }
 
-struct DomainEndPointListView_Previews: PreviewProvider {
-    static var previews: some View {
-        let de = EndPointEntity(context: context)
-        de.url = "https://ewfwef.com/fwef/wefwessff"
-        let de2 = EndPointEntity(context: context)
-        de2.url = "https://ewfwef.com/fwef/22222"
-        return DomainEndPointListView()
-            .environment(\.managedObjectContext, getPersistentContainer().viewContext)
-    }
-}
+//struct DomainEndPointListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let de = EndPointEntity(context: context)
+//        de.url = "https://ewfwef.com/fwef/wefwessff"
+//        let de2 = EndPointEntity(context: context)
+//        de2.url = "https://ewfwef.com/fwef/22222"
+//        return DomainEndPointListView()
+//            .environment(\.managedObjectContext, getPersistentContainer().viewContext)
+//    }
+//}
