@@ -79,10 +79,8 @@ struct EndPointEditView: View {
     @State var urlTestResult: ValidateURLResult = .pending
     @Environment(\.presentationMode) var presentationMode
     @State var endPointId: NSManagedObjectID?
-    @State var changeURLSubject = CurrentValueSubject<String, Never>("")
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
-    @State var url: String = ""
     @State var apiEditData: ApiEditData = ApiEditData()
     @State var launched = false
 
@@ -124,24 +122,22 @@ struct EndPointEditView: View {
         urlTestResult == .ok
     }
 
-    @State var domainName: String = ""
-
     func updateEndPointEntity() {
         var endPoint: EndPointEntity
 
         var needSave = false
         if let endPointId = self.endPointId {
             endPoint = dataSource.fetchEndPoint(id: endPointId)!
-        } else if let nd = dataSource.fetchEndPoint(url: url) {
+        } else if let nd = dataSource.fetchEndPoint(url: apiEditData.url) {
             endPoint = nd
         } else {
             endPoint = EndPointEntity(context: context)
             let domain = DomainEntity(context: context)
-            domain.name = domainName
+            domain.name = apiEditData.domainName
             endPoint.domain = domain
             needSave = true
         }
-        endPoint.url = url
+        endPoint.url = apiEditData.url
         endPointId = endPoint.objectID
 
         if needSave {
@@ -151,7 +147,7 @@ struct EndPointEditView: View {
     }
 
     fileprivate func listenToURLChange() {
-        let fetchPub = changeURLSubject
+        let fetchPub = apiEditData.$url
             .debounce(for: 1, scheduler: DispatchQueue.main)
             .removeDuplicates()
             .flatMap { url in
@@ -177,20 +173,20 @@ struct EndPointEditView: View {
             }
             .store(in: &cancellables)
 
-        changeURLSubject
+        apiEditData.$url
             .map {
                 extractDomainName(fromURL: $0)
             }
-            .assign(to: \.domainName, on: self)
+            .assign(to: \.domainName, on: apiEditData)
             .store(in: &cancellables)
     }
 
     var body: some View {
         let urlBinding = Binding<String>(get: {
-            self.url
+            self.apiEditData.url
         }, set: {
-            self.url = $0
-            self.changeURLSubject.send($0)
+            self.apiEditData.url = $0
+            self.apiEditData.domainName = extractDomainName(fromURL: $0)
         })
 
         let form = Form {
@@ -208,7 +204,7 @@ struct EndPointEditView: View {
                 HStack {
                     Text("名字")
                     Spacer()
-                    Text(domainName)
+                    Text(apiEditData.domainName)
                 }
             }
         }
@@ -219,8 +215,8 @@ struct EndPointEditView: View {
                 let ee = self.dataSource.fetchEndPoint(id: endPointId),
                 let url = ee.url
             {
-                self.url = url
-                self.domainName = extractDomainName(fromURL: url)
+                self.apiEditData.url = url
+                self.apiEditData.domainName = extractDomainName(fromURL: url)
                 self.urlTestResult = .ok
             }
 
@@ -228,7 +224,7 @@ struct EndPointEditView: View {
 
             if !self.launched {
                 if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
-                    self.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+                    self.apiEditData.url = "http://biubiubiu.hopto.org:9000/link/github.json"
                     urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                 }
             }

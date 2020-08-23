@@ -58,10 +58,6 @@ struct ApiEditListItemView: View {
     }
 }
 
-class ApiEditData: ObservableObject {
-    @Published var apis = [ApiEntity]()
-}
-
 struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
