@@ -76,7 +76,7 @@ struct EndPointEditView: View {
     }
 
     @State var cancellables = [AnyCancellable]()
-    @State var urlTestResult: ValidateURLResult = .pending
+    @State var validateURLResult: ValidateURLResult = .pending
     @Environment(\.presentationMode) var presentationMode
     @State var endPointId: NSManagedObjectID?
     @State var apiEntitiesOfDomain = [ApiEntity]()
@@ -120,7 +120,7 @@ struct EndPointEditView: View {
     }
 
     var isFormValid: Bool {
-        urlTestResult == .ok
+        validateURLResult == .ok
     }
 
     func updateEndPointEntity() {
@@ -158,7 +158,7 @@ struct EndPointEditView: View {
         fetchPub
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
-                self.urlTestResult = result
+                self.validateURLResult = result
                 if result == .ok {
                     self.updateEndPointEntity()
                     return ApiHelper()
@@ -180,6 +180,12 @@ struct EndPointEditView: View {
             }
             .assign(to: \.domainName, on: apiEditData)
             .store(in: &cancellables)
+
+        apiEditData.$url
+            .removeDuplicates()
+            .map { _ in ValidateURLResult.pending }
+            .assign(to: \.validateURLResult, on: self)
+            .store(in: &cancellables)
     }
 
     var body: some View {
@@ -191,7 +197,7 @@ struct EndPointEditView: View {
         })
 
         let form = Form {
-            Section(header: Text(""), footer: Text(urlTestResult.label).foregroundColor(urlTestResult.color)) {
+            Section(header: Text(""), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
                 HStack {
                     Text("域名地址")
                     Spacer()
@@ -218,7 +224,7 @@ struct EndPointEditView: View {
             {
                 self.apiEditData.url = url
                 self.apiEditData.domainName = extractDomainName(fromURL: url)
-                self.urlTestResult = .ok
+                self.validateURLResult = .ok
                 print("appear")
             }
 
@@ -241,7 +247,7 @@ struct EndPointEditView_Previews: PreviewProvider {
         let ee = EndPointEntity(context: context)
         ee.url = "http://wefwef.com"
         let v2 = EndPointEditView(type: .edit)
-        v2.urlTestResult = .formatError
+        v2.validateURLResult = .formatError
 
         return Group {
             EndPointEditView(endPointId: ee.objectID, type: .edit).environment(\.managedObjectContext, context)
