@@ -81,16 +81,17 @@ struct EndPointEditView: View {
     @State var endPointId: NSManagedObjectID?
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
-    @State var apiEditData: ApiEditData = ApiEditData()
+    @ObservedObject var apiEditData: ApiEditData
     @State var launched = false
 
     var type: EditType
 
-    internal init(endPointId: NSManagedObjectID? = nil, type: EndPointEditView.EditType) {
+    internal init(endPointId: NSManagedObjectID? = nil, type: EndPointEditView.EditType, apiEditData: ApiEditData = ApiEditData()) {
         self.type = type
         if endPointId != nil {
             _endPointId = State(initialValue: endPointId)
         }
+        self.apiEditData = apiEditData
     }
 
     enum EditType {
@@ -218,6 +219,7 @@ struct EndPointEditView: View {
                 self.apiEditData.url = url
                 self.apiEditData.domainName = extractDomainName(fromURL: url)
                 self.urlTestResult = .ok
+                print("appear")
             }
 
             self.listenToURLChange()

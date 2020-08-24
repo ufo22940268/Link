@@ -25,6 +25,7 @@ struct JSONViewerView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var modelData: JSONViewerData
     @EnvironmentObject var domainData: DomainData
+    @ObservedObject var apiData: ApiEditData = ApiEditData()
 
     var endPoint: EndPointEntity {
         modelData.endPoint!
@@ -39,7 +40,7 @@ struct JSONViewerView: View {
             Text("编辑")
         }
         .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
-            EndPointEditView(endPointId: self.endPoint.objectID, type: .edit)
+            EndPointEditView(endPointId: self.endPoint.objectID, type: .edit, apiEditData: self.apiData)
                 .environment(\.managedObjectContext, self.context)
         })
     }
