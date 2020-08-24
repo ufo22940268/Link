@@ -144,7 +144,7 @@ struct EndPointEditView: View {
             print("save in update entity")
             try! context.save()
         }
-
+        
         endPointId = endPoint.objectID
     }
 

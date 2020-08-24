@@ -55,14 +55,14 @@ struct JSONViewerView: View {
 
     var healthyPaths: [String] {
         if let apis = endPoint.api?.allObjects as? [ApiEntity] {
-            return apis.filter { $0.watch && $0.healthyStatus! == .healthy }.map { $0.paths! }
+            return apis.filter { $0.watch && $0.healthyStatus == .healthy }.map { $0.paths! }
         }
         return []
     }
 
     var errorPaths: [String] {
         if let apis = endPoint.api?.allObjects as? [ApiEntity] {
-            return apis.filter { $0.watch && $0.healthyStatus! == .error }.map { $0.paths! }
+            return apis.filter { $0.watch && $0.healthyStatus == .error }.map { $0.paths! }
         }
         return []
     }
