@@ -148,14 +148,16 @@ struct EndPointEditView: View {
     }
 
     fileprivate func listenToURLChange() {
-        let fetchPub = apiEditData.$url
+        var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
+        if type == .edit {
+            urlPub = urlPub.dropFirst().eraseToAnyPublisher()
+        }
+
+        urlPub
             .debounce(for: 1, scheduler: DispatchQueue.main)
-            .removeDuplicates()
             .flatMap { url in
                 ApiHelper().test(url: url)
             }
-
-        fetchPub
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
@@ -174,14 +176,14 @@ struct EndPointEditView: View {
             }
             .store(in: &cancellables)
 
-        apiEditData.$url
+        urlPub
             .map {
                 extractDomainName(fromURL: $0)
             }
             .assign(to: \.domainName, on: apiEditData)
             .store(in: &cancellables)
 
-        apiEditData.$url
+        urlPub
             .removeDuplicates()
             .map { _ in ValidateURLResult.pending }
             .assign(to: \.validateURLResult, on: self)
