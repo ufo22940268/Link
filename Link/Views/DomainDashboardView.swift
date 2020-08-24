@@ -13,6 +13,7 @@ struct DomainDashboardView: View {
     @EnvironmentObject var domainData: DomainData
     @State var showingAddEndPoint: Bool = false
     @Environment(\.managedObjectContext) var context
+    @ObservedObject var apiData = ApiEditData()
 
     var refreshButton: some View {
         if domainData.endPoints.count > 0 {
@@ -30,7 +31,7 @@ struct DomainDashboardView: View {
         }, label: {
             Image(systemName: "plus")
         }).sheet(isPresented: $showingAddEndPoint, content: {
-            EndPointEditView(type: .add).environment(\.managedObjectContext, self.context)
+            EndPointEditView(type: .add, apiEditData: self.apiData).environment(\.managedObjectContext, self.context)
         })
     }
 

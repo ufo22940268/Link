@@ -139,12 +139,13 @@ struct EndPointEditView: View {
             needSave = true
         }
         endPoint.url = apiEditData.url
-        endPointId = endPoint.objectID
 
         if needSave {
             print("save in update entity")
             try! context.save()
         }
+
+        endPointId = endPoint.objectID
     }
 
     fileprivate func listenToURLChange() {
@@ -158,6 +159,7 @@ struct EndPointEditView: View {
             .flatMap { url in
                 ApiHelper().test(url: url)
             }
+            .print("urlPub")
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
