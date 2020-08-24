@@ -50,7 +50,7 @@ struct ApiEditListItemView: View {
                     HStack {
                         Text((api.paths ?? "").lastPropertyPath).bold()
                     }
-                    Text(api.value ?? "").font(.footnote).foregroundColor(.gray)
+                    Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
                         .lineLimit(2)
                 }
             }
@@ -138,7 +138,7 @@ struct ApiEditView_Previews: PreviewProvider {
         a.value = "CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity' CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity'"
         a.watch = true
         let a2 = ApiEntity(context: context)
-        a2.paths = "wefwef2"
+        a2.paths = "wefwef2.wef"
         a2.value = "12322"
         a2.watch = false
         d.apis = [a, a2]
