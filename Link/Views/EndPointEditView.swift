@@ -20,6 +20,7 @@ extension String {
 }
 
 enum ValidateURLResult {
+    case initial
     case formatError
     case requestError
     case jsonError
@@ -28,6 +29,8 @@ enum ValidateURLResult {
 
     var label: String {
         switch self {
+        case .initial:
+            return ""
         case .formatError:
             return "地址格式不对或不完整"
         case .requestError:
@@ -76,7 +79,7 @@ struct EndPointEditView: View {
     }
 
     @State var cancellables = [AnyCancellable]()
-    @State var validateURLResult: ValidateURLResult = .pending
+    @State var validateURLResult: ValidateURLResult = .initial
     @Environment(\.presentationMode) var presentationMode
     @State var endPointId: NSManagedObjectID?
     @State var apiEntitiesOfDomain = [ApiEntity]()
@@ -92,6 +95,10 @@ struct EndPointEditView: View {
             _endPointId = State(initialValue: endPointId)
         }
         self.apiEditData = apiEditData
+
+        if type == .add {
+            validateURLResult = .initial
+        }
     }
 
     enum EditType {
@@ -144,7 +151,7 @@ struct EndPointEditView: View {
             print("save in update entity")
             try! context.save()
         }
-        
+
         endPointId = endPoint.objectID
     }
 
@@ -152,6 +159,10 @@ struct EndPointEditView: View {
         var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
         if type == .edit {
             urlPub = urlPub.dropFirst().eraseToAnyPublisher()
+        } else {
+            urlPub = urlPub.filter {
+                !(self.validateURLResult == .initial && $0 == "")
+            }.eraseToAnyPublisher()
         }
 
         urlPub
