@@ -59,12 +59,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-
-        let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url?.absoluteURL.description ?? ""
-        print("sqlite url", sqliteUrl.removingPercentEncoding ?? "")
+        if UIDevice.isSimulator {
+            if let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url {
+                let tmpFile = URL(fileURLWithPath: "/tmp/Application Support")
+                try? FileManager.default.removeItem(at: tmpFile)
+                try! FileManager.default.createSymbolicLink(at: tmpFile, withDestinationURL: sqliteUrl.deletingLastPathComponent())
+                print("sqlite url", sqliteUrl.absoluteURL.description.removingPercentEncoding ?? "")
+            }
+        }
 
         if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"] {
             DebugHelper.resetCoreData()

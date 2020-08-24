@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 import SwiftUI
 
-class DebugHelper {
+public class DebugHelper {
     static func resetCoreData() {
         print("resetCoreData")
 
@@ -21,7 +21,7 @@ class DebugHelper {
                 context.delete(e as! NSManagedObject)
             }
         }
-        
+
         let d = DomainEntity(context: context)
         d.name = "d"
 
@@ -29,9 +29,9 @@ class DebugHelper {
         p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
         p.domain = d
         p.data = NSDataAsset(name: "github", bundle: .main)!.data
-        
+
         d.endPoints?.adding(p)
-        
+
         let p2 = EndPointEntity(context: context)
         p2.url = "http://biubiubiu.hopto.org:9000/link/github.json2"
         p2.domain = d
@@ -44,7 +44,7 @@ class DebugHelper {
         a1.paths = "followers_url"
         a1.watchValue = "https://api.github.com/user/followers"
         a1.watch = false
-        
+
         let a2 = ApiEntity(context: context)
         a2.endPoint = p
         a2.paths = "feeds_url"
@@ -55,9 +55,19 @@ class DebugHelper {
         p.addToApi(a2)
 
         try! context.save()
-   }
-    
-    static var isPreview: Bool  {
-       (ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] ?? "") == "1"
     }
+
+    static var isPreview: Bool {
+        (ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] ?? "") == "1"
+    }
+}
+
+public extension UIDevice {
+    static var isSimulator: Bool = {
+        #if targetEnvironment(simulator)
+        return true
+        #else
+        return false
+        #endif
+    }()
 }
