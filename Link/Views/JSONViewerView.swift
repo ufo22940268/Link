@@ -90,11 +90,11 @@ struct JSONViewerView: View {
     var body: some View {
         List {
             if errorApis.count > 0 {
-                ApiSection(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
+                ApiSectionView(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
             }
 
             if healthyApis.count > 0 {
-                ApiSection(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
+                ApiSectionView(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
             }
 
             Section(header: Text("返回结果"), footer: isValidJson ? AnyView(EmptyView()) : AnyView(Text("返回格式错误").foregroundColor(.red))) {
@@ -108,7 +108,7 @@ struct JSONViewerView: View {
     }
 }
 
-private struct ApiSection: View {
+private struct ApiSectionView: View {
     var onComplete: () -> Void
     var apis: [ApiEntity]
     var title: String

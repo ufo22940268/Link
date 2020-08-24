@@ -132,31 +132,14 @@
 				42D2054224C675B800C6CC70 /* github.json */,
 				422B6CF82498D91400D2F10D /* AppDelegate.swift */,
 				422B6CFA2498D91400D2F10D /* SceneDelegate.swift */,
-				422B6CFC2498D91400D2F10D /* OnboardView.swift */,
+				42697F3524F34DA8005298D9 /* Views */,
 				422B6CFE2498D91500D2F10D /* Assets.xcassets */,
 				422B6D032498D91500D2F10D /* LaunchScreen.storyboard */,
 				422B6D062498D91500D2F10D /* Info.plist */,
 				422B6D002498D91500D2F10D /* Preview Content */,
-				42639513249E009E00ADFBE4 /* Tools.swift */,
-				42639511249DA14200ADFBE4 /* EndPointEditView.swift */,
-				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
-				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
-				4214731B24E60E1700E61E6E /* SwiftyJSON.swift */,
-				422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */,
 				423DD13224A984860064D321 /* LinkModel.xcdatamodeld */,
-				426F887324B09EE600C039E4 /* ApiEditView.swift */,
-				42697F3324F285EC005298D9 /* ApiEditData.swift */,
-				42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */,
-				4285FE3B24D3FAC5002BEAEF /* ApiDetailView.swift */,
-				4285FE7124D58479002BEAEF /* DebugHelper.swift */,
-				427471F524D649C900883AD7 /* Extentsion.swift */,
-				427471F724D6510500883AD7 /* EntityExtension.swift */,
-				42BC1B6424D7E8590078402B /* DomainData.swift */,
-				42BC1B9724D8DF6E0078402B /* HealthChecker.swift */,
-				42DAFACB24DA3A850093869D /* JSONViewerView.swift */,
-				427A82CA24E4BA3700437A56 /* DataSource.swift */,
-				427A82CC24E54FEF00437A56 /* JSONView.swift */,
-				4214731924E558EA00E61E6E /* JSONWrapper.swift */,
+				42697F3724F34DD2005298D9 /* Models */,
+				42697F3624F34DC0005298D9 /* Utils */,
 				4232203A24F08BB5001470BF /* InfoPlist.strings */,
 			);
 			path = Link;
@@ -177,6 +160,47 @@
 				426F887524B1450400C039E4 /* EndPointTests.swift */,
 			);
 			path = LinkTests;
+			sourceTree = "<group>";
+		};
+		42697F3524F34DA8005298D9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				422B6CFC2498D91400D2F10D /* OnboardView.swift */,
+				42639511249DA14200ADFBE4 /* EndPointEditView.swift */,
+				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
+				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
+				422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */,
+				426F887324B09EE600C039E4 /* ApiEditView.swift */,
+				4285FE3B24D3FAC5002BEAEF /* ApiDetailView.swift */,
+				42DAFACB24DA3A850093869D /* JSONViewerView.swift */,
+				427A82CC24E54FEF00437A56 /* JSONView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		42697F3624F34DC0005298D9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4285FE7124D58479002BEAEF /* DebugHelper.swift */,
+				42639513249E009E00ADFBE4 /* Tools.swift */,
+				4214731B24E60E1700E61E6E /* SwiftyJSON.swift */,
+				42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */,
+				427471F524D649C900883AD7 /* Extentsion.swift */,
+				427471F724D6510500883AD7 /* EntityExtension.swift */,
+				42BC1B9724D8DF6E0078402B /* HealthChecker.swift */,
+				427A82CA24E4BA3700437A56 /* DataSource.swift */,
+				4214731924E558EA00E61E6E /* JSONWrapper.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		42697F3724F34DD2005298D9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				42697F3324F285EC005298D9 /* ApiEditData.swift */,
+				42BC1B6424D7E8590078402B /* DomainData.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		4285FE6E24D562EC002BEAEF /* Frameworks */ = {
