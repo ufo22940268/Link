@@ -41,9 +41,10 @@ private struct EndPointRow: View {
 struct DomainEndPointListView: View {
     let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
     @EnvironmentObject var domainData: DomainData
+    @Environment(\.managedObjectContext) var context
 
     var domainMap: [String: [EndPointEntity]] {
-        domainData.endPoints.filter { $0.domain?.name != nil }.reduce([String: [EndPointEntity]]()) { r, entity in
+        domainData.endPoints.filter { $0.domain?.name != nil }.sorted(by: { $0.url ?? "" < $1.url ?? "" }).reduce([String: [EndPointEntity]]()) { r, entity in
             var k = r
             let domainName = entity.domain!.name!
             if r[domainName] != nil {
@@ -55,26 +56,25 @@ struct DomainEndPointListView: View {
         }
     }
 
+    var domainNames: [String] {
+        domainMap.keys.sorted()
+    }
+
     var body: some View {
         List {
-            ForEach(domainMap.keys.sorted(), id: \.self) { domainName in
+            ForEach(domainNames, id: \.self) { domainName in
                 Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                    ForEach(self.domainMap[domainName]!.sorted(by: { $0.url ?? "" < $1.url ?? "" })) { endPoint in
+                    ForEach(self.domainMap[domainName]!) { endPoint in
                         EndPointRow(endPoint: endPoint)
                     }
                 }).font(.body)
             }
+            .onDelete { index in
+                let endPoint = self.domainNames.flatMap { self.domainMap[$0]! }[index.first!]
+                DataSource(context: self.context).deleteEndPoint(entity: endPoint)
+                self.domainData.endPoints.removeAll { $0 == endPoint }
+                print(index)
+            }
         }
     }
 }
-
-//struct DomainEndPointListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let de = EndPointEntity(context: context)
-//        de.url = "https://ewfwef.com/fwef/wefwessff"
-//        let de2 = EndPointEntity(context: context)
-//        de2.url = "https://ewfwef.com/fwef/22222"
-//        return DomainEndPointListView()
-//            .environment(\.managedObjectContext, getPersistentContainer().viewContext)
-//    }
-//}

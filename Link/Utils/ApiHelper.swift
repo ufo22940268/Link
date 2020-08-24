@@ -93,6 +93,7 @@ struct ApiHelper {
                 let ae = ApiEntity(context: context)
                 ae.paths = api.path
                 ae.value = api.value
+                ae.watch = false
                 ae.endPoint = endPoint
                 apiEntities.append(ae)
             }

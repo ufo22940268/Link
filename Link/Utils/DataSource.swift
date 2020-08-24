@@ -15,6 +15,7 @@ final class DataSource: ObservableObject {
     init(context: NSManagedObjectContext) {
         self.context = context
     }
+
 }
 
 // MARK: EndPoints api
@@ -31,4 +32,11 @@ extension DataSource {
         req.predicate = NSPredicate(format: "url == %@", url)
         return try? context.fetch(req).first
     }
+    
+    func deleteEndPoint(entity endPoint: EndPointEntity) {
+        
+        context.delete(fetchEndPoint(id: endPoint.objectID)!)
+        try! context.save()
+    }
+
 }

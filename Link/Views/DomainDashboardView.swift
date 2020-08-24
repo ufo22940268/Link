@@ -15,10 +15,13 @@ struct DomainDashboardView: View {
     @Environment(\.managedObjectContext) var context
 
     var refreshButton: some View {
-        Button(domainData.isLoading ? "刷新中" : "刷新", action: {
-            self.domainData.needReload.send()
-        })
-            .disabled(domainData.isLoading)
+        if domainData.endPoints.count > 0 {
+            return AnyView(Button(domainData.isLoading ? "刷新中" : "刷新", action: {
+                self.domainData.needReload.send()
+            }).disabled(domainData.isLoading))
+        } else {
+            return AnyView(EmptyView())
+        }
     }
 
     var addEndPointButton: some View {
