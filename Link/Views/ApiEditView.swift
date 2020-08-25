@@ -24,7 +24,6 @@ enum Segment: Int, RawRepresentable, CaseIterable {
     }
 }
 
-
 struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
@@ -68,7 +67,13 @@ struct ApiEditView: View {
                     self.editMode = .inactive
                     self.selection.forEach { api in
                         api.watch = true
+                        api.watchValue = api.value
                     }
+                    self.apiEditData.apis.filter { !self.selection.contains($0) }
+                        .forEach {
+                            $0.watch = false
+                            $0.watchValue = nil
+                        }
                     self.apiEditData.objectWillChange.send()
                 } else {
                     self.editMode = .active

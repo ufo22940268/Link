@@ -31,6 +31,7 @@ struct ApiDetailView: View {
         } else {
             return AnyView(Button("加入监控", action: {
                 self.api.watch = true
+                self.api.watchValue = self.api.value
                 self.onComplete?()
                 self.presentationMode.wrappedValue.dismiss()
             }).foregroundColor(.accentColor))
