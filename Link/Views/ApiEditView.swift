@@ -24,39 +24,6 @@ enum Segment: Int, RawRepresentable, CaseIterable {
     }
 }
 
-struct ApiEditListItemView: View {
-    @Binding var api: ApiEntity
-    @Environment(\.editMode) var mode
-    var segment: Segment
-    var onComplete: () -> Void
-
-    var isEditing: Bool {
-        mode != nil && mode!.wrappedValue.isEditing
-    }
-
-    var body: some View {
-        HStack {
-            if segment == .all {
-                if api.watch {
-                    Image(systemName: "star.fill").foregroundColor(.yellow).font(.footnote)
-                } else {
-                    Text("").font(.footnote).fixedSize().frame(width: 13, height: 1, alignment: .leading)
-                }
-            } else {
-                Text("").font(.footnote).fixedSize().frame(width: 13, height: 1, alignment: .leading)
-            }
-            NavigationLink(destination: ApiDetailView(api: $api, onComplete: onComplete)) {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text((api.paths ?? "").lastPropertyPath).bold()
-                    }
-                    Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
-                        .lineLimit(2)
-                }
-            }
-        }
-    }
-}
 
 struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
@@ -64,8 +31,8 @@ struct ApiEditView: View {
     @ObservedObject var apiEditData: ApiEditData
     @Binding var dismissPresentationMode: PresentationMode?
     @State var segment = Segment.all.rawValue
-    @Environment(\.editMode) var editMode
     @State var selection = Set<ApiEntity>()
+    @State var editMode: EditMode = .inactive
 
     init(apiEditData: ApiEditData, dismissPresentationMode: Binding<PresentationMode?>) {
         self.apiEditData = apiEditData
@@ -84,7 +51,7 @@ struct ApiEditView: View {
     }
 
     var doneButton: some View {
-        if let editMode = editMode, editMode.wrappedValue != .active {
+        if editMode != .active {
             return AnyView(Button("完成", action: {
                 try? self.context.save()
                 self.dismissPresentationMode?.dismiss()
@@ -95,7 +62,19 @@ struct ApiEditView: View {
     }
 
     var editButton: some View {
-        EditButton()
+        Button(self.editMode == .active ? "完成" : "编辑") {
+            withAnimation {
+                if self.editMode == .active {
+                    self.editMode = .inactive
+                    self.selection.forEach { api in
+                        api.watch = true
+                    }
+                    self.apiEditData.objectWillChange.send()
+                } else {
+                    self.editMode = .active
+                }
+            }
+        }
     }
 
     var categorySelectorView: some View {
@@ -130,6 +109,7 @@ struct ApiEditView: View {
                 }))
             }
         }
+        .environment(\.editMode, $editMode)
         .navigationBarItems(leading: editButton, trailing: doneButton)
         .navigationBarTitle("字段", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
