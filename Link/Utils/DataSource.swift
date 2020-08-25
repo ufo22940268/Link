@@ -37,7 +37,8 @@ extension DataSource {
         if let endPoints = endPoint.domain?.endPoints, !endPoints.contains(where: { ($0 as? EndPointEntity) != endPoint }) {
             context.delete(endPoint.domain!)
         }
-
+        endPoint.apis.forEach { context.delete($0) }
+        
         try! context.save()
     }
 }
