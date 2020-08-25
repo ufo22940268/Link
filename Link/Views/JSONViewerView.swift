@@ -39,15 +39,19 @@ struct JSONViewerView: View {
     @State var showingEdit = false
 
     var editButton: some View {
-        Button(action: {
-            self.showingEdit = true
-        }) {
-            Text("编辑")
+        if isValidJson {
+            return AnyView(Button(action: {
+                self.showingEdit = true
+            }) {
+                Text("编辑")
+            }
+            .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
+                EndPointEditView(endPointId: self.endPoint.objectID, type: .edit, apiEditData: self.apiData)
+                    .environment(\.managedObjectContext, self.context)
+            }))
+        } else {
+            return AnyView(EmptyView())
         }
-        .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
-            EndPointEditView(endPointId: self.endPoint.objectID, type: .edit, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, self.context)
-        })
     }
 
     var lastPartOfPath: String {
@@ -94,12 +98,14 @@ struct JSONViewerView: View {
 
     var body: some View {
         List {
-            if errorApis.count > 0 {
-                ApiSectionView(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
-            }
-
-            if healthyApis.count > 0 {
-                ApiSectionView(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
+            if isValidJson {
+                if errorApis.count > 0 {
+                    ApiSectionView(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
+                }
+                
+                if healthyApis.count > 0 {
+                    ApiSectionView(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
+                }
             }
 
             Section(header: Text("返回结果"), footer: isValidJson ? AnyView(EmptyView()) : AnyView(Text("返回格式错误").foregroundColor(.red))) {

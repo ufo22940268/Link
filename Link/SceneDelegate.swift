@@ -17,47 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
 
-    private func launchView() -> some View {
-        if let viewName = ProcessInfo.processInfo.environment["LAUNCH_VIEW"] {
-            switch viewName {
-//            case "endPointEdit":
-//                let testDomain = DomainData.test(context: context)
-//                return AnyView(
-//                    EndPointEditView(endPointId: testDomain.endPoints.first!.objectID)
-//                        .environment(\.managedObjectContext, context)
-//                        .environmentObject(testDomain)
-//                )
-//            case "apiEdit":
-//                let d = DomainData.test(context: context)
-//                let endPointEditview = NavigationView {
-//                    ApiEditView(apiEditData: ApiEditData())
-//                        .environment(\.managedObjectContext, context)
-//                        .environmentObject(d)
-//                        .environment(\.endPointId, d.endPoints[0].objectID)
-//                }
-//                return AnyView(endPointEditview)
-//            case "jsonViewer":
-//                let view = JSONViewerView()
-//                    .environmentObject(DomainData.test(context: context))
-//                    .environmentObject(EndPointData(endPoint: try! getAnyEndPoint()))
-//                return AnyView(NavigationView { view })
-            case "jsonView":
-                let d = """
-                {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}
-                """.data(using: .utf8)!
-                let view = JSONView(data: d, healthy: ["b"])
-                return AnyView(view)
-            default:
-                fatalError()
-            }
-        }
-
-        let mainView = OnboardView()
-            .environment(\.managedObjectContext, context)
-            .environmentObject(DataSource(context: context))
-        return AnyView(mainView)
-    }
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if UIDevice.isSimulator {
             if let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url {
@@ -74,7 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //
 
         // Create the SwiftUI view that provides the window contents.
-        let contentView = launchView()
+        let contentView = OnboardView()
+            .environment(\.managedObjectContext, context)
+            .environmentObject(DataSource(context: context))
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
