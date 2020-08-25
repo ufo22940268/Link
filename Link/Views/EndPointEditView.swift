@@ -148,7 +148,6 @@ struct EndPointEditView: View {
         endPoint.url = apiEditData.url
 
         if needSave {
-            print("save in update entity")
             try! context.save()
         }
 
@@ -170,7 +169,6 @@ struct EndPointEditView: View {
             .flatMap { url in
                 ApiHelper().test(url: url)
             }
-            .print("urlPub")
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
@@ -240,10 +238,8 @@ struct EndPointEditView: View {
                 self.apiEditData.url = url
                 self.apiEditData.domainName = extractDomainName(fromURL: url)
                 self.validateURLResult = .ok
-                print("appear")
             }
 
-            print("on appear ")
             self.listenToURLChange()
 
             if !self.launched {

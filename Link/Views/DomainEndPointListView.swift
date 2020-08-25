@@ -73,7 +73,6 @@ struct DomainEndPointListView: View {
                 let endPoint = self.domainNames.flatMap { self.domainMap[$0]! }[index.first!]
                 DataSource(context: self.context).deleteEndPoint(entity: endPoint)
                 self.domainData.endPoints.removeAll { $0 == endPoint }
-                print(index)
             }
         }
     }

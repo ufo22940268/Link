@@ -50,7 +50,7 @@ struct ApiDetailView: View {
                     .foregroundColor(api.match ? nil : .error)
             }
 
-            if !api.match {
+            if !api.match && api.watchValue != nil {
                 Section(header: Text("参考值")) {
                     Text(api.watchValue ?? "")
                 }
@@ -72,7 +72,7 @@ struct ApiDetailView_Previews: PreviewProvider {
         var body: some View {
             api.paths = "asaa"
             api.value = "vvv"
-            api.watchValue = "wefwef"
+//            api.watchValue = "wefwef"
             return ApiDetailView(api: Binding.constant(api)).environment(\.colorScheme, .dark)
         }
     }
