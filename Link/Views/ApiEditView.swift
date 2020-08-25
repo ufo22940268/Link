@@ -99,9 +99,7 @@ struct ApiEditView: View {
     }
 
     var body: some View {
-        print("apis count", self.apiEditData.apis.count)
-
-        return VStack {
+        VStack {
             categorySelectorView
             List(self.categoryApis, id: \.self, selection: self.$selection) { api -> AnyView in
                 AnyView(ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
@@ -113,9 +111,6 @@ struct ApiEditView: View {
         .navigationBarItems(leading: editButton, trailing: doneButton)
         .navigationBarTitle("字段", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
-        .onReceive(apiEditData.$apis) { _ in
-            print("apis changes")
-        }
     }
 }
 
