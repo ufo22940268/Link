@@ -31,13 +31,13 @@ struct DomainDashboardView: View {
         }, label: {
             Image(systemName: "plus")
         }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
-//            self.apiData.apis = []
-//            self.apiData.domainName = ""
-//            self.apiData.url = ""
+            self.apiData.domainName = ""
+            self.apiData.url = ""
             self.domainData.needReload.send()
-        }, content: {
-            EndPointEditView(type: .add, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, self.context)
+        }, content: { () -> AnyView in
+            print("present")
+            return AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)
+                .environment(\.managedObjectContext, self.context))
         })
     }
 

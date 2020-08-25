@@ -91,7 +91,7 @@
          <EnvironmentVariable
             key = "FILL_URL"
             value = "true"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "LAUNCH_VIEW"

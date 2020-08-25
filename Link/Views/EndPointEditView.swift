@@ -243,6 +243,7 @@ struct EndPointEditView: View {
                 print("appear")
             }
 
+            print("on appear ")
             self.listenToURLChange()
 
             if !self.launched {
