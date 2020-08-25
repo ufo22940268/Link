@@ -65,6 +65,13 @@ struct ApiEditView: View {
     @Binding var dismissPresentationMode: PresentationMode?
     @State var segment = Segment.all.rawValue
     @Environment(\.editMode) var editMode
+    @State var selection = Set<ApiEntity>()
+
+    init(apiEditData: ApiEditData, dismissPresentationMode: Binding<PresentationMode?>) {
+        self.apiEditData = apiEditData
+        _dismissPresentationMode = dismissPresentationMode
+        _selection = State(initialValue: Set(apiEditData.apis.filter { $0.watch }))
+    }
 
     func buildApiSelection() -> Binding<Set<ApiEntity>> {
         Binding<Set<ApiEntity>>(get: { () -> Set<ApiEntity> in
@@ -114,9 +121,10 @@ struct ApiEditView: View {
 
     var body: some View {
         print("apis count", self.apiEditData.apis.count)
+
         return VStack {
             categorySelectorView
-            List(self.categoryApis, id: \.self, selection: buildApiSelection()) { api -> AnyView in
+            List(self.categoryApis, id: \.self, selection: self.$selection) { api -> AnyView in
                 AnyView(ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
                     self.apiEditData.objectWillChange.send()
                 }))
