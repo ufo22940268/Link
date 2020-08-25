@@ -14,5 +14,12 @@ class ApiEditData: ObservableObject {
     @Published var apis = [ApiEntity]()
     @Published var domainName: String = ""
     @Published var url: String = ""
-}
 
+    init() {}
+
+    init(endPoint: EndPointEntity) {
+        self.apis = endPoint.apis
+        self.domainName = endPoint.domain!.name ?? ""
+        self.url = endPoint.url ?? ""
+    }
+}

@@ -30,8 +30,14 @@ struct DomainDashboardView: View {
             self.showingAddEndPoint = true
         }, label: {
             Image(systemName: "plus")
-        }).sheet(isPresented: $showingAddEndPoint, content: {
-            EndPointEditView(type: .add, apiEditData: self.apiData).environment(\.managedObjectContext, self.context)
+        }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
+//            self.apiData.apis = []
+//            self.apiData.domainName = ""
+//            self.apiData.url = ""
+            self.domainData.needReload.send()
+        }, content: {
+            EndPointEditView(type: .add, apiEditData: self.apiData)
+                .environment(\.managedObjectContext, self.context)
         })
     }
 

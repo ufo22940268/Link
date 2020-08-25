@@ -113,12 +113,13 @@ struct ApiEditView: View {
     }
 
     var body: some View {
-        VStack {
+        print("apis count", self.apiEditData.apis.count)
+        return VStack {
             categorySelectorView
-            List(self.categoryApis, id: \.self, selection: buildApiSelection()) { api in
-                ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
+            List(self.categoryApis, id: \.self, selection: buildApiSelection()) { api -> AnyView in
+                AnyView(ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
                     self.apiEditData.objectWillChange.send()
-                })
+                }))
             }
         }
         .navigationBarItems(leading: editButton, trailing: doneButton)

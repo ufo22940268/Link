@@ -37,6 +37,7 @@
 		42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */; };
 		42D2054324C675B800C6CC70 /* github.json in Resources */ = {isa = PBXBuildFile; fileRef = 42D2054224C675B800C6CC70 /* github.json */; };
 		42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DAFACB24DA3A850093869D /* JSONViewerView.swift */; };
+		42E92A0324F4D38B004EA1C9 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0224F4D38B004EA1C9 /* View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		42D2054224C675B800C6CC70 /* github.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = github.json; sourceTree = "<group>"; };
 		42DAFACB24DA3A850093869D /* JSONViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONViewerView.swift; sourceTree = "<group>"; };
+		42E92A0224F4D38B004EA1C9 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 				42BC1B9724D8DF6E0078402B /* HealthChecker.swift */,
 				427A82CA24E4BA3700437A56 /* DataSource.swift */,
 				4214731924E558EA00E61E6E /* JSONWrapper.swift */,
+				42E92A0224F4D38B004EA1C9 /* View.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */,
 				42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */,
 				42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */,
+				42E92A0324F4D38B004EA1C9 /* View.swift in Sources */,
 				427A82CD24E54FEF00437A56 /* JSONView.swift in Sources */,
 				4214731A24E558EA00E61E6E /* JSONWrapper.swift in Sources */,
 				427A82CB24E4BA3700437A56 /* DataSource.swift in Sources */,

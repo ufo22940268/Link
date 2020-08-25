@@ -27,6 +27,11 @@ struct JSONViewerView: View {
     @EnvironmentObject var domainData: DomainData
     @ObservedObject var apiData: ApiEditData = ApiEditData()
 
+    init(modelData: JSONViewerData) {
+        self.modelData = modelData
+        self.apiData = ApiEditData(endPoint: modelData.endPoint!)
+    }
+
     var endPoint: EndPointEntity {
         modelData.endPoint!
     }
