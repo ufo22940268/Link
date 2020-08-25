@@ -25,12 +25,12 @@ public class DebugHelper {
         let d = DomainEntity(context: context)
         d.name = "d"
 
-//        let p = EndPointEntity(context: context)
-//        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
-//        p.domain = d
-//        p.data = NSDataAsset(name: "github", bundle: .main)!.data
-//
-//        d.endPoints?.adding(p)
+        let p = EndPointEntity(context: context)
+        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
+        p.domain = d
+        p.data = NSDataAsset(name: "github", bundle: .main)!.data
+
+        d.endPoints?.adding(p)
 
         let p2 = EndPointEntity(context: context)
         p2.url = "http://biubiubiu.hopto.org:9000/link/github.json2"

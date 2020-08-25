@@ -224,7 +224,7 @@ struct EndPointEditView: View {
                 HStack {
                     Text("名字")
                     Spacer()
-                    Text(apiEditData.domainName)
+                    TextField("", text: $apiEditData.domainName)
                 }
             }
         }
