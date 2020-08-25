@@ -12,6 +12,7 @@ enum HealthStatus: String, RawRepresentable {
     case healthy
     case error
     case other
+    case formatError
 }
 
 struct EndPointStatus: Hashable {
@@ -32,6 +33,8 @@ private struct EndPointRow: View {
                 Spacer()
                 if endPoint.status == HealthStatus.error {
                     Image(systemName: "cloud.rain")
+                } else if endPoint.status == HealthStatus.formatError {
+                    Image(systemName: "exclamationmark.icloud")
                 }
             }
         }

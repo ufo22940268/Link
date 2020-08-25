@@ -18,6 +18,10 @@ extension EndPointEntity: Identifiable {
     }
 
     var status: HealthStatus {
+        if let data = data, !data.isValidJSON {
+            return .formatError
+        }
+        
         if let apis = api?.allObjects as? [ApiEntity] {
             if apis.allSatisfy({ $0.watch == false }) {
                 return .other

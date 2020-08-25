@@ -39,6 +39,7 @@
 		42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DAFACB24DA3A850093869D /* JSONViewerView.swift */; };
 		42E92A0324F4D38B004EA1C9 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0224F4D38B004EA1C9 /* View.swift */; };
 		42E92A0724F4FCF9004EA1C9 /* ApiEditListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0624F4FCF9004EA1C9 /* ApiEditListItemView.swift */; };
+		42E92A0924F5C422004EA1C9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0824F5C422004EA1C9 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		42DAFACB24DA3A850093869D /* JSONViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONViewerView.swift; sourceTree = "<group>"; };
 		42E92A0224F4D38B004EA1C9 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		42E92A0624F4FCF9004EA1C9 /* ApiEditListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEditListItemView.swift; sourceTree = "<group>"; };
+		42E92A0824F5C422004EA1C9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				427A82CA24E4BA3700437A56 /* DataSource.swift */,
 				4214731924E558EA00E61E6E /* JSONWrapper.swift */,
 				42E92A0224F4D38B004EA1C9 /* View.swift */,
+				42E92A0824F5C422004EA1C9 /* File.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
 				423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */,
 				42BC1B6524D7E8590078402B /* DomainData.swift in Sources */,
+				42E92A0924F5C422004EA1C9 /* File.swift in Sources */,
 				4285FE7224D58479002BEAEF /* Debug.swift in Sources */,
 				42639514249E009E00ADFBE4 /* Tools.swift in Sources */,
 			);
