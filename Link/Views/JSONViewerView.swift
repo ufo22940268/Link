@@ -46,7 +46,7 @@ struct JSONViewerView: View {
                 Text("编辑")
             }
             .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
-                EndPointEditView(endPointId: self.endPoint.objectID, type: .edit, apiEditData: self.apiData)
+                EndPointEditView(type: .edit, apiEditData: self.apiData)
                     .environment(\.managedObjectContext, self.context)
             }))
         } else {

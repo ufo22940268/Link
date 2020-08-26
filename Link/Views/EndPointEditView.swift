@@ -89,10 +89,10 @@ struct EndPointEditView: View {
 
     var type: EditType
 
-    internal init(endPointId: NSManagedObjectID? = nil, type: EndPointEditView.EditType, apiEditData: ApiEditData = ApiEditData()) {
+    internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData = ApiEditData()) {
         self.type = type
-        if endPointId != nil {
-            _endPointId = State(initialValue: endPointId)
+        if let endPoint = apiEditData.endPoint {
+            _endPointId = State(initialValue: endPoint.objectID)
         }
         self.apiEditData = apiEditData
 
@@ -224,19 +224,18 @@ struct EndPointEditView: View {
                 HStack {
                     Text("名字")
                     Spacer()
-                    TextField("", text: $apiEditData.domainName)
+                    TextField("example", text: $apiEditData.domainName)
+                        .multilineTextAlignment(.trailing)
                 }
             }
         }
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
+        .onReceive(self.apiEditData.$domainName, perform: { name in
+            self.apiEditData.endPoint!.domain!.name = name
+        })
         .onAppear {
-            if let endPointId = self.endPointId,
-                let ee = self.dataSource.fetchEndPoint(id: endPointId),
-                let url = ee.url
-            {
-                self.apiEditData.url = url
-                self.apiEditData.domainName = extractDomainName(fromURL: url)
+            if self.type == .edit {
                 self.validateURLResult = .ok
             }
 
@@ -256,14 +255,12 @@ struct EndPointEditView: View {
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
+        let domain = DomainEntity(context: context)
         let ee = EndPointEntity(context: context)
         ee.url = "http://wefwef.com"
-        let v2 = EndPointEditView(type: .edit)
-        v2.validateURLResult = .formatError
+        ee.domain = domain
 
-        return Group {
-            EndPointEditView(endPointId: ee.objectID, type: .edit).environment(\.managedObjectContext, context)
-            v2.environment(\.managedObjectContext, context)
-        }
+        return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPoint: ee))
+            .environment(\.managedObjectContext, context)
     }
 }
