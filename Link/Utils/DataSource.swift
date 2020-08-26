@@ -55,9 +55,14 @@ extension DataSource {
         return try? context.fetch(req).first
     }
 
-    func updateDomainName(name: String, url: String) {
-        let domain = getDomain(by: url.hostname)!
-        domain.name = name
+    func upsertDomainName(name: String, url: String) {
+        if let domain = getDomain(by: url.hostname) {
+            domain.name = name
+        } else {
+            let domain = DomainEntity(context: context)
+            domain.hostname = url.hostname
+            domain.name = name
+        }
     }
 
     func deleteDomain(for url: String) {

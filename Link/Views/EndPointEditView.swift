@@ -247,7 +247,7 @@ struct EndPointEditView: View {
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onReceive(self.apiEditData.$domainName, perform: { name in
-            self.dataSource.updateDomainName(name: name, url: self.apiEditData.url)
+            self.dataSource.upsertDomainName(name: name, url: self.apiEditData.url)
         })
         .onAppear {
             if self.type == .edit {
