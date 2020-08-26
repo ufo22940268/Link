@@ -73,7 +73,8 @@ struct ApiDetailView_Previews: PreviewProvider {
         var body: some View {
             api.paths = "asaa"
             api.value = "vvv"
-//            api.watchValue = "wefwef"
+            api.watch = true
+            api.watchValue = "wefwef"
             return ApiDetailView(api: Binding.constant(api)).environment(\.colorScheme, .dark)
         }
     }

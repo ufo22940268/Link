@@ -37,6 +37,9 @@ struct OnboardView: View {
                 .onReceive(domainData.needReload) { () in
                     self.loadDomains()
                 }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    self.loadDomains()
+                }
             Text("Second View")
                 .font(.title)
                 .tabItem {
