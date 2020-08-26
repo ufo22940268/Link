@@ -86,6 +86,7 @@ struct EndPointEditView: View {
 
     @ObservedObject var apiEditData: ApiEditData
     @State var launched = false
+    @State var customDomainName: Bool = false
 
     var type: EditType
 
@@ -99,6 +100,8 @@ struct EndPointEditView: View {
         if type == .add {
             validateURLResult = .initial
         }
+
+        customDomainName = apiEditData.url.domainName == apiEditData.domainName
     }
 
     enum EditType {
@@ -188,8 +191,9 @@ struct EndPointEditView: View {
             .store(in: &cancellables)
 
         urlPub
+            .filter { _ in !self.customDomainName }
             .map {
-                extractDomainName(fromURL: $0)
+                $0.domainName
             }
             .assign(to: \.domainName, on: apiEditData)
             .store(in: &cancellables)
@@ -201,14 +205,24 @@ struct EndPointEditView: View {
             .store(in: &cancellables)
     }
 
-    var body: some View {
-        let urlBinding = Binding<String>(get: {
+    var urlBinding: Binding<String> {
+        Binding<String>(get: {
             self.apiEditData.url
         }, set: {
             self.apiEditData.url = $0
-            self.apiEditData.domainName = extractDomainName(fromURL: $0)
         })
+    }
 
+    var nameBinding: Binding<String> {
+        Binding<String>(get: { () -> String in
+            self.apiEditData.domainName
+        }) {
+            self.apiEditData.domainName = $0
+            self.customDomainName = true
+        }
+    }
+
+    var body: some View {
         let form = Form {
             Section(header: Text(""), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
                 HStack {
@@ -224,7 +238,7 @@ struct EndPointEditView: View {
                 HStack {
                     Text("名字")
                     Spacer()
-                    TextField("example", text: $apiEditData.domainName)
+                    TextField("example", text: nameBinding)
                         .multilineTextAlignment(.trailing)
                 }
             }
@@ -244,7 +258,7 @@ struct EndPointEditView: View {
             if !self.launched {
                 if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
                     self.apiEditData.url = "http://biubiubiu.hopto.org:9000/link/github.json"
-                    urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
+                    self.urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                 }
             }
         }
