@@ -34,7 +34,6 @@ public class DebugHelper {
 
     static func resetCoreData() {
         print("resetCoreData")
-
         let context = getPersistentContainer().viewContext
         let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
         for entity in entities {

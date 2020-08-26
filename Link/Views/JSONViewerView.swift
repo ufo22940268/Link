@@ -22,7 +22,6 @@ struct JSONViewerView: View {
     @ObservedObject var modelData: JSONViewerData
     @EnvironmentObject var domainData: DomainData
     @ObservedObject var apiData: ApiEditData = ApiEditData()
-    
 
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
@@ -36,19 +35,15 @@ struct JSONViewerView: View {
     @State var showingEdit = false
 
     var editButton: some View {
-        if isValidJson {
-            return AnyView(Button(action: {
-                self.showingEdit = true
-            }) {
-                Text("编辑")
-            }
-            .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
-                EndPointEditView(type: .edit, apiEditData: self.apiData)
-                    .environment(\.managedObjectContext, self.context)
-            }))
-        } else {
-            return AnyView(EmptyView())
+        AnyView(Button(action: {
+            self.showingEdit = true
+        }) {
+            Text("编辑")
         }
+        .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
+            EndPointEditView(type: .edit, apiEditData: self.apiData)
+                .environment(\.managedObjectContext, self.context)
+        }))
     }
 
     var lastPartOfPath: String {
