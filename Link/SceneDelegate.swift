@@ -27,10 +27,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
 
-        if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"] {
+        if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"], !UIDevice.isRunningTest {
             DebugHelper.resetCoreData()
         }
         //
+
+        print("context id1", ObjectIdentifier(context))
 
         // Create the SwiftUI view that provides the window contents.
         let contentView = OnboardView()

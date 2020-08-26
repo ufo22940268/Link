@@ -24,19 +24,24 @@ public struct Api: Identifiable {
     var watch: Bool = false
 }
 
-extension Api: Hashable {
-}
+extension Api: Hashable {}
 
 typealias Path = [String]
 
 struct ApiHelper {
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
     func fetch(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
+        let reqDate = Date()
+
         return URLSession(configuration: .ephemeral).dataTaskPublisher(for: URL(string: endPoint.url ?? "")!)
             .receive(on: DispatchQueue.main)
             .tryMap {
+                let duration = Date().timeIntervalSince(reqDate)
+                endPoint.duration = duration
                 endPoint.data = $0.data
-//                try! self.persistentContainer.viewContext.save()
+                if let response = $0.response as? HTTPURLResponse {
+                    endPoint.statusCode = Int16(response.statusCode)
+                }
                 return try JSON(data: $0.data)
             }
             .map { self.convertToAPI(json: $0) }
@@ -82,8 +87,7 @@ struct ApiHelper {
     }
 
     func convertToApiEntity(endPoint: EndPointEntity, apis: [Api]) -> [ApiEntity] {
-        let req = persistentContainer.managedObjectModel.fetchRequestFromTemplate(withName: "FetchApiByDomain", substitutionVariables: ["endPoint": endPoint.objectID])
-        var apiEntities: [ApiEntity] = try! persistentContainer.viewContext.fetch(req!) as! [ApiEntity]
+        var apiEntities: [ApiEntity] = endPoint.apis
 
         let context = persistentContainer.viewContext
         for api in apis {

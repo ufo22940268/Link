@@ -21,7 +21,7 @@ extension EndPointEntity: Identifiable {
         if let data = data, !data.isValidJSON {
             return .formatError
         }
-        
+
         if let apis = api?.allObjects as? [ApiEntity] {
             if apis.allSatisfy({ $0.watch == false }) {
                 return .other
@@ -44,6 +44,10 @@ extension EndPointEntity: Identifiable {
         }
 
         return apis.sorted { $0.paths ?? "" < $1.paths ?? "" }
+    }
+
+    var isCompleted: Bool {
+        return statusCode != 0
     }
 }
 

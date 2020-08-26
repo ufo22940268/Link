@@ -23,11 +23,13 @@ struct EndPointStatus: Hashable {
 private struct EndPointRow: View {
     var endPoint: EndPointEntity
     @EnvironmentObject var domainData: DomainData
+    @Environment(\.managedObjectContext) var context
 
     var body: some View {
-        NavigationLink(destination: JSONViewerView(modelData: JSONViewerData(endPoint: endPoint))
+        NavigationLink(destination: JSONViewerView(modelData: JSONViewerData(endPoint: endPoint), context: context)
             .environment(\.endPointId, endPoint.objectID)
-            .environmentObject(domainData)) {
+            .environmentObject(domainData)
+        ) {
             HStack {
                 Text(endPoint.endPointPath).lineLimit(1)
                 Spacer()
@@ -45,11 +47,12 @@ struct DomainEndPointListView: View {
     let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
     @EnvironmentObject var domainData: DomainData
     @Environment(\.managedObjectContext) var context
+    @EnvironmentObject var dataSource: DataSource
 
     var domainMap: [String: [EndPointEntity]] {
-        domainData.endPoints.filter { $0.domain?.name != nil }.sorted(by: { $0.url ?? "" < $1.url ?? "" }).reduce([String: [EndPointEntity]]()) { r, entity in
+        domainData.endPoints.sorted(by: { $0.url ?? "" < $1.url ?? "" }).reduce([String: [EndPointEntity]]()) { r, entity in
             var k = r
-            let domainName = entity.domain!.name!
+            let domainName = dataSource.getDomainName(for: entity.url!)
             if r[domainName] != nil {
                 k[domainName]!.append(entity)
             } else {

@@ -15,6 +15,7 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
+    @EnvironmentObject var dataSource: DataSource
 
     var body: some View {
         TabView(selection: $selection) {
@@ -40,6 +41,7 @@ struct OnboardView: View {
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     self.loadDomains()
                 }
+                .environmentObject(dataSource)
             Text("Second View")
                 .font(.title)
                 .tabItem {

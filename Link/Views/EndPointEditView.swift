@@ -143,9 +143,10 @@ struct EndPointEditView: View {
             endPoint = nd
         } else {
             endPoint = EndPointEntity(context: context)
-            let domain = DomainEntity(context: context)
-            domain.name = apiEditData.domainName
-            endPoint.domain = domain
+            // TODO: impl
+//            let domain = DomainEntity(context: context)
+//            domain.name = apiEditData.domainName
+//            endPoint.domain = domain
             needSave = true
         }
         endPoint.url = apiEditData.url
@@ -246,7 +247,7 @@ struct EndPointEditView: View {
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onReceive(self.apiEditData.$domainName, perform: { name in
-            self.apiEditData.endPoint!.domain!.name = name
+            self.dataSource.updateDomainName(name: name, url: self.apiEditData.url)
         })
         .onAppear {
             if self.type == .edit {
@@ -269,10 +270,8 @@ struct EndPointEditView: View {
 
 struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
-        let domain = DomainEntity(context: context)
         let ee = EndPointEntity(context: context)
         ee.url = "http://wefwef.com"
-        ee.domain = domain
 
         return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPoint: ee))
             .environment(\.managedObjectContext, context)

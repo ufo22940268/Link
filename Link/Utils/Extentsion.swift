@@ -9,13 +9,6 @@
 import CoreData
 import SwiftUI
 
-extension PreviewProvider {
-    static var context: NSManagedObjectContext {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        return context
-    }
-}
-
 extension String {
     subscript(_ range: NSRange) -> String {
         let start = index(startIndex, offsetBy: range.lowerBound)

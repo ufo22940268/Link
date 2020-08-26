@@ -12,8 +12,14 @@ import Foundation
 final class DataSource: ObservableObject {
     let context: NSManagedObjectContext
 
+    static let `default`: DataSource = DataSource()
+
     init(context: NSManagedObjectContext) {
         self.context = context
+    }
+
+    init() {
+        self.context = getPersistentContainer().viewContext
     }
 }
 
@@ -34,11 +40,32 @@ extension DataSource {
 
     func deleteEndPoint(entity endPoint: EndPointEntity) {
         context.delete(fetchEndPoint(id: endPoint.objectID)!)
-        if let endPoints = endPoint.domain?.endPoints, !endPoints.contains(where: { ($0 as? EndPointEntity) != endPoint }) {
-            context.delete(endPoint.domain!)
-        }
+        deleteDomain(for: endPoint.url!)
+
         endPoint.apis.forEach { context.delete($0) }
-        
+
         try! context.save()
+    }
+}
+
+extension DataSource {
+    func getDomain(by hostname: String) -> DomainEntity? {
+        let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest()
+        req.predicate = NSPredicate(format: "hostname == %@", hostname)
+        return try? context.fetch(req).first
+    }
+
+    func updateDomainName(name: String, url: String) {
+        let domain = getDomain(by: url.hostname)!
+        domain.name = name
+    }
+
+    func deleteDomain(for url: String) {
+        let domain = getDomain(by: url.hostname)
+        context.delete(domain!)
+    }
+
+    func getDomainName(for url: String) -> String {
+        getDomain(by: url.hostname)!.name ?? ""
     }
 }

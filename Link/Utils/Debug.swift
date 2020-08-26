@@ -11,34 +11,10 @@ import Foundation
 import SwiftUI
 
 public class DebugHelper {
-    static func resetCoreData() {
-        print("resetCoreData")
-
-        let context = getPersistentContainer().viewContext
-        let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
-        for entity in entities {
-            for e in try! context.fetch(entity.fetchRequest()) {
-                context.delete(e as! NSManagedObject)
-            }
-        }
-
-        let d = DomainEntity(context: context)
-        d.name = "d"
-
-        let p = EndPointEntity(context: context)
-        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
-        p.domain = d
-        p.data = NSDataAsset(name: "github", bundle: .main)!.data
-
-        d.endPoints?.adding(p)
-
+    fileprivate static func addMockEndPoint2(_ context: NSManagedObjectContext, _ d: DomainEntity) {
         let p2 = EndPointEntity(context: context)
         p2.url = "http://biubiubiu.hopto.org:9000/link/github.json2"
-        p2.domain = d
         p2.data = NSDataAsset(name: "fireball", bundle: .main)!.data
-
-        d.endPoints?.adding(p2)
-        
 
         let a1 = ApiEntity(context: context)
         a1.endPoint = p2
@@ -51,9 +27,31 @@ public class DebugHelper {
         a2.paths = "feeds_url"
         a2.watchValue = "https://api.github.com/user/feeds"
         a2.watch = true
-        
+
         p2.addToApi(a1)
         p2.addToApi(a2)
+    }
+
+    static func resetCoreData() {
+        print("resetCoreData")
+
+        let context = getPersistentContainer().viewContext
+        let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
+        for entity in entities {
+            for e in try! context.fetch(entity.fetchRequest()) {
+                context.delete(e as! NSManagedObject)
+            }
+        }
+
+        let d = DomainEntity(context: context)
+        d.name = "d9"
+        d.hostname = "biubiubiu.hopto.org:9000"
+
+        let p = EndPointEntity(context: context)
+        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
+        p.data = NSDataAsset(name: "github", bundle: .main)!.data
+
+        addMockEndPoint2(context, d)
 
         try! context.save()
     }
@@ -71,4 +69,8 @@ public extension UIDevice {
         return false
         #endif
     }()
+
+    static var isRunningTest: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
 }

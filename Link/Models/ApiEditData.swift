@@ -17,11 +17,15 @@ class ApiEditData: ObservableObject {
 
     var endPoint: EndPointEntity?
 
-    init() {}
+    // For create
+    init() {
+        self.endPoint = EndPointEntity()
+    }
 
+    // For edit
     init(endPoint: EndPointEntity) {
         self.apis = endPoint.apis
-        self.domainName = endPoint.domain!.name ?? ""
+        self.domainName = DataSource.default.getDomainName(for: endPoint.url!)
         self.url = endPoint.url ?? ""
         self.endPoint = endPoint
     }

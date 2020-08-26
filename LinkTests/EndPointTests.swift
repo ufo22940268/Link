@@ -12,33 +12,25 @@ import CoreData
 import XCTest
 
 class EndPointTests: XCTestCase {
+    var context = getPersistentContainer().viewContext
+
     override func setUpWithError() throws {
+        let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
+        for entity in entities {
+            for e in try! context.fetch(entity.fetchRequest()) {
+                context.delete(e as! NSManagedObject)
+            }
+        }
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testJSON() {
-        let data: Data = """
-        [{"a": 1, "b": 2}]
-        """.data(using: .utf8)!
-
-        var j = try! JSON(data: data)
-        j["c"] = 3
-        j.rawDictionary.removeValue(forKey: "a")
-        print(type(of: j.rawValue))
-//        let s = j.rawString(options: [JSONSerialization.WritingOptions.sortedKeys])
-    }
-
-    func testAaa() {
-        let context = getPersistentContainer().viewContext
-        let domain = DomainEntity(context: context)
-        domain.name = "dfef"
-        domain.endPoints = []
-        let d = EndPointEntity(context: context)
-        d.url = "http://biubiubiu.hopto.org:9000/link/github.json"
-        d.domain = domain
-        try? context.save()
+    
+    func testParseURL() {
+        var s = "http://biubiubiu.hopto.org/link/github.json"
+        XCTAssert(s.hostname == "biubiubiu.hopto.org")
+        s = "http://biubiubiu.hopto.org"
+        XCTAssert(s.hostname == "biubiubiu.hopto.org")
     }
 }

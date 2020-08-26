@@ -18,16 +18,13 @@ class JSONViewerData: ObservableObject {
 }
 
 struct JSONViewerView: View {
-    var dataSource: DataSource {
-        return DataSource(context: context)
-    }
-
     @Environment(\.managedObjectContext) var context
     @ObservedObject var modelData: JSONViewerData
     @EnvironmentObject var domainData: DomainData
     @ObservedObject var apiData: ApiEditData = ApiEditData()
+    
 
-    init(modelData: JSONViewerData) {
+    init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
         self.apiData = ApiEditData(endPoint: modelData.endPoint!)
     }
@@ -102,7 +99,7 @@ struct JSONViewerView: View {
                 if errorApis.count > 0 {
                     ApiSectionView(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
                 }
-                
+
                 if healthyApis.count > 0 {
                     ApiSectionView(onComplete: self.onEditComplete, apis: healthyApis, title: "正常")
                 }
@@ -111,6 +108,13 @@ struct JSONViewerView: View {
             Section(header: Text("返回结果"), footer: isValidJson ? AnyView(EmptyView()) : AnyView(Text("返回格式错误").foregroundColor(.red))) {
                 JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+            }
+
+            if endPoint.isCompleted {
+                Section(header: Text("其他")) {
+                    InfoRow(label: "响应时间", value: endPoint.duration.formatDuration)
+                    InfoRow(label: "状态码", value: endPoint.statusCode)
+                }
             }
         }
         .listStyle(GroupedListStyle())
@@ -143,6 +147,8 @@ struct JSONViewerView_Previews: PreviewProvider {
         let ee = EndPointEntity(context: context)
         ee.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         ee.data = j.data(using: .utf8)
+        ee.duration = 0.13
+        ee.statusCode = 200
 
         let ae = ApiEntity(context: context)
         ae.paths = "aa"
