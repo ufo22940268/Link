@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ApiDetailView: View {
-    @Binding var api: ApiEntity
+    @ObservedObject var api: ApiEntity
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
     @Environment(\.presentationMode) var presentationMode
@@ -44,7 +44,7 @@ struct ApiDetailView: View {
         }) { nv in
             self.api.watchValue = nv
         }
-        
+
         return List {
             actionView
 
@@ -85,7 +85,7 @@ struct ApiDetailView_Previews: PreviewProvider {
             api.value = "vvv"
             api.watch = true
             api.watchValue = "wefwef"
-            return ApiDetailView(api: $api).environment(\.colorScheme, .dark)
+            return ApiDetailView(api: api).environment(\.colorScheme, .dark)
         }
     }
 }

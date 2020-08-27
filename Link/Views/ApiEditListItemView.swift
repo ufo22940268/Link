@@ -29,7 +29,7 @@ struct ApiEditListItemView: View {
             } else {
                 Text("").font(.footnote).fixedSize().frame(width: 13, height: 1, alignment: .leading)
             }
-            NavigationLink(destination: ApiDetailView(api: $api, onComplete: onComplete)) {
+            NavigationLink(destination: ApiDetailView(api: api, onComplete: onComplete)) {
                 VStack(alignment: .leading) {
                     HStack {
                         Text((api.paths ?? "").lastPropertyPath).bold()
