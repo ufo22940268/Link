@@ -270,6 +270,10 @@ struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         let ee = EndPointEntity(context: context)
         ee.url = "http://wefwef.com"
+        
+        let domain = DomainEntity(context: context)
+        domain.hostname = "wefwef.com"
+        domain.name = "iii"
 
         return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPoint: ee))
             .environment(\.managedObjectContext, context)

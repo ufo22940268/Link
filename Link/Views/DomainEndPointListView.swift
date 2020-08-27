@@ -44,7 +44,6 @@ private struct EndPointRow: View {
 }
 
 struct DomainEndPointListView: View {
-    let statuses: [EndPointStatus] = [EndPointStatus(path: "/api/repos/list", status: .healthy), EndPointStatus(path: "/api/members/list", status: .error)]
     @EnvironmentObject var domainData: DomainData
     @Environment(\.managedObjectContext) var context
     @EnvironmentObject var dataSource: DataSource
@@ -66,20 +65,44 @@ struct DomainEndPointListView: View {
         domainMap.keys.sorted()
     }
 
+    var emptyListView: some View {
+        VStack(alignment: .center, spacing: 20) {
+            Image(systemName: "tray").font(.system(size: 60, weight: .light, design: .default))
+            Text("请先添加监控点").font(.headline)
+        }
+        .foregroundColor(.gray)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+    }
+
     var body: some View {
-        List {
-            ForEach(domainNames, id: \.self) { domainName in
-                Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]), content: {
-                    ForEach(self.domainMap[domainName]!) { endPoint in
-                        EndPointRow(endPoint: endPoint)
+        Group {
+            if domainNames.count > 0 {
+                List {
+                    ForEach(domainNames, id: \.self) { domainName in
+                        Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]), content: {
+                            ForEach(self.domainMap[domainName]!) { endPoint in
+                                EndPointRow(endPoint: endPoint)
+                            }
+                        }).font(.body)
                     }
-                }).font(.body)
-            }
-            .onDelete { index in
-                let endPoint = self.domainNames.flatMap { self.domainMap[$0]! }[index.first!]
-                DataSource(context: self.context).deleteEndPoint(entity: endPoint)
-                self.domainData.endPoints.removeAll { $0 == endPoint }
+                    .onDelete { index in
+                        let endPoint = self.domainNames.flatMap { self.domainMap[$0]! }[index.first!]
+                        DataSource(context: self.context).deleteEndPoint(entity: endPoint)
+                        self.domainData.endPoints.removeAll { $0 == endPoint }
+                    }
+                }
+            } else {
+                emptyListView
             }
         }
+    }
+}
+
+struct DomainEndPointListView_Previews: PreviewProvider {
+    static var previews: some View {
+        DomainEndPointListView()
+            .environmentObject(DomainData())
+            .environmentObject(DataSource(context: context))
+            .environment(\.managedObjectContext, context)
     }
 }

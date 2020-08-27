@@ -18,40 +18,28 @@ struct OnboardView: View {
     @EnvironmentObject var dataSource: DataSource
 
     var body: some View {
-        TabView(selection: $selection) {
-            DomainDashboardView()
-                .font(.title)
-                .tabItem {
-                    VStack {
-                        Image(systemName: "cloud.fill")
-                        Text("监控")
-                    }
+        DomainDashboardView()
+            .font(.title)
+            .tabItem {
+                VStack {
+                    Image(systemName: "cloud.fill")
+                    Text("监控")
                 }
-                .tag(0)
-                .environmentObject(self.domainData)
-
-                .onAppear {
-                    if !DebugHelper.isPreview {
-                        self.domainData.needReload.send()
-                    }
+            }
+            .tag(0)
+            .environmentObject(self.domainData)
+            .onAppear {
+                if !DebugHelper.isPreview {
+                    self.domainData.needReload.send()
                 }
-                .onReceive(domainData.needReload) { () in
-                    self.loadDomains()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    self.loadDomains()
-                }
-                .environmentObject(dataSource)
-            Text("Second View")
-                .font(.title)
-                .tabItem {
-                    VStack {
-                        Image(systemName: "person")
-                        Text("设置")
-                    }
-                }
-                .tag(1)
-        }
+            }
+            .onReceive(domainData.needReload) { () in
+                self.loadDomains()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                self.loadDomains()
+            }
+            .environmentObject(dataSource)
     }
 
     func loadDomains() {
