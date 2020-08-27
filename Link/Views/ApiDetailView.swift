@@ -39,7 +39,12 @@ struct ApiDetailView: View {
     }
 
     var body: some View {
-        List {
+        let watchValueBinding = Binding<String>(get: { () -> String in
+            self.api.watchValue ?? ""
+        }) { nv in
+            self.api.watchValue = nv
+        }
+        return List {
             actionView
 
             Section(header: Text("Key")) {
@@ -51,9 +56,11 @@ struct ApiDetailView: View {
                     .foregroundColor(api.match ? nil : .error)
             }
 
-            if !api.match && api.watchValue != nil {
-                Section(header: Text("参考值")) {
-                    Text(api.watchValue ?? "")
+            if api.watch {
+                Section(header: Text("期望值")) {
+                    NavigationLink(destination: EditWatchValueView(watchValue: watchValueBinding)) {
+                        Text(api.watchValue ?? "")
+                    }
                 }
             }
         }
@@ -64,7 +71,9 @@ struct ApiDetailView: View {
 
 struct ApiDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PreviewWrapper()
+        NavigationView {
+            PreviewWrapper()
+        }
     }
 
     struct PreviewWrapper: View {
@@ -75,7 +84,7 @@ struct ApiDetailView_Previews: PreviewProvider {
             api.value = "vvv"
             api.watch = true
             api.watchValue = "wefwef"
-            return ApiDetailView(api: Binding.constant(api)).environment(\.colorScheme, .dark)
+            return ApiDetailView(api: $api).environment(\.colorScheme, .dark)
         }
     }
 }
