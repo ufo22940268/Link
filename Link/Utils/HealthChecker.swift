@@ -21,7 +21,7 @@ struct HealthChecker {
 
     func checkUrl(for endpoint: EndPointEntity) -> AnyPublisher<Void, Error> {
         return ApiHelper()
-            .fetch(endPoint: endpoint)
+            .fetchAndUpdateEntity(endPoint: endpoint)
             .filter({ apis in
                 apis.contains(where: { $0.watch && $0.value != $0.watchValue })
             })

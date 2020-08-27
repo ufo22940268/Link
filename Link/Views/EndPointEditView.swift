@@ -180,7 +180,7 @@ struct EndPointEditView: View {
                 if result == .ok {
                     self.updateEndPointEntity()
                     return ApiHelper()
-                        .fetch(endPoint: self.dataSource.fetchEndPoint(id: self.endPointId!)!)
+                        .fetchAndUpdateEntity(endPoint: self.dataSource.fetchEndPoint(id: self.endPointId!)!)
                         .catch { _ in Just([]) }
                         .eraseToAnyPublisher()
                 } else {
@@ -197,7 +197,6 @@ struct EndPointEditView: View {
             .map {
                 $0.domainName
             }
-            .print("domain name ---------")
             .assign(to: \.domainName, on: apiEditData)
             .store(in: &cancellables)
 

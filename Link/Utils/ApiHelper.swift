@@ -30,7 +30,7 @@ typealias Path = [String]
 
 struct ApiHelper {
     var persistentContainer: NSPersistentContainer = getPersistentContainer()
-    func fetch(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
+    func fetchAndUpdateEntity(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
         let reqDate = Date()
 
         return URLSession(configuration: .ephemeral).dataTaskPublisher(for: URL(string: endPoint.url ?? "")!)
@@ -88,8 +88,11 @@ struct ApiHelper {
 
     func convertToApiEntity(endPoint: EndPointEntity, apis: [Api]) -> [ApiEntity] {
         var apiEntities: [ApiEntity] = endPoint.apis
-
         let context = persistentContainer.viewContext
+        
+        apiEntities.filter { entity in !apis.contains { $0.path == entity.paths }}
+            .forEach { context.delete($0) }
+
         for api in apis {
             if let index = apiEntities.firstIndex(where: { $0.paths == api.path }) {
                 apiEntities[index].value = api.value
@@ -102,7 +105,7 @@ struct ApiHelper {
                 apiEntities.append(ae)
             }
         }
-        try? context.save()
+
 
         return apiEntities.sorted { $0.paths ?? "" < $1.paths ?? "" }
     }
