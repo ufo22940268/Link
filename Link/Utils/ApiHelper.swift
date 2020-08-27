@@ -29,7 +29,13 @@ extension Api: Hashable {}
 typealias Path = [String]
 
 struct ApiHelper {
-    var persistentContainer: NSPersistentContainer = getPersistentContainer()
+    
+    var context: NSManagedObjectContext
+
+    init(context: NSManagedObjectContext) {
+        self.context = context
+    }
+
     func fetchAndUpdateEntity(endPoint: EndPointEntity) -> AnyPublisher<[ApiEntity], Error> {
         let reqDate = Date()
 
@@ -88,8 +94,7 @@ struct ApiHelper {
 
     func convertToApiEntity(endPoint: EndPointEntity, apis: [Api]) -> [ApiEntity] {
         var apiEntities: [ApiEntity] = endPoint.apis
-        let context = persistentContainer.viewContext
-        
+
         apiEntities.filter { entity in !apis.contains { $0.path == entity.paths }}
             .forEach { context.delete($0) }
 
@@ -105,7 +110,6 @@ struct ApiHelper {
                 apiEntities.append(ae)
             }
         }
-
 
         return apiEntities.sorted { $0.paths ?? "" < $1.paths ?? "" }
     }

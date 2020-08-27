@@ -8,11 +8,16 @@
 
 import Combine
 import Foundation
-
-var c: Cancellable?
+import CoreData
 
 struct HealthChecker {
+    internal init(domains: [EndPointEntity], context: NSManagedObjectContext) {
+        self.domains = domains
+        self.context = context
+    }
+    
     var domains: [EndPointEntity]
+    var context: NSManagedObjectContext
 
     func checkHealth() -> AnyPublisher<Void, Error> {
         let pubs = domains.map { checkUrl(for: $0) }
@@ -20,7 +25,7 @@ struct HealthChecker {
     }
 
     func checkUrl(for endpoint: EndPointEntity) -> AnyPublisher<Void, Error> {
-        return ApiHelper()
+        return ApiHelper(context: context)
             .fetchAndUpdateEntity(endPoint: endpoint)
             .filter({ apis in
                 apis.contains(where: { $0.watch && $0.value != $0.watchValue })

@@ -53,7 +53,7 @@ struct OnboardView: View {
 
         domainData.isLoading = true
         guard !domainData.endPoints.isEmpty else { return }
-        HealthChecker(domains: domainData.endPoints)
+        HealthChecker(domains: domainData.endPoints, context: context)
             .checkHealth()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
