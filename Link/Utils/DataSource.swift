@@ -71,6 +71,15 @@ extension DataSource {
     }
 
     func getDomainName(for url: String) -> String {
-        getDomain(by: url.hostname)!.name ?? ""
+        getDomain(by: url.hostname)?.name ?? ""
     }
+}
+
+struct Context {
+    static let main = getPersistentContainer().viewContext
+    static let edit: NSManagedObjectContext = {
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.parent = Context.main
+        return context
+    }()
 }

@@ -45,23 +45,6 @@ enum ValidateURLResult {
     }
 }
 
-class EndPointViewData: ObservableObject {
-    @Published var endPointURL: String = ""
-
-    var validEndPointURL: AnyPublisher<ValidateURLResult, Never> {
-        let fetchPub = $endPointURL
-            .debounce(for: 1, scheduler: DispatchQueue.main)
-            .removeDuplicates()
-            .flatMap { url in
-                ApiHelper().test(url: url)
-            }
-
-        let emitFalse = $endPointURL.map { _ in ValidateURLResult.pending }
-
-        return Publishers.Merge(fetchPub, emitFalse).eraseToAnyPublisher()
-    }
-}
-
 struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
 
@@ -122,6 +105,7 @@ struct EndPointEditView: View {
     }
 
     fileprivate func listenToURLChange() {
+
         var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
         if type == .edit {
             urlPub = urlPub.dropFirst().eraseToAnyPublisher()
@@ -139,14 +123,14 @@ struct EndPointEditView: View {
             }
             .debounce(for: 1, scheduler: DispatchQueue.main)
             .flatMap { url in
-                ApiHelper().test(url: url)
+                ApiHelper(context: self.context).test(url: url)
             }
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
                 if result == .ok {
-                    return ApiHelper()
-                        .fetchAndUpdateEntity(endPoint: self.apiEditData.endPoint)
+                    return ApiHelper(context: self.context)
+                        .fetchAndUpdateEntity(endPoint: self.apiEditData.endPoint!)
                         .catch { _ in Just([]) }
                         .eraseToAnyPublisher()
                 } else {
@@ -245,7 +229,7 @@ struct EndPointEditView_Previews: PreviewProvider {
         domain.hostname = "wefwef.com"
         domain.name = "iii"
 
-        return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPoint: ee))
+        return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPointId: ee.objectID))
             .environment(\.managedObjectContext, context)
     }
 }

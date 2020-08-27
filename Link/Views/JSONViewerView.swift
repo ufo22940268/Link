@@ -25,7 +25,7 @@ struct JSONViewerView: View {
 
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
-        self.apiData = ApiEditData(endPoint: modelData.endPoint!)
+        self.apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)
     }
 
     var endPoint: EndPointEntity {
@@ -115,6 +115,10 @@ struct JSONViewerView: View {
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
+        .onAppear {
+            let endPoint = try! Context.edit.fetch(EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>).first!
+            self.apiData.endPoint = endPoint
+        }
     }
 }
 

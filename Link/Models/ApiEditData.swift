@@ -15,22 +15,32 @@ class ApiEditData: ObservableObject {
     @Published var domainName: String = ""
     @Published var url: String = "" {
         didSet {
-            endPoint.url = url
+            if let endPoint = endPoint {
+                endPoint.url = url
+            }
         }
     }
 
-    var endPoint: EndPointEntity
+    var endPoint: EndPointEntity? {
+        didSet {
+            if let endPoint = endPoint {
+                self.apis = endPoint.apis
+                self.url = endPoint.url!
+                self.domainName = DataSource.default.getDomainName(for: endPoint.url!)
+            }
+        }
+    }
+
+    var endPointId: NSManagedObjectID
 
     // For create
     init() {
-        self.endPoint = EndPointEntity(context: getPersistentContainer().viewContext)
+        self.endPoint = EndPointEntity(context: Context.edit)
+        self.endPointId = self.endPoint!.objectID
     }
 
     // For edit
-    init(endPoint: EndPointEntity) {
-        self.endPoint = endPoint
-        self.apis = endPoint.apis
-        self.domainName = DataSource.default.getDomainName(for: endPoint.url!)
-        self.url = endPoint.url ?? ""
+    init(endPointId: NSManagedObjectID) {
+        self.endPointId = endPointId
     }
 }

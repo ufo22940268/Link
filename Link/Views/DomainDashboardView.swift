@@ -36,7 +36,7 @@ struct DomainDashboardView: View {
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
             return AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, self.context))
+                .environment(\.managedObjectContext, Context.edit))
         })
     }
 
