@@ -45,13 +45,14 @@ struct OnboardView: View {
     func loadDomains() {
         print("loadDomains", Date())
         let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
-        if let domains = try? context.fetch(req) {
+        if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
             domainData.endPoints = domains
         } else {
             domainData = DomainData()
         }
 
         domainData.isLoading = true
+        guard !domainData.endPoints.isEmpty else { return }
         HealthChecker(domains: domainData.endPoints)
             .checkHealth()
             .receive(on: DispatchQueue.main)

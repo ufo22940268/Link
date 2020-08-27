@@ -28,4 +28,12 @@ extension String {
         }
         return ""
     }
+    
+    func isValidURL() -> Bool {
+        let urlRegEx = "^https?://.+$"
+        let urlTest = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
+        let result = urlTest.evaluate(with: self)
+        return result
+    }
+
 }

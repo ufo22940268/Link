@@ -10,15 +10,6 @@ import Combine
 import CoreData
 import SwiftUI
 
-extension String {
-    func isValidURL() -> Bool {
-        let urlRegEx = "^https?://.+$"
-        let urlTest = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
-        let result = urlTest.evaluate(with: self)
-        return result
-    }
-}
-
 enum ValidateURLResult {
     case initial
     case formatError
@@ -81,7 +72,6 @@ struct EndPointEditView: View {
     @State var cancellables = [AnyCancellable]()
     @State var validateURLResult: ValidateURLResult = .initial
     @Environment(\.presentationMode) var presentationMode
-    @State var endPointId: NSManagedObjectID?
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
     @ObservedObject var apiEditData: ApiEditData
@@ -92,9 +82,6 @@ struct EndPointEditView: View {
 
     internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData = ApiEditData()) {
         self.type = type
-        if let endPoint = apiEditData.endPoint {
-            _endPointId = State(initialValue: endPoint.objectID)
-        }
         self.apiEditData = apiEditData
 
         if type == .add {
@@ -121,7 +108,7 @@ struct EndPointEditView: View {
             Button("下一步") {
                 self.selection = 1
                 self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
-            }.disabled(!isFormValid)
+            }.disabled(!(validateURLResult == .ok))
         })
     }
 
@@ -132,31 +119,6 @@ struct EndPointEditView: View {
         }, label: {
             Text("取消")
         })
-    }
-
-    var isFormValid: Bool {
-        validateURLResult == .ok
-    }
-
-    func updateEndPointEntity() {
-        var endPoint: EndPointEntity
-
-        var needSave = false
-        if let endPointId = self.endPointId {
-            endPoint = dataSource.fetchEndPoint(id: endPointId)!
-        } else if let nd = dataSource.fetchEndPoint(url: apiEditData.url) {
-            endPoint = nd
-        } else {
-            endPoint = EndPointEntity(context: context)
-            needSave = true
-        }
-        endPoint.url = apiEditData.url
-
-        if needSave {
-            try! context.save()
-        }
-
-        endPointId = endPoint.objectID
     }
 
     fileprivate func listenToURLChange() {
@@ -170,6 +132,11 @@ struct EndPointEditView: View {
         }
 
         urlPub
+            .filter { $0.isValidURL() }
+            .map {
+                self.validateURLResult = .pending
+                return $0
+            }
             .debounce(for: 1, scheduler: DispatchQueue.main)
             .flatMap { url in
                 ApiHelper().test(url: url)
@@ -178,9 +145,8 @@ struct EndPointEditView: View {
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
                 if result == .ok {
-                    self.updateEndPointEntity()
                     return ApiHelper()
-                        .fetchAndUpdateEntity(endPoint: self.dataSource.fetchEndPoint(id: self.endPointId!)!)
+                        .fetchAndUpdateEntity(endPoint: self.apiEditData.endPoint)
                         .catch { _ in Just([]) }
                         .eraseToAnyPublisher()
                 } else {
@@ -193,17 +159,21 @@ struct EndPointEditView: View {
             .store(in: &cancellables)
 
         apiEditData.$url
+            .filter { !$0.isEmpty }
+            .contains { !$0.isValidURL() }
+            .sink { formatError in
+                if formatError {
+                    self.validateURLResult = .formatError
+                }
+            }
+            .store(in: &cancellables)
+
+        apiEditData.$url
             .filter { _ in !self.customDomainName }
             .map {
                 $0.domainName
             }
             .assign(to: \.domainName, on: apiEditData)
-            .store(in: &cancellables)
-
-        urlPub
-            .removeDuplicates()
-            .map { _ in ValidateURLResult.pending }
-            .assign(to: \.validateURLResult, on: self)
             .store(in: &cancellables)
     }
 
@@ -230,7 +200,7 @@ struct EndPointEditView: View {
                 HStack {
                     Text("域名地址")
                     Spacer()
-                    TextField("https://example.com", text: urlBinding)
+                    TextField("https://example.com/api.json", text: urlBinding)
                         .multilineTextAlignment(.trailing)
                         .lineLimit(3)
                         .textContentType(.URL)
@@ -270,7 +240,7 @@ struct EndPointEditView_Previews: PreviewProvider {
     static var previews: some View {
         let ee = EndPointEntity(context: context)
         ee.url = "http://wefwef.com"
-        
+
         let domain = DomainEntity(context: context)
         domain.hostname = "wefwef.com"
         domain.name = "iii"

@@ -13,20 +13,24 @@ import SwiftUI
 class ApiEditData: ObservableObject {
     @Published var apis = [ApiEntity]()
     @Published var domainName: String = ""
-    @Published var url: String = ""
+    @Published var url: String = "" {
+        didSet {
+            endPoint.url = url
+        }
+    }
 
-    var endPoint: EndPointEntity?
+    var endPoint: EndPointEntity
 
     // For create
     init() {
-        self.endPoint = EndPointEntity()
+        self.endPoint = EndPointEntity(context: getPersistentContainer().viewContext)
     }
 
     // For edit
     init(endPoint: EndPointEntity) {
+        self.endPoint = endPoint
         self.apis = endPoint.apis
         self.domainName = DataSource.default.getDomainName(for: endPoint.url!)
         self.url = endPoint.url ?? ""
-        self.endPoint = endPoint
     }
 }
