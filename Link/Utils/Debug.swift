@@ -32,25 +32,29 @@ public class DebugHelper {
         p2.addToApi(a2)
     }
 
-    static func resetCoreData() {
-        print("resetCoreData")
-        let context = getPersistentContainer().viewContext
+    fileprivate static func clearDB(_ context: NSManagedObjectContext) {
         let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
         for entity in entities {
             for e in try! context.fetch(entity.fetchRequest()) {
                 context.delete(e as! NSManagedObject)
             }
         }
+    }
+    
+    static func resetCoreData() {
+        print("resetCoreData")
+        let context = getPersistentContainer().viewContext
+        clearDB(context)
 
-        let d = DomainEntity(context: context)
-        d.name = "d9"
-        d.hostname = "biubiubiu.hopto.org:9000"
-
-        let p = EndPointEntity(context: context)
-        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
-        p.data = NSDataAsset(name: "github", bundle: .main)!.data
-
-        addMockEndPoint2(context, d)
+//        let d = DomainEntity(context: context)
+//        d.name = "d9"
+//        d.hostname = "biubiubiu.hopto.org:9000"
+//
+//        let p = EndPointEntity(context: context)
+//        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
+//        p.data = NSDataAsset(name: "github", bundle: .main)!.data
+//
+//        addMockEndPoint2(context, d)
 
         try! context.save()
     }

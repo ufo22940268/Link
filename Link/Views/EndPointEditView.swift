@@ -114,9 +114,14 @@ struct EndPointEditView: View {
             .environmentObject(apiEditData)
     }
 
+    @State var selection: Int? = nil
+
     var doneButton: some View {
-        NavigationLink(destination: editView, label: {
-            Text("下一步").disabled(!isFormValid)
+        NavigationLink(destination: editView, tag: 1, selection: $selection, label: {
+            Button("下一步") {
+                self.selection = 1
+                self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
+            }.disabled(!isFormValid)
         })
     }
 
@@ -143,10 +148,6 @@ struct EndPointEditView: View {
             endPoint = nd
         } else {
             endPoint = EndPointEntity(context: context)
-            // TODO: impl
-//            let domain = DomainEntity(context: context)
-//            domain.name = apiEditData.domainName
-//            endPoint.domain = domain
             needSave = true
         }
         endPoint.url = apiEditData.url
@@ -191,11 +192,12 @@ struct EndPointEditView: View {
             }
             .store(in: &cancellables)
 
-        urlPub
+        apiEditData.$url
             .filter { _ in !self.customDomainName }
             .map {
                 $0.domainName
             }
+            .print("domain name ---------")
             .assign(to: \.domainName, on: apiEditData)
             .store(in: &cancellables)
 
@@ -246,9 +248,6 @@ struct EndPointEditView: View {
         }
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
-        .onReceive(self.apiEditData.$domainName, perform: { name in
-            self.dataSource.upsertDomainName(name: name, url: self.apiEditData.url)
-        })
         .onAppear {
             if self.type == .edit {
                 self.validateURLResult = .ok
