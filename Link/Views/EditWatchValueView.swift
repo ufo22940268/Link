@@ -17,6 +17,7 @@ struct EditWatchValueView: View {
                 TextField("", text: $watchValue)
             }
         }
+        .navigationBarTitle("期望值")
     }
 }
 
