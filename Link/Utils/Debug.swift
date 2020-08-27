@@ -40,7 +40,7 @@ public class DebugHelper {
             }
         }
     }
-    
+
     static func resetCoreData() {
         print("resetCoreData")
         let context = getPersistentContainer().viewContext
@@ -75,5 +75,12 @@ public extension UIDevice {
 
     static var isRunningTest: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+}
+
+public extension String {
+    func randomStr(length: Int = 5) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0 ..< length).map { _ in letters.randomElement()! })
     }
 }
