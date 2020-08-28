@@ -31,11 +31,11 @@ struct DomainDashboardView: View {
         }
     }
 
-    var addEndPointButton: some View {
+    var addButton: some View {
         Button(action: {
             self.showingAddEndPoint = true
         }, label: {
-            Image(systemName: "plus")
+            Image(systemName: "plus").padding()
         }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
             Context.edit.rollback()
             self.domainData.needReload.send()
@@ -76,7 +76,7 @@ struct DomainDashboardView: View {
                 DomainEndPointListView()
             }
             .navigationBarTitle(Text("概览"))
-            .navigationBarItems(leading: refreshButton, trailing: addEndPointButton)
+            .navigationBarItems(leading: refreshButton, trailing: addButton)
         }
         .background(Color(UIColor.systemBackground))
         .font(.body)
