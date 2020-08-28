@@ -10,10 +10,16 @@ import CoreData
 import SwiftUI
 
 struct DomainDashboardView: View {
-    @EnvironmentObject var domainData: DomainData
     @State var showingAddEndPoint: Bool = false
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiData = ApiEditData()
+    @EnvironmentObject var domainData: DomainData
+
+    
+    var dataSource: DataSource {
+        DataSource(context: context)
+    }
+
 
     var refreshButton: some View {
         if domainData.endPoints.count > 0 {
@@ -31,10 +37,10 @@ struct DomainDashboardView: View {
         }, label: {
             Image(systemName: "plus")
         }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
-            self.apiData.setEndPointForCreate()
+            Context.edit.rollback()
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
-            return AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)
+            AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)
                 .environment(\.managedObjectContext, Context.edit))
         })
     }
@@ -74,6 +80,9 @@ struct DomainDashboardView: View {
         }
         .background(Color(UIColor.systemBackground))
         .font(.body)
+        .onAppear {
+            Context.edit.rollback()
+        }
     }
 }
 

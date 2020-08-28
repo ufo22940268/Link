@@ -15,7 +15,9 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
-    @EnvironmentObject var dataSource: DataSource
+    var dataSource: DataSource {
+        DataSource(context: context)
+    }
 
     var body: some View {
         DomainDashboardView()

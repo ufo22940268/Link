@@ -23,6 +23,10 @@ struct JSONViewerView: View {
     @EnvironmentObject var domainData: DomainData
     @ObservedObject var apiData: ApiEditData
 
+    var dataSource: DataSource {
+        DataSource(context: context)
+    }
+
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
         self.apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)

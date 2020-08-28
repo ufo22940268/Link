@@ -37,18 +37,27 @@ class EndPointTests: XCTestCase {
     }
 
     func testCoreData() {
-//        print("testCoreData")
-//        print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
-//        let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-//        childContext.parent = context
-//        let entity = EndPointEntity(context: context)
-//        entity.url = "asdf11"
-//        print("child", childContext.insertedObjects)
-//        print("parent", context.insertedObjects)
-//        try! context.save()
-//
-//        print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
-//        print("parent fetch", try? context.fetch(EndPointEntity.fetchRequest()))
+        print("testCoreData")
+        print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
+        let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        childContext.parent = context
+        let entity = EndPointEntity(context: context)
+        entity.url = "asdf11"
+        print("child", childContext.insertedObjects)
+        print("parent", context.insertedObjects)
+        print("id1", entity.objectID)
+        try! context.save()
+        print("id2", entity.objectID)
+        entity.url = "kk"
+        try! context.save()
+        print("id3", entity.objectID)
+        
+        let e2 = (try! childContext.fetch(EndPointEntity.fetchRequest())).first! as! EndPointEntity
+        e2.url = "iii"
+        print("id4", e2.objectID)
+
+        print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
+        print("parent fetch", try? context.fetch(EndPointEntity.fetchRequest()))
                 
     }
 }
