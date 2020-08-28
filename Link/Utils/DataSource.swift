@@ -49,7 +49,6 @@ extension DataSource {
             deleteDomain(for: endPoint.url!)
         }
 
-
         try! context.save()
     }
 }
@@ -95,4 +94,30 @@ struct Context {
         context.parent = Context.main
         return context
     }()
+}
+
+extension NSManagedObjectContext {
+    func fetchMany<T>(_ type: T.Type, _ format: String? = nil, _ argList: String...) throws -> [T] where T: NSManagedObject {
+        let req = T.fetchRequest() as! NSFetchRequest<T>
+        if let format = format {
+            req.predicate = NSPredicate(format: format, argumentArray: argList)
+        }
+        do {
+            return try fetch(req)
+        } catch {
+            throw error
+        }
+    }
+
+    func fetchOne<T>(_ type: T.Type, format: String? = nil, _ argList: String...) throws -> T? where T: NSManagedObject {
+        let req = T.fetchRequest() as! NSFetchRequest<T>
+        if let format = format {
+            req.predicate = NSPredicate(format: format, argumentArray: argList)
+        }
+        do {
+            return try fetch(req).first
+        } catch {
+            throw error
+        }
+    }
 }

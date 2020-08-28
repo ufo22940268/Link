@@ -36,6 +36,8 @@ class EndPointTests: XCTestCase {
         XCTAssert(s.hostname == "biubiubiu.hopto.org")
     }
 
+    func testExtension() {}
+
     func testCoreData() {
         print("testCoreData")
         print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
@@ -51,13 +53,15 @@ class EndPointTests: XCTestCase {
         entity.url = "kk"
         try! context.save()
         print("id3", entity.objectID)
-        
+
         let e2 = (try! childContext.fetch(EndPointEntity.fetchRequest())).first! as! EndPointEntity
         e2.url = "iii"
         print("id4", e2.objectID)
 
         print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
         print("parent fetch", try? context.fetch(EndPointEntity.fetchRequest()))
-                
+        print("fetch many", try? context.fetchMany(EndPointEntity.self, "url == %@", "kk"))
+        print("fetch one", try? context.fetchOne(EndPointEntity.self, "url == %@", "kk"))
     }
 }
+

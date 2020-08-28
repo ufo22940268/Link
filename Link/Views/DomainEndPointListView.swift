@@ -24,7 +24,6 @@ private struct EndPointRow: View {
     var endPoint: EndPointEntity
     @EnvironmentObject var domainData: DomainData
     @Environment(\.managedObjectContext) var context
-    
 
     var body: some View {
         NavigationLink(destination: JSONViewerView(modelData: JSONViewerData(endPoint: endPoint), context: context)
@@ -47,14 +46,13 @@ private struct EndPointRow: View {
 struct DomainEndPointListView: View {
     @EnvironmentObject var domainData: DomainData
     @Environment(\.managedObjectContext) var context
-    
+
     var dataSource: DataSource {
         DataSource(context: context)
     }
 
-
     var domainMap: [String: [EndPointEntity]] {
-        domainData.endPoints.sorted(by: { $0.url ?? "" < $1.url ?? "" }).reduce([String: [EndPointEntity]]()) { r, entity in
+        domainData.endPoints.filter { $0.url != nil }.sorted(by: { $0.url ?? "" < $1.url ?? "" }).reduce([String: [EndPointEntity]]()) { r, entity in
             var k = r
             let domainName = dataSource.getDomainName(for: entity.url!)
             if r[domainName] != nil {
