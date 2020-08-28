@@ -82,6 +82,7 @@ struct JSONViewerView: View {
 
     func onEditComplete() {
         modelData.objectWillChange.send()
+        domainData.needReload.send()
     }
 
     var isValidJson: Bool {
