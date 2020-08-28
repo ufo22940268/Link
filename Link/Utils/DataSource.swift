@@ -79,6 +79,7 @@ struct Context {
     static let main = getPersistentContainer().viewContext
     static let edit: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.name = "edit"
         context.parent = Context.main
         return context
     }()

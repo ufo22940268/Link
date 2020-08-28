@@ -203,6 +203,8 @@ struct EndPointEditView: View {
         .onAppear {
             if self.type == .edit {
                 self.validateURLResult = .ok
+            } else if self.type == .add {
+                self.apiEditData.setEndPointForCreate()
             }
 
             self.listenToURLChange()

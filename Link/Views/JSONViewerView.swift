@@ -21,7 +21,7 @@ struct JSONViewerView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var modelData: JSONViewerData
     @EnvironmentObject var domainData: DomainData
-    @ObservedObject var apiData: ApiEditData = ApiEditData()
+    @ObservedObject var apiData: ApiEditData
 
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
@@ -42,7 +42,7 @@ struct JSONViewerView: View {
         }
         .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
             EndPointEditView(type: .edit, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, self.context)
+                .environment(\.managedObjectContext, Context.edit)
         }))
     }
 
@@ -116,7 +116,9 @@ struct JSONViewerView: View {
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
         .onAppear {
-            let endPoint = try! Context.edit.fetch(EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>).first!
+            let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
+            req.predicate = NSPredicate(format: "self == %@", self.apiData.endPointId!)
+            let endPoint = try! Context.edit.fetch(req).first!
             self.apiData.endPoint = endPoint
         }
     }

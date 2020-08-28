@@ -31,12 +31,10 @@ class ApiEditData: ObservableObject {
         }
     }
 
-    var endPointId: NSManagedObjectID
+    var endPointId: NSManagedObjectID?
 
     // For create
     init() {
-        self.endPoint = EndPointEntity(context: Context.edit)
-        self.endPointId = self.endPoint!.objectID
     }
 
     // For edit
