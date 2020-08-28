@@ -39,10 +39,16 @@ extension DataSource {
     }
 
     func deleteEndPoint(entity endPoint: EndPointEntity) {
+        let url = endPoint.url ?? ""
         context.delete(fetchEndPoint(id: endPoint.objectID)!)
-        deleteDomain(for: endPoint.url!)
 
         endPoint.apis.forEach { context.delete($0) }
+
+        let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
+        if let ees = try? context.fetch(req), ees.filter({ $0.url?.hostname == url.hostname }).count == 0 {
+            deleteDomain(for: endPoint.url!)
+        }
+
 
         try! context.save()
     }
