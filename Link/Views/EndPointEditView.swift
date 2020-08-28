@@ -94,8 +94,8 @@ struct EndPointEditView: View {
             Button("下一步") {
                 self.selection = 1
                 self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
-            }.disabled(!(validateURLResult == .ok))
-        })
+            }
+        }).disabled(!(validateURLResult == .ok))
     }
 
     var cancelButton: some View {
