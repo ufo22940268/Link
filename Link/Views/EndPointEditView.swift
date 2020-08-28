@@ -17,13 +17,16 @@ enum ValidateURLResult {
     case jsonError
     case pending
     case ok
+    case duplicatedUrl
 
     var label: String {
         switch self {
         case .initial:
             return ""
         case .formatError:
-            return "地址格式不对或不完整"
+            return "地址格式不对或不完整, 需要以http://或者https://开头"
+        case .duplicatedUrl:
+            return "地址已存在"
         case .requestError:
             return "地址请求失败"
         case .jsonError:
@@ -52,7 +55,7 @@ struct EndPointEditView: View {
         DataSource(context: context)
     }
 
-    @State var cancellables = [AnyCancellable]()
+    @State var cancellables = Set<AnyCancellable>()
     @State var validateURLResult: ValidateURLResult = .initial
     @Environment(\.presentationMode) var presentationMode
     @State var apiEntitiesOfDomain = [ApiEntity]()
@@ -116,13 +119,22 @@ struct EndPointEditView: View {
 
         urlPub
             .filter { $0.isValidURL() }
-            .map {
+            .map { url -> (String?, ValidateURLResult?) in
                 self.validateURLResult = .pending
-                return $0
+                if (self.type == .add && self.dataSource.isURLExists(url))
+                    || (self.type == .edit && url != self.apiEditData.originURL && self.dataSource.isURLExists(url))
+                {
+                    return (nil, ValidateURLResult.duplicatedUrl)
+                }
+                return (url, nil)
             }
             .debounce(for: 1, scheduler: DispatchQueue.main)
-            .flatMap { url in
-                ApiHelper(context: self.context).test(url: url)
+            .flatMap { url, result -> AnyPublisher<ValidateURLResult, Never> in
+                if let result = result {
+                    return Just(result).eraseToAnyPublisher()
+                } else {
+                    return ApiHelper(context: self.context).test(url: url!).eraseToAnyPublisher()
+                }
             }
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in

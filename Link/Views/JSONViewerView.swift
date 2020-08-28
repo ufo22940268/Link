@@ -119,6 +119,7 @@ struct JSONViewerView: View {
             let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
             req.predicate = NSPredicate(format: "self == %@", self.apiData.endPointId!)
             let endPoint = try! Context.edit.fetch(req).first!
+            self.apiData.originURL = endPoint.url
             self.apiData.endPoint = endPoint
         }
     }

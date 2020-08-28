@@ -20,6 +20,8 @@ class ApiEditData: ObservableObject {
             }
         }
     }
+    
+    var originURL: String?
 
     var endPoint: EndPointEntity? {
         didSet {

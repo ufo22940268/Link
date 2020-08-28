@@ -73,6 +73,12 @@ extension DataSource {
     func getDomainName(for url: String) -> String {
         getDomain(by: url.hostname)?.name ?? ""
     }
+
+    func isURLExists(_ url: String) -> Bool {
+        let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
+        req.predicate = NSPredicate(format: "url == %@", url)
+        return (try? context.fetch(req).first) != nil
+    }
 }
 
 struct Context {
