@@ -177,6 +177,7 @@ struct EndPointEditView: View {
             self.apiEditData.url
         }, set: {
             self.apiEditData.url = $0
+            self.apiEditData.endPoint?.url = $0
         })
     }
 

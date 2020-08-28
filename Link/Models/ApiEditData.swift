@@ -13,13 +13,7 @@ import SwiftUI
 class ApiEditData: ObservableObject {
     @Published var apis = [ApiEntity]()
     @Published var domainName: String = ""
-    @Published var url: String = "" {
-        didSet {
-            if let endPoint = endPoint {
-                endPoint.url = url
-            }
-        }
-    }
+    @Published var url: String = ""
     
     var originURL: String?
 

@@ -543,9 +543,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
-				DEVELOPMENT_TEAM = U2HU62KF5U;
+				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Link/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -554,6 +555,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.Link;
 				PRODUCT_NAME = Link;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -563,9 +565,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
-				DEVELOPMENT_TEAM = U2HU62KF5U;
+				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Link/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -574,6 +577,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.Link;
 				PRODUCT_NAME = Link;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

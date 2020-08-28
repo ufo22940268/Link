@@ -67,6 +67,9 @@ struct ApiDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段"), displayMode: .inline)
+        .onDisappear {
+            try? self.context.save()
+        }
     }
 }
 

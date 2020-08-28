@@ -81,6 +81,8 @@ struct JSONViewerView: View {
     }
 
     func onEditComplete() {
+        try! Context.edit.save()
+        try! Context.main.save()
         modelData.objectWillChange.send()
         domainData.needReload.send()
     }
