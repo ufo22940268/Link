@@ -52,7 +52,10 @@ struct ApiEditView: View {
     var doneButton: some View {
         if editMode != .active {
             return AnyView(Button("完成", action: {
-                try? self.context.save()
+                try! self.context.save()
+                try! Context.main.save()
+                print("----------- edit after save", self.context)
+                print(try? Context.edit.fetch(EndPointEntity.fetchRequest()))
                 self.dismissPresentationMode?.dismiss()
             }))
         } else {

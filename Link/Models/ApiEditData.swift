@@ -23,7 +23,7 @@ class ApiEditData: ObservableObject {
 
     var endPoint: EndPointEntity? {
         didSet {
-            if let endPoint = endPoint {
+            if let endPoint = endPoint, endPoint.url != nil {
                 self.apis = endPoint.apis
                 self.url = endPoint.url!
                 self.domainName = DataSource.default.getDomainName(for: endPoint.url!)
@@ -42,5 +42,12 @@ class ApiEditData: ObservableObject {
     // For edit
     init(endPointId: NSManagedObjectID) {
         self.endPointId = endPointId
+    }
+
+    func setEndPointForCreate() {
+        self.endPoint = EndPointEntity(context: Context.edit)
+        self.endPointId = self.endPoint!.objectID
+        self.domainName = ""
+        self.url = ""
     }
 }

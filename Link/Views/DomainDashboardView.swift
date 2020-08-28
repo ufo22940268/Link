@@ -31,8 +31,7 @@ struct DomainDashboardView: View {
         }, label: {
             Image(systemName: "plus")
         }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
-            self.apiData.domainName = ""
-            self.apiData.url = ""
+            self.apiData.setEndPointForCreate()
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
             return AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)

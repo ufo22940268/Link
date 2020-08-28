@@ -105,7 +105,6 @@ struct EndPointEditView: View {
     }
 
     fileprivate func listenToURLChange() {
-
         var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
         if type == .edit {
             urlPub = urlPub.dropFirst().eraseToAnyPublisher()
@@ -214,6 +213,9 @@ struct EndPointEditView: View {
                     self.urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                 }
             }
+        }
+        .onDisappear {
+            self.cancellables.forEach { $0.cancel() }
         }
 
         return NavigationView { form.navigationBarItems(leading: cancelButton, trailing: doneButton) }
