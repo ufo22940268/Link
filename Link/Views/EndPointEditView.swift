@@ -63,6 +63,7 @@ struct EndPointEditView: View {
     @ObservedObject var apiEditData: ApiEditData
     @State var launched = false
     @State var customDomainName: Bool = false
+    @State var textHeight: CGFloat = 90
 
     var type: EditType
 
@@ -192,23 +193,13 @@ struct EndPointEditView: View {
 
     var body: some View {
         let form = Form {
-            Section(header: Text(""), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
-                HStack {
-                    Text("域名地址")
-                    Spacer()
-                    TextField("https://example.com/api.json", text: urlBinding)
-                        .multilineTextAlignment(.trailing)
-                        .lineLimit(3)
-                        .textContentType(.URL)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
-                }
-                HStack {
-                    Text("名字")
-                    Spacer()
-                    TextField("example", text: nameBinding)
-                        .multilineTextAlignment(.trailing)
-                }
+            Section(header: Text("域名地址").bold(), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
+                MultilineTextField(text: urlBinding, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
+                    .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+            }
+
+            Section(header: Text("名字").bold()) {
+                TextField("", text: nameBinding)
             }
         }
         .navigationBarTitle("域名", displayMode: .inline)
@@ -248,5 +239,6 @@ struct EndPointEditView_Previews: PreviewProvider {
 
         return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPointId: ee.objectID))
             .environment(\.managedObjectContext, context)
+            .colorScheme(.dark)
     }
 }

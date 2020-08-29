@@ -46,7 +46,7 @@ struct JSONViewerView: View {
         }
         .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
             EndPointEditView(type: .edit, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, Context.edit)
+                .environment(\.managedObjectContext, CoreDataContext.edit)
         }))
     }
 
@@ -81,8 +81,8 @@ struct JSONViewerView: View {
     }
 
     func onEditComplete() {
-        try! Context.edit.save()
-        try! Context.main.save()
+        try! CoreDataContext.edit.save()
+        try! CoreDataContext.main.save()
         modelData.objectWillChange.send()
         domainData.needReload.send()
     }
@@ -126,7 +126,7 @@ struct JSONViewerView: View {
         .onAppear {
             let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
             req.predicate = NSPredicate(format: "self == %@", self.apiData.endPointId!)
-            let endPoint = try! Context.edit.fetch(req).first!
+            let endPoint = try! CoreDataContext.edit.fetch(req).first!
             self.apiData.originURL = endPoint.url
             self.apiData.endPoint = endPoint
         }

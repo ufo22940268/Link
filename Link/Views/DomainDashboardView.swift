@@ -37,11 +37,11 @@ struct DomainDashboardView: View {
         }, label: {
             Image(systemName: "plus").padding()
         }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
-            Context.edit.rollback()
+            CoreDataContext.edit.rollback()
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
             AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, Context.edit))
+                .environment(\.managedObjectContext, CoreDataContext.edit))
         })
     }
 
@@ -81,7 +81,7 @@ struct DomainDashboardView: View {
         .background(Color(UIColor.systemBackground))
         .font(.body)
         .onAppear {
-            Context.edit.rollback()
+            CoreDataContext.edit.rollback()
         }
     }
 }

@@ -53,7 +53,7 @@ struct ApiEditView: View {
         if editMode != .active {
             return AnyView(Button("完成", action: {
                 try! self.context.save()
-                try! Context.main.save()
+                try! CoreDataContext.main.save()
                 self.dismissPresentationMode?.dismiss()
             }))
         } else {

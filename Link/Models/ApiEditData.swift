@@ -39,7 +39,7 @@ class ApiEditData: ObservableObject {
     }
 
     func setEndPointForCreate() {
-        self.endPoint = EndPointEntity(context: Context.edit)
+        self.endPoint = EndPointEntity(context: CoreDataContext.edit)
         self.endPointId = self.endPoint!.objectID
         self.domainName = ""
         self.url = ""

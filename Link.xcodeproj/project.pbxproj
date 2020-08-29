@@ -23,6 +23,7 @@
 		42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* EndPointEditView.swift */; };
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
 		426843A924F9D1B20075B1F9 /* ApiDetailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426843A824F9D1B20075B1F9 /* ApiDetailData.swift */; };
+		426843AB24F9EBED0075B1F9 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */; };
 		42697F3424F285EC005298D9 /* ApiEditData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42697F3324F285EC005298D9 /* ApiEditData.swift */; };
 		426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887324B09EE600C039E4 /* ApiEditView.swift */; };
 		426F887624B1450400C039E4 /* EndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887524B1450400C039E4 /* EndPointTests.swift */; };
@@ -82,6 +83,7 @@
 		42639511249DA14200ADFBE4 /* EndPointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditView.swift; sourceTree = "<group>"; };
 		42639513249E009E00ADFBE4 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		426843A824F9D1B20075B1F9 /* ApiDetailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiDetailData.swift; sourceTree = "<group>"; };
+		426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
 		42697F3324F285EC005298D9 /* ApiEditData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEditData.swift; sourceTree = "<group>"; };
 		426F887324B09EE600C039E4 /* ApiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEditView.swift; sourceTree = "<group>"; };
 		426F887524B1450400C039E4 /* EndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointTests.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				42DAFACB24DA3A850093869D /* JSONViewerView.swift */,
 				427A82CC24E54FEF00437A56 /* JSONView.swift */,
 				428C18C424F6391D0017ECBC /* InfoRow.swift */,
+				426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				422B6D21249C96CF00D2F10D /* DomainEndPointListView.swift in Sources */,
 				422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */,
 				42FFA90F24F633CA005BFAAC /* Preview.swift in Sources */,
+				426843AB24F9EBED0075B1F9 /* MultilineTextField.swift in Sources */,
 				426843A924F9D1B20075B1F9 /* ApiDetailData.swift in Sources */,
 				422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */,
 				427471F624D649C900883AD7 /* Extentsion.swift in Sources */,

@@ -86,12 +86,12 @@ extension DataSource {
     }
 }
 
-struct Context {
+struct CoreDataContext {
     static let main = getPersistentContainer().viewContext
     static let edit: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.name = "edit"
-        context.parent = Context.main
+        context.parent = CoreDataContext.main
         return context
     }()
 }
