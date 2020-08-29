@@ -45,6 +45,7 @@ struct OnboardView: View {
     }
 
     func loadDomains() {
+        print("loadDomains")
         let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
         if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
             domainData.endPoints = domains

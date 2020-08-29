@@ -6,14 +6,24 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 struct ApiDetailView: View {
+    
+    internal init(api: ApiEntity, onComplete: (() -> Void)? = nil) {
+        self.api = api
+        self.onComplete = onComplete
+        modelData = ApiDetailData(api: api)
+    }
+    
     @ObservedObject var api: ApiEntity
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
     @Environment(\.presentationMode) var presentationMode
     var onComplete: (() -> Void)?
+    @State var cancellables = Set<AnyCancellable>()
+    @ObservedObject var modelData: ApiDetailData
 
     var actionView: some View {
         if api.watch {
@@ -40,11 +50,11 @@ struct ApiDetailView: View {
 
     var body: some View {
         let watchValueBinding = Binding<String>(get: { () -> String in
-            self.api.watchValue ?? ""
+            self.modelData.watchValue ?? ""
         }) { nv in
-            self.api.watchValue = nv
+            self.modelData.watchValue = nv
         }
-
+        
         return List {
             actionView
 
@@ -67,8 +77,16 @@ struct ApiDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段"), displayMode: .inline)
-        .onDisappear {
+        .onAppear {
             try? self.context.save()
+            self.modelData.objectWillChange
+                .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+                .sink { _ in
+                    self.api.watch = self.modelData.watch
+                    self.api.watchValue = self.modelData.watchValue
+                    self.onComplete?()
+                }
+                .store(in: &self.cancellables)
         }
     }
 }

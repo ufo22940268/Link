@@ -53,6 +53,14 @@ public class DebugHelper {
         let p = EndPointEntity(context: context)
         p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
         p.data = NSDataAsset(name: "github", bundle: .main)!.data
+        
+        let a1 = ApiEntity(context: context)
+        a1.paths = "ok"
+        a1.value = "true"
+        a1.watch = true
+        a1.watchValue = "true"
+        p.addToApi(a1)
+        a1.endPoint = p
 
         addMockEndPoint2(context, d)
 
