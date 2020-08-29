@@ -22,6 +22,21 @@ struct JSONViewerView: View {
     @ObservedObject var modelData: JSONViewerData
     @EnvironmentObject var domainData: DomainData
     @ObservedObject var apiData: ApiEditData
+    @State var segment = Segment.response.rawValue
+
+    enum Segment: Int, RawRepresentable, CaseIterable {
+        case response = 0
+        case metric = 1
+
+        var label: String {
+            switch self {
+            case .response:
+                return "请求返回"
+            case .metric:
+                return "其他信息"
+            }
+        }
+    }
 
     var dataSource: DataSource {
         DataSource(context: context)
@@ -95,7 +110,7 @@ struct JSONViewerView: View {
         }
     }
 
-    var body: some View {
+    var responseSectionView: some View {
         List {
             if isValidJson {
                 if errorApis.count > 0 {
@@ -111,12 +126,32 @@ struct JSONViewerView: View {
                 JSONView(data: endPoint.data, healthy: healthyPaths, error: errorPaths)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
             }
+        }
+        .listStyle(GroupedListStyle())
+    }
 
-            if endPoint.isCompleted {
-                Section(header: Text("其他")) {
-                    InfoRow(label: "响应时间", value: endPoint.duration.formatDuration)
-                    InfoRow(label: "状态码", value: endPoint.statusCode)
+    var metricSectionView: some View {
+        List {
+            Section(header: Text("其他")) {
+                InfoRow(label: "响应时间", value: endPoint.duration.formatDuration)
+                InfoRow(label: "状态码", value: endPoint.statusCode)
+            }
+        }
+    }
+
+    var body: some View {
+        VStack {
+            Picker("Select category", selection: $segment) {
+                ForEach(Segment.allCases, id: \.self.rawValue) { segment in
+                    Text(segment.label).tag(segment.rawValue)
                 }
+            }
+            .pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
+            
+            if segment == Segment.response.rawValue {
+                responseSectionView
+            } else if segment == Segment.metric.rawValue {
+                metricSectionView
             }
         }
         .listStyle(GroupedListStyle())
