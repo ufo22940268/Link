@@ -14,7 +14,7 @@ extension EndPointEntity: Identifiable {
     }
 
     var endPointPath: String {
-        return URLHelper.extractEndPointPath(url: url ?? "")
+        url?.endPointPath ?? ""
     }
 
     var status: HealthStatus {

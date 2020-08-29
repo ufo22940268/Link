@@ -39,7 +39,7 @@ private struct EndPointRow: View {
                     Image(systemName: "exclamationmark.icloud")
                 }
             }
-        }.isDetailLink(true)
+        }
     }
 }
 

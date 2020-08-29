@@ -37,6 +37,7 @@
 		428C18C524F6391D0017ECBC /* InfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C18C424F6391D0017ECBC /* InfoRow.swift */; };
 		428C18C724F644A90017ECBC /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C18C624F644A90017ECBC /* Time.swift */; };
 		4290700524F7415700A3771E /* EditWatchValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290700424F7415700A3771E /* EditWatchValueView.swift */; };
+		429DA04C24FB0BB2005872D4 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429DA04B24FB0BB2005872D4 /* URLTests.swift */; };
 		42BC1B6524D7E8590078402B /* DomainData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BC1B6424D7E8590078402B /* DomainData.swift */; };
 		42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BC1B9724D8DF6E0078402B /* HealthChecker.swift */; };
 		42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */; };
@@ -96,6 +97,7 @@
 		428C18C424F6391D0017ECBC /* InfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRow.swift; sourceTree = "<group>"; };
 		428C18C624F644A90017ECBC /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		4290700424F7415700A3771E /* EditWatchValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWatchValueView.swift; sourceTree = "<group>"; };
+		429DA04B24FB0BB2005872D4 /* URLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTests.swift; sourceTree = "<group>"; };
 		42BC1B6424D7E8590078402B /* DomainData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainData.swift; sourceTree = "<group>"; };
 		42BC1B9724D8DF6E0078402B /* HealthChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthChecker.swift; sourceTree = "<group>"; };
 		42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			children = (
 				422B6D112498D91500D2F10D /* Info.plist */,
 				426F887524B1450400C039E4 /* EndPointTests.swift */,
+				429DA04B24FB0BB2005872D4 /* URLTests.swift */,
 			);
 			path = LinkTests;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				426F887624B1450400C039E4 /* EndPointTests.swift in Sources */,
+				429DA04C24FB0BB2005872D4 /* URLTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,7 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
 				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;
@@ -576,7 +580,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
 				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;

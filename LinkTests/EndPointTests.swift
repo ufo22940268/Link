@@ -27,17 +27,7 @@ class EndPointTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testParseURL() {
-        print("parse url")
-        var s = "http://biubiubiu.hopto.org/link/github.json"
-        XCTAssert(s.hostname == "biubiubiu.hopto.org")
-        s = "http://biubiubiu.hopto.org"
-        XCTAssert(s.hostname == "biubiubiu.hopto.org")
-    }
-
-    func testExtension() {}
-
+    
     func testCoreData() {
         print("testCoreData")
         print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))

@@ -28,7 +28,7 @@ extension String {
         }
         return ""
     }
-    
+
     func isValidURL() -> Bool {
         let urlRegEx = "^https?://.+$"
         let urlTest = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
@@ -36,4 +36,17 @@ extension String {
         return result
     }
 
+    var endPointPath: String? {
+        let regex = try? NSRegularExpression(pattern: "((http|https)://)?(\\w+\\.)?(?<dn>(\\w)+)\\.[^/]+(?<pa>/?.*)", options: [])
+        if let match = regex?.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            if let domainNameRange = Range(match.range(withName: "pa"), in: self) {
+                var s = String(self[domainNameRange])
+                if s.isEmpty {
+                    s = "/"
+                }
+                return s
+            }
+        }
+        return nil
+    }
 }

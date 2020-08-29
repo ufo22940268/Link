@@ -75,7 +75,7 @@ struct EndPointEditView: View {
         self.apiEditData = apiEditData
 
         if type == .add {
-            _validateURLResult = State.init(initialValue: .prompt)
+            _validateURLResult = State(initialValue: .prompt)
         }
 
         customDomainName = apiEditData.url.domainName == apiEditData.domainName
@@ -227,7 +227,9 @@ struct EndPointEditView: View {
             self.cancellables.forEach { $0.cancel() }
         }
 
-        return NavigationView { form.navigationBarItems(leading: cancelButton, trailing: doneButton) }
+        return NavigationView {
+            form.navigationBarItems(leading: cancelButton, trailing: doneButton)
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
