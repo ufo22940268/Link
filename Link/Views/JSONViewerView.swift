@@ -45,9 +45,10 @@ struct JSONViewerView: View {
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
         apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)
-        let endPoint = try! CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", modelData.endPoint!.objectID)!
-        apiData.originURL = endPoint.url
-        apiData.endPoint = endPoint
+        if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", modelData.endPoint!.objectID) {            
+            apiData.originURL = endPoint.url
+            apiData.endPoint = endPoint
+        }
     }
 
     var endPoint: EndPointEntity {

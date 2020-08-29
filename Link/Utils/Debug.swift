@@ -47,7 +47,7 @@ public class DebugHelper {
         clearDB(context)
 
         let d = DomainEntity(context: context)
-        d.name = "d9"
+        d.name = "htopto"
         d.hostname = "biubiubiu.hopto.org:9000"
         
         let p = EndPointEntity(context: context)
