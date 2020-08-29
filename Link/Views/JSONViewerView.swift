@@ -44,7 +44,10 @@ struct JSONViewerView: View {
 
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
-        self.apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)
+        apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)
+        let endPoint = try! CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", modelData.endPoint!.objectID)!
+        apiData.originURL = endPoint.url
+        apiData.endPoint = endPoint
     }
 
     var endPoint: EndPointEntity {
@@ -147,7 +150,7 @@ struct JSONViewerView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
-            
+
             if segment == Segment.response.rawValue {
                 responseSectionView
             } else if segment == Segment.metric.rawValue {
@@ -158,11 +161,11 @@ struct JSONViewerView: View {
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
         .onAppear {
-            let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
-            req.predicate = NSPredicate(format: "self == %@", self.apiData.endPointId!)
-            let endPoint = try! CoreDataContext.edit.fetch(req).first!
-            self.apiData.originURL = endPoint.url
-            self.apiData.endPoint = endPoint
+//            let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
+//            req.predicate = NSPredicate(format: "self == %@", self.apiData.endPointId!)
+//            let endPoint = try! CoreDataContext.edit.fetch(req).first!
+//            self.apiData.originURL = endPoint.url
+//            self.apiData.endPoint = endPoint
         }
     }
 }
