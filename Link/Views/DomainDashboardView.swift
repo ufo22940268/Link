@@ -15,11 +15,9 @@ struct DomainDashboardView: View {
     @ObservedObject var apiData = ApiEditData()
     @EnvironmentObject var domainData: DomainData
 
-    
     var dataSource: DataSource {
         DataSource(context: context)
     }
-
 
     var refreshButton: some View {
         if domainData.endPoints.count > 0 {
@@ -78,6 +76,7 @@ struct DomainDashboardView: View {
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(leading: refreshButton, trailing: addButton)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .background(Color(UIColor.systemBackground))
         .font(.body)
         .onAppear {

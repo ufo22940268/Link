@@ -13,17 +13,19 @@ import SwiftUI
 public class DebugHelper {
     fileprivate static func addMockEndPoint2(_ context: NSManagedObjectContext, _ d: DomainEntity) {
         let p2 = EndPointEntity(context: context)
-        p2.url = "http://biubiubiu.hopto.org:9000/link/github.json2"
+        p2.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         p2.data = NSDataAsset(name: "fireball", bundle: .main)!.data
 
         let a1 = ApiEntity(context: context)
         a1.endPoint = p2
         a1.paths = "followers_url"
+        a1.value = "https://api.github.com/user/followers"
         a1.watchValue = "https://api.github.com/user/followers"
         a1.watch = false
 
         let a2 = ApiEntity(context: context)
         a2.endPoint = p2
+        a2.value = "https://api.github.com/user/feeds"
         a2.paths = "feeds_url"
         a2.watchValue = "https://api.github.com/user/feeds"
         a2.watch = true
