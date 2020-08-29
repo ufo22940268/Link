@@ -96,8 +96,7 @@ struct JSONViewerView: View {
     }
 
     var body: some View {
-        print("refresh json")
-        return List {
+        List {
             if isValidJson {
                 if errorApis.count > 0 {
                     ApiSectionView(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
