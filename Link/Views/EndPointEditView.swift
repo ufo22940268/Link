@@ -11,6 +11,7 @@ import CoreData
 import SwiftUI
 
 enum ValidateURLResult {
+    case prompt
     case initial
     case formatError
     case requestError
@@ -21,6 +22,8 @@ enum ValidateURLResult {
 
     var label: String {
         switch self {
+        case .prompt:
+            return "地址示例 http://biubiubiu.hopto.org:9000/link/github.json"
         case .initial:
             return ""
         case .formatError:
@@ -72,7 +75,7 @@ struct EndPointEditView: View {
         self.apiEditData = apiEditData
 
         if type == .add {
-            validateURLResult = .initial
+            _validateURLResult = State.init(initialValue: .prompt)
         }
 
         customDomainName = apiEditData.url.domainName == apiEditData.domainName
