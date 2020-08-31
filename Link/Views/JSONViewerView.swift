@@ -45,7 +45,7 @@ struct JSONViewerView: View {
     init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
         self.modelData = modelData
         apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)
-        if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", modelData.endPoint!.objectID) {            
+        if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", modelData.endPoint!.objectID) {
             apiData.originURL = endPoint.url
             apiData.endPoint = endPoint
         }
@@ -136,22 +136,29 @@ struct JSONViewerView: View {
 
     var metricSectionView: some View {
         List {
-            Section(header: Text("其他")) {
+            Section(header: Text("")) {
                 InfoRow(label: "响应时间", value: endPoint.duration.formatDuration)
                 InfoRow(label: "状态码", value: endPoint.statusCode)
             }
         }
     }
+    
+    var historySectionView: some View {
+        EmptyView()
+    }
+
+    var pickerView: some View {
+        Picker("Select category", selection: $segment) {
+            ForEach(Segment.allCases, id: \.self.rawValue) { segment in
+                Text(segment.label).tag(segment.rawValue)
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
+    }
 
     var body: some View {
         VStack {
-            Picker("Select category", selection: $segment) {
-                ForEach(Segment.allCases, id: \.self.rawValue) { segment in
-                    Text(segment.label).tag(segment.rawValue)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
-
+            pickerView
             if segment == Segment.response.rawValue {
                 responseSectionView
             } else if segment == Segment.metric.rawValue {
@@ -161,13 +168,6 @@ struct JSONViewerView: View {
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
-        .onAppear {
-//            let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
-//            req.predicate = NSPredicate(format: "self == %@", self.apiData.endPointId!)
-//            let endPoint = try! CoreDataContext.edit.fetch(req).first!
-//            self.apiData.originURL = endPoint.url
-//            self.apiData.endPoint = endPoint
-        }
     }
 }
 
