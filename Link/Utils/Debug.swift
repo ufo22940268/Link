@@ -14,7 +14,7 @@ public class DebugHelper {
     fileprivate static func addMockEndPoint2(_ context: NSManagedObjectContext, _ d: DomainEntity) {
         let p2 = EndPointEntity(context: context)
         p2.url = "http://biubiubiu.hopto.org:9000/link/github.json"
-        p2.data = NSDataAsset(name: "fireball", bundle: .main)!.data
+        p2.data = NSDataAsset(name: "github", bundle: .main)!.data
 
         let a1 = ApiEntity(context: context)
         a1.endPoint = p2

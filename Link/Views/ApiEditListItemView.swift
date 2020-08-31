@@ -12,6 +12,7 @@ struct ApiEditListItemView: View {
     @Binding var api: ApiEntity
     @Environment(\.editMode) var mode
     @State var activeDetail: Bool = false
+    @Environment(\.presentationMode) var presentationMode
     var segment: Segment
     var onComplete: () -> Void
 
@@ -37,6 +38,13 @@ struct ApiEditListItemView: View {
             if activeDetail {
                 NavigationLink("", destination: detailView, isActive: $activeDetail)
                     .hidden()
+            }
+            
+            Button(action: {
+                self.api.watch = true
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                EmptyView()
             }
 
             Button(action: {

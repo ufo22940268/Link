@@ -45,7 +45,7 @@ struct MultilineTextField: UIViewRepresentable {
         textView.returnKeyType = .next
         textView.autocapitalizationType = .none
         textView.dataDetectorTypes = .link
-        textView.becomeFirstResponder()
+//        textView.becomeFirstResponder()
 
 
         // Set the placeholder
