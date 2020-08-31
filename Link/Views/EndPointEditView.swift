@@ -67,6 +67,7 @@ struct EndPointEditView: View {
     @State var launched = false
     @State var customDomainName: Bool = false
     @State var textHeight: CGFloat = 90
+    @State var showAdd: Bool = false
 
     var type: EditType
 
@@ -87,7 +88,7 @@ struct EndPointEditView: View {
     }
 
     var editView: some View {
-        ApiEditView(apiEditData: self.apiEditData, dismissPresentationMode: Binding(presentationMode))
+        ApiEditView(apiEditData: self.apiEditData)
             .environmentObject(apiEditData)
     }
 
@@ -204,7 +205,20 @@ struct EndPointEditView: View {
             Section(header: Text("名字").bold()) {
                 TextField("", text: nameBinding)
             }
+
+            if apiEditData.unwatchedApis.count > 0 {
+                Section {
+                    Button("添加字段...") {
+                        self.showAdd = true
+                    }
+                }
+            }
         }
+        .background(
+            NavigationLink(destination: ApiEditView(apiEditData: apiEditData), isActive: $showAdd) {
+                EmptyView()
+            }.hidden()
+        )
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onAppear {
@@ -242,7 +256,22 @@ struct EndPointEditView_Previews: PreviewProvider {
         domain.hostname = "wefwef.com"
         domain.name = "iii"
 
-        return EndPointEditView(type: .edit, apiEditData: ApiEditData(endPointId: ee.objectID))
+        let ae1 = ApiEntity(context: context)
+        ae1.endPoint = ee
+        ae1.paths = "p"
+        ae1.value = "ae1.value"
+
+        let ae2 = ApiEntity(context: context)
+        ae2.endPoint = ee
+        ae2.paths = "p"
+        ae2.value = "ae1.value"
+
+        ee.addToApi(ae1)
+        ee.addToApi(ae2)
+
+        let d = ApiEditData(endPointId: ee.objectID)
+        d.endPoint = ee
+        return EndPointEditView(type: .edit, apiEditData: d)
             .environment(\.managedObjectContext, context)
             .colorScheme(.dark)
     }

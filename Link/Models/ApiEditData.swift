@@ -32,6 +32,10 @@ class ApiEditData: ObservableObject {
     // For create
     init() {
     }
+    
+    var unwatchedApis: [ApiEntity] {
+        self.apis.filter { !$0.watch }
+    }
 
     // For edit
     init(endPointId: NSManagedObjectID) {

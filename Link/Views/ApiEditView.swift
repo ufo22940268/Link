@@ -28,15 +28,10 @@ struct ApiEditView: View {
     @State private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: ApiEditData
-    @Binding var dismissPresentationMode: PresentationMode?
     @State var segment = Segment.all.rawValue
-    @State var selection = Set<ApiEntity>()
-    @State var editMode: EditMode = .inactive
 
-    init(apiEditData: ApiEditData, dismissPresentationMode: Binding<PresentationMode?>) {
+    init(apiEditData: ApiEditData) {
         self.apiEditData = apiEditData
-        _dismissPresentationMode = dismissPresentationMode
-        _selection = State(initialValue: Set(apiEditData.apis.filter { $0.watch }))
     }
 
     func buildApiSelection() -> Binding<Set<ApiEntity>> {
@@ -49,54 +44,20 @@ struct ApiEditView: View {
         }
     }
 
-    var doneButton: some View {
-        if editMode != .active {
-            return AnyView(Button("完成", action: {
-                try! self.context.save()
-                try! CoreDataContext.main.save()
-                self.dismissPresentationMode?.dismiss()
-            }))
-        } else {
-            return AnyView(EmptyView())
-        }
-    }
+//    var doneButton: some View {
+//        if editMode != .active {
+//            return AnyView(Button("完成", action: {
+//                try! self.context.save()
+//                try! CoreDataContext.main.save()
+//                self.dismissPresentationMode?.dismiss()
+//            }))
+//        } else {
+//            return AnyView(EmptyView())
+//        }
+//    }
 
-    var editButton: some View {
-        Button(self.editMode == .active ? "完成" : "编辑") {
-            withAnimation {
-                if self.editMode == .active {
-                    self.editMode = .inactive
-                    self.selection.forEach { api in
-                        api.watch = true
-                        api.watchValue = api.value
-                    }
-                    self.apiEditData.apis.filter { !self.selection.contains($0) }
-                        .forEach {
-                            $0.watch = false
-                            $0.watchValue = nil
-                        }
-                    self.apiEditData.objectWillChange.send()
-                } else {
-                    self.editMode = .active
-                }
-            }
-        }
-    }
-
-    var categorySelectorView: some View {
-        Picker("Select api category", selection: $segment) {
-            ForEach(Segment.allCases, id: \.self.rawValue) { segment in
-                Text(segment.label).tag(segment.rawValue)
-            }
-        }.pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
-    }
-
-    var categoryApis: [ApiEntity] {
-        if segment == Segment.all.rawValue {
-            return apiEditData.apis
-        } else {
-            return apiEditData.apis.filter { $0.watch }
-        }
+    var unwatchApis: [ApiEntity] {
+        return apiEditData.apis.filter { !$0.watch }
     }
 
     func getApiBinding(_ api: ApiEntity) -> Binding<ApiEntity> {
@@ -106,17 +67,13 @@ struct ApiEditView: View {
 
     var body: some View {
         VStack {
-            categorySelectorView
-            List(self.categoryApis, id: \.self, selection: self.$selection) { api -> AnyView in
+            List(self.unwatchApis, id: \.self) { api -> AnyView in
                 AnyView(ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
                     self.apiEditData.objectWillChange.send()
                 }))
             }
         }
-        .environment(\.editMode, $editMode)
-        .navigationBarItems(leading: editButton, trailing: doneButton)
-        .navigationBarTitle("字段", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
+        .navigationBarTitle("添加字段", displayMode: .inline)
     }
 }
 
@@ -133,7 +90,7 @@ struct ApiEditView_Previews: PreviewProvider {
         a2.watch = false
         d.apis = [a, a2]
         return NavigationView {
-            ApiEditView(apiEditData: d, dismissPresentationMode: Binding.constant(nil))
+            ApiEditView(apiEditData: d)
                 .environment(\.managedObjectContext, context)
                 .colorScheme(.light)
         }
