@@ -11,10 +11,21 @@ import CoreData
 import SwiftUI
 
 class ApiEditData: ObservableObject {
-    @Published var apis = [ApiEntity]()
+    var cancellables = [AnyCancellable]()
+    @Published var apis = [ApiEntity]() {
+        didSet {
+            apis.forEach {
+                $0.objectWillChange.sink {
+                    self.objectWillChange.send()
+                }
+                .store(in: &cancellables)
+            }
+        }
+    }
+
     @Published var domainName: String = ""
     @Published var url: String = ""
-    
+
     var originURL: String?
 
     var endPoint: EndPointEntity? {
@@ -30,11 +41,14 @@ class ApiEditData: ObservableObject {
     var endPointId: NSManagedObjectID?
 
     // For create
-    init() {
-    }
-    
-    var unwatchedApis: [ApiEntity] {
+    init() {}
+
+    var unwatchApis: [ApiEntity] {
         self.apis.filter { !$0.watch }
+    }
+
+    var watchApis: [ApiEntity] {
+        self.apis.filter { $0.watch }
     }
 
     // For edit

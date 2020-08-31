@@ -118,7 +118,7 @@ struct EndPointEditView: View {
             urlPub = urlPub.dropFirst().eraseToAnyPublisher()
         } else {
             urlPub = urlPub.filter {
-                !(self.validateURLResult == .initial && $0 == "")
+                !(self.validateURLResult == .prompt && $0 == "")
             }.eraseToAnyPublisher()
         }
 
@@ -141,6 +141,7 @@ struct EndPointEditView: View {
                     return ApiHelper(context: self.context).test(url: url!).eraseToAnyPublisher()
                 }
             }
+            .print("api request")
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
@@ -195,6 +196,10 @@ struct EndPointEditView: View {
         }
     }
 
+    func createBinding(api: ApiEntity) -> Binding<ApiEntity> {
+        return Binding.constant(api)
+    }
+
     var body: some View {
         let form = Form {
             Section(header: Text("域名地址").bold(), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
@@ -206,7 +211,11 @@ struct EndPointEditView: View {
                 TextField("", text: nameBinding)
             }
 
-            if apiEditData.unwatchedApis.count > 0 {
+            ForEach(apiEditData.watchApis) { api in
+                ApiListItemView(api: self.createBinding(api: api))
+            }
+
+            if apiEditData.unwatchApis.count > 0 {
                 Section {
                     Button("添加字段...") {
                         self.showAdd = true
@@ -236,9 +245,6 @@ struct EndPointEditView: View {
                     self.urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                 }
             }
-        }
-        .onDisappear {
-            self.cancellables.forEach { $0.cancel() }
         }
 
         return NavigationView {

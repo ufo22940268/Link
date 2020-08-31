@@ -25,7 +25,7 @@ enum Segment: Int, RawRepresentable, CaseIterable {
 }
 
 struct ApiEditView: View {
-    @State private var cancellables = [AnyCancellable]()
+    private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: ApiEditData
     @State var segment = Segment.all.rawValue
@@ -68,9 +68,7 @@ struct ApiEditView: View {
     var body: some View {
         VStack {
             List(self.unwatchApis, id: \.self) { api -> AnyView in
-                AnyView(ApiEditListItemView(api: self.getApiBinding(api), segment: Segment.allCases.first { $0.rawValue == self.segment }!, onComplete: {
-                    self.apiEditData.objectWillChange.send()
-                }))
+                AnyView(ApiListItemView(api: self.getApiBinding(api)))
             }
         }
         .navigationBarTitle("添加字段", displayMode: .inline)

@@ -142,7 +142,7 @@ struct JSONViewerView: View {
             }
         }
     }
-    
+
     var historySectionView: some View {
         EmptyView()
     }
