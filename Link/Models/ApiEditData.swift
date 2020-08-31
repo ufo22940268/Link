@@ -39,9 +39,25 @@ class ApiEditData: ObservableObject {
     }
 
     var endPointId: NSManagedObjectID?
+    var context: NSManagedObjectContext?
 
     // For create
-    init() {}
+    init() {
+        setupForCreate()
+    }
+    
+    func setupForCreate() {
+        if let c = self.context {
+            c.rollback()
+        }
+
+        let context = CoreDataContext.add
+        self.context = context
+        self.endPoint = EndPointEntity(context: context)
+        self.endPointId = self.endPoint!.objectID
+        self.domainName = ""
+        self.url = ""
+    }
 
     var unwatchApis: [ApiEntity] {
         self.apis.filter { !$0.watch }
@@ -56,10 +72,4 @@ class ApiEditData: ObservableObject {
         self.endPointId = endPointId
     }
 
-    func setEndPointForCreate() {
-        self.endPoint = EndPointEntity(context: CoreDataContext.edit)
-        self.endPointId = self.endPoint!.objectID
-        self.domainName = ""
-        self.url = ""
-    }
 }

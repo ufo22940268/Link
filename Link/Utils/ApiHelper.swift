@@ -29,7 +29,6 @@ extension Api: Hashable {}
 typealias Path = [String]
 
 struct ApiHelper {
-    
     var context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
@@ -51,7 +50,9 @@ struct ApiHelper {
                 return try JSON(data: $0.data)
             }
             .map { self.convertToAPI(json: $0) }
-            .map { self.convertToApiEntity(endPoint: endPoint, apis: $0) }
+            .map {
+                self.convertToApiEntity(endPoint: endPoint, apis: $0)
+            }
             .tryCatch { _ in
                 Just([])
             }

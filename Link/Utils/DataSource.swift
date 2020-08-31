@@ -94,6 +94,15 @@ struct CoreDataContext {
         context.parent = CoreDataContext.main
         return context
     }()
+    
+    static let add: NSManagedObjectContext = createChildContext(name: "add")
+    
+    private static func createChildContext(name: String) -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.name = name
+        context.parent = CoreDataContext.main
+        return context
+    }
 }
 
 extension NSManagedObjectContext {

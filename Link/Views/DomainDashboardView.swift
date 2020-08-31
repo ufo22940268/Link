@@ -12,7 +12,7 @@ import SwiftUI
 struct DomainDashboardView: View {
     @State var showingAddEndPoint: Bool = false
     @Environment(\.managedObjectContext) var context
-    @ObservedObject var apiData = ApiEditData()
+    @ObservedObject var addApiData = ApiEditData()
     @EnvironmentObject var domainData: DomainData
 
     var dataSource: DataSource {
@@ -35,11 +35,11 @@ struct DomainDashboardView: View {
         }, label: {
             Image(systemName: "plus").padding()
         }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
-            CoreDataContext.edit.rollback()
+            self.addApiData.setupForCreate()
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
-            AnyView(EndPointEditView(type: .add, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, CoreDataContext.edit))
+            AnyView(EndPointEditView(type: .add, apiEditData: self.addApiData)
+                .environment(\.managedObjectContext, self.addApiData.context!))
         })
     }
 

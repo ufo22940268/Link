@@ -71,13 +71,14 @@ struct EndPointEditView: View {
 
     var type: EditType
 
-    internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData = ApiEditData()) {
+    internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData) {
         self.type = type
         self.apiEditData = apiEditData
 
         if type == .add {
             _validateURLResult = State(initialValue: .prompt)
         }
+        
 
         customDomainName = apiEditData.url.domainName == apiEditData.domainName
     }
@@ -113,6 +114,8 @@ struct EndPointEditView: View {
     }
 
     fileprivate func listenToURLChange() {
+        print("context1",  apiEditData.context)
+        print("context2",  context)
         var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
         if type == .edit {
             urlPub = urlPub.dropFirst().eraseToAnyPublisher()
@@ -233,8 +236,6 @@ struct EndPointEditView: View {
         .onAppear {
             if self.type == .edit {
                 self.validateURLResult = .ok
-            } else if self.type == .add {
-                self.apiEditData.setEndPointForCreate()
             }
 
             self.listenToURLChange()
