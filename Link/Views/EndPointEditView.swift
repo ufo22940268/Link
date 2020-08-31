@@ -78,7 +78,6 @@ struct EndPointEditView: View {
         if type == .add {
             _validateURLResult = State(initialValue: .prompt)
         }
-        
 
         customDomainName = apiEditData.url.domainName == apiEditData.domainName
     }
@@ -93,15 +92,12 @@ struct EndPointEditView: View {
             .environmentObject(apiEditData)
     }
 
-    @State var selection: Int? = nil
-
     var doneButton: some View {
-        NavigationLink(destination: editView, tag: 1, selection: $selection, label: {
-            Button("下一步") {
-                self.selection = 1
-                self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
-            }
-        }).disabled(!(validateURLResult == .ok))
+        Button("完成") {
+            self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
+            try! self.context.save()
+            self.presentationMode.wrappedValue.dismiss()
+        }.disabled(!(validateURLResult == .ok))
     }
 
     var cancelButton: some View {
@@ -114,8 +110,6 @@ struct EndPointEditView: View {
     }
 
     fileprivate func listenToURLChange() {
-        print("context1",  apiEditData.context)
-        print("context2",  context)
         var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
         if type == .edit {
             urlPub = urlPub.dropFirst().eraseToAnyPublisher()
@@ -144,7 +138,6 @@ struct EndPointEditView: View {
                     return ApiHelper(context: self.context).test(url: url!).eraseToAnyPublisher()
                 }
             }
-            .print("api request")
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
