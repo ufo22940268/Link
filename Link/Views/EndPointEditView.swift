@@ -119,24 +119,31 @@ struct EndPointEditView: View {
             }.eraseToAnyPublisher()
         }
 
+        let dbDataSource = DataSource(context: CoreDataContext.main)
         urlPub
-            .filter { $0.isValidURL() }
-            .map { url -> (String?, ValidateURLResult?) in
+            .print("url before")
+            .filter { url in
                 self.validateURLResult = .pending
-                if (self.type == .add && self.dataSource.isURLExists(url))
-                    || (self.type == .edit && url != self.apiEditData.originURL && self.dataSource.isURLExists(url))
+                if (self.type == .add && dbDataSource.isURLExists(url))
+                    || (self.type == .edit && url != self.apiEditData.originURL && dbDataSource.isURLExists(url))
                 {
-                    return (nil, ValidateURLResult.duplicatedUrl)
+                    self.validateURLResult = ValidateURLResult.duplicatedUrl
+                    self.apiEditData.apis = []
+                    return false
                 }
-                return (url, nil)
+
+                if !url.isValidURL() {
+                    self.apiEditData.apis = []
+                    self.validateURLResult = .formatError
+                }
+
+                return true
             }
             .debounce(for: 1, scheduler: DispatchQueue.main)
-            .flatMap { url, result -> AnyPublisher<ValidateURLResult, Never> in
-                if let result = result {
-                    return Just(result).eraseToAnyPublisher()
-                } else {
-                    return ApiHelper(context: self.context).test(url: url!).eraseToAnyPublisher()
-                }
+            .print("url")
+            .removeDuplicates()
+            .flatMap { url -> AnyPublisher<ValidateURLResult, Never> in
+                ApiHelper(context: self.context).test(url: url).eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
@@ -152,16 +159,6 @@ struct EndPointEditView: View {
             }
             .sink { apis in
                 self.apiEditData.apis = apis
-            }
-            .store(in: &cancellables)
-
-        apiEditData.$url
-            .filter { !$0.isEmpty }
-            .contains { !$0.isValidURL() }
-            .sink { formatError in
-                if formatError {
-                    self.validateURLResult = .formatError
-                }
             }
             .store(in: &cancellables)
 

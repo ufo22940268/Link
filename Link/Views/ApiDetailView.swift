@@ -78,7 +78,6 @@ struct ApiDetailView: View {
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段"), displayMode: .inline)
         .onAppear {
-            try? self.context.save()
             self.modelData.objectWillChange
                 .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
                 .sink { _ in
