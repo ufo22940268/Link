@@ -207,7 +207,12 @@ struct EndPointEditView: View {
 
             ForEach(Array(0 ..< watchListCount), id: \.self) { i -> AnyView in
                 if i < self.apiEditData.watchApis.count {
-                    return AnyView(ApiListItemView(api: self.createBinding(api: self.apiEditData.watchApis[i])))
+                    let api: ApiEntity = self.apiEditData.watchApis[i]
+                    return AnyView(
+                        NavigationLink(destination: ApiDetailView(api: api), label: {
+                            ApiListItemView(api: self.createBinding(api: api), showDisclosure: false)
+                        })
+                    )
                 } else {
                     return AnyView(
                         Button("添加字段...") {

@@ -20,6 +20,7 @@
 		422B6D21249C96CF00D2F10D /* DomainEndPointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */; };
 		4232203824F08BB5001470BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4232203A24F08BB5001470BF /* InfoPlist.strings */; };
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
+		42522CB024FE1BBA000E8B09 /* ApiSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42522CAF24FE1BBA000E8B09 /* ApiSectionView.swift */; };
 		42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* EndPointEditView.swift */; };
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
 		426843A924F9D1B20075B1F9 /* ApiDetailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426843A824F9D1B20075B1F9 /* ApiDetailData.swift */; };
@@ -81,6 +82,7 @@
 		4232203C24F08C91001470BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		423DD13324A984860064D321 /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
+		42522CAF24FE1BBA000E8B09 /* ApiSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiSectionView.swift; sourceTree = "<group>"; };
 		42639511249DA14200ADFBE4 /* EndPointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditView.swift; sourceTree = "<group>"; };
 		42639513249E009E00ADFBE4 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		426843A824F9D1B20075B1F9 /* ApiDetailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiDetailData.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				4285FE3B24D3FAC5002BEAEF /* ApiDetailView.swift */,
 				4290700424F7415700A3771E /* EditWatchValueView.swift */,
 				42DAFACB24DA3A850093869D /* JSONViewerView.swift */,
+				42522CAF24FE1BBA000E8B09 /* ApiSectionView.swift */,
 				427A82CC24E54FEF00437A56 /* JSONView.swift */,
 				428C18C424F6391D0017ECBC /* InfoRow.swift */,
 				426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */,
@@ -381,6 +384,7 @@
 				426843A924F9D1B20075B1F9 /* ApiDetailData.swift in Sources */,
 				422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */,
 				427471F624D649C900883AD7 /* Extentsion.swift in Sources */,
+				42522CB024FE1BBA000E8B09 /* ApiSectionView.swift in Sources */,
 				4285FE3C24D3FAC5002BEAEF /* ApiDetailView.swift in Sources */,
 				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
 				4290700524F7415700A3771E /* EditWatchValueView.swift in Sources */,

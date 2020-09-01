@@ -10,13 +10,11 @@ import Combine
 import SwiftUI
 
 struct ApiDetailView: View {
-    
     internal init(api: ApiEntity, onComplete: (() -> Void)? = nil) {
         self.api = api
-        self.onComplete = onComplete
         modelData = ApiDetailData(api: api)
     }
-    
+
     @ObservedObject var api: ApiEntity
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
@@ -52,7 +50,7 @@ struct ApiDetailView: View {
         }) { nv in
             self.modelData.watchValue = nv
         }
-        
+
         return List {
             actionView
 

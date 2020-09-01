@@ -10,12 +10,13 @@ import SwiftUI
 
 struct ApiListItemView: View {
     @Binding var api: ApiEntity
-    @Environment(\.editMode) var mode
     @State var activeDetail: Bool = false
     @Environment(\.presentationMode) var presentationMode
+    var showDisclosure: Bool
 
-    var isEditing: Bool {
-        mode != nil && mode!.wrappedValue.isEditing
+    init(api: Binding<ApiEntity>, showDisclosure: Bool = true) {
+        _api = api
+        self.showDisclosure = showDisclosure
     }
 
     var detailView: some View {
@@ -33,26 +34,28 @@ struct ApiListItemView: View {
             }
 
             Spacer()
+            
             if activeDetail {
                 NavigationLink("", destination: detailView, isActive: $activeDetail)
                     .hidden()
             }
-            
-            Button(action: {
-                self.api.watch = true
-                self.api.watchValue = self.api.value
-                self.presentationMode.wrappedValue.dismiss()
-            }) {
-                EmptyView()
-            }
 
-            Button(action: {
-                print("click")
-                self.activeDetail = true
-            }, label: { () in
-                Image(systemName: "info.circle").foregroundColor(.accentColor)
-            })
-                .buttonStyle(BorderlessButtonStyle())
+            if showDisclosure {
+                Button(action: {
+                    self.api.watch = true
+                    self.api.watchValue = self.api.value
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    EmptyView()
+                }
+                
+                Button(action: {
+                    self.activeDetail = true
+                }, label: { () in
+                    Image(systemName: "info.circle").foregroundColor(.accentColor)
+                })
+                    .buttonStyle(BorderlessButtonStyle())
+            }
         }
     }
 }
