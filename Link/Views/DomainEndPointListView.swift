@@ -86,12 +86,12 @@ struct DomainEndPointListView: View {
                             ForEach(self.domainMap[domainName]!) { endPoint in
                                 EndPointRow(endPoint: endPoint)
                             }
+                            .onDelete { index in
+                                let endPoint = self.domainMap[domainName]![index.first!]
+                                DataSource(context: self.context).deleteEndPoint(entity: endPoint)
+                                self.domainData.endPoints.removeAll { $0 == endPoint }
+                            }
                         }).font(.body)
-                    }
-                    .onDelete { index in
-                        let endPoint = self.domainNames.flatMap { self.domainMap[$0]! }[index.first!]
-                        DataSource(context: self.context).deleteEndPoint(entity: endPoint)
-                        self.domainData.endPoints.removeAll { $0 == endPoint }
                     }
                 }
             } else {
