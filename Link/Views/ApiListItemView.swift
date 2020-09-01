@@ -40,6 +40,7 @@ struct ApiListItemView: View {
             
             Button(action: {
                 self.api.watch = true
+                self.api.watchValue = self.api.value
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 EmptyView()
