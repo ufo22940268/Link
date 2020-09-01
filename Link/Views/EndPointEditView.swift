@@ -121,7 +121,6 @@ struct EndPointEditView: View {
 
         let dbDataSource = DataSource(context: CoreDataContext.main)
         urlPub
-            .print("url before")
             .filter { url in
                 self.validateURLResult = .pending
                 if (self.type == .add && dbDataSource.isURLExists(url))
@@ -140,7 +139,6 @@ struct EndPointEditView: View {
                 return true
             }
             .debounce(for: 1, scheduler: DispatchQueue.main)
-            .print("url")
             .removeDuplicates()
             .flatMap { url -> AnyPublisher<ValidateURLResult, Never> in
                 ApiHelper(context: self.context).test(url: url).eraseToAnyPublisher()
@@ -194,25 +192,28 @@ struct EndPointEditView: View {
     }
 
     var body: some View {
+        let showAdd = apiEditData.unwatchApis.count > 0
+        let watchListCount = showAdd ? apiEditData.watchApis.count + 1 : apiEditData.watchApis.count
+
         let form = Form {
-            Section(header: Text("域名地址").bold(), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
+            Section(header: Text("域名地址"), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
                 MultilineTextField(text: urlBinding, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                     .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
             }
 
-            Section(header: Text("名字").bold()) {
+            Section(header: Text("名字")) {
                 TextField("", text: nameBinding)
             }
 
-            ForEach(apiEditData.watchApis) { api in
-                ApiListItemView(api: self.createBinding(api: api))
-            }
-
-            if apiEditData.unwatchApis.count > 0 {
-                Section {
-                    Button("添加字段...") {
-                        self.showAdd = true
-                    }
+            ForEach(Array(0 ..< watchListCount), id: \.self) { i -> AnyView in
+                if i < self.apiEditData.watchApis.count {
+                    return AnyView(ApiListItemView(api: self.createBinding(api: self.apiEditData.watchApis[i])))
+                } else {
+                    return AnyView(
+                        Button("添加字段...") {
+                            self.showAdd = true
+                        }
+                    )
                 }
             }
         }
@@ -256,6 +257,7 @@ struct EndPointEditView_Previews: PreviewProvider {
         let ae1 = ApiEntity(context: context)
         ae1.endPoint = ee
         ae1.paths = "p"
+        ae1.watch = true
         ae1.value = "ae1.value"
 
         let ae2 = ApiEntity(context: context)

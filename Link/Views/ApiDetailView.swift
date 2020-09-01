@@ -35,7 +35,6 @@ struct ApiDetailView: View {
                     Alert(title: Text("确定取消监控吗?"), message: nil, primaryButton: .default(Text("确定"), action: {
                         self.api.watch = false
                         self.onComplete?()
-                        self.presentationMode.wrappedValue.dismiss()
                     }), secondaryButton: .cancel())
                 }))
         } else {
@@ -43,7 +42,6 @@ struct ApiDetailView: View {
                 self.api.watch = true
                 self.api.watchValue = self.api.value
                 self.onComplete?()
-                self.presentationMode.wrappedValue.dismiss()
             }).foregroundColor(.accentColor))
         }
     }

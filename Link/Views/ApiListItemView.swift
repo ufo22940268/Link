@@ -26,7 +26,7 @@ struct ApiListItemView: View {
         HStack {
             VStack(alignment: .leading) {
                 HStack {
-                    Text((api.paths ?? "").lastPropertyPath).bold()
+                    Text((api.paths ?? "").lastPropertyPath)
                 }
                 Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
                     .lineLimit(2)
