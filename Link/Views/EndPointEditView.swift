@@ -205,22 +205,25 @@ struct EndPointEditView: View {
                 TextField("", text: nameBinding)
             }
 
-            ForEach(Array(0 ..< watchListCount), id: \.self) { i -> AnyView in
-                if i < self.apiEditData.watchApis.count {
-                    let api: ApiEntity = self.apiEditData.watchApis[i]
-                    return AnyView(
-                        NavigationLink(destination: ApiDetailView(api: api), label: {
-                            ApiListItemView(api: self.createBinding(api: api), showDisclosure: false)
-                        })
-                    )
-                } else {
-                    return AnyView(
-                        Button("添加字段...") {
-                            self.showAdd = true
-                        }
-                    )
+            Section(header: Text("监控")) {
+                ForEach(Array(0 ..< watchListCount), id: \.self) { i -> AnyView in
+                    if i < self.apiEditData.watchApis.count {
+                        let api: ApiEntity = self.apiEditData.watchApis[i]
+                        return AnyView(
+                            NavigationLink(destination: ApiDetailView(api: api), label: {
+                                ApiListItemView(api: self.createBinding(api: api), showDisclosure: false)
+                            })
+                        )
+                    } else {
+                        return AnyView(
+                            Button("添加字段...") {
+                                self.showAdd = true
+                            }
+                        )
+                    }
                 }
             }
+
         }
         .background(
             NavigationLink(destination: ApiEditView(apiEditData: apiEditData), isActive: $showAdd) {
