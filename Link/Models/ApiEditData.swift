@@ -14,12 +14,12 @@ class ApiEditData: ObservableObject {
     var cancellables = [AnyCancellable]()
     @Published var apis = [ApiEntity]() {
         didSet {
-            apis.forEach {
-                $0.objectWillChange.sink {
-                    self.objectWillChange.send()
-                }
-                .store(in: &cancellables)
-            }
+//            apis.forEach {
+//                $0.objectWillChange.sink {
+//                    self.objectWillChange.send()
+//                }
+//                .store(in: &cancellables)
+//            }
         }
     }
 

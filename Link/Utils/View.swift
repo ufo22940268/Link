@@ -51,3 +51,7 @@ extension View {
         )
     }
 }
+
+extension Notification {
+    static let updateJsonViewer = Notification.Name.init("updateJsonViewer")
+}
