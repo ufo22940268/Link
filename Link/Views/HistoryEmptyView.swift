@@ -12,7 +12,7 @@ struct HistoryEmptyView: View {
     var body: some View {
         VStack(spacing: 20) {
             Text("请先登录开启服务器端监控").font(.callout)
-            Button("登陆") {}
+            AppleIDLoginButton().frame(width: 130, height: 30)
         }
     }
 }

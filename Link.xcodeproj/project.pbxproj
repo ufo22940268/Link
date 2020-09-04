@@ -11,6 +11,7 @@
 		4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731B24E60E1700E61E6E /* SwiftyJSON.swift */; };
 		4217949D250230DA00E5D421 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217949C250230DA00E5D421 /* HistoryView.swift */; };
 		4217949F2502321700E5D421 /* HistoryEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217949E2502321700E5D421 /* HistoryEmptyView.swift */; };
+		421794A125025E2F00E5D421 /* AppleIDLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */; };
 		422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CF82498D91400D2F10D /* AppDelegate.swift */; };
 		422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFA2498D91400D2F10D /* SceneDelegate.swift */; };
 		422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFC2498D91400D2F10D /* OnboardView.swift */; };
@@ -68,6 +69,7 @@
 		4214731B24E60E1700E61E6E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		4217949C250230DA00E5D421 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		4217949E2502321700E5D421 /* HistoryEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryEmptyView.swift; sourceTree = "<group>"; };
+		421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIDLoginButton.swift; sourceTree = "<group>"; };
 		422B6CF52498D91400D2F10D /* Link.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Link.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422B6CF82498D91400D2F10D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		422B6CFA2498D91400D2F10D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */,
 				4217949C250230DA00E5D421 /* HistoryView.swift */,
 				4217949E2502321700E5D421 /* HistoryEmptyView.swift */,
+				421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				427471F624D649C900883AD7 /* Extentsion.swift in Sources */,
 				42522CB024FE1BBA000E8B09 /* ApiSectionView.swift in Sources */,
 				4285FE3C24D3FAC5002BEAEF /* ApiDetailView.swift in Sources */,
+				421794A125025E2F00E5D421 /* AppleIDLoginButton.swift in Sources */,
 				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
 				4290700524F7415700A3771E /* EditWatchValueView.swift in Sources */,
 				423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */,
