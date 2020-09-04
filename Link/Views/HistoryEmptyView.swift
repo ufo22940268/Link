@@ -12,13 +12,15 @@ struct HistoryEmptyView: View {
     var body: some View {
         VStack(spacing: 20) {
             Text("请先登录开启服务器端监控").font(.callout)
-            AppleIDLoginButton().frame(width: 130, height: 30)
-        }
+            AppleIDLoginButton().frame(height: 45)
+        }.padding(25)
     }
 }
 
 struct HistoryEmptyView_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryEmptyView()
+        VStack {
+            HistoryEmptyView()
+        }
     }
 }
