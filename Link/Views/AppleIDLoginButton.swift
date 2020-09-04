@@ -10,12 +10,15 @@ import AuthenticationServices
 import SwiftUI
 
 struct AppleIDLoginButton: UIViewRepresentable {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     func makeCoordinator() -> Coordinate {
         return Coordinate()
     }
 
     func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
-        let button = ASAuthorizationAppleIDButton()
+        let button = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: colorScheme == ColorScheme.dark ? .white : .black)
         button.addTarget(context.coordinator, action: #selector(Coordinate.handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
         return button
     }
@@ -41,7 +44,7 @@ struct AppleIDLoginButton: UIViewRepresentable {
                 let userId = credential.user
                 LoginStore.save(loginInfo: LoginInfo(username: username, appleUserId: userId))
             default:
-                break;
+                break
             }
         }
     }
@@ -49,9 +52,22 @@ struct AppleIDLoginButton: UIViewRepresentable {
 
 struct AppleIDLoginButton_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            Text("asdfasdf")
-            AppleIDLoginButton()
+        Group {
+            VStack {
+                Text("asdfasdf")
+                AppleIDLoginButton()
+                    .frame(height: 45)
+            }
+            .padding()
+            .colorScheme(.dark)
+
+            VStack {
+                Text("asdfasdf")
+                AppleIDLoginButton()
+                    .frame(height: 45)
+            }
+            .padding()
+            .colorScheme(.dark)
         }
     }
 }
