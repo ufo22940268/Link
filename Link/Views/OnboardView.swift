@@ -15,11 +15,12 @@ struct OnboardView: View {
     @State private var domainData: DomainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
+
     var dataSource: DataSource {
         DataSource(context: context)
     }
 
-    var body: some View {
+    var dashboardView: some View {
         DomainDashboardView()
             .font(.title)
             .tabItem {
@@ -28,7 +29,6 @@ struct OnboardView: View {
                     Text("监控")
                 }
             }
-            .tag(0)
             .environmentObject(self.domainData)
             .onAppear {
                 if !DebugHelper.isPreview {
@@ -42,6 +42,25 @@ struct OnboardView: View {
                 self.loadDomains()
             }
             .environmentObject(dataSource)
+    }
+
+    var historyView: some View {
+        HistoryView()
+            .tabItem {
+                VStack {
+                    Image(systemName: "clock.fill")
+                    Text("历史")
+                }
+            }
+    }
+
+    var body: some View {
+        TabView {
+            dashboardView
+                .tag(0)
+            historyView
+                .tag(1)
+        }
     }
 
     func loadDomains() {
