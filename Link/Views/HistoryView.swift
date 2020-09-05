@@ -9,13 +9,24 @@
 import SwiftUI
 
 struct HistoryView: View {
-    
+    @ObservedObject var data: HistoryData = HistoryData()
+
     var emptyView: some View {
-        HistoryEmptyView()
+        HistoryEmptyView(data: data)
     }
-    
+
+    var contentView: some View {
+        Text("logined")
+    }
+
     var body: some View {
-       emptyView
+        ZStack {
+            if data.hasLogined {
+                contentView
+            } else {
+                emptyView
+            }
+        }
     }
 }
 

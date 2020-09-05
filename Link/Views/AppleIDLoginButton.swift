@@ -10,11 +10,11 @@ import AuthenticationServices
 import SwiftUI
 
 struct AppleIDLoginButton: UIViewRepresentable {
-    
     @Environment(\.colorScheme) var colorScheme
-    
+    @Binding var loginInfo: LoginInfo?
+
     func makeCoordinator() -> Coordinate {
-        return Coordinate()
+        return Coordinate(loginInfo: $loginInfo)
     }
 
     func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
@@ -26,6 +26,12 @@ struct AppleIDLoginButton: UIViewRepresentable {
     func updateUIView(_ uiView: ASAuthorizationAppleIDButton, context: Context) {}
 
     class Coordinate: NSObject, ASAuthorizationControllerDelegate {
+        @Binding var loginInfo: LoginInfo?
+
+        init(loginInfo: Binding<LoginInfo?>) {
+            _loginInfo = loginInfo
+        }
+
         @objc
         func handleAuthorizationAppleIDButtonPress() {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -42,7 +48,9 @@ struct AppleIDLoginButton: UIViewRepresentable {
             case let credential as ASAuthorizationAppleIDCredential:
                 let username = credential.fullName?.givenName ?? ""
                 let userId = credential.user
-                LoginStore.save(loginInfo: LoginInfo(username: username, appleUserId: userId))
+                let loginInfo: LoginInfo = LoginInfo(username: username, appleUserId: userId)
+                LoginStore.save(loginInfo: loginInfo)
+                self.loginInfo = loginInfo
             default:
                 break
             }
@@ -55,7 +63,7 @@ struct AppleIDLoginButton_Previews: PreviewProvider {
         Group {
             VStack {
                 Text("asdfasdf")
-                AppleIDLoginButton()
+                AppleIDLoginButton(loginInfo: Binding.constant(nil))
                     .frame(height: 45)
             }
             .padding()
@@ -63,7 +71,7 @@ struct AppleIDLoginButton_Previews: PreviewProvider {
 
             VStack {
                 Text("asdfasdf")
-                AppleIDLoginButton()
+                AppleIDLoginButton(loginInfo: Binding.constant(nil))
                     .frame(height: 45)
             }
             .padding()

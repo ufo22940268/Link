@@ -57,6 +57,8 @@ struct EndPointEditView: View {
     var dataSource: DataSource {
         DataSource(context: context)
     }
+    
+    @ObservedObject var historyData = HistoryData()
 
     @State var cancellables = Set<AnyCancellable>()
     @State var validateURLResult: ValidateURLResult = .initial

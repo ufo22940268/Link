@@ -9,10 +9,12 @@
 import SwiftUI
 
 struct HistoryEmptyView: View {
+    @ObservedObject var data: HistoryData
+
     var body: some View {
         VStack(spacing: 20) {
             Text("请先登录开启服务器端监控").font(.callout)
-            AppleIDLoginButton().frame(height: 45)
+            AppleIDLoginButton(loginInfo: $data.loginInfo).frame(height: 45)
         }.padding(25)
     }
 }
@@ -20,7 +22,7 @@ struct HistoryEmptyView: View {
 struct HistoryEmptyView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            HistoryEmptyView()
+            HistoryEmptyView(data: HistoryData())
         }
     }
 }
