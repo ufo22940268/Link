@@ -38,14 +38,24 @@ class BackendAgent {
 
     init() {}
 
+    struct RequestOptions: OptionSet {
+        let rawValue: Int
+
+        static let login = RequestOptions(rawValue: 1 << 0)
+    }
+
     // TODO: Add options
-    private func post(endPoint: String, data: [String: Any]) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
+    private func post(endPoint: String, data: [String: Any], options: RequestOptions = []) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
         let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         req.httpBody = try JSONSerialization.data(withJSONObject: data, options: [])
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        req.setValue(self.loginInfo.appleUserId, forHTTPHeaderField: "apple-user-id")
+
+        if !options.contains(.login) {
+            req.setValue(self.loginInfo.appleUserId, forHTTPHeaderField: "apple-user-id")
+        }
+
         return URLSession.shared.dataTaskPublisher(for: req)
             .tryMap { (data, _) throws -> JSON in
                 if let json = try? JSON(data: data) {
@@ -68,7 +78,7 @@ class BackendAgent {
     }
 
     func login(loginInfo: LoginInfo) -> AnyPublisher<Void, Never> {
-        try! self.post(endPoint: "/user/login", data: ["appleUserId": "123"])
+        try! self.post(endPoint: "/user/login", data: ["appleUserId": "123"], options: .login)
             .map { _ in () }
             .replaceError(with: ())
             .eraseToAnyPublisher()
