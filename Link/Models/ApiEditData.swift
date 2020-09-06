@@ -38,9 +38,8 @@ class ApiEditData: ObservableObject {
 
     func upsertEndPointInServer() {
         guard let endPoint = endPoint else { return }
-        if let c = (try? BackendAgent().upsert(endPoint: endPoint))?.sink(receiveCompletion: { _ in }, receiveValue: {}) {            
-            self.cancellables.append(c)
-        }
+        let c = try! BackendAgent().upsert(endPoint: endPoint).sink(receiveCompletion: { _ in }, receiveValue: {})
+        self.cancellables.append(c)
     }
 
     func setupForCreate() {
