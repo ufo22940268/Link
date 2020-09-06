@@ -57,13 +57,21 @@ class EndPointTests: XCTestCase {
 
     func testApiRequest() {
         let exp = XCTestExpectation()
-        let info = LoginInfo(username: "aaa", appleUserId: "wefwef")
+        let info = LoginInfo(username: "aaa", appleUserId: "123")
+        LoginStore.save(loginInfo: info)
         let agent = BackendAgent()
-        agent.login(loginInfo: info)
-            .sink {
-                exp.fulfill()
-            }
+        let ee = EndPointEntity(context: context)
+        ee.url = "a"
+
+        let ae = ApiEntity(context: context)
+        ae.paths = "a"
+        ae.watchValue = "b"
+        ee.addToApi(ae)
+
+        agent.upsert(endPoint: ee)
+            .sink(receiveCompletion: { _ in exp.fulfill() }, receiveValue: {})
             .store(in: &cancellables)
+
         wait(for: [exp], timeout: 3)
     }
 }

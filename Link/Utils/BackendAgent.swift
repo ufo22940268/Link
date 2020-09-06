@@ -38,12 +38,14 @@ class BackendAgent {
 
     init() {}
 
+    // TODO: Add options
     private func post(endPoint: String, data: [String: Any]) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
         let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         req.httpBody = try JSONSerialization.data(withJSONObject: data, options: [])
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.setValue(self.loginInfo.appleUserId, forHTTPHeaderField: "apple-user-id")
         return URLSession.shared.dataTaskPublisher(for: req)
             .tryMap { (data, _) throws -> JSON in
                 if let json = try? JSON(data: data) {
@@ -54,6 +56,7 @@ class BackendAgent {
                 }
                 throw ResponseError.parseError
             }
+            .print()
             .mapError { (e) -> ResponseError in
                 if let e = e as? ResponseError {
                     return e
@@ -68,6 +71,12 @@ class BackendAgent {
         try! self.post(endPoint: "/user/login", data: ["appleUserId": "123"])
             .map { _ in () }
             .replaceError(with: ())
+            .eraseToAnyPublisher()
+    }
+
+    func upsert(endPoint: EndPointEntity) -> AnyPublisher<Void, ResponseError> {
+        try! self.post(endPoint: "/endpoint/upsert", data: ["url": endPoint.url!])
+            .map { _ in () }
             .eraseToAnyPublisher()
     }
 }
