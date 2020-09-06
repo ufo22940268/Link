@@ -20,9 +20,14 @@ class HistoryData: ObservableObject {
     }
 
     init() {
-        loginInfo = LoginStore.getLoginInfo()
-        cancellable = $loginInfo.sink { info in
-            print("new info", info)
-        }
+//        loginInfo = LoginStore.getLoginInfo()
+        cancellable = $loginInfo
+            .filter { $0 != nil }
+            .flatMap { info in
+                BackendAgent().login(loginInfo: info!)
+            }
+            .sink(receiveValue: { () in
+
+            })
     }
 }
