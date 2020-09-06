@@ -20,7 +20,7 @@ class HistoryData: ObservableObject {
     }
 
     init() {
-//        loginInfo = LoginStore.getLoginInfo()
+        loginInfo = LoginStore.getLoginInfo()
         cancellable = $loginInfo
             .filter { $0 != nil }
             .flatMap { info in
