@@ -11,7 +11,13 @@ import Foundation
 
 class BackendAgent {
     static let backendDomain = "http://biubiubiu.hopto.org:3000"
-    var loginInfo: LoginInfo
+    var loginInfo: LoginInfo {
+        if let loginInfo = LoginStore.getLoginInfo() {
+            return loginInfo
+        } else {
+            fatalError("user not logined")
+        }
+    }
 
     typealias Response = JSON
 
@@ -30,13 +36,7 @@ class BackendAgent {
         static let parseError = ResponseError()
     }
 
-    init() {
-        if let loginInfo = LoginStore.getLoginInfo() {
-            self.loginInfo = loginInfo
-        } else {
-            fatalError("user not logined")
-        }
-    }
+    init() {}
 
     private func post(endPoint: String, data: [String: Any]) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
         let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
