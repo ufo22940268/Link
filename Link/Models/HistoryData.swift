@@ -24,7 +24,7 @@ class HistoryData: ObservableObject {
         cancellable = $loginInfo
             .filter { $0 != nil }
             .flatMap { info in
-                BackendAgent().login(loginInfo: info!)
+                try! BackendAgent().login(loginInfo: info!)
             }
             .sink(receiveValue: { () in
 

@@ -12,17 +12,7 @@ import SwiftUI
 
 class ApiEditData: ObservableObject {
     var cancellables = [AnyCancellable]()
-    @Published var apis = [ApiEntity]() {
-        didSet {
-//            apis.forEach {
-//                $0.objectWillChange.sink {
-//                    self.objectWillChange.send()
-//                }
-//                .store(in: &cancellables)
-//            }
-        }
-    }
-
+    @Published var apis = [ApiEntity]()
     @Published var domainName: String = ""
     @Published var url: String = ""
 
@@ -43,9 +33,16 @@ class ApiEditData: ObservableObject {
 
     // For create
     init() {
-        setupForCreate()
+        self.setupForCreate()
     }
-    
+
+    func upsertEndPointInServer() {
+        guard let endPoint = endPoint else { return }
+        if let c = (try? BackendAgent().upsert(endPoint: endPoint))?.sink(receiveCompletion: { _ in }, receiveValue: {}) {            
+            self.cancellables.append(c)
+        }
+    }
+
     func setupForCreate() {
         if let c = self.context {
             c.rollback()
@@ -71,5 +68,4 @@ class ApiEditData: ObservableObject {
     init(endPointId: NSManagedObjectID) {
         self.endPointId = endPointId
     }
-
 }

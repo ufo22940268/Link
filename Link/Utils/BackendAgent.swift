@@ -11,12 +11,8 @@ import Foundation
 
 class BackendAgent {
     static let backendDomain = "http://biubiubiu.hopto.org:3000"
-    var loginInfo: LoginInfo {
-        if let loginInfo = LoginStore.getLoginInfo() {
-            return loginInfo
-        } else {
-            fatalError("user not logined")
-        }
+    var loginInfo: LoginInfo? {
+        LoginStore.getLoginInfo()
     }
 
     typealias Response = JSON
@@ -30,10 +26,16 @@ class BackendAgent {
             self.error = error
         }
 
+        internal init(message: String) {
+            self.message = message
+        }
+
         var json: JSON?
         var error: Error?
+        var message: String?
 
-        static let parseError = ResponseError()
+        static let parseError = ResponseError(message: "parse_error")
+        static let notLogin = ResponseError(message: "not_login")
     }
 
     init() {}
@@ -53,7 +55,7 @@ class BackendAgent {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         if !options.contains(.login) {
-            req.setValue(self.loginInfo.appleUserId, forHTTPHeaderField: "apple-user-id")
+            req.setValue(self.loginInfo!.appleUserId, forHTTPHeaderField: "apple-user-id")
         }
 
         return URLSession.shared.dataTaskPublisher(for: req)
@@ -77,15 +79,18 @@ class BackendAgent {
             .eraseToAnyPublisher()
     }
 
-    func login(loginInfo: LoginInfo) -> AnyPublisher<Void, Never> {
-        try! self.post(endPoint: "/user/login", data: ["appleUserId": "123"], options: .login)
+    func login(loginInfo: LoginInfo) throws -> AnyPublisher<Void, Never> {
+        try self.post(endPoint: "/user/login", data: ["appleUserId": "123"], options: .login)
             .map { _ in () }
             .replaceError(with: ())
             .eraseToAnyPublisher()
     }
 
-    func upsert(endPoint: EndPointEntity) -> AnyPublisher<Void, ResponseError> {
-        try! self.post(endPoint: "/endpoint/upsert", data: ["url": endPoint.url!])
+    func upsert(endPoint: EndPointEntity) throws -> AnyPublisher<Void, ResponseError> {
+        if self.loginInfo == nil {
+            throw ResponseError.notLogin
+        }
+        return try self.post(endPoint: "/endpoint/upsert", data: ["url": endPoint.url!])
             .map { _ in () }
             .eraseToAnyPublisher()
     }

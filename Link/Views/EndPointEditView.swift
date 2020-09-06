@@ -57,7 +57,7 @@ struct EndPointEditView: View {
     var dataSource: DataSource {
         DataSource(context: context)
     }
-    
+
     @ObservedObject var historyData = HistoryData()
 
     @State var cancellables = Set<AnyCancellable>()
@@ -97,6 +97,7 @@ struct EndPointEditView: View {
     var doneButton: some View {
         Button("完成") {
             self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
+            self.apiEditData.upsertEndPointInServer()
             try! self.context.save()
             self.presentationMode.wrappedValue.dismiss()
         }.disabled(!(validateURLResult == .ok))
@@ -225,7 +226,6 @@ struct EndPointEditView: View {
                     }
                 }
             }
-
         }
         .background(
             NavigationLink(destination: ApiEditView(apiEditData: apiEditData), isActive: $showAdd) {

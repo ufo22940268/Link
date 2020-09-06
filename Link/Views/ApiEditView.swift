@@ -44,18 +44,6 @@ struct ApiEditView: View {
         }
     }
 
-//    var doneButton: some View {
-//        if editMode != .active {
-//            return AnyView(Button("完成", action: {
-//                try! self.context.save()
-//                try! CoreDataContext.main.save()
-//                self.dismissPresentationMode?.dismiss()
-//            }))
-//        } else {
-//            return AnyView(EmptyView())
-//        }
-//    }
-
     var unwatchApis: [ApiEntity] {
         return apiEditData.apis.filter { !$0.watch }
     }
