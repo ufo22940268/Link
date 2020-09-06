@@ -13,6 +13,7 @@ import XCTest
 
 class EndPointTests: XCTestCase {
     var context = getPersistentContainer().viewContext
+    var cancellables = [AnyCancellable]()
 
     override func setUpWithError() throws {
         let entities = [ApiEntity.self, EndPointEntity.self, DomainEntity.self]
@@ -27,7 +28,7 @@ class EndPointTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
+
     func testCoreData() {
 //        print("testCoreData")
 //        print("child fetch", try? context.fetch(EndPointEntity.fetchRequest()))
@@ -53,5 +54,16 @@ class EndPointTests: XCTestCase {
 //        print("fetch many", try? context.fetchMany(EndPointEntity.self, "url == %@", "kk"))
 //        print("fetch one", try? context.fetchOne(EndPointEntity.self, "url == %@", "kk"))
     }
-}
 
+    func testApiRequest() {
+        let exp = XCTestExpectation()
+        let info = LoginInfo(username: "aaa", appleUserId: "wefwef")
+        let agent = BackendAgent()
+        agent.login(loginInfo: info)
+            .sink {
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [exp], timeout: 3)
+    }
+}
