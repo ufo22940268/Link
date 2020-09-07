@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.reduce("",{$0 + String(format:"%02x",$1)})
         print("deviceTokenString", deviceTokenString)
+        LoginManager.save(notificationToken: deviceTokenString)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

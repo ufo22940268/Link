@@ -12,7 +12,7 @@ import Foundation
 class BackendAgent {
     static let backendDomain = "http://biubiubiu.hopto.org:3000"
     var loginInfo: LoginInfo? {
-        LoginStore.getLoginInfo()
+        LoginManager.getLoginInfo()
     }
 
     var isLogin: Bool {
@@ -50,7 +50,6 @@ class BackendAgent {
         static let login = RequestOptions(rawValue: 1 << 0)
     }
 
-    // TODO: Add options
     private func post(endPoint: String, data: [String: Any], options: RequestOptions = []) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
         let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
         var req = URLRequest(url: url)
@@ -72,6 +71,7 @@ class BackendAgent {
                 }
                 throw ResponseError.parseError
             }
+            .print()
             .mapError { (e) -> ResponseError in
                 if let e = e as? ResponseError {
                     return e
@@ -83,7 +83,9 @@ class BackendAgent {
     }
 
     func login(loginInfo: LoginInfo) throws -> AnyPublisher<Void, Never> {
-        try self.post(endPoint: "/user/login", data: ["appleUserId": "123"], options: .login)
+        try self.post(endPoint: "/user/login",
+                      data: ["appleUserId": loginInfo.appleUserId, "notificationToken": LoginManager.getNotificationToken() ?? "", "username": loginInfo.username],
+                      options: .login)
             .map { _ in () }
             .replaceError(with: ())
             .eraseToAnyPublisher()

@@ -9,14 +9,20 @@
 import SwiftUI
 
 struct HistoryView: View {
-    @ObservedObject var data: HistoryData = HistoryData()
+    @ObservedObject var data = HistoryData()
 
     var emptyView: some View {
         HistoryEmptyView(data: data)
     }
 
     var contentView: some View {
-        Text("logined")
+        VStack(spacing: 20) {
+            Text("logined")
+            Button("logout") {
+                LoginManager.logout()
+                self.data.loginInfo = nil
+            }
+        }
     }
 
     var body: some View {

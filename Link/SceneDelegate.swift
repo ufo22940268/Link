@@ -43,9 +43,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         //
 
-        print("main context ", CoreDataContext.main)
-        print("edit context ", CoreDataContext.edit)
-
         // Create the SwiftUI view that provides the window contents.
         let contentView = OnboardView()
             .environment(\.managedObjectContext, context)

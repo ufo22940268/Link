@@ -58,7 +58,7 @@ class EndPointTests: XCTestCase {
     func testApiRequest() {
         let exp = XCTestExpectation()
         let info = LoginInfo(username: "aaa", appleUserId: "123")
-        LoginStore.save(loginInfo: info)
+        LoginManager.save(loginInfo: info)
         let agent = BackendAgent()
         let ee = EndPointEntity(context: context)
         ee.url = "a"

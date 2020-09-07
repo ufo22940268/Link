@@ -49,7 +49,7 @@ struct AppleIDLoginButton: UIViewRepresentable {
                 let username = credential.fullName?.givenName ?? ""
                 let userId = credential.user
                 let loginInfo: LoginInfo = LoginInfo(username: username, appleUserId: userId)
-                LoginStore.save(loginInfo: loginInfo)
+                LoginManager.save(loginInfo: loginInfo)
                 self.loginInfo = loginInfo
             default:
                 break
