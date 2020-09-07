@@ -87,8 +87,13 @@ struct DomainEndPointListView: View {
                                 EndPointRow(endPoint: endPoint)
                             }
                             .onDelete { index in
-                                let endPoint = self.domainMap[domainName]![index.first!]
+                                let endPoint: EndPointEntity = self.domainMap[domainName]![index.first!]
+                                let url = endPoint.url!
                                 DataSource(context: self.context).deleteEndPoint(entity: endPoint)
+                                let agent = BackendAgent()
+                                if agent.isLogin {
+                                    self.domainData.deleteEndPoint(by: url)
+                                }
                                 self.domainData.endPoints.removeAll { $0 == endPoint }
                             }
                         }).font(.body)

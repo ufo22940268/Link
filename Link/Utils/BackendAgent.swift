@@ -15,6 +15,10 @@ class BackendAgent {
         LoginStore.getLoginInfo()
     }
 
+    var isLogin: Bool {
+        self.loginInfo != nil
+    }
+
     typealias Response = JSON
 
     struct ResponseError: Error {
@@ -91,6 +95,12 @@ class BackendAgent {
             throw ResponseError.notLogin
         }
         return try self.post(endPoint: "/endpoint/upsert", data: ["url": endPoint.url!])
+            .map { _ in () }
+            .eraseToAnyPublisher()
+    }
+
+    func deleteEndPoint(by url: String) throws -> AnyPublisher<Void, ResponseError> {
+        try self.post(endPoint: "/endpoint/delete", data: ["url": url])
             .map { _ in () }
             .eraseToAnyPublisher()
     }

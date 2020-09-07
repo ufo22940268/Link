@@ -16,7 +16,8 @@ struct LoginInfo {
 let USERNAME_KEY = "username"
 let APPLE_USER_ID_KEY = "apple_user_id"
 
-struct LoginStore {
+struct LoginStore {    
+    
     static func save(loginInfo: LoginInfo) {
         UserDefaults.standard.set(loginInfo.username, forKey: USERNAME_KEY)
         UserDefaults.standard.set(loginInfo.appleUserId, forKey: APPLE_USER_ID_KEY)

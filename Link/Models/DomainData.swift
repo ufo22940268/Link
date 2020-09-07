@@ -14,15 +14,16 @@ final class DomainData: ObservableObject {
     @Published var endPoints: [EndPointEntity] = []
     @Published var isLoading = false
     @Published var lastUpdateTime: Date?
+    var cancellables = [AnyCancellable]()
 
     var needReload = PassthroughSubject<Void, Never>()
 
     func healthyCount() -> Int {
-        return endPoints.filter { $0.status == HealthStatus.healthy }.count
+        endPoints.filter { $0.status == HealthStatus.healthy }.count
     }
 
     func errorCount() -> Int {
-        return endPoints.filter { $0.status == HealthStatus.error }.count
+        endPoints.filter { $0.status == HealthStatus.error }.count
     }
 
     func findEndPointEntity(by id: NSManagedObjectID) -> EndPointEntity? {
@@ -35,6 +36,13 @@ final class DomainData: ObservableObject {
         let dd = DomainData()
         dd.endPoints = try! context.fetch(req)
         return dd
+    }
+
+    func deleteEndPoint(by url: String) {
+        let agent = BackendAgent()
+        try? agent.deleteEndPoint(by: url)
+            .sink(receiveCompletion: { _ in }, receiveValue: {})
+            .store(in: &cancellables)
     }
 }
 
