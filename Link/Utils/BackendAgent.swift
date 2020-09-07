@@ -111,6 +111,13 @@ class BackendAgent {
             .eraseToAnyPublisher()
     }
 
+    func upload(notificationToken: String) throws -> AnyPublisher<Void, Never> {
+        try self.post(endPoint: "/user/update/notificationtoken", data: ["notificationToken": notificationToken])
+            .map { _ in () }
+            .replaceError(with: ())
+            .eraseToAnyPublisher()
+    }
+
     func upsert(endPoint: EndPointEntity) throws -> AnyPublisher<Void, ResponseError> {
         if self.loginInfo == nil {
             throw ResponseError.notLogin
