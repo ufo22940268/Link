@@ -72,7 +72,6 @@ class BackendAgent {
                 }
                 throw ResponseError.parseError
             }
-            .print()
             .mapError { (e) -> ResponseError in
                 if let e = e as? ResponseError {
                     return e
