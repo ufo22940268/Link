@@ -88,6 +88,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "PROFILE_REQUEST"
+            value = "true"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "CFNETWORK_DIAGNOSTICS"
             value = "3"
             isEnabled = "NO">

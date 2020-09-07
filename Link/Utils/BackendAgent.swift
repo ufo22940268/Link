@@ -50,6 +50,8 @@ class BackendAgent {
         static let login = RequestOptions(rawValue: 1 << 0)
     }
 
+    var debug = ProcessInfo.processInfo.environment["PROFILE_REQUEST"] != nil
+
     private func post(endPoint: String, data: [String: Any], options: RequestOptions = []) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
         let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
         var req = URLRequest(url: url)
@@ -61,7 +63,26 @@ class BackendAgent {
             req.setValue(self.loginInfo!.appleUserId, forHTTPHeaderField: "apple-user-id")
         }
 
+        var debugInfo = ""
+        if self.debug {
+            debugInfo = debugInfo + """
+            =====================request start======================
+            url: \(url)
+            reqeust: \(data)
+            """
+        }
+
         return URLSession.shared.dataTaskPublisher(for: req)
+            .handleEvents(receiveOutput: { data, _ in
+                if self.debug {
+                    debugInfo = debugInfo + """
+
+                    response: \(String(data: data, encoding: .utf8) ?? "")
+                    =====================end======================
+                    """
+                    print(debugInfo)
+                }
+            })
             .tryMap { (data, _) throws -> JSON in
                 if let json = try? JSON(data: data) {
                     if json["ok"].bool == true {
@@ -71,7 +92,6 @@ class BackendAgent {
                 }
                 throw ResponseError.parseError
             }
-            .print()
             .mapError { (e) -> ResponseError in
                 if let e = e as? ResponseError {
                     return e
