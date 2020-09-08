@@ -12,7 +12,7 @@ import SwiftUI
 
 struct OnboardView: View {
     @State private var selection = 0
-    @State private var domainData: DomainData = DomainData()
+    @ObservedObject private var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
 
@@ -55,11 +55,17 @@ struct OnboardView: View {
     }
 
     var body: some View {
-        TabView {
-            dashboardView
-                .tag(0)
-            historyView
-                .tag(1)
+        ZStack {
+            if !domainData.isLogin {
+                dashboardView
+            } else {
+                TabView {
+                    dashboardView
+                        .tag(0)
+                    historyView
+                        .tag(1)
+                }
+            }
         }
     }
 
@@ -69,7 +75,7 @@ struct OnboardView: View {
         if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
             domainData.endPoints = domains
         } else {
-            domainData = DomainData()
+            domainData.endPoints = []
         }
 
         domainData.isLoading = true

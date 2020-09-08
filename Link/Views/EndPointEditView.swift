@@ -74,6 +74,7 @@ struct EndPointEditView: View {
     var type: EditType
 
     internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData) {
+        print("apiEditData", ObjectIdentifier(apiEditData))
         self.type = type
         self.apiEditData = apiEditData
 

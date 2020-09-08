@@ -43,11 +43,8 @@ class ApiEditData: ObservableObject {
     }
 
     func setupForCreate() {
-        if let c = self.context {
-            c.rollback()
-        }
-
         let context = CoreDataContext.add
+        context.rollback()
         self.context = context
         self.endPoint = EndPointEntity(context: context)
         self.endPointId = self.endPoint!.objectID
