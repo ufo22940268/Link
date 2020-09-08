@@ -53,10 +53,20 @@ class BackendAgent {
     var debug = ProcessInfo.processInfo.environment["PROFILE_REQUEST"] != nil
 
     private func post(endPoint: String, data: [String: Any], options: RequestOptions = []) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
+        try self.post(endPoint: endPoint, data: try JSONSerialization.data(withJSONObject: data, options: []), options: options)
+    }
+
+    private func post(endPoint: String, data: JSON, options: RequestOptions = []) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
+        try self.post(endPoint: endPoint, data: try data.rawData(), options: options)
+    }
+
+    private func post(endPoint: String, data: Data?, options: RequestOptions = []) throws -> AnyPublisher<Response, BackendAgent.ResponseError> {
         let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
-        req.httpBody = try JSONSerialization.data(withJSONObject: data, options: [])
+        if let data = data {
+            req.httpBody = data
+        }
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         if !options.contains(.login) {
@@ -68,7 +78,7 @@ class BackendAgent {
             debugInfo = debugInfo + """
             =====================request start======================
             url: \(url)
-            reqeust: \(data)
+            request: \(String(describing: data))
             """
         }
 
@@ -122,7 +132,14 @@ class BackendAgent {
         if self.loginInfo == nil {
             throw ResponseError.notLogin
         }
-        return try self.post(endPoint: "/endpoint/upsert", data: ["url": endPoint.url!])
+        var j = JSON()
+        j["url"].string = endPoint.url!
+        if let objs = endPoint.api?.allObjects.map({ $0 as! ApiEntity }) {
+            j["watchFields"].arrayObject = objs.map { api in
+                ["value": api.watchValue, "path": api.paths]
+            }
+        }
+        return try self.post(endPoint: "/endpoint/upsert", data: j)
             .map { _ in () }
             .eraseToAnyPublisher()
     }

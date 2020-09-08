@@ -13,7 +13,16 @@ import SwiftUI
 
 final class DomainData: NSObject, ObservableObject {
     override internal init() {
+        super.init()
         loginInfo = LoginManager.getLoginInfo()
+        loginCancellable = $loginInfo
+            .filter { $0 != nil }
+            .flatMap { info in
+                try! BackendAgent().login(loginInfo: info!)
+            }
+            .sink(receiveValue: { () in
+
+            })
     }
 
     @Published var endPoints: [EndPointEntity] = []
@@ -21,6 +30,7 @@ final class DomainData: NSObject, ObservableObject {
     @Published var lastUpdateTime: Date?
     @Published var loginInfo: LoginInfo?
     var cancellables = [AnyCancellable]()
+    var loginCancellable: AnyCancellable?
 
     var needReload = PassthroughSubject<Void, Never>()
 
@@ -53,11 +63,10 @@ final class DomainData: NSObject, ObservableObject {
 }
 
 extension DomainData: ASAuthorizationControllerDelegate {
-    
     var isLogin: Bool {
         loginInfo != nil
     }
-        
+
     @objc
     func triggerAppleLogin() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
