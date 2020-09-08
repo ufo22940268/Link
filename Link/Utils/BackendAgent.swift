@@ -132,14 +132,14 @@ class BackendAgent {
         if self.loginInfo == nil {
             throw ResponseError.notLogin
         }
-        var j = JSON()
-        j["url"].string = endPoint.url!
-        if let objs = endPoint.api?.allObjects.map({ $0 as! ApiEntity }) {
-            j["watchFields"].arrayObject = objs.map { api in
+        var json = JSON()
+        json["url"].string = endPoint.url!
+        if let apis = endPoint.api?.allObjects.map({ $0 as! ApiEntity }) {
+            json["watchFields"].arrayObject = apis.filter { $0.watch }.map { api in
                 ["value": api.watchValue, "path": api.paths]
             }
         }
-        return try self.post(endPoint: "/endpoint/upsert", data: j)
+        return try self.post(endPoint: "/endpoint/upsert", data: json)
             .map { _ in () }
             .eraseToAnyPublisher()
     }
