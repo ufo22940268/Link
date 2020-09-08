@@ -53,9 +53,18 @@ struct DomainDashboardView: View {
 
     var lastUpdateView: some View {
         if let lastUpdate = domainData.lastUpdateTime {
-            return AnyView(VStack(alignment: .leading) {
-                Text("更新时间: \(self.formatDate(lastUpdate))").font(.footnote).foregroundColor(.gray)
+            return AnyView(VStack(alignment: .leading, spacing: 8) {
+                Text("更新时间: \(self.formatDate(lastUpdate))").foregroundColor(.gray)
+                if !domainData.isLogin {                    
+                    HStack(spacing: 0) {
+                        Text("若要开启监控通知，请先").foregroundColor(.gray)
+                        Button("登录") {
+                            self.domainData.triggerAppleLogin()
+                        }
+                    }
+                }
             }
+            .font(.footnote)
             .padding(.leading)
             .frame(maxWidth: .infinity, alignment: .leading))
         } else {

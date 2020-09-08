@@ -6,14 +6,20 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
+import AuthenticationServices
 import Combine
 import CoreData
 import SwiftUI
 
-final class DomainData: ObservableObject {
+final class DomainData: NSObject, ObservableObject {
+    override internal init() {
+        loginInfo = LoginManager.getLoginInfo()
+    }
+
     @Published var endPoints: [EndPointEntity] = []
     @Published var isLoading = false
     @Published var lastUpdateTime: Date?
+    @Published var loginInfo: LoginInfo?
     var cancellables = [AnyCancellable]()
 
     var needReload = PassthroughSubject<Void, Never>()
@@ -43,6 +49,37 @@ final class DomainData: ObservableObject {
         try? agent.deleteEndPoint(by: url)
             .sink(receiveCompletion: { _ in }, receiveValue: {})
             .store(in: &cancellables)
+    }
+}
+
+extension DomainData: ASAuthorizationControllerDelegate {
+    
+    var isLogin: Bool {
+        loginInfo != nil
+    }
+        
+    @objc
+    func triggerAppleLogin() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName]
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.performRequests()
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let credential as ASAuthorizationAppleIDCredential:
+            let username = credential.fullName?.givenName ?? ""
+            let userId = credential.user
+            let loginInfo = LoginInfo(username: username, appleUserId: userId)
+            LoginManager.save(loginInfo: loginInfo)
+            self.loginInfo = loginInfo
+        default:
+            break
+        }
     }
 }
 
