@@ -64,7 +64,7 @@ public class DebugHelper {
         p.addToApi(a1)
         a1.endPoint = p
 
-        addMockEndPoint2(context, d)
+//        addMockEndPoint2(context, d)
 
         try! context.save()
     }
