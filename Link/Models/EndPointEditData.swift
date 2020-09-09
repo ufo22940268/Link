@@ -46,6 +46,7 @@ class EndPointEditData: ObservableObject {
         type = .edit
         self.endPointId = endPointId
         validateURLResult = .ok
+        context = CoreDataContext.edit
         listenToURLChange()
     }
 
