@@ -51,6 +51,11 @@ enum ValidateURLResult {
     }
 }
 
+enum EditType {
+    case edit
+    case add
+}
+
 struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
 
@@ -59,7 +64,6 @@ struct EndPointEditView: View {
     }
 
     @State var cancellables = Set<AnyCancellable>()
-    @State var validateURLResult: ValidateURLResult = .initial
     @Environment(\.presentationMode) var presentationMode
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
@@ -71,20 +75,11 @@ struct EndPointEditView: View {
 
     var type: EditType
 
-    internal init(type: EndPointEditView.EditType, apiEditData: EndPointEditData) {
+    internal init(type: EditType, apiEditData: EndPointEditData) {
         self.type = type
         self.apiEditData = apiEditData
 
-        if type == .add {
-            _validateURLResult = State(initialValue: .prompt)
-        }
-
         customDomainName = apiEditData.url.domainName == apiEditData.domainName
-    }
-
-    enum EditType {
-        case edit
-        case add
     }
 
     var editView: some View {
@@ -98,7 +93,7 @@ struct EndPointEditView: View {
             self.apiEditData.upsertEndPointInServer()
             try! self.context.save()
             self.presentationMode.wrappedValue.dismiss()
-        }.disabled(!(validateURLResult == .ok && apiEditData.watchApis.count > 0))
+        }.disabled(!(apiEditData.validateURLResult == .ok && apiEditData.watchApis.count > 0))
     }
 
     var cancelButton: some View {
@@ -108,65 +103,6 @@ struct EndPointEditView: View {
         }, label: {
             Text("取消")
         })
-    }
-
-    fileprivate func listenToURLChange() {
-        var urlPub: AnyPublisher<String, Never> = apiEditData.$url.eraseToAnyPublisher()
-        if type == .edit {
-            urlPub = urlPub.dropFirst().eraseToAnyPublisher()
-        } else {
-            urlPub = urlPub.filter {
-                !(self.validateURLResult == .prompt && $0 == "")
-            }.eraseToAnyPublisher()
-        }
-
-        let dbDataSource = DataSource(context: CoreDataContext.main)
-        urlPub
-            .filter { url in
-                self.validateURLResult = .pending
-                if (self.type == .add && dbDataSource.isURLExists(url))
-                    || (self.type == .edit && url != self.apiEditData.originURL && dbDataSource.isURLExists(url)) {
-                    self.validateURLResult = ValidateURLResult.duplicatedUrl
-                    self.apiEditData.apis = []
-                    return false
-                }
-
-                if !url.isValidURL() {
-                    self.apiEditData.apis = []
-                    self.validateURLResult = .formatError
-                }
-
-                return true
-            }
-            .debounce(for: 1, scheduler: DispatchQueue.main)
-            .removeDuplicates()
-            .flatMap { url -> AnyPublisher<ValidateURLResult, Never> in
-                ApiHelper(context: self.context).test(url: url).eraseToAnyPublisher()
-            }
-            .receive(on: DispatchQueue.main)
-            .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
-                self.validateURLResult = result
-                if result == .ok {
-                    return ApiHelper(context: self.context)
-                        .fetchAndUpdateEntity(endPoint: self.apiEditData.endPoint!)
-                        .catch { _ in Just([]) }
-                        .eraseToAnyPublisher()
-                } else {
-                    return Just([]).eraseToAnyPublisher()
-                }
-            }
-            .sink { apis in
-                self.apiEditData.apis = apis
-            }
-            .store(in: &cancellables)
-
-        apiEditData.$url
-            .filter { _ in !self.customDomainName }
-            .map {
-                $0.domainName
-            }
-            .assign(to: \.domainName, on: apiEditData)
-            .store(in: &cancellables)
     }
 
     var urlBinding: Binding<String> {
@@ -195,8 +131,9 @@ struct EndPointEditView: View {
         let showAdd = apiEditData.unwatchApis.count > 0
         let watchListCount = showAdd ? apiEditData.watchApis.count + 1 : apiEditData.watchApis.count
 
+        print("validateURLResult", apiEditData.validateURLResult)
         let form = Form {
-            Section(header: Text("域名地址"), footer: Text(validateURLResult.label).foregroundColor(validateURLResult.color)) {
+            Section(header: Text("域名地址"), footer: Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)) {
                 MultilineTextField(text: urlBinding, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                     .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
             }
@@ -231,13 +168,12 @@ struct EndPointEditView: View {
         )
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
-        .onAppear {
-            if self.type == .edit {
-                self.validateURLResult = .ok
+        .onReceive(apiEditData.$url, perform: { url in
+            if !self.customDomainName {
+                self.apiEditData.domainName = url.domainName
             }
-
-            self.listenToURLChange()
-
+        })
+        .onAppear {
             if !self.launched {
                 if ProcessInfo.processInfo.environment["FILL_URL"] != nil {
                     self.apiEditData.url = "http://biubiubiu.hopto.org:9000/link/github.json"
@@ -245,7 +181,6 @@ struct EndPointEditView: View {
                 }
             }
         }
-
         return NavigationView {
             form.navigationBarItems(leading: cancelButton, trailing: doneButton)
         }.navigationViewStyle(StackNavigationViewStyle())

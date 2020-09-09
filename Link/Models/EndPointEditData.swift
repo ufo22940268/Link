@@ -15,15 +15,17 @@ class EndPointEditData: ObservableObject {
     @Published var apis = [ApiEntity]()
     @Published var domainName: String = ""
     @Published var url: String = ""
+    @Published var validateURLResult: ValidateURLResult = .initial
+    var type: EditType
 
     var originURL: String?
 
     var endPoint: EndPointEntity? {
         didSet {
             if let endPoint = endPoint, endPoint.url != nil {
-                self.apis = endPoint.apis
-                self.url = endPoint.url!
-                self.domainName = DataSource.default.getDomainName(for: endPoint.url!)
+                apis = endPoint.apis
+                url = endPoint.url!
+                domainName = DataSource.default.getDomainName(for: endPoint.url!)
             }
         }
     }
@@ -33,35 +35,94 @@ class EndPointEditData: ObservableObject {
 
     // For create
     init() {
-        self.setupForCreate()
+        type = .add
+        validateURLResult = .prompt
+        setupForCreate()
+        listenToURLChange()
+    }
+
+    // For edit
+    init(endPointId: NSManagedObjectID) {
+        type = .edit
+        self.endPointId = endPointId
+        validateURLResult = .ok
+        listenToURLChange()
     }
 
     func upsertEndPointInServer() {
         guard let endPoint = endPoint else { return }
         let c = try! BackendAgent().upsert(endPoint: endPoint).sink(receiveCompletion: { _ in }, receiveValue: {})
-        self.cancellables.append(c)
+        cancellables.append(c)
     }
 
     func setupForCreate() {
         let context = CoreDataContext.add
         context.rollback()
         self.context = context
-        self.endPoint = EndPointEntity(context: context)
-        self.endPointId = self.endPoint!.objectID
-        self.domainName = ""
-        self.url = ""
+        endPoint = EndPointEntity(context: context)
+        endPointId = endPoint!.objectID
+        domainName = ""
+        url = ""
     }
 
     var unwatchApis: [ApiEntity] {
-        self.apis.filter { !$0.watch }
+        apis.filter { !$0.watch }
     }
 
     var watchApis: [ApiEntity] {
-        self.apis.filter { $0.watch }
+        apis.filter { $0.watch }
     }
 
-    // For edit
-    init(endPointId: NSManagedObjectID) {
-        self.endPointId = endPointId
+    fileprivate func listenToURLChange() {
+        guard let context = self.context else { return }
+        var urlPub: AnyPublisher<String, Never> = $url.eraseToAnyPublisher()
+        if type == .edit {
+            urlPub = urlPub.dropFirst().eraseToAnyPublisher()
+        } else {
+            urlPub = urlPub.filter {
+                !(self.validateURLResult == .prompt && $0 == "")
+            }.eraseToAnyPublisher()
+        }
+
+        let dbDataSource = DataSource(context: CoreDataContext.main)
+        urlPub
+            .print()
+            .filter { url in
+                self.validateURLResult = .pending
+                if (self.type == .add && dbDataSource.isURLExists(url))
+                    || (self.type == .edit && url != self.originURL && dbDataSource.isURLExists(url)) {
+                    self.validateURLResult = ValidateURLResult.duplicatedUrl
+                    self.apis = []
+                    return false
+                }
+
+                if !url.isValidURL() {
+                    self.apis = []
+                    self.validateURLResult = .formatError
+                }
+
+                return true
+            }
+            .debounce(for: 1, scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .flatMap { url -> AnyPublisher<ValidateURLResult, Never> in
+                ApiHelper(context: context).test(url: url).eraseToAnyPublisher()
+            }
+            .receive(on: DispatchQueue.main)
+            .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
+                self.validateURLResult = result
+                if result == .ok {
+                    return ApiHelper(context: self.context!)
+                        .fetchAndUpdateEntity(endPoint: self.endPoint!)
+                        .catch { _ in Just([]) }
+                        .eraseToAnyPublisher()
+                } else {
+                    return Just([]).eraseToAnyPublisher()
+                }
+            }
+            .sink { apis in
+                self.apis = apis
+            }
+            .store(in: &cancellables)
     }
 }
