@@ -10,7 +10,7 @@ import Combine
 import CoreData
 import SwiftUI
 
-class ApiEditData: ObservableObject {
+class EndPointEditData: ObservableObject {
     var cancellables = [AnyCancellable]()
     @Published var apis = [ApiEntity]()
     @Published var domainName: String = ""

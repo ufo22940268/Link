@@ -91,11 +91,3 @@ extension DomainData: ASAuthorizationControllerDelegate {
         }
     }
 }
-
-final class EndPointData: ObservableObject {
-    @Published var endPoint: EndPointEntity
-
-    init(endPoint: EndPointEntity) {
-        self.endPoint = endPoint
-    }
-}

@@ -28,7 +28,7 @@
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
 		426843A924F9D1B20075B1F9 /* ApiDetailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426843A824F9D1B20075B1F9 /* ApiDetailData.swift */; };
 		426843AB24F9EBED0075B1F9 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */; };
-		42697F3424F285EC005298D9 /* ApiEditData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42697F3324F285EC005298D9 /* ApiEditData.swift */; };
+		42697F3424F285EC005298D9 /* EndPointEditData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42697F3324F285EC005298D9 /* EndPointEditData.swift */; };
 		426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887324B09EE600C039E4 /* ApiEditView.swift */; };
 		426F887624B1450400C039E4 /* EndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F887524B1450400C039E4 /* EndPointTests.swift */; };
 		427471F624D649C900883AD7 /* Extentsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427471F524D649C900883AD7 /* Extentsion.swift */; };
@@ -97,7 +97,7 @@
 		42639513249E009E00ADFBE4 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		426843A824F9D1B20075B1F9 /* ApiDetailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiDetailData.swift; sourceTree = "<group>"; };
 		426843AA24F9EBED0075B1F9 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
-		42697F3324F285EC005298D9 /* ApiEditData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEditData.swift; sourceTree = "<group>"; };
+		42697F3324F285EC005298D9 /* EndPointEditData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditData.swift; sourceTree = "<group>"; };
 		426F887324B09EE600C039E4 /* ApiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEditView.swift; sourceTree = "<group>"; };
 		426F887524B1450400C039E4 /* EndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointTests.swift; sourceTree = "<group>"; };
 		427471F524D649C900883AD7 /* Extentsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentsion.swift; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 		42697F3724F34DD2005298D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				42697F3324F285EC005298D9 /* ApiEditData.swift */,
+				42697F3324F285EC005298D9 /* EndPointEditData.swift */,
 				42BC1B6424D7E8590078402B /* DomainData.swift */,
 				426843A824F9D1B20075B1F9 /* ApiDetailData.swift */,
 				4287842525036BAA00B732B0 /* HistoryData.swift */,
@@ -384,7 +384,7 @@
 				422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */,
 				427471F824D6510500883AD7 /* EntityExtension.swift in Sources */,
 				4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */,
-				42697F3424F285EC005298D9 /* ApiEditData.swift in Sources */,
+				42697F3424F285EC005298D9 /* EndPointEditData.swift in Sources */,
 				426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */,
 				42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */,
 				4287842625036BAA00B732B0 /* HistoryData.swift in Sources */,

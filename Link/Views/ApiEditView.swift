@@ -27,10 +27,10 @@ enum Segment: Int, RawRepresentable, CaseIterable {
 struct ApiEditView: View {
     private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
-    @ObservedObject var apiEditData: ApiEditData
+    @ObservedObject var apiEditData: EndPointEditData
     @State var segment = Segment.all.rawValue
 
-    init(apiEditData: ApiEditData) {
+    init(apiEditData: EndPointEditData) {
         self.apiEditData = apiEditData
     }
 
@@ -65,7 +65,7 @@ struct ApiEditView: View {
 
 struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
-        let d = ApiEditData()
+        let d = EndPointEditData()
         let a = ApiEntity(context: context)
         a.paths = "aa.bnb.cc.wefwef"
         a.value = "CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity' CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity'"

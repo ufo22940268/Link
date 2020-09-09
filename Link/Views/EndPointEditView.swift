@@ -63,7 +63,7 @@ struct EndPointEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
-    @ObservedObject var apiEditData: ApiEditData
+    @ObservedObject var apiEditData: EndPointEditData
     @State var launched = false
     @State var customDomainName: Bool = false
     @State var textHeight: CGFloat = 90
@@ -71,7 +71,7 @@ struct EndPointEditView: View {
 
     var type: EditType
 
-    internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData) {
+    internal init(type: EndPointEditView.EditType, apiEditData: EndPointEditData) {
         self.type = type
         self.apiEditData = apiEditData
 
@@ -275,7 +275,7 @@ struct EndPointEditView_Previews: PreviewProvider {
         ee.addToApi(ae1)
         ee.addToApi(ae2)
 
-        let d = ApiEditData(endPointId: ee.objectID)
+        let d = EndPointEditData(endPointId: ee.objectID)
         d.endPoint = ee
         return EndPointEditView(type: .edit, apiEditData: d)
             .environment(\.managedObjectContext, context)

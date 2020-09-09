@@ -12,7 +12,7 @@ import SwiftUI
 struct DomainDashboardView: View {
     @State var showingAddEndPoint: Bool = false
     @Environment(\.managedObjectContext) var context
-    @ObservedObject var addApiData = ApiEditData()
+    @ObservedObject var addApiData = EndPointEditData()
     @EnvironmentObject var domainData: DomainData
 
     var dataSource: DataSource {

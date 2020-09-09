@@ -14,7 +14,7 @@ struct JSONViewerView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var endPoint: EndPointEntity
     @EnvironmentObject var domainData: DomainData
-    @ObservedObject var apiData: ApiEditData
+    @ObservedObject var apiData: EndPointEditData
     @State var segment = Segment.response.rawValue
     var endPointCancellable: AnyCancellable?
     @State var cancellables = [AnyCancellable]()
@@ -39,7 +39,7 @@ struct JSONViewerView: View {
 
     init(endPoint: EndPointEntity, context: NSManagedObjectContext? = nil) {
         self.endPoint = endPoint
-        apiData = ApiEditData(endPointId: endPoint.objectID)
+        apiData = EndPointEditData(endPointId: endPoint.objectID)
         if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", endPoint.objectID) {
             apiData.originURL = endPoint.url
             apiData.endPoint = endPoint
