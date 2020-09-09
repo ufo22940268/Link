@@ -13,21 +13,11 @@ import SwiftUI
 class HistoryData: ObservableObject {
     @Published var loginInfo: LoginInfo?
 
-    var cancellable: AnyCancellable?
-
     var hasLogined: Bool {
         loginInfo != nil
     }
 
     init() {
         loginInfo = LoginManager.getLoginInfo()
-        cancellable = $loginInfo
-            .filter { $0 != nil }
-            .flatMap { info in
-                try! BackendAgent().login(loginInfo: info!)
-            }
-            .sink(receiveValue: { () in
-
-            })
     }
 }

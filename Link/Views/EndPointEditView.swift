@@ -58,8 +58,6 @@ struct EndPointEditView: View {
         DataSource(context: context)
     }
 
-    @ObservedObject var historyData = HistoryData()
-
     @State var cancellables = Set<AnyCancellable>()
     @State var validateURLResult: ValidateURLResult = .initial
     @Environment(\.presentationMode) var presentationMode
@@ -74,7 +72,6 @@ struct EndPointEditView: View {
     var type: EditType
 
     internal init(type: EndPointEditView.EditType, apiEditData: ApiEditData) {
-        print("apiEditData", ObjectIdentifier(apiEditData))
         self.type = type
         self.apiEditData = apiEditData
 
@@ -101,7 +98,7 @@ struct EndPointEditView: View {
             self.apiEditData.upsertEndPointInServer()
             try! self.context.save()
             self.presentationMode.wrappedValue.dismiss()
-        }.disabled(!(validateURLResult == .ok))
+        }.disabled(!(validateURLResult == .ok && apiEditData.watchApis.count > 0))
     }
 
     var cancelButton: some View {
@@ -128,8 +125,7 @@ struct EndPointEditView: View {
             .filter { url in
                 self.validateURLResult = .pending
                 if (self.type == .add && dbDataSource.isURLExists(url))
-                    || (self.type == .edit && url != self.apiEditData.originURL && dbDataSource.isURLExists(url))
-                {
+                    || (self.type == .edit && url != self.apiEditData.originURL && dbDataSource.isURLExists(url)) {
                     self.validateURLResult = ValidateURLResult.duplicatedUrl
                     self.apiEditData.apis = []
                     return false
