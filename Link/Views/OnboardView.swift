@@ -11,7 +11,7 @@ import CoreData
 import SwiftUI
 
 struct OnboardView: View {
-    @State private var selection = 0
+    @State private var selection = 1
     @ObservedObject private var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
@@ -59,7 +59,7 @@ struct OnboardView: View {
             if !domainData.isLogin {
                 dashboardView
             } else {
-                TabView {
+                TabView(selection: $selection) {
                     dashboardView
                         .tag(0)
                     historyView
