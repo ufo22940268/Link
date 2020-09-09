@@ -41,6 +41,9 @@ struct OnboardView: View {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 self.loadDomains()
             }
+            .onReceive(NotificationCenter.default.publisher(for: Notification.refreshDomain), perform: { _ in
+                self.loadDomains()
+            })
             .environmentObject(dataSource)
     }
 
