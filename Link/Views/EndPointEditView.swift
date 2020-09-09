@@ -63,7 +63,6 @@ struct EndPointEditView: View {
         DataSource(context: context)
     }
 
-    @State var cancellables = Set<AnyCancellable>()
     @Environment(\.presentationMode) var presentationMode
     @State var apiEntitiesOfDomain = [ApiEntity]()
 

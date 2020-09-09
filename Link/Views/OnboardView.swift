@@ -35,14 +35,11 @@ struct OnboardView: View {
                     self.domainData.needReload.send()
                 }
             }
-            .onReceive(domainData.needReload) { () in
-                self.loadDomains()
-            }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                self.loadDomains()
+                self.domainData.needReload.send()
             }
             .onReceive(NotificationCenter.default.publisher(for: Notification.refreshDomain), perform: { _ in
-                self.loadDomains()
+                self.domainData.needReload.send()
             })
             .environmentObject(dataSource)
     }
@@ -70,28 +67,6 @@ struct OnboardView: View {
                 }
             }
         }
-    }
-
-    func loadDomains() {
-        print("loadDomains")
-        let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
-        if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
-            domainData.endPoints = domains
-        } else {
-            domainData.endPoints = []
-        }
-
-        domainData.isLoading = true
-        guard !domainData.endPoints.isEmpty else { return }
-        HealthChecker(domains: domainData.endPoints, context: context)
-            .checkHealth()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in
-                self.domainData.lastUpdateTime = Date()
-                self.domainData.objectWillChange.send()
-                self.domainData.isLoading = false
-            }, receiveValue: { _ in })
-            .store(in: &cancellables)
     }
 }
 
