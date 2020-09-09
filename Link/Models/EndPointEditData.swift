@@ -86,7 +86,6 @@ class EndPointEditData: ObservableObject {
 
         let dbDataSource = DataSource(context: CoreDataContext.main)
         urlPub
-            .print()
             .filter { url in
                 self.validateURLResult = .pending
                 if (self.type == .add && dbDataSource.isURLExists(url))
