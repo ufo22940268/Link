@@ -11,16 +11,18 @@ import SwiftUI
 
 struct ApiDetailView: View {
     internal init(api: ApiEntity, onComplete: (() -> Void)? = nil) {
-        self.api = api
         modelData = ApiDetailData(api: api)
     }
 
-    @ObservedObject var api: ApiEntity
+    var api: ApiEntity {
+        modelData.api
+    }
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
     @Environment(\.presentationMode) var presentationMode
     var onComplete: (() -> Void)?
     @State var cancellables = Set<AnyCancellable>()
+    @State var apiChangeCancellable: AnyCancellable?
     @ObservedObject var modelData: ApiDetailData
 
     var actionView: some View {
@@ -33,7 +35,7 @@ struct ApiDetailView: View {
                     Alert(title: Text("确定取消监控吗?"), message: nil, primaryButton: .default(Text("确定"), action: {
                         self.api.watch = false
                         self.onComplete?()
-                        NotificationCenter.default.post(Notification.init(name: Notification.updateJsonViewer))
+                        NotificationCenter.default.post(Notification(name: Notification.updateJsonViewer))
                     }), secondaryButton: .cancel())
                 }))
         } else {
@@ -74,16 +76,6 @@ struct ApiDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段"), displayMode: .inline)
-        .onAppear {
-            self.modelData.objectWillChange
-                .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
-                .sink { _ in
-                    self.api.watch = self.modelData.watch
-                    self.api.watchValue = self.modelData.watchValue
-                    self.onComplete?()
-                }
-                .store(in: &self.cancellables)
-        }
     }
 }
 
@@ -95,7 +87,7 @@ struct ApiDetailView_Previews: PreviewProvider {
     }
 
     struct PreviewWrapper: View {
-        @State var api: ApiEntity = ApiEntity(context: getPersistentContainer().viewContext)
+        @State var api = ApiEntity(context: getPersistentContainer().viewContext)
 
         var body: some View {
             api.paths = "asaa"

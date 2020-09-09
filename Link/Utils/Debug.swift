@@ -53,14 +53,14 @@ public class DebugHelper {
         d.hostname = "biubiubiu.hopto.org:9000"
         
         let p = EndPointEntity(context: context)
-        p.url = "http://biubiubiu.hopto.org:9000/link/fb.json"
+        p.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         p.data = NSDataAsset(name: "github", bundle: .main)!.data
         
         let a1 = ApiEntity(context: context)
-        a1.paths = "ok"
-        a1.value = "true"
+        a1.paths = "feeds_url"
+        a1.value = "https://api.github.com/feeds"
         a1.watch = true
-        a1.watchValue = "true"
+        a1.watchValue = "https://api.github.com/feeds"
         p.addToApi(a1)
         a1.endPoint = p
 

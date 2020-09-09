@@ -26,7 +26,7 @@ private struct EndPointRow: View {
     @Environment(\.managedObjectContext) var context
 
     var body: some View {
-        NavigationLink(destination: JSONViewerView(modelData: JSONViewerData(endPoint: endPoint), context: context)
+        NavigationLink(destination: JSONViewerView(endPoint: endPoint, context: context)
             .environment(\.endPointId, endPoint.objectID)
             .environmentObject(domainData)
         ) {

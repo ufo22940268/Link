@@ -78,7 +78,7 @@ class BackendAgent {
             debugInfo = debugInfo + """
             =====================request start======================
             url: \(url)
-            request: \(String(describing: data))
+            request: \(String(describing: String(data: data!, encoding: .utf8)))
             """
         }
 

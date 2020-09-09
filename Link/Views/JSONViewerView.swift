@@ -6,23 +6,18 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
+import Combine
 import CoreData
 import SwiftUI
 
-class JSONViewerData: ObservableObject {
-    @Published var endPoint: EndPointEntity?
-
-    init(endPoint: EndPointEntity) {
-        self.endPoint = endPoint
-    }
-}
-
 struct JSONViewerView: View {
     @Environment(\.managedObjectContext) var context
-    @ObservedObject var modelData: JSONViewerData
+    @ObservedObject var endPoint: EndPointEntity
     @EnvironmentObject var domainData: DomainData
     @ObservedObject var apiData: ApiEditData
     @State var segment = Segment.response.rawValue
+    var endPointCancellable: AnyCancellable?
+    @State var cancellables = [AnyCancellable]()
 
     enum Segment: Int, RawRepresentable, CaseIterable {
         case response = 0
@@ -42,17 +37,13 @@ struct JSONViewerView: View {
         DataSource(context: context)
     }
 
-    init(modelData: JSONViewerData, context: NSManagedObjectContext? = nil) {
-        self.modelData = modelData
-        apiData = ApiEditData(endPointId: modelData.endPoint!.objectID)
-        if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", modelData.endPoint!.objectID) {
+    init(endPoint: EndPointEntity, context: NSManagedObjectContext? = nil) {
+        self.endPoint = endPoint
+        apiData = ApiEditData(endPointId: endPoint.objectID)
+        if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", endPoint.objectID) {
             apiData.originURL = endPoint.url
             apiData.endPoint = endPoint
         }
-    }
-
-    var endPoint: EndPointEntity {
-        modelData.endPoint!
     }
 
     @State var showingEdit = false
@@ -102,7 +93,7 @@ struct JSONViewerView: View {
     func onEditComplete() {
         try! CoreDataContext.edit.save()
         try! CoreDataContext.main.save()
-        modelData.objectWillChange.send()
+        endPoint.objectWillChange.send()
         domainData.needReload.send()
     }
 
@@ -227,14 +218,14 @@ struct JSONViewerView_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        return Group {
+        Group {
             NavigationView {
-                JSONViewerView(modelData: JSONViewerData(endPoint: validEndPointEntity))
+                JSONViewerView(endPoint: validEndPointEntity)
                     .environment(\.managedObjectContext, context)
             }.environment(\.colorScheme, .dark)
 
             NavigationView {
-                JSONViewerView(modelData: JSONViewerData(endPoint: invalidEndPointEntity))
+                JSONViewerView(endPoint: invalidEndPointEntity)
                     .environment(\.managedObjectContext, context)
             }.environment(\.colorScheme, .dark)
         }
