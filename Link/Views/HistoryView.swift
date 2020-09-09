@@ -9,29 +9,18 @@
 import SwiftUI
 
 struct HistoryView: View {
-    @ObservedObject var data = HistoryData()
-
-    var emptyView: some View {
-        HistoryEmptyView(data: data)
-    }
-
     var contentView: some View {
         VStack(spacing: 20) {
             Text("logined")
             Button("logout") {
                 LoginManager.logout()
-                self.data.loginInfo = nil
             }
         }
     }
 
     var body: some View {
         ZStack {
-            if data.hasLogined {
-                contentView
-            } else {
-                emptyView
-            }
+            contentView
         }
     }
 }
