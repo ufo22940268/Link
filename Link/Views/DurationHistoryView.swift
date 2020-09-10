@@ -78,6 +78,9 @@ struct DurationHistoryView: View {
                                 .padding(0)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
+                        NavigationLink(destination: EmptyView()) {
+                            EmptyView().opacity(0)
+                        }
                     }.frame(height: 240, alignment: .center)
                 }
             }

@@ -26,19 +26,23 @@ struct HistoryView: View {
     @State var type: HistoryType = .duration
 
     var contentView: some View {
-        VStack {
-            Picker("", selection: $type) {
-                ForEach(HistoryType.allCases, id: \.self) { type in
-                    Text(type.label).tag(type)
+        NavigationView {
+            VStack {
+                Picker("", selection: $type) {
+                    ForEach(HistoryType.allCases, id: \.self) { type in
+                        Text(type.label).tag(type)
+                    }
                 }
+                .fixedSize()
+                .pickerStyle(SegmentedPickerStyle())
+                .environment(\.horizontalSizeClass, .compact)
+                DurationHistoryView()
             }
-            .fixedSize()
-            .pickerStyle(SegmentedPickerStyle())
-            .environment(\.horizontalSizeClass, .compact)
-            DurationHistoryView()
+        .navigationBarHidden(true)
+            .listStyle(GroupedListStyle())
+            .environment(\.horizontalSizeClass, .regular)
+            .navigationBarTitle("", displayMode: .inline)
         }
-        .listStyle(GroupedListStyle())
-        .environment(\.horizontalSizeClass, .regular)
     }
 
     var body: some View {
