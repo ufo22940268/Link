@@ -73,6 +73,7 @@ struct DurationHistoryView: View {
                             BarChartView(data: ChartData(values: self.durationData.chartData[key]!),
                                          title: key.endPointPath ?? "",
                                          legend: "每5分钟",
+                                         style: Styles.barChartStyleNeonBlueLight,
                                          form: CGSize(width: proxy.size.width, height: 240), dropShadow: false, valueSpecifier: "%.0fms")
                                 .padding(0)
                         }
