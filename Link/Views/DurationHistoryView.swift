@@ -37,10 +37,9 @@ class DurationHistoryData: ObservableObject {
         loadDataCancellable = try? BackendAgent()
             .listScanLogs()
             .map { items -> [DurationHistoryItem]? in
-                items
+                items.sorted { $0.time < $1.time }
             }
             .replaceError(with: nil)
-            .print()
             .subscribe(on: DispatchQueue.main)
             .assign(to: \.items, on: self)
     }
