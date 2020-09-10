@@ -40,7 +40,7 @@ class DurationHistoryData: ObservableObject {
                 items.sorted { $0.time < $1.time }
             }
             .replaceError(with: nil)
-            .subscribe(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: \.items, on: self)
     }
 }
