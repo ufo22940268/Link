@@ -16,7 +16,8 @@ let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).reversed().map { i in
 }
 
 class DurationHistoryData: ObservableObject {
-    @Published var items: [DurationHistoryItem]? = nil        
+    @Published var items: [DurationHistoryItem]? = nil
+    var loadDataCancellable: AnyCancellable?
 
     var chartData: [String: ChartValues] {
         if let items = items {
@@ -30,6 +31,18 @@ class DurationHistoryData: ObservableObject {
         } else {
             return [:]
         }
+    }
+
+    func loadData() {
+        loadDataCancellable = try? BackendAgent()
+            .listScanLogs()
+            .map { items -> [DurationHistoryItem]? in
+                items
+            }
+            .replaceError(with: nil)
+            .print()
+            .subscribe(on: DispatchQueue.main)
+            .assign(to: \.items, on: self)
     }
 }
 
@@ -56,7 +69,8 @@ struct DurationHistoryView: View {
             }
         }
         .onAppear {
-            self.durationData.items = testHistoryItems
+//            self.durationData.items = testHistoryItems
+            self.durationData.loadData()
         }
     }
 }
