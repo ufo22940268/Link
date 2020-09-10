@@ -21,6 +21,7 @@ struct DurationHistoryDetailView: View {
 
     init(url: String) {
         durationDetailData.url = url
+        durationDetailData.items = testItems
     }
 
     var body: some View {

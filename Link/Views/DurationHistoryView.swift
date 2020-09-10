@@ -66,19 +66,19 @@ struct DurationHistoryView: View {
 
     var body: some View {
         List {
-            ForEach(Array(durationData.chartData.keys).sorted { $0 < $1 }, id: \.self) { key in
+            ForEach(Array(durationData.chartData.keys).sorted { $0 < $1 }, id: \.self) { url in
                 Section {
                     GeometryReader { proxy in
                         ZStack {
-                            BarChartView(data: ChartData(values: self.durationData.chartData[key]!),
-                                         title: key.endPointPath ?? "",
+                            BarChartView(data: ChartData(values: self.durationData.chartData[url]!),
+                                            title: url.endPointPath ?? "",
                                          legend: "每5分钟",
                                          style: Styles.barChartStyleNeonBlueLight,
                                          form: CGSize(width: proxy.size.width, height: 240), dropShadow: false, valueSpecifier: "%.0fms")
                                 .padding(0)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
-                        NavigationLink(destination: EmptyView()) {
+                        NavigationLink(destination: DurationHistoryDetailView(url: url)) {
                             EmptyView().opacity(0)
                         }
                     }.frame(height: 240, alignment: .center)
@@ -86,7 +86,6 @@ struct DurationHistoryView: View {
             }
         }
         .onAppear {
-//            self.durationData.items = testHistoryItems
             self.durationData.loadData()
         }
     }
