@@ -24,9 +24,23 @@ class DurationHistoryData: ObservableObject {
             return Dictionary(grouping: items) { item in
                 item.url
             }.mapValues { items in
-                items.map { item in
-                    (item.formatTime, item.duration)
+                let items = items.sorted { $0.time > $1.time }
+                if items.isEmpty {
+                    return []
                 }
+
+                var ar = [(String, Double)]()
+                let maxTime = items.first!.time
+                for i in (0 ..< 10).reversed() {
+                    let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
+                    let end = maxTime - 60 * 5 * TimeInterval(i)
+                    if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
+                        ar.append((end.formatTime, item.duration))
+                    } else {
+                        ar.append((end.formatTime, 0))
+                    }
+                }
+                return ar
             }
         } else {
             return [:]
@@ -37,7 +51,7 @@ class DurationHistoryData: ObservableObject {
         loadDataCancellable = try? BackendAgent()
             .listScanLogs()
             .map { items -> [DurationHistoryItem]? in
-                items.sorted { $0.time < $1.time }
+                items
             }
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
@@ -52,7 +66,7 @@ struct DurationHistoryView: View {
 
     var body: some View {
         List {
-            ForEach(Array(durationData.chartData.keys), id: \.self) { key in
+            ForEach(Array(durationData.chartData.keys).sorted { $0 < $1 }, id: \.self) { key in
                 Section {
                     GeometryReader { proxy in
                         ZStack {

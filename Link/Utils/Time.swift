@@ -22,3 +22,12 @@ extension String {
         return dateFormatter.date(from: self)
     }
 }
+
+extension Date {
+    var formatTime: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        return formatter.string(from: self)
+    }
+}
