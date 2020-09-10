@@ -10,18 +10,32 @@ import SwiftUI
 import SwiftUICharts
 
 struct HistoryView: View {
+    enum HistoryType: Int, CaseIterable {
+        case duration
+        case error
+        var label: String {
+            switch self {
+            case .duration:
+                return "返回时间"
+            case .error:
+                return "错误"
+            }
+        }
+    }
+
+    @State var type: HistoryType = .duration
+
     var contentView: some View {
-        List {
-            ForEach(0 ..< 2) { _ in
-                Section {
-                    GeometryReader { proxy in
-                        ZStack {
-                            BarChartView(data: ChartData(values: [("2018 Q4", 63150), ("2019 Q1", 50900), ("2019 Q2", 77550), ("2019 Q3", 79600), ("2019 Q4", 92550), ("2019 Q4", 92550), ("2019 Q4", 92550), ("2019 Q4", 92550), ("2019 Q4", 92550), ("2019 Q4", 92550), ("2019 Q4", 92550), ("2019 Q4", 92550)]), title: "asdf", legend: "Quarterly", form: CGSize(width: proxy.size.width, height: 240), dropShadow: false).padding(0)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    }.frame(height: 240, alignment: .center)
+        VStack {
+            Picker("", selection: $type) {
+                ForEach(HistoryType.allCases, id: \.self) { type in
+                    Text(type.label).tag(type)
                 }
             }
+            .fixedSize()
+            .pickerStyle(SegmentedPickerStyle())
+            .environment(\.horizontalSizeClass, .compact)
+            DurationHistoryView()
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)
@@ -34,11 +48,10 @@ struct HistoryView: View {
     }
 }
 
-struct HIstoryView_Previews: PreviewProvider {
+struct HistoryView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             HistoryView()
-            HistoryView().colorScheme(.dark)
         }
     }
 }
