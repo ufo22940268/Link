@@ -10,13 +10,13 @@ import Combine
 import SwiftUI
 import SwiftUICharts
 
-let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).map { i in
+let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).reversed().map { i in
     let t = DurationHistoryItem(url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!))
     return t
 }
 
 class DurationHistoryData: ObservableObject {
-    @Published var items: [DurationHistoryItem]? = nil
+    @Published var items: [DurationHistoryItem]? = nil        
 
     var chartData: [String: ChartValues] {
         if let items = items {
@@ -24,7 +24,7 @@ class DurationHistoryData: ObservableObject {
                 item.url
             }.mapValues { items in
                 items.map { item in
-                    (item.url, item.duration)
+                    (item.formatTime, item.duration)
                 }
             }
         } else {
@@ -47,7 +47,7 @@ struct DurationHistoryView: View {
                             BarChartView(data: ChartData(values: self.durationData.chartData[key]!),
                                          title: key,
                                          legend: "每5分钟",
-                                         form: CGSize(width: proxy.size.width, height: 240), dropShadow: false)
+                                         form: CGSize(width: proxy.size.width, height: 240), dropShadow: false, valueSpecifier: "%.0fms")
                                 .padding(0)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
