@@ -13,7 +13,12 @@ private let testItems = [DurationHistoryDetailItem(time: Date(), duration: 30), 
 
 class DurationHistoryDetailData: ObservableObject {
     @Published var url: String = ""
-    var items = [DurationHistoryDetailItem]()
+    @Published var items = [DurationHistoryDetailItem]()
+    var itemMap: [Date: [DurationHistoryDetailItem]] {
+        Dictionary(grouping: items) { item in
+            item.time.startOfDay
+        }
+    }
 }
 
 struct DurationHistoryDetailView: View {
@@ -26,12 +31,16 @@ struct DurationHistoryDetailView: View {
 
     var body: some View {
         List {
-            ForEach(durationDetailData.items) { item in
-                NavigationLink(destination: EmptyView()) {
-                    HStack {
-                        Text(item.time.formatTime)
-                        Spacer()
-                        Text((item.duration / 1000).formatDuration).foregroundColor(.gray)
+            ForEach(durationDetailData.itemMap.keys.sorted(), id: \.self) { date in
+                Section(header: Text(date.formatDate)) {
+                    ForEach(self.durationDetailData.itemMap[date]!) { item in
+                        NavigationLink(destination: EmptyView()) {
+                            HStack {
+                                Text(item.time.formatTime)
+                                Spacer()
+                                Text((item.duration / 1000).formatDuration).foregroundColor(.gray)
+                            }
+                        }
                     }
                 }
             }

@@ -82,6 +82,10 @@ public extension UIDevice {
         return false
         #endif
     }()
+    
+    static var isPreview: Bool {
+        (ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] ?? "") == "1"
+    }
 
     static var isRunningTest: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil

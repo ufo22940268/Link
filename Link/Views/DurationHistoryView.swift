@@ -19,18 +19,20 @@ class DurationHistoryData: ObservableObject {
     @Published var items: [DurationHistoryItem]? = nil
     var loadDataCancellable: AnyCancellable?
 
-    var chartData: [String: ChartValues] {
+    var chartData: [String: (ChartValues, DateInterval)] {
         if let items = items {
             return Dictionary(grouping: items) { item in
                 item.url
             }.mapValues { items in
                 let items = items.sorted { $0.time > $1.time }
                 if items.isEmpty {
-                    return []
+                    return ([], DateInterval())
                 }
 
                 var ar = [(String, Double)]()
                 let maxTime = items.first!.time
+                
+                let interval = DateInterval(start: items.last!.time, end: maxTime)
                 for i in (0 ..< 10).reversed() {
                     let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
                     let end = maxTime - 60 * 5 * TimeInterval(i)
@@ -40,7 +42,7 @@ class DurationHistoryData: ObservableObject {
                         ar.append((end.formatTime, 0))
                     }
                 }
-                return ar
+                return (ar, interval)
             }
         } else {
             return [:]
@@ -70,9 +72,10 @@ struct DurationHistoryView: View {
                 Section {
                     GeometryReader { proxy in
                         ZStack {
-                            BarChartView(data: ChartData(values: self.durationData.chartData[url]!),
-                                            title: url.endPointPath ?? "",
-                                         legend: "每5分钟",
+                            BarChartView(data: ChartData(values: self.durationData.chartData[url]!.0),
+                                         title: url.endPointPath ?? "",
+                                         legend: "",
+                                         rightLegend: self.durationData.chartData[url]!.1.end.formatTime,
                                          style: Styles.barChartStyleNeonBlueLight,
                                          form: CGSize(width: proxy.size.width, height: 240), dropShadow: false, valueSpecifier: "%.0fms")
                                 .padding(0)
@@ -93,6 +96,8 @@ struct DurationHistoryView: View {
 
 struct DurationHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        return DurationHistoryView()
+        let view = DurationHistoryView()
+        view.durationData.items = testHistoryItems
+        return view
     }
 }

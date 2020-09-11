@@ -8,6 +8,7 @@
 
 import Combine
 import Foundation
+import UIKit
 
 typealias Response = JSON
 
@@ -110,6 +111,10 @@ extension BackendAgent {
 
 extension BackendAgent {
     private func get(endPoint: String, options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
+        if UIDevice.isPreview {
+            return Just(JSON()).setFailureType(to: ResponseError.self).eraseToAnyPublisher()
+        }
+        
         let url = (URL(string: Self.backendDomain)!.appendingPathComponent(endPoint))
         var req = URLRequest(url: url)
         req.httpMethod = "GET"
