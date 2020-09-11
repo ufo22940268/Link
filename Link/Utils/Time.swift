@@ -34,7 +34,7 @@ extension Date {
     var formatDate: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .none
-        formatter.dateStyle = .short
+        formatter.dateStyle = .long
         return formatter.string(from: self)
     }
 

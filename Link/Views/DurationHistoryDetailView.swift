@@ -45,6 +45,8 @@ struct DurationHistoryDetailView: View {
                 }
             }
         }
+        .listStyle(GroupedListStyle())
+        .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle(Text(durationDetailData.url.endPointPath!), displayMode: .inline)
     }
 }
