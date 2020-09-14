@@ -60,6 +60,7 @@
 		42E92A0724F4FCF9004EA1C9 /* ApiListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */; };
 		42E92A0924F5C422004EA1C9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0824F5C422004EA1C9 /* File.swift */; };
 		42E92A0B24F5E661004EA1C9 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0A24F5E661004EA1C9 /* URL.swift */; };
+		42EC0602250F548500921F38 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC0601250F548500921F38 /* Mock.swift */; };
 		42FCE2FD2509029C008E50CD /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 42FCE2FC2509029C008E50CD /* SwiftUICharts */; };
 		42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */; };
 		42FCE3032509AAD2008E50CD /* DurationHistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCE3022509AAD2008E50CD /* DurationHistoryItem.swift */; };
@@ -139,6 +140,7 @@
 		42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListItemView.swift; sourceTree = "<group>"; };
 		42E92A0824F5C422004EA1C9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		42E92A0A24F5E661004EA1C9 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		42EC0601250F548500921F38 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		42FCE2FE25098AF3008E50CD /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../ChartView; sourceTree = "<group>"; };
 		42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationHistoryView.swift; sourceTree = "<group>"; };
 		42FCE3022509AAD2008E50CD /* DurationHistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationHistoryItem.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				428C18C624F644A90017ECBC /* Time.swift */,
 				428784232502F3EE00B732B0 /* LoginManager.swift */,
 				428028602504452A0042374E /* BackendAgent.swift */,
+				42EC0601250F548500921F38 /* Mock.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				428C18C524F6391D0017ECBC /* InfoRow.swift in Sources */,
 				4214731A24E558EA00E61E6E /* JSON.swift in Sources */,
 				427A82CB24E4BA3700437A56 /* DataSource.swift in Sources */,
+				42EC0602250F548500921F38 /* Mock.swift in Sources */,
 				42D4F0A5250B49DB006F1318 /* RecordDetailSummaryView.swift in Sources */,
 				428784242502F3EE00B732B0 /* LoginManager.swift in Sources */,
 				428028612504452A0042374E /* BackendAgent.swift in Sources */,

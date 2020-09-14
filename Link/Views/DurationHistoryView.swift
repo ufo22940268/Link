@@ -11,7 +11,7 @@ import SwiftUI
 import SwiftUICharts
 
 let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).reversed().map { i in
-    let t = DurationHistoryItem(id: "asdf", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!))
+    let t = DurationHistoryItem(id: "5f5f130360d3d76e96adc738", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!))
     return t
 }
 

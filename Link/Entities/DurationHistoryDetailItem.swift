@@ -9,10 +9,7 @@
 import Foundation
 
 struct DurationHistoryDetailItem: Identifiable {
-    var id: Date {
-        return time
-    }
-
+    var id: String
     var time: Date
     var duration: TimeInterval
 }

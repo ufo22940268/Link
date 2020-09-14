@@ -6,6 +6,7 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 enum RecordDetailSegment: Int, RawRepresentable, CaseIterable {
@@ -27,26 +28,22 @@ enum RecordDetailSegment: Int, RawRepresentable, CaseIterable {
 
 class RecordDetailData: ObservableObject {
     @Published var item: RecordItem?
-}
+    var loadCancellable: AnyCancellable?
 
-let testRecordItem = RecordItem(duration: 0.3, statusCode: 200, time: Date(), requestHeader: """
-CONNECT bolt.dropbox.com:443 HTTP/1.1
-Host: bolt.dropbox.com
-Proxy-Connection: keep-alive
-""", responseHeader: """
-CONNECT bolt.dropbox.com:443 HTTP/1.1
-Host: bolt.dropbox.com
-Proxy-Connection: keep-alive
-""", responseBody: """
-{
-  "feeds_url": "https://api.github.com/feeds",
-  "followers_url": "https://api.github.com/user/followers"
+    func load(id: String) {
+        loadCancellable = BackendAgent().getScanLog(id: id)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+            }) { item in
+                self.item = item
+            }
+    }
 }
-""")
 
 struct RecordDetailView: View {
     @State var segment = RecordDetailSegment.summary
     @ObservedObject var recordData = RecordDetailData()
+    var scanLogId: String
 
     var body: some View {
         VStack {
@@ -70,14 +67,14 @@ struct RecordDetailView: View {
         .padding(.top)
         .listStyle(GroupedListStyle())
         .onAppear {
-            self.recordData.item = testRecordItem
+            self.recordData.load(id: self.scanLogId)
         }
     }
 }
 
 struct RecordDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = RecordDetailView()
+        let view = RecordDetailView(scanLogId: testScanLogId)
         view.recordData.item = testRecordItem
         return NavigationView {
             view.navigationBarTitle("ff", displayMode: .inline)

@@ -112,7 +112,7 @@ extension BackendAgent {
         }.eraseToAnyPublisher()
     }
 
-    func getScanLog(id: String) throws -> AnyPublisher<RecordItem, ResponseError> {
+    func getScanLog(id: String) -> AnyPublisher<RecordItem, ResponseError> {
         get(endPoint: "/scanlog/\(id)").tryMap { json throws in
             try self.jsonDecoder.decode(RecordItem.self, from: json.result.rawData())
         }
