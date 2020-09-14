@@ -68,7 +68,7 @@ class EndPointTests: XCTestCase {
         ae.watchValue = "b"
         ee.addToApi(ae)
 
-        try! agent.getScanLog(id: "5f5ecf32cbe6dd601ced1381")
+        try! agent.getScanLog(id: "5f5f130360d3d76e96adc738")
             .sink(receiveCompletion: { r in
                 print("r", r)
                 exp.fulfill()
