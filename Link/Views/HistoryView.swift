@@ -38,7 +38,7 @@ struct HistoryView: View {
                 .environment(\.horizontalSizeClass, .compact)
                 DurationHistoryView()
             }
-        .navigationBarHidden(true)
+            .navigationBarHidden(true)
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("", displayMode: .inline)

@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-private let testItems = [DurationHistoryDetailItem(time: Date(), duration: 30), DurationHistoryDetailItem(time: Date(), duration: 20)]
+private let testItems = [DurationHistoryDetailItem(time: Date(), duration: 30), DurationHistoryDetailItem(time: Date(timeIntervalSince1970: 20), duration: 20)]
 
 class DurationHistoryDetailData: ObservableObject {
     @Published var url: String = ""
@@ -34,7 +34,7 @@ struct DurationHistoryDetailView: View {
             ForEach(durationDetailData.itemMap.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date.formatDate)) {
                     ForEach(self.durationDetailData.itemMap[date]!) { item in
-                        NavigationLink(destination: EmptyView()) {
+                        NavigationLink(destination: RecordDetailView()) {
                             HStack {
                                 Text(item.time.formatTime)
                                 Spacer()

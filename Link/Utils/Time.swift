@@ -10,7 +10,7 @@ import Foundation
 
 extension TimeInterval {
     var formatDuration: String {
-        "\(Int(floor(self * 1000)))ms"
+        "\(Int(floor(self * 1000))) ms"
     }
 }
 
@@ -35,6 +35,13 @@ extension Date {
         let formatter = DateFormatter()
         formatter.timeStyle = .none
         formatter.dateStyle = .long
+        return formatter.string(from: self)
+    }
+    
+    var formatFullDate: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .medium
+        formatter.dateStyle = .medium
         return formatter.string(from: self)
     }
 

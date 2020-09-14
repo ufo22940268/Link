@@ -47,6 +47,14 @@
 		42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BC1B9724D8DF6E0078402B /* HealthChecker.swift */; };
 		42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */; };
 		42D2054324C675B800C6CC70 /* github.json in Resources */ = {isa = PBXBuildFile; fileRef = 42D2054224C675B800C6CC70 /* github.json */; };
+		42D4F0A3250B4198006F1318 /* RecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0A2250B4198006F1318 /* RecordDetailView.swift */; };
+		42D4F0A5250B49DB006F1318 /* RecordDetailSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0A4250B49DB006F1318 /* RecordDetailSummaryView.swift */; };
+		42D4F0A7250B4B6C006F1318 /* RecordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0A6250B4B6C006F1318 /* RecordItem.swift */; };
+		42D4F0A9250C343A006F1318 /* RecordDetailRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0A8250C343A006F1318 /* RecordDetailRequestView.swift */; };
+		42D4F0AB250CACAE006F1318 /* RecordDetailResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0AA250CACAE006F1318 /* RecordDetailResponseView.swift */; };
+		42D4F0AD250EDB29006F1318 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0AC250EDB29006F1318 /* Text.swift */; };
+		42D4F0AF250EE0FB006F1318 /* RecordDetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0AE250EE0FB006F1318 /* RecordDetailTextView.swift */; };
+		42D4F0B1250EF8F3006F1318 /* RecordDetailJSONView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0B0250EF8F3006F1318 /* RecordDetailJSONView.swift */; };
 		42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DAFACB24DA3A850093869D /* JSONViewerView.swift */; };
 		42E92A0324F4D38B004EA1C9 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0224F4D38B004EA1C9 /* View.swift */; };
 		42E92A0724F4FCF9004EA1C9 /* ApiListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */; };
@@ -118,6 +126,14 @@
 		42BC1B9724D8DF6E0078402B /* HealthChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthChecker.swift; sourceTree = "<group>"; };
 		42D2053D24C64B1C00C6CC70 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		42D2054224C675B800C6CC70 /* github.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = github.json; sourceTree = "<group>"; };
+		42D4F0A2250B4198006F1318 /* RecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailView.swift; sourceTree = "<group>"; };
+		42D4F0A4250B49DB006F1318 /* RecordDetailSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailSummaryView.swift; sourceTree = "<group>"; };
+		42D4F0A6250B4B6C006F1318 /* RecordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordItem.swift; sourceTree = "<group>"; };
+		42D4F0A8250C343A006F1318 /* RecordDetailRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailRequestView.swift; sourceTree = "<group>"; };
+		42D4F0AA250CACAE006F1318 /* RecordDetailResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailResponseView.swift; sourceTree = "<group>"; };
+		42D4F0AC250EDB29006F1318 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		42D4F0AE250EE0FB006F1318 /* RecordDetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailTextView.swift; sourceTree = "<group>"; };
+		42D4F0B0250EF8F3006F1318 /* RecordDetailJSONView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordDetailJSONView.swift; sourceTree = "<group>"; };
 		42DAFACB24DA3A850093869D /* JSONViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONViewerView.swift; sourceTree = "<group>"; };
 		42E92A0224F4D38B004EA1C9 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListItemView.swift; sourceTree = "<group>"; };
@@ -229,6 +245,12 @@
 				4217949C250230DA00E5D421 /* HistoryView.swift */,
 				42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */,
 				42FCE304250AE1CB008E50CD /* DurationHistoryDetailView.swift */,
+				42D4F0A2250B4198006F1318 /* RecordDetailView.swift */,
+				42D4F0AA250CACAE006F1318 /* RecordDetailResponseView.swift */,
+				42D4F0AE250EE0FB006F1318 /* RecordDetailTextView.swift */,
+				42D4F0B0250EF8F3006F1318 /* RecordDetailJSONView.swift */,
+				42D4F0A8250C343A006F1318 /* RecordDetailRequestView.swift */,
+				42D4F0A4250B49DB006F1318 /* RecordDetailSummaryView.swift */,
 				421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */,
 			);
 			path = Views;
@@ -247,6 +269,7 @@
 				427A82CA24E4BA3700437A56 /* DataSource.swift */,
 				4214731924E558EA00E61E6E /* JSONWrapper.swift */,
 				42E92A0224F4D38B004EA1C9 /* View.swift */,
+				42D4F0AC250EDB29006F1318 /* Text.swift */,
 				42E92A0824F5C422004EA1C9 /* File.swift */,
 				42E92A0A24F5E661004EA1C9 /* URL.swift */,
 				42FFA90E24F633CA005BFAAC /* Preview.swift */,
@@ -280,6 +303,7 @@
 			children = (
 				42FCE3022509AAD2008E50CD /* DurationHistoryItem.swift */,
 				42FCE306250AE975008E50CD /* DurationHistoryDetailItem.swift */,
+				42D4F0A6250B4B6C006F1318 /* RecordItem.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -402,14 +426,19 @@
 				42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */,
 				42E92A0724F4FCF9004EA1C9 /* ApiListItemView.swift in Sources */,
 				422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */,
+				42D4F0AB250CACAE006F1318 /* RecordDetailResponseView.swift in Sources */,
+				42D4F0A3250B4198006F1318 /* RecordDetailView.swift in Sources */,
 				427471F824D6510500883AD7 /* EntityExtension.swift in Sources */,
 				4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */,
 				42697F3424F285EC005298D9 /* EndPointEditData.swift in Sources */,
 				426F887424B09EE600C039E4 /* ApiEditView.swift in Sources */,
 				42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */,
+				42D4F0B1250EF8F3006F1318 /* RecordDetailJSONView.swift in Sources */,
+				42D4F0AD250EDB29006F1318 /* Text.swift in Sources */,
 				4217949D250230DA00E5D421 /* HistoryView.swift in Sources */,
 				42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */,
 				42E92A0324F4D38B004EA1C9 /* View.swift in Sources */,
+				42D4F0A7250B4B6C006F1318 /* RecordItem.swift in Sources */,
 				42FCE3032509AAD2008E50CD /* DurationHistoryItem.swift in Sources */,
 				427A82CD24E54FEF00437A56 /* JSONView.swift in Sources */,
 				42E92A0B24F5E661004EA1C9 /* URL.swift in Sources */,
@@ -417,6 +446,7 @@
 				428C18C524F6391D0017ECBC /* InfoRow.swift in Sources */,
 				4214731A24E558EA00E61E6E /* JSONWrapper.swift in Sources */,
 				427A82CB24E4BA3700437A56 /* DataSource.swift in Sources */,
+				42D4F0A5250B49DB006F1318 /* RecordDetailSummaryView.swift in Sources */,
 				428784242502F3EE00B732B0 /* LoginManager.swift in Sources */,
 				428028612504452A0042374E /* BackendAgent.swift in Sources */,
 				422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */,
@@ -436,8 +466,10 @@
 				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
 				4290700524F7415700A3771E /* EditWatchValueView.swift in Sources */,
 				423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */,
+				42D4F0A9250C343A006F1318 /* RecordDetailRequestView.swift in Sources */,
 				42BC1B6524D7E8590078402B /* DomainData.swift in Sources */,
 				42FCE307250AE975008E50CD /* DurationHistoryDetailItem.swift in Sources */,
+				42D4F0AF250EE0FB006F1318 /* RecordDetailTextView.swift in Sources */,
 				42E92A0924F5C422004EA1C9 /* File.swift in Sources */,
 				4285FE7224D58479002BEAEF /* Debug.swift in Sources */,
 				42639514249E009E00ADFBE4 /* Tools.swift in Sources */,
