@@ -52,7 +52,31 @@ extension String {
     }
 }
 
-//extension URLSession.DataTaskPublisher {
+extension JSONDecoder {
+    static var backendDecoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        return decoder
+    }
+}
+
+extension Publisher {
+    func parseArrayObjects<T>(to entity: T.Type) -> Publishers.Map<Self, [T]> where Self.Output == JSON, T: Codable {
+        Publishers.Map(upstream: self) { json in
+            json.result.arrayValue.map { json -> T in
+                try! JSONDecoder.backendDecoder.decode(entity, from: json.rawData())
+            }
+        }
+    }
+
+    func parseObject<T>(to entity: T.Type) -> Publishers.Map<Self, T> where Self.Output == JSON, T: Codable {
+        Publishers.Map(upstream: self) { json in
+            try! JSONDecoder.backendDecoder.decode(entity, from: json.rawData())
+        }
+    }
+}
+
+// extension URLSession.DataTaskPublisher {
 //    func debug() -> Publishers.HandleEvents<URLSession.DataTaskPublisher> {
 //        handleEvents(receiveOutput: { data, response in
 //            let info = """
@@ -64,7 +88,7 @@ extension String {
 ////            print(info)
 //        })
 //    }
-//}
+// }
 
 extension Publisher where Output == URLSession.DataTaskPublisher.Output, Failure == URLSession.DataTaskPublisher.Failure {
     func convertToJSON() -> AnyPublisher<Response, ResponseError> {

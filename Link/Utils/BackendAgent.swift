@@ -113,12 +113,9 @@ extension BackendAgent {
     }
 
     func listScanLogs(by endPointId: String) -> AnyPublisher<[DurationHistoryDetailItem], ResponseError> {
-        get(endPoint: "/scanlog/list/\(endPointId)").map { json in
-            json.result.arrayValue.map { (json) -> DurationHistoryDetailItem in
-                try! self.jsonDecoder.decode(DurationHistoryDetailItem.self, from: json.rawData())
-            }
-        }
-        .eraseToAnyPublisher()
+        get(endPoint: "/scanlog/list/\(endPointId)")
+            .parseArrayObjects(to: DurationHistoryDetailItem.self)
+            .eraseToAnyPublisher()
     }
 
     func getScanLog(id: String) -> AnyPublisher<RecordItem, ResponseError> {
