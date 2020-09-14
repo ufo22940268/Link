@@ -13,7 +13,7 @@ typealias StatusCode = Int
 extension StatusCode {
 }
 
-struct RecordItem {
+struct RecordItem: Decodable {
     var duration: TimeInterval
     var statusCode: Int
     var time: Date

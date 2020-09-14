@@ -97,13 +97,34 @@ class BackendAgent {
 // MARK: ScanLog API
 
 extension BackendAgent {
+    var jsonDecoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        return decoder
+    }
+
     func listScanLogs() throws -> AnyPublisher<[DurationHistoryItem], ResponseError> {
         get(endPoint: "/scanlog/list").map { json in
             json["result"].arrayValue.map { (json) -> DurationHistoryItem in
-                let item = DurationHistoryItem(url: json["url"].string!, time: json["time"].string!.toDate()!, duration: json["duration"].double ?? 0)
+                let item = DurationHistoryItem(id: json["id"].string ?? "", url: json["url"].string!, time: json["time"].string!.toDate()!, duration: json["duration"].double ?? 0)
                 return item
             }
         }.eraseToAnyPublisher()
+    }
+
+    func getScanLog(id: String) throws -> AnyPublisher<RecordItem, ResponseError> {
+        get(endPoint: "/scanlog/\(id)").tryMap { json throws in
+            try self.jsonDecoder.decode(RecordItem.self, from: json.result.rawData())
+        }
+        .print()
+        .mapError({ (e) -> ResponseError in
+            if let e = e as? ResponseError {
+                return e
+            } else {
+                return ResponseError.parseError
+            }
+        })
+        .eraseToAnyPublisher()
     }
 }
 
@@ -114,7 +135,7 @@ extension BackendAgent {
         if UIDevice.isPreview {
             return Just(JSON()).setFailureType(to: ResponseError.self).eraseToAnyPublisher()
         }
-        
+
         let url = (URL(string: Self.backendDomain)!.appendingPathComponent(endPoint))
         var req = URLRequest(url: url)
         req.httpMethod = "GET"

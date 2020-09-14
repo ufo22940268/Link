@@ -68,8 +68,11 @@ class EndPointTests: XCTestCase {
         ae.watchValue = "b"
         ee.addToApi(ae)
 
-        try! agent.upsert(endPoint: ee)
-            .sink(receiveCompletion: { _ in exp.fulfill() }, receiveValue: {})
+        try! agent.getScanLog(id: "5f5ecf32cbe6dd601ced1381")
+            .sink(receiveCompletion: { r in
+                print("r", r)
+                exp.fulfill()
+            }, receiveValue: {_ in })
             .store(in: &cancellables)
 
         wait(for: [exp], timeout: 3)

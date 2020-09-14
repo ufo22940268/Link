@@ -26,8 +26,6 @@ struct RecordDetailResponseView: View {
                 return "文本"
             case .json:
                 return "JSON"
-            default:
-                return ""
             }
         }
     }

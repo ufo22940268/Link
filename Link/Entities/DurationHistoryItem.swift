@@ -9,6 +9,7 @@
 import Foundation
 
 struct DurationHistoryItem {
+    var id: String
     var url: String
     var time: Date
     var duration: TimeInterval    

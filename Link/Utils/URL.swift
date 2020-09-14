@@ -52,6 +52,20 @@ extension String {
     }
 }
 
+//extension URLSession.DataTaskPublisher {
+//    func debug() -> Publishers.HandleEvents<URLSession.DataTaskPublisher> {
+//        handleEvents(receiveOutput: { data, response in
+//            let info = """
+//            =====================request start======================
+//            url: \(String(describing: response.url))
+//            response:  \(String(describing: String(data: data, encoding: .utf8)))
+//            =====================end======================
+//            """
+////            print(info)
+//        })
+//    }
+//}
+
 extension Publisher where Output == URLSession.DataTaskPublisher.Output, Failure == URLSession.DataTaskPublisher.Failure {
     func convertToJSON() -> AnyPublisher<Response, ResponseError> {
         return tryMap { (data, _) throws -> JSON in
