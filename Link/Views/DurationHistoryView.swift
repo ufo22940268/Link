@@ -11,7 +11,7 @@ import SwiftUI
 import SwiftUICharts
 
 let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).reversed().map { i in
-    let t = DurationHistoryItem(id: "5f5f130360d3d76e96adc738", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!))
+    let t = DurationHistoryItem(id: "5f5f130360d3d76e96adc738", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!), endPointId: "")
     return t
 }
 
@@ -19,18 +19,19 @@ class DurationHistoryData: ObservableObject {
     @Published var items: [DurationHistoryItem]? = nil
     var loadDataCancellable: AnyCancellable?
 
-    var chartData: [String: (ChartValues, DateInterval)] {
+    var chartData: [String: (ChartValues, DateInterval, ObjectId)] {
         if let items = items {
             return Dictionary(grouping: items) { item in
                 item.url
             }.mapValues { items in
                 let items = items.sorted { $0.time > $1.time }
                 if items.isEmpty {
-                    return ([], DateInterval())
+                    return ([], DateInterval(), "")
                 }
 
                 var ar = [(String, Double)]()
                 let maxTime = items.first!.time
+                let endPointId = items.first!.endPointId
                 
                 let interval = DateInterval(start: items.last!.time, end: maxTime)
                 for i in (0 ..< 10).reversed() {
@@ -42,7 +43,7 @@ class DurationHistoryData: ObservableObject {
                         ar.append((end.formatTime, 0))
                     }
                 }
-                return (ar, interval)
+                return (ar, interval, endPointId)
             }
         } else {
             return [:]
@@ -81,7 +82,7 @@ struct DurationHistoryView: View {
                                 .padding(0)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
-                        NavigationLink(destination: DurationHistoryDetailView(url: url)) {
+                        NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: self.durationData.chartData[url]!.2)) {
                             EmptyView().opacity(0)
                         }
                     }.frame(height: 240, alignment: .center)

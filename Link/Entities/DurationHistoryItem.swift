@@ -8,9 +8,12 @@
 
 import Foundation
 
+typealias ObjectId = String
+
 struct DurationHistoryItem {
-    var id: String
+    var id: ObjectId
     var url: String
     var time: Date
-    var duration: TimeInterval    
+    var duration: TimeInterval
+    var endPointId: ObjectId
 }

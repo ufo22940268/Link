@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DurationHistoryDetailItem: Identifiable {
+struct DurationHistoryDetailItem: Identifiable, Codable {
     var id: String
     var time: Date
     var duration: TimeInterval
