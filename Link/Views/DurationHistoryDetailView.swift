@@ -47,7 +47,7 @@ struct DurationHistoryDetailView: View {
                             HStack {
                                 Text(item.time.formatTime)
                                 Spacer()
-                                Text((item.duration / 1000).formatDuration).foregroundColor(.gray)
+                                Text((item.duration).formatDuration).foregroundColor(.gray)
                             }
                         }
                     }

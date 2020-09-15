@@ -23,7 +23,7 @@ struct HistoryView: View {
         }
     }
 
-    @State var type: HistoryType = .error
+    @State var type: HistoryType = .duration
 
     var contentView: some View {
         NavigationView {

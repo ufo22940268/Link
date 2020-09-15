@@ -16,8 +16,8 @@ struct RecordDetailJSONView: View {
     }
 
     var body: some View {
-        ZStack {
-            Text(json).padding(20)
+        ScrollView {
+            Text(json).padding(20).font(.footnote)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }

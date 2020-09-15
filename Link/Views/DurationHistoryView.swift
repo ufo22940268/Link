@@ -10,35 +10,50 @@ import Combine
 import SwiftUI
 import SwiftUICharts
 
+extension Array where Self.Element == ScanLog {
+    func partitionByDomainName() -> [String: [String: [ScanLog]]] {
+        Dictionary(grouping: self) { t in
+            t.url.domainName
+        }
+        .mapValues({ ar in
+            Dictionary(grouping: ar) { t in
+                t.url
+            }
+        })
+    }
+}
+
+typealias DurationSectionData = (ChartValues, DateInterval, ObjectId)
+
 class DurationHistoryData: ObservableObject {
     @Published var items: [ScanLog]? = nil
     var loadDataCancellable: AnyCancellable?
 
-    var chartData: [String: (ChartValues, DateInterval, ObjectId)] {
+    var chartData: [String: [String: DurationSectionData]] {
         if let items = items {
-            return Dictionary(grouping: items) { item in
-                item.url
-            }.mapValues { items in
-                let items = items.sorted { $0.time > $1.time }
-                if items.isEmpty {
-                    return ([], DateInterval(), "")
-                }
-
-                var ar = [(String, Double)]()
-                let maxTime = items.first!.time
-                let endPointId = items.first!.endPointId
-
-                let interval = DateInterval(start: items.last!.time, end: maxTime)
-                for i in (0 ..< 10).reversed() {
-                    let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
-                    let end = maxTime - 60 * 5 * TimeInterval(i)
-                    if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
-                        ar.append((end.formatTime, item.duration))
-                    } else {
-                        ar.append((end.formatTime, 0))
+            return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
+                dict.mapValues({ (items: [ScanLog]) -> DurationSectionData in
+                    let items = items.sorted { $0.time > $1.time }
+                    if items.isEmpty {
+                        return ([], DateInterval(), "")
                     }
-                }
-                return (ar, interval, endPointId)
+
+                    var ar = [(String, Double)]()
+                    let maxTime = items.first!.time
+                    let endPointId = items.first!.endPointId
+
+                    let interval = DateInterval(start: items.last!.time, end: maxTime)
+                    for i in (0 ..< 10).reversed() {
+                        let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
+                        let end = maxTime - 60 * 5 * TimeInterval(i)
+                        if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
+                            ar.append((end.formatTime, item.duration))
+                        } else {
+                            ar.append((end.formatTime, 0))
+                        }
+                    }
+                    return (ar, interval, endPointId)
+                })
             }
         } else {
             return [:]
@@ -61,30 +76,38 @@ typealias ChartValues = [(String, Double)]
 
 struct DurationHistoryView: View {
     @ObservedObject var durationData = DurationHistoryData()
+    
+    func rowView(url: String, rowData: DurationSectionData) -> AnyView {
+        AnyView(GeometryReader { proxy in
+            ZStack {
+                BarChartView(data: ChartData(values: rowData.0),
+                             title: url.endPointPath ?? "",
+                             legend: "",
+                             rightLegend: rowData.1.end.formatTime,
+                             style: Styles.barChartStyleNeonBlueLight,
+                             form: CGSize(width: proxy.size.width, height: 240),
+                             dropShadow: false,
+                             cornerImage: Image(systemName: "timer"),
+                             valueSpecifier: "%.0fms")
+                    .padding(0)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: rowData.2)) {
+                EmptyView().opacity(0)
+            }
+        }.frame(height: 240, alignment: .center))
+    }
 
     var body: some View {
         List {
-            ForEach(Array(durationData.chartData.keys).sorted { $0 < $1 }, id: \.self) { url in
-                Section {
-                    GeometryReader { proxy in
-                        ZStack {
-                            BarChartView(data: ChartData(values: self.durationData.chartData[url]!.0),
-                                         title: url.endPointPath ?? "",
-                                         legend: "",
-                                         rightLegend: self.durationData.chartData[url]!.1.end.formatTime,
-                                         style: Styles.barChartStyleNeonBlueLight,
-                                         form: CGSize(width: proxy.size.width, height: 240),
-                                         dropShadow: false,
-                                         cornerImage: Image(systemName: "timer"),
-                                         valueSpecifier: "%.0fms")
-                                .padding(0)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: self.durationData.chartData[url]!.2)) {
-                            EmptyView().opacity(0)
-                        }
-                    }.frame(height: 240, alignment: .center)
-                }
+            ForEach(Array(durationData.chartData.keys).sorted(), id: \.self) { (domain: String) -> AnyView in
+                let m: [String: DurationSectionData] = self.durationData.chartData[domain]!
+                let urls: [String] = Array(m.keys).sorted()
+                return AnyView(Section(header: Text(domain)) {
+                    ForEach(urls, id: \.self) { url in
+                        self.rowView(url: url, rowData: m[url]!)
+                    }
+                })
             }
         }
         .onAppear {

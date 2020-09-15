@@ -12,8 +12,8 @@ struct RecordDetailTextView: View {
     var text: String
 
     var body: some View {
-        ZStack {
-            Text(text).padding(20)
+        ScrollView {
+            Text(text).padding(20).font(.footnote)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
