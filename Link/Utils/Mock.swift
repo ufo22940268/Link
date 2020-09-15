@@ -26,10 +26,11 @@ Proxy-Connection: keep-alive
 let testScanLogId = "5f5f130360d3d76e96adc738"
 let testEndPointId = "5f57428124eeb35312387497"
 
-let testErrorItems: [ErrorHistoryItem] = (0 ..< 10).reversed().map { i in
-    let id: String = i == 0 ? testScanLogId : String(i)
-    return ErrorHistoryItem(id: id, url: "/a/b", time: Date() - TimeInterval(5 * 60 * i), errorCount: Int.random(in: 0..<10), endPointId: testEndPointId)
+let testScanLogs: [ScanLog] = (0 ..< 10).reversed().map { i in
+    let t = ScanLog(id: "5f5f130360d3d76e96adc738", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!), errorCount: i, endPointId: "")
+    return t
 }
+
 
 let testDurationDetailItems = [
     DurationHistoryDetailItem(id: "5f5f130360d3d76e96adc738", time: Date(), duration: 30),

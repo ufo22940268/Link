@@ -8,10 +8,13 @@
 
 import Foundation
 
-struct ErrorHistoryItem: Identifiable {
+typealias ObjectId = String
+
+struct ScanLog: Identifiable {
     var id: ObjectId
     var url: String
     var time: Date
+    var duration: TimeInterval
     var errorCount: Int
     var endPointId: ObjectId
 }

@@ -11,7 +11,7 @@ import SwiftUI
 import SwiftUICharts
 
 class ErrorHistoryData: ObservableObject {
-    @Published var items: [ErrorHistoryItem]? = nil
+    @Published var items: [ScanLog]? = nil
     var loadDataCancellable: AnyCancellable?
 
     var chartData: [String: (ChartValues, DateInterval, ObjectId)] {
@@ -95,7 +95,7 @@ struct ErrorHistoryView: View {
 struct ErrorHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         let view = ErrorHistoryView()
-        view.errorData.items = testErrorItems
+        view.errorData.items = testScanLogs
         return view
     }
 }

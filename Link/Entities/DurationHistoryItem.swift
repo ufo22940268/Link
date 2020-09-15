@@ -10,10 +10,11 @@ import Foundation
 
 typealias ObjectId = String
 
-struct DurationHistoryItem {
+struct ScanLog {
     var id: ObjectId
     var url: String
     var time: Date
     var duration: TimeInterval
+    var errorCount: Int
     var endPointId: ObjectId
 }

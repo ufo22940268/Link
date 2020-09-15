@@ -11,10 +11,10 @@ import SwiftUI
 
 class ErrorHistoryDetailData: ObservableObject {
     @Published var url: String = ""
-    @Published var items = [ErrorHistoryItem]()
+    @Published var items = [ScanLog]()
     var loadCancellable: AnyCancellable?
 
-    var itemMap: [Date: [ErrorHistoryItem]] {
+    var itemMap: [Date: [ScanLog]] {
         Dictionary(grouping: items) { item in
             item.time.startOfDay
         }
@@ -69,7 +69,7 @@ struct ErrorHistoryDetailView: View {
 struct ErrorHistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let view = ErrorHistoryDetailView(url: "http://api.xinpinget.com/review/detail/56d92a5263f628d12b053be4", endPointId: "")
-        view.errorDetailData.items = testErrorItems
+        view.errorDetailData.items = testScanLogs
         return NavigationView {
             view
         }

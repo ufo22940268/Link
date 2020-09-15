@@ -10,13 +10,8 @@ import Combine
 import SwiftUI
 import SwiftUICharts
 
-let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).reversed().map { i in
-    let t = DurationHistoryItem(id: "5f5f130360d3d76e96adc738", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!), endPointId: "")
-    return t
-}
-
 class DurationHistoryData: ObservableObject {
-    @Published var items: [DurationHistoryItem]? = nil
+    @Published var items: [ScanLog]? = nil
     var loadDataCancellable: AnyCancellable?
 
     var chartData: [String: (ChartValues, DateInterval, ObjectId)] {
@@ -53,7 +48,7 @@ class DurationHistoryData: ObservableObject {
     func loadData() {
         loadDataCancellable = try? BackendAgent()
             .listScanLogs()
-            .map { items -> [DurationHistoryItem]? in
+            .map { items -> [ScanLog]? in
                 items
             }
             .replaceError(with: nil)
@@ -101,7 +96,7 @@ struct DurationHistoryView: View {
 struct DurationHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         let view = DurationHistoryView()
-        view.durationData.items = testHistoryItems
+        view.durationData.items = testScanLogs
         return view
     }
 }

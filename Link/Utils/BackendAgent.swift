@@ -103,10 +103,10 @@ extension BackendAgent {
         return decoder
     }
 
-    func listScanLogs() throws -> AnyPublisher<[DurationHistoryItem], ResponseError> {
+    func listScanLogs() throws -> AnyPublisher<[ScanLog], ResponseError> {
         get(endPoint: "/scanlog/list").map { json in
-            json["result"].arrayValue.map { (json) -> DurationHistoryItem in
-                let item = DurationHistoryItem(id: json["id"].string ?? "", url: json["url"].string!, time: json["time"].string!.toDate()!, duration: json["duration"].double ?? 0, endPointId: json["endPointId"].string!)
+            json["result"].arrayValue.map { (json) -> ScanLog in
+                let item = ScanLog(id: json["id"].string ?? "", url: json["url"].string!, time: json["time"].string!.toDate()!, duration: json["duration"].double ?? 0, errorCount: json["errorCount"].int ?? 0, endPointId: json["endPointId"].string!)
                 return item
             }
         }.eraseToAnyPublisher()
