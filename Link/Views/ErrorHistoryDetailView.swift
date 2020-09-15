@@ -12,12 +12,13 @@ import SwiftUI
 class ErrorHistoryDetailData: ObservableObject {
     @Published var url: String = ""
     @Published var items = [ErrorHistoryItem]()
-    var loadCancellable: AnyCancellable? = nil
-    
+    var loadCancellable: AnyCancellable?
+
     var itemMap: [Date: [ErrorHistoryItem]] {
         Dictionary(grouping: items) { item in
             item.time.startOfDay
         }
+        .mapValues { $0.sorted { $0.time > $1.time } }
     }
 
     func load(by endPointId: String) {

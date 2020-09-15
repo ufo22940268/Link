@@ -27,7 +27,8 @@ let testScanLogId = "5f5f130360d3d76e96adc738"
 let testEndPointId = "5f57428124eeb35312387497"
 
 let testErrorItems: [ErrorHistoryItem] = (0 ..< 10).reversed().map { i in
-    ErrorHistoryItem(id: testScanLogId, url: "/a/b", time: Date() - TimeInterval(5 * 60 * i), errorCount: Int.random(in: 0..<10), endPointId: testEndPointId)
+    let id: String = i == 0 ? testScanLogId : String(i)
+    return ErrorHistoryItem(id: id, url: "/a/b", time: Date() - TimeInterval(5 * 60 * i), errorCount: Int.random(in: 0..<10), endPointId: testEndPointId)
 }
 
 let testDurationDetailItems = [
