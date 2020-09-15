@@ -23,7 +23,7 @@ struct HistoryView: View {
         }
     }
 
-    @State var type: HistoryType = .duration
+    @State var type: HistoryType = .error
 
     var contentView: some View {
         NavigationView {
@@ -36,7 +36,11 @@ struct HistoryView: View {
                 .fixedSize()
                 .pickerStyle(SegmentedPickerStyle())
                 .environment(\.horizontalSizeClass, .compact)
-                DurationHistoryView()
+                if type == .duration {
+                    DurationHistoryView()
+                } else if type == .error {
+                    ErrorHistoryView()
+                }
             }
             .navigationBarHidden(true)
             .listStyle(GroupedListStyle())

@@ -32,7 +32,7 @@ let testScanLogs: [ScanLog] = (0 ..< 10).reversed().map { i in
 }
 
 
-let testDurationDetailItems = [
-    DurationHistoryDetailItem(id: "5f5f130360d3d76e96adc738", time: Date(), duration: 30),
-    DurationHistoryDetailItem(id: "5f5f130360d3d76e96adc738", time: Date(timeIntervalSince1970: 20), duration: 20),
+let testScanLogDetails = [
+    ScanLogDetail(id: "5f5f130360d3d76e96adc738", time: Date(), duration: 30, errorCount: 2),
+    ScanLogDetail(id: "5f5f130360d3d76e96adc738", time: Date(timeIntervalSince1970: 20), duration: 20, errorCount: 10),
 ]

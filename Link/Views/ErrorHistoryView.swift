@@ -46,14 +46,14 @@ class ErrorHistoryData: ObservableObject {
     }
 
     func loadData() {
-//        loadDataCancellable = try? BackendAgent()
-//            .listScanLogs()
-//            .map { items -> [DurationHistoryItem]? in
-//                items
-//            }
-//            .replaceError(with: nil)
-//            .receive(on: DispatchQueue.main)
-//            .assign(to: \.items, on: self)
+        loadDataCancellable = try? BackendAgent()
+            .listScanLogs()
+            .map { items -> [ScanLog]? in
+                items
+            }
+            .replaceError(with: nil)
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.items, on: self)
     }
 }
 
@@ -79,13 +79,13 @@ struct ErrorHistoryView: View {
                                 .padding(0)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
-                        NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: self.errorData.chartData[url]!.2)) {
+                        NavigationLink(destination: ErrorHistoryDetailView(url: url, endPointId: self.errorData.chartData[url]!.2)) {
                             EmptyView().opacity(0)
                         }
                     }.frame(height: 240, alignment: .center)
                 }
             }
-        }
+         }
         .onAppear {
             self.errorData.loadData()
         }

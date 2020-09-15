@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct DurationHistoryDetailItem: Identifiable, Codable {
+struct ScanLogDetail: Identifiable, Codable {
     var id: String
     var time: Date
     var duration: TimeInterval
+    var errorCount: Int
 }

@@ -11,10 +11,10 @@ import SwiftUI
 
 class DurationHistoryDetailData: ObservableObject {
     @Published var url: String = ""
-    @Published var items = [DurationHistoryDetailItem]()
+    @Published var items = [ScanLogDetail]()
     var loadCancellable: AnyCancellable? = nil
     
-    var itemMap: [Date: [DurationHistoryDetailItem]] {
+    var itemMap: [Date: [ScanLogDetail]] {
         Dictionary(grouping: items) { item in
             item.time.startOfDay
         }
@@ -68,7 +68,7 @@ struct DurationHistoryDetailView: View {
 struct DurationHistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let view = DurationHistoryDetailView(url: "http://api.xinpinget.com/review/detail/56d92a5263f628d12b053be4", endPointId: "")
-        view.durationDetailData.items = testDurationDetailItems
+        view.durationDetailData.items = testScanLogDetails
         return NavigationView {
             view
         }
