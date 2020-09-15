@@ -10,13 +10,8 @@ import Combine
 import SwiftUI
 import SwiftUICharts
 
-let testHistoryItems: [DurationHistoryItem] = (0 ..< 10).reversed().map { i in
-    let t = DurationHistoryItem(id: "5f5f130360d3d76e96adc738", url: "/a/b", time: Date() - 5 * 60 * TimeInterval(i), duration: TimeInterval((0 ..< 100).randomElement()!), endPointId: "")
-    return t
-}
-
-class DurationHistoryData: ObservableObject {
-    @Published var items: [DurationHistoryItem]? = nil
+class ErrorHistoryData: ObservableObject {
+    @Published var items: [ErrorHistoryItem]? = nil
     var loadDataCancellable: AnyCancellable?
 
     var chartData: [String: (ChartValues, DateInterval, ObjectId)] {
@@ -38,7 +33,7 @@ class DurationHistoryData: ObservableObject {
                     let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
                     let end = maxTime - 60 * 5 * TimeInterval(i)
                     if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
-                        ar.append((end.formatTime, item.duration))
+                        ar.append((end.formatTime, Double(item.errorCount)))
                     } else {
                         ar.append((end.formatTime, 0))
                     }
@@ -51,41 +46,40 @@ class DurationHistoryData: ObservableObject {
     }
 
     func loadData() {
-        loadDataCancellable = try? BackendAgent()
-            .listScanLogs()
-            .map { items -> [DurationHistoryItem]? in
-                items
-            }
-            .replaceError(with: nil)
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.items, on: self)
+//        loadDataCancellable = try? BackendAgent()
+//            .listScanLogs()
+//            .map { items -> [DurationHistoryItem]? in
+//                items
+//            }
+//            .replaceError(with: nil)
+//            .receive(on: DispatchQueue.main)
+//            .assign(to: \.items, on: self)
     }
 }
 
-typealias ChartValues = [(String, Double)]
-
-struct DurationHistoryView: View {
-    @ObservedObject var durationData = DurationHistoryData()
+struct ErrorHistoryView: View {
+    
+    @ObservedObject var errorData = ErrorHistoryData()
 
     var body: some View {
         List {
-            ForEach(Array(durationData.chartData.keys).sorted { $0 < $1 }, id: \.self) { url in
+            ForEach(Array(errorData.chartData.keys).sorted { $0 < $1 }, id: \.self) { url in
                 Section {
                     GeometryReader { proxy in
                         ZStack {
-                            BarChartView(data: ChartData(values: self.durationData.chartData[url]!.0),
+                            BarChartView(data: ChartData(values: self.errorData.chartData[url]!.0),
                                          title: url.endPointPath ?? "",
                                          legend: "",
-                                         rightLegend: self.durationData.chartData[url]!.1.end.formatTime,
-                                         style: Styles.barChartStyleNeonBlueLight,
+                                         rightLegend: self.errorData.chartData[url]!.1.end.formatTime,
+                                         style: Styles.barChartStyleOrangeLight,
                                          form: CGSize(width: proxy.size.width, height: 240),
                                          dropShadow: false,
-                                         cornerImage: Image(systemName: "timer"),
-                                         valueSpecifier: "%.0fms")
+                                         cornerImage: Image(systemName: "exclamationmark.triangle"),
+                                         valueSpecifier: "%d")
                                 .padding(0)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
-                        NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: self.durationData.chartData[url]!.2)) {
+                        NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: self.errorData.chartData[url]!.2)) {
                             EmptyView().opacity(0)
                         }
                     }.frame(height: 240, alignment: .center)
@@ -93,15 +87,15 @@ struct DurationHistoryView: View {
             }
         }
         .onAppear {
-            self.durationData.loadData()
+            self.errorData.loadData()
         }
     }
 }
 
-struct DurationHistoryView_Previews: PreviewProvider {
+struct ErrorHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = DurationHistoryView()
-        view.durationData.items = testHistoryItems
+        let view = ErrorHistoryView()
+        view.errorData.items = testErrorItems
         return view
     }
 }
