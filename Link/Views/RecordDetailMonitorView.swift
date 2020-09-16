@@ -12,7 +12,7 @@ struct RecordDetailMonitorView: View {
     var item: RecordItem
 
     func fieldView(_ field: RecordItem.WatchField) -> some View {
-        NavigationLink(destination: EmptyView()) {
+        NavigationLink(destination: ReadOnlyApiDetailView(watchField: field).navigationBarTitle("监控")) {
             Text(field.path)
         }
     }

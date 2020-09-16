@@ -64,6 +64,7 @@
 		42EC0604251043CB00921F38 /* ErrorHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC0603251043CB00921F38 /* ErrorHistoryView.swift */; };
 		42EC060825104EFC00921F38 /* ErrorHistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */; };
 		42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */; };
+		42EC060C2511DF2D00921F38 /* ReadOnlyApiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC060B2511DF2D00921F38 /* ReadOnlyApiDetailView.swift */; };
 		42FCE2FD2509029C008E50CD /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 42FCE2FC2509029C008E50CD /* SwiftUICharts */; };
 		42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */; };
 		42FCE3032509AAD2008E50CD /* ScanLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCE3022509AAD2008E50CD /* ScanLog.swift */; };
@@ -147,6 +148,7 @@
 		42EC0603251043CB00921F38 /* ErrorHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHistoryView.swift; sourceTree = "<group>"; };
 		42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHistoryDetailView.swift; sourceTree = "<group>"; };
 		42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailMonitorView.swift; sourceTree = "<group>"; };
+		42EC060B2511DF2D00921F38 /* ReadOnlyApiDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyApiDetailView.swift; sourceTree = "<group>"; };
 		42FCE2FE25098AF3008E50CD /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../ChartView; sourceTree = "<group>"; };
 		42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationHistoryView.swift; sourceTree = "<group>"; };
 		42FCE3022509AAD2008E50CD /* ScanLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanLog.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				426F887324B09EE600C039E4 /* ApiEditView.swift */,
 				42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */,
 				4285FE3B24D3FAC5002BEAEF /* ApiDetailView.swift */,
+				42EC060B2511DF2D00921F38 /* ReadOnlyApiDetailView.swift */,
 				4290700424F7415700A3771E /* EditWatchValueView.swift */,
 				42DAFACB24DA3A850093869D /* JSONViewerView.swift */,
 				42522CAF24FE1BBA000E8B09 /* ApiSectionView.swift */,
@@ -463,6 +466,7 @@
 				42EC0604251043CB00921F38 /* ErrorHistoryView.swift in Sources */,
 				42D4F0A5250B49DB006F1318 /* RecordDetailSummaryView.swift in Sources */,
 				428784242502F3EE00B732B0 /* LoginManager.swift in Sources */,
+				42EC060C2511DF2D00921F38 /* ReadOnlyApiDetailView.swift in Sources */,
 				428028612504452A0042374E /* BackendAgent.swift in Sources */,
 				422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */,
 				42FCE305250AE1CB008E50CD /* DurationHistoryDetailView.swift in Sources */,
