@@ -11,15 +11,15 @@ import SwiftUI
 
 enum RecordDetailSegment: Int, RawRepresentable, CaseIterable {
     case summary = 0
-//    case request = 1
+    case monitor = 1
     case response = 2
 
     var label: String {
         switch self {
         case .summary:
             return "概览"
-//        case .request:
-//            return "请求"
+        case .monitor:
+            return "监控"
         case .response:
             return "返回"
         }
@@ -41,7 +41,7 @@ class RecordDetailData: ObservableObject {
 }
 
 struct RecordDetailView: View {
-    @State var segment = RecordDetailSegment.summary
+    @State var segment = RecordDetailSegment.monitor
     @ObservedObject var recordData = RecordDetailData()
     var scanLogId: String
 
@@ -54,13 +54,18 @@ struct RecordDetailView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .fixedSize()
-            if recordData.item != nil {
-                if segment == .summary {
-                    RecordDetailSummaryView(item: recordData.item!)
-                } else if segment == .response {
-                    RecordDetailResponseView(item: recordData.item!)
+            ZStack {
+                if recordData.item != nil {
+                    if segment == .summary {
+                        RecordDetailSummaryView(item: recordData.item!)
+                    } else if segment == .monitor {
+                        RecordDetailMonitorView(item: recordData.item!)
+                    } else if segment == .response {
+                        RecordDetailResponseView(item: recordData.item!)
+                    }
                 }
             }
+            .frame(maxHeight: .infinity)
         }
         .padding(.top)
         .listStyle(GroupedListStyle())

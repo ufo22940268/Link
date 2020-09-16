@@ -107,7 +107,7 @@ struct DurationHistoryView: View {
             ForEach(Array(durationData.chartData.keys).sorted(), id: \.self) { (domain: String) -> AnyView in
                 let m: [String: DurationSectionData] = self.durationData.chartData[domain]!
                 let urls: [String] = Array(m.keys).sorted()
-                return AnyView(Section(header: Text(domain)) {
+                return AnyView(Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
                     ForEach(urls, id: \.self) { url in
                         self.rowView(url: url, rowData: m[url]!)
                     }

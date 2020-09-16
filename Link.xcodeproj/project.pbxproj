@@ -63,6 +63,7 @@
 		42EC0602250F548500921F38 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC0601250F548500921F38 /* Mock.swift */; };
 		42EC0604251043CB00921F38 /* ErrorHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC0603251043CB00921F38 /* ErrorHistoryView.swift */; };
 		42EC060825104EFC00921F38 /* ErrorHistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */; };
+		42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */; };
 		42FCE2FD2509029C008E50CD /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 42FCE2FC2509029C008E50CD /* SwiftUICharts */; };
 		42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */; };
 		42FCE3032509AAD2008E50CD /* ScanLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCE3022509AAD2008E50CD /* ScanLog.swift */; };
@@ -145,6 +146,7 @@
 		42EC0601250F548500921F38 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		42EC0603251043CB00921F38 /* ErrorHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHistoryView.swift; sourceTree = "<group>"; };
 		42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHistoryDetailView.swift; sourceTree = "<group>"; };
+		42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailMonitorView.swift; sourceTree = "<group>"; };
 		42FCE2FE25098AF3008E50CD /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../ChartView; sourceTree = "<group>"; };
 		42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationHistoryView.swift; sourceTree = "<group>"; };
 		42FCE3022509AAD2008E50CD /* ScanLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanLog.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				42FCE304250AE1CB008E50CD /* DurationHistoryDetailView.swift */,
 				42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */,
 				42D4F0A2250B4198006F1318 /* RecordDetailView.swift */,
+				42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */,
 				42D4F0AA250CACAE006F1318 /* RecordDetailResponseView.swift */,
 				42D4F0AE250EE0FB006F1318 /* RecordDetailTextView.swift */,
 				42D4F0B0250EF8F3006F1318 /* RecordDetailJSONView.swift */,
@@ -467,6 +470,7 @@
 				422B6D21249C96CF00D2F10D /* DomainEndPointListView.swift in Sources */,
 				422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */,
 				42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */,
+				42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */,
 				42FFA90F24F633CA005BFAAC /* Preview.swift in Sources */,
 				426843AB24F9EBED0075B1F9 /* MultilineTextField.swift in Sources */,
 				426843A924F9D1B20075B1F9 /* ApiDetailData.swift in Sources */,

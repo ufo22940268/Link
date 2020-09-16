@@ -10,9 +10,6 @@ import Foundation
 
 typealias StatusCode = Int
 
-extension StatusCode {
-}
-
 struct RecordItem: Decodable {
     var duration: TimeInterval
     var statusCode: Int
@@ -20,4 +17,26 @@ struct RecordItem: Decodable {
     var requestHeader: String
     var responseHeader: String
     var responseBody: String
+    var fields: [WatchField]
+
+    struct WatchField: Decodable, Identifiable {
+        var id: String {
+            path
+        }
+        var path: String
+        var value: String
+        var watchValue: String
+
+        var match: Bool {
+            return value == watchValue
+        }
+    }
+
+    var okFields: [WatchField] {
+        fields.filter { $0.match }
+    }
+
+    var failedFields: [WatchField] {
+        fields.filter { !$0.match }
+    }
 }

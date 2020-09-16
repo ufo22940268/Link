@@ -72,7 +72,6 @@ struct ErrorHistoryView: View {
                 BarChartView(data: ChartData(values: data.0),
                              title: url.endPointPath ?? "",
                              legend: self.totalErrorCount(data.0) > 0 ? "\(String(self.totalErrorCount(data.0))) 个错误" : "",
-                             rightLegend: data.1.end.formatTime,
                              style: Styles.barChartStyleOrangeLight,
                              form: CGSize(width: proxy.size.width, height: 240),
                              dropShadow: false,
@@ -92,7 +91,7 @@ struct ErrorHistoryView: View {
             ForEach(Array(errorData.chartData.keys).sorted { $0 < $1 }, id: \.self) { domain -> AnyView in
                 let m: [String: ErrorSectionData] = self.errorData.chartData[domain]!
                 return AnyView(
-                    Section(header: Text(domain)) {
+                    Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
                         ForEach(Array(m.keys).sorted(), id: \.self) { url in
                             self.rowView(url: url, data: m[url]!)
                         }

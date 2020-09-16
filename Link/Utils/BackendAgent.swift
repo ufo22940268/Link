@@ -119,16 +119,9 @@ extension BackendAgent {
     }
 
     func getScanLog(id: String) -> AnyPublisher<RecordItem, ResponseError> {
-        get(endPoint: "/scanlog/\(id)").tryMap { json throws in
-            try self.jsonDecoder.decode(RecordItem.self, from: json.result.rawData())
+        get(endPoint: "/scanlog/\(id)").map { json in
+            try! self.jsonDecoder.decode(RecordItem.self, from: json.result.rawData())
         }
-        .mapError({ (e) -> ResponseError in
-            if let e = e as? ResponseError {
-                return e
-            } else {
-                return ResponseError.parseError
-            }
-        })
         .eraseToAnyPublisher()
     }
 }
