@@ -44,7 +44,7 @@ struct ErrorHistoryDetailView: View {
             ForEach(errorDetailData.itemMap.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date.formatDate)) {
                     ForEach(self.errorDetailData.itemMap[date]!) { item in
-                        NavigationLink(destination: RecordDetailView(scanLogId: item.id)) {
+                        NavigationLink(destination: RecordDetailView(segment: .monitor, scanLogId: item.id)) {
                             HStack {
                                 Text(item.time.formatTime)
                                 Spacer()

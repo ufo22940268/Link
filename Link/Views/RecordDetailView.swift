@@ -41,7 +41,7 @@ class RecordDetailData: ObservableObject {
 }
 
 struct RecordDetailView: View {
-    @State var segment = RecordDetailSegment.monitor
+    @State var segment = RecordDetailSegment.summary
     @ObservedObject var recordData = RecordDetailData()
     var scanLogId: String
 
