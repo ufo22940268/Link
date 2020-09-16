@@ -20,7 +20,7 @@ struct RecordDetailMonitorView: View {
     var body: some View {
         List {
             if !item.failedFields.isEmpty {
-                Section(header: Text("报警")) {
+                Section(header: Text("报警字段")) {
                     ForEach(item.failedFields) { field in
                         self.fieldView(field)
                     }
@@ -28,7 +28,7 @@ struct RecordDetailMonitorView: View {
             }
 
             if !item.okFields.isEmpty {
-                Section(header: Text("正常")) {
+                Section(header: Text("正常字段")) {
                     ForEach(item.okFields) { field in
                         self.fieldView(field)
                     }

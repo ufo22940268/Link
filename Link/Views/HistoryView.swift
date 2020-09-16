@@ -12,13 +12,13 @@ import SwiftUICharts
 struct HistoryView: View {
     enum HistoryType: Int, CaseIterable {
         case duration
-        case error
+        case monitor
         var label: String {
             switch self {
             case .duration:
-                return "返回时间"
-            case .error:
-                return "错误"
+                return "时长"
+            case .monitor:
+                return "监控"
             }
         }
     }
@@ -38,8 +38,8 @@ struct HistoryView: View {
                 .environment(\.horizontalSizeClass, .compact)
                 if type == .duration {
                     DurationHistoryView()
-                } else if type == .error {
-                    ErrorHistoryView()
+                } else if type == .monitor {
+                    MonitorHistoryView()
                 }
             }
             .navigationBarHidden(true)

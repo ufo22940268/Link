@@ -12,7 +12,7 @@ import SwiftUICharts
 
 typealias ErrorSectionData = (ChartValues, DateInterval, ObjectId)
 
-class ErrorHistoryData: ObservableObject {
+class MonitorHistoryData: ObservableObject {
     @Published var items: [ScanLog]? = nil
     var loadDataCancellable: AnyCancellable?
 
@@ -59,8 +59,8 @@ class ErrorHistoryData: ObservableObject {
     }
 }
 
-struct ErrorHistoryView: View {
-    @ObservedObject var errorData = ErrorHistoryData()
+struct MonitorHistoryView: View {
+    @ObservedObject var errorData = MonitorHistoryData()
 
     func totalErrorCount(_ data: ChartValues) -> Int {
         data.reduce(0, { $0 + Int($1.1) })
@@ -71,7 +71,7 @@ struct ErrorHistoryView: View {
             ZStack {
                 BarChartView(data: ChartData(values: data.0),
                              title: url.endPointPath ?? "",
-                             legend: self.totalErrorCount(data.0) > 0 ? "\(String(self.totalErrorCount(data.0))) 个错误" : "",
+                             legend: self.totalErrorCount(data.0) > 0 ? "\(String(self.totalErrorCount(data.0))) 个报警" : "",
                              style: Styles.barChartStyleOrangeLight,
                              form: CGSize(width: proxy.size.width, height: 240),
                              dropShadow: false,
@@ -107,7 +107,7 @@ struct ErrorHistoryView: View {
 
 struct ErrorHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = ErrorHistoryView()
+        let view = MonitorHistoryView()
         view.errorData.items = testScanLogs
         return view
     }
