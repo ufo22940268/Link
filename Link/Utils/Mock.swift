@@ -12,11 +12,7 @@ let testRecordItem = RecordItem(duration: 0.3, statusCode: 200, time: Date(), re
 CONNECT bolt.dropbox.com:443 HTTP/1.1
 Host: bolt.dropbox.com
 Proxy-Connection: keep-alive
-""", responseHeader: """
-CONNECT bolt.dropbox.com:443 HTTP/1.1
-Host: bolt.dropbox.com
-Proxy-Connection: keep-alive
-""", responseBody: """
+""", responseHeader: "server:nginx/1.10.2\ndate:Tue, 15 Sep 2020 11:59:29 GMT\ncontent-type:text/plain\ncontent-length:110\nlast-modified:Sun, 16 Aug 2020 23:47:44 GMT\nconnection:close\netag:\"5f39c5a0-6e\"\naccept-ranges:bytes", responseBody: """
 {
   "feeds_url": "https://api.github.com/feeds",
   "followers_url": "https://api.github.com/user/followers"

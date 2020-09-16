@@ -35,6 +35,7 @@ struct RecordDetailResponseView: View {
             Section(header: Text("Response Header")) {
                 Text(item.responseHeader)
                     .header()
+                .fixedSize()
             }
 
             Section(header: Text("Body")) {
