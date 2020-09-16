@@ -62,12 +62,16 @@ class ErrorHistoryData: ObservableObject {
 struct ErrorHistoryView: View {
     @ObservedObject var errorData = ErrorHistoryData()
 
+    func totalErrorCount(_ data: ChartValues) -> Int {
+        data.reduce(0, { $0 + Int($1.1) })
+    }
+
     func rowView(url: String, data: ErrorSectionData) -> some View {
         GeometryReader { proxy in
             ZStack {
                 BarChartView(data: ChartData(values: data.0),
                              title: url.endPointPath ?? "",
-                             legend: "",
+                             legend: self.totalErrorCount(data.0) > 0 ? "\(String(self.totalErrorCount(data.0))) 个错误" : "",
                              rightLegend: data.1.end.formatTime,
                              style: Styles.barChartStyleOrangeLight,
                              form: CGSize(width: proxy.size.width, height: 240),

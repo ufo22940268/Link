@@ -76,14 +76,18 @@ typealias ChartValues = [(String, Double)]
 
 struct DurationHistoryView: View {
     @ObservedObject var durationData = DurationHistoryData()
-    
+
+    func averageDuration(_ durations: [TimeInterval]) -> Double {
+        let ar = durations.filter { $0 > 0 }
+        return ar.reduce(0, { $0 + $1 }) / Double(ar.count)
+    }
+
     func rowView(url: String, rowData: DurationSectionData) -> AnyView {
         AnyView(GeometryReader { proxy in
             ZStack {
                 BarChartView(data: ChartData(values: rowData.0),
                              title: url.endPointPath ?? "",
-                             legend: "",
-                             rightLegend: rowData.1.end.formatTime,
+                             legend: "平均 \(self.averageDuration(rowData.0.map { $0.1 }).formatDuration)",
                              style: Styles.barChartStyleNeonBlueLight,
                              form: CGSize(width: proxy.size.width, height: 240),
                              dropShadow: false,
