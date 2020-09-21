@@ -88,6 +88,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "api"
+            value = "online"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "PROFILE_REQUEST"
             value = "true"
             isEnabled = "NO">
@@ -105,21 +110,6 @@
          <EnvironmentVariable
             key = "FILL_URL"
             value = "true"
-            isEnabled = "NO">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "LAUNCH_VIEW"
-            value = "apiEdit"
-            isEnabled = "NO">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "LAUNCH_VIEW"
-            value = "jsonViewer"
-            isEnabled = "NO">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "LAUNCH_VIEW"
-            value = "endPointEdit"
             isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>

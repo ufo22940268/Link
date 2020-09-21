@@ -8,11 +8,7 @@
 
 import Foundation
 
-extension EndPointEntity: Identifiable {
-    public var id: String {
-        url ?? ""
-    }
-
+extension EndPointEntity {
     var endPointPath: String {
         url?.endPointPath ?? ""
     }
@@ -51,11 +47,7 @@ extension EndPointEntity: Identifiable {
     }
 }
 
-extension ApiEntity: Identifiable {
-    public var id: String {
-        objectID.uriRepresentation().absoluteString
-    }
-
+extension ApiEntity {
     var match: Bool {
         guard let watchValue = watchValue, let value = value, watch else { return false }
         return watchValue == value

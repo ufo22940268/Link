@@ -51,11 +51,11 @@ public class DebugHelper {
         let d = DomainEntity(context: context)
         d.name = "htopto"
         d.hostname = "biubiubiu.hopto.org:9000"
-        
+
         let p = EndPointEntity(context: context)
         p.url = "http://biubiubiu.hopto.org:9000/link/github.json"
         p.data = NSDataAsset(name: "github", bundle: .main)!.data
-        
+
         let a1 = ApiEntity(context: context)
         a1.paths = "feeds_url"
         a1.value = "https://api.github.com/feeds"
@@ -77,18 +77,41 @@ public class DebugHelper {
 public extension UIDevice {
     static var isSimulator: Bool = {
         #if targetEnvironment(simulator)
-        return true
+            return true
         #else
-        return false
+            return false
         #endif
     }()
-    
+
     static var isPreview: Bool {
         (ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] ?? "") == "1"
     }
 
     static var isRunningTest: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+    
+    enum ApiEnv {
+        case online
+        case local
+        
+        var domain: String {
+            switch self {
+            case .online:
+                return "https://api.biubiubiu.biz"
+            default:
+                return "http://biubiubiu.hopto.org:3000"
+            }
+        }
+    }
+
+    
+    static var apiEnv: ApiEnv {
+        if  ProcessInfo.processInfo.environment["api"] == "online" {
+            return .online
+        } else {
+            return .local
+        }
     }
 }
 

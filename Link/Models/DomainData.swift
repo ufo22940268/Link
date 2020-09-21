@@ -115,4 +115,4 @@ extension DomainData: ASAuthorizationControllerDelegate {
             break
         }
     }
-}
+} 
