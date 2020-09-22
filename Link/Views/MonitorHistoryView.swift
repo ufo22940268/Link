@@ -60,7 +60,7 @@ class MonitorHistoryData: ObservableObject {
 }
 
 struct MonitorHistoryView: View {
-    @ObservedObject var errorData = MonitorHistoryData()
+    @ObservedObject var monitorData = MonitorHistoryData()
 
     func totalErrorCount(_ data: ChartValues) -> Int {
         data.reduce(0, { $0 + Int($1.1) })
@@ -87,24 +87,30 @@ struct MonitorHistoryView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(Array(errorData.chartData.keys).sorted { $0 < $1 }, id: \.self) { domain -> AnyView in
-                let m: [String: ErrorSectionData] = self.errorData.chartData[domain]!
-                return AnyView(
-                    Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
-                        ForEach(Array(m.keys).sorted(), id: \.self) { url in
-                            self.rowView(url: url, data: m[url]!)
-                        }
+        ZStack {
+            if monitorData.items == nil || monitorData.items!.isEmpty {
+                HistoryEmptyView()
+            } else {
+                List {
+                    ForEach(Array(monitorData.chartData.keys).sorted { $0 < $1 }, id: \.self) { domain -> AnyView in
+                        let m: [String: ErrorSectionData] = self.monitorData.chartData[domain]!
+                        return AnyView(
+                            Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
+                                ForEach(Array(m.keys).sorted(), id: \.self) { url in
+                                    self.rowView(url: url, data: m[url]!)
+                                }
+                            }
+                        )
                     }
-                )
+                }
             }
         }
         .onAppear {
-            self.errorData.loadData()
+            self.monitorData.loadData()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
             print("------------reload monitor history------------")
-            self.errorData.loadData()
+            self.monitorData.loadData()
         })
     }
 }
@@ -112,7 +118,7 @@ struct MonitorHistoryView: View {
 struct ErrorHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         let view = MonitorHistoryView()
-        view.errorData.items = testScanLogs
+        view.monitorData.items = testScanLogs
         return view
     }
 }

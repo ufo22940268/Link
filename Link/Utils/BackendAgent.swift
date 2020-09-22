@@ -55,17 +55,16 @@ struct BackendAgent {
 
     var debug = ProcessInfo.processInfo.environment["PROFILE_REQUEST"] != nil
 
-    func login(loginInfo: LoginInfo) throws -> AnyPublisher<Void, Never> {
-        try post(endPoint: "/user/login",
+    func login(loginInfo: LoginInfo) throws -> AnyPublisher<Void, ResponseError> {
+        post(endPoint: "/user/login",
                  data: ["appleUserId": loginInfo.appleUserId, "notificationToken": LoginManager.getNotificationToken() ?? "", "username": loginInfo.username],
                  options: .login)
             .map { _ in () }
-            .replaceError(with: ())
             .eraseToAnyPublisher()
     }
 
     func upload(notificationToken: String) throws -> AnyPublisher<Void, Never> {
-        try post(endPoint: "/user/update/notificationtoken", data: ["notificationToken": notificationToken])
+        post(endPoint: "/user/update/notificationtoken", data: ["notificationToken": notificationToken])
             .map { _ in () }
             .replaceError(with: ())
             .eraseToAnyPublisher()

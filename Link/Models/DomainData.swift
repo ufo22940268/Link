@@ -26,14 +26,23 @@ final class DomainData: NSObject, ObservableObject {
         loginInfo = LoginManager.getLoginInfo()
         loginCancellable = $loginInfo
             .filter { $0 != nil }
+            .dropFirst()
+            .setFailureType(to: ResponseError.self)
             .flatMap { info in
                 try! BackendAgent().login(loginInfo: info!)
             }
+            .flatMap { () -> AnyPublisher<Void, ResponseError> in
+                if let endPoints = DataSource().fetchEndPoints() {
+                    return BackendAgent()
+                        .sync(endPoints: endPoints)
+                        .eraseToAnyPublisher()
+                } else {
+                    return Empty().eraseToAnyPublisher()
+                }
+            }
             .flatMap { () in
-                // TODO: Only execute when user login
                 BackendAgent()
                     .runScanLogTask()
-                    .replaceError(with: ())
             }
             .sink(receiveCompletion: { _ in
             }, receiveValue: {
@@ -119,7 +128,6 @@ extension DomainData: ASAuthorizationControllerDelegate {
             let userId = credential.user
             let loginInfo = LoginInfo(username: username, appleUserId: userId)
             LoginManager.save(loginInfo: loginInfo)
-            postLogin()
             self.loginInfo = loginInfo
         default:
             break
