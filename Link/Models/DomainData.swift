@@ -12,6 +12,15 @@ import CoreData
 import SwiftUI
 
 final class DomainData: NSObject, ObservableObject {
+    @Published var endPoints: [EndPointEntity] = []
+    @Published var isLoading = false
+    @Published var lastUpdateTime: Date?
+    @Published var loginInfo: LoginInfo?
+    var cancellables = [AnyCancellable]()
+    var loginCancellable: AnyCancellable?
+    var reloadCancellable: AnyCancellable?
+    var syncCancellable: AnyCancellable?
+
     override internal init() {
         super.init()
         loginInfo = LoginManager.getLoginInfo()
@@ -48,14 +57,6 @@ final class DomainData: NSObject, ObservableObject {
                 .eraseToAnyPublisher()
         }.sink { }
     }
-
-    @Published var endPoints: [EndPointEntity] = []
-    @Published var isLoading = false
-    @Published var lastUpdateTime: Date?
-    @Published var loginInfo: LoginInfo?
-    var cancellables = [AnyCancellable]()
-    var loginCancellable: AnyCancellable?
-    var reloadCancellable: AnyCancellable?
 
     var needReload = PassthroughSubject<Void, Never>()
 
@@ -110,9 +111,18 @@ extension DomainData: ASAuthorizationControllerDelegate {
             let userId = credential.user
             let loginInfo = LoginInfo(username: username, appleUserId: userId)
             LoginManager.save(loginInfo: loginInfo)
+            postLogin()
             self.loginInfo = loginInfo
         default:
             break
         }
     }
-} 
+
+    func postLogin() {
+        if let endPoints = DataSource().fetchEndPoints() {
+            syncCancellable = BackendAgent()
+                .sync(endPoints: endPoints)
+                .sink()
+        }
+    }
+}

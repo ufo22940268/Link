@@ -101,3 +101,16 @@ extension Publisher where Output == URLSession.DataTaskPublisher.Output, Failure
         .eraseToAnyPublisher()
     }
 }
+
+extension Publisher {
+    func sink() -> AnyCancellable? {
+        map({ _ in }).replaceError(with: ()).sink { _ in }
+    }
+}
+
+extension Publisher where Output == Response, Failure == ResponseError {
+    func eraseToVoidAnyPublisher() -> AnyPublisher<Void, ResponseError> {
+        map{ _ in () }
+            .eraseToAnyPublisher()
+    }
+}

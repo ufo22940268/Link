@@ -19,7 +19,7 @@ final class DataSource: ObservableObject {
     }
 
     init() {
-        self.context = getPersistentContainer().viewContext
+        context = getPersistentContainer().viewContext
     }
 }
 
@@ -38,6 +38,11 @@ extension DataSource {
         return try? context.fetch(req).first
     }
 
+    func fetchEndPoints() -> [EndPointEntity]? {
+        let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
+        return try? context.fetch(req)
+    }
+
     func deleteEndPoint(entity endPoint: EndPointEntity) {
         let url = endPoint.url ?? ""
         context.delete(fetchEndPoint(id: endPoint.objectID)!)
@@ -46,7 +51,7 @@ extension DataSource {
 
         let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
         if let ees = try? context.fetch(req), ees.filter({ $0.url?.hostname == url.hostname }).count == 0 {
-            deleteDomain(for: url )
+            deleteDomain(for: url)
         }
 
         try! context.save()
@@ -94,9 +99,9 @@ struct CoreDataContext {
         context.parent = CoreDataContext.main
         return context
     }()
-    
+
     static let add: NSManagedObjectContext = createChildContext(name: "add")
-    
+
     private static func createChildContext(name: String) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.name = name
@@ -120,10 +125,10 @@ extension NSManagedObjectContext {
 
     func fetchOne<T>(_ type: T.Type, _ format: String? = nil, _ argList: CVarArg...) throws -> T? where T: NSManagedObject {
         let req = T.fetchRequest() as! NSFetchRequest<T>
-        if let format = format {            
+        if let format = format {
             req.predicate = NSPredicate(format: format, argumentArray: argList)
         }
-        
+
         do {
             return try fetch(req).first
         } catch {

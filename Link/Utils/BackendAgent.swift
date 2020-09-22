@@ -35,7 +35,7 @@ struct ResponseError: Error {
 
 // MARK: Apis
 
-class BackendAgent {
+struct BackendAgent {
     static let backendDomain = UIDevice.apiEnv.domain
     var loginInfo: LoginInfo? {
         LoginManager.getLoginInfo()
@@ -70,7 +70,11 @@ class BackendAgent {
             .replaceError(with: ())
             .eraseToAnyPublisher()
     }
+}
 
+// MARK: EndPoint  API
+
+extension BackendAgent {
     func upsert(endPoint: EndPointEntity) throws -> AnyPublisher<Void, ResponseError> {
         if loginInfo == nil {
             throw ResponseError.notLogin
@@ -82,15 +86,31 @@ class BackendAgent {
                 ["value": api.watchValue, "path": api.paths]
             }
         }
-        return try post(endPoint: "/endpoint/upsert", data: json)
+        return post(endPoint: "/endpoint/upsert", data: json)
             .map { _ in () }
             .eraseToAnyPublisher()
     }
 
+    func sync(endPoints: [EndPointEntity]) -> AnyPublisher<Void, ResponseError> {
+        var json = JSON()
+        json.arrayObject = [JSON]()
+        for endPoint in endPoints {
+            var ej = JSON()
+            ej["url"].string = endPoint.url!
+            if let apis = endPoint.api?.allObjects.map({ $0 as! ApiEntity }) {
+                ej["watchFields"].arrayObject = apis.filter { $0.watch }.map { api in
+                    ["value": api.watchValue, "path": api.paths]
+                }
+            }
+            json.arrayObject!.append(ej)
+        }
+        return post(endPoint: "/endpoint/sync", data: json)
+            .eraseToVoidAnyPublisher()
+    }
+
     func deleteEndPoint(by url: String) throws -> AnyPublisher<Void, ResponseError> {
         try post(endPoint: "/endpoint/delete", data: ["url": url])
-            .map { _ in () }
-            .eraseToAnyPublisher()
+            .eraseToVoidAnyPublisher()
     }
 }
 
@@ -146,8 +166,8 @@ extension BackendAgent {
         try post(endPoint: endPoint, data: try JSONSerialization.data(withJSONObject: data, options: []), options: options)
     }
 
-    private func post(endPoint: String, data: JSON, options: RequestOptions = []) throws -> AnyPublisher<Response, ResponseError> {
-        try post(endPoint: endPoint, data: try data.rawData(), options: options)
+    private func post(endPoint: String, data: JSON, options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
+        try! post(endPoint: endPoint, data: try data.rawData(), options: options)
     }
 
     private func post(endPoint: String, data: Data?, options: RequestOptions = []) throws -> AnyPublisher<Response, ResponseError> {
