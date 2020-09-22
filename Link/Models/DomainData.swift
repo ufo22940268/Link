@@ -29,8 +29,16 @@ final class DomainData: NSObject, ObservableObject {
             .flatMap { info in
                 try! BackendAgent().login(loginInfo: info!)
             }
-            .sink(receiveValue: { () in
-
+            .flatMap { () in
+                // TODO: Only execute when user login
+                BackendAgent()
+                    .runScanLogTask()
+                    .replaceError(with: ())
+            }
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: {
+                print("send reload history--------")
+                NotificationCenter.default.post(Notification(name: Notification.reloadHistory))
             })
 
         reloadCancellable = needReload.flatMap { (_) -> AnyPublisher<Void, Never> in
@@ -122,7 +130,9 @@ extension DomainData: ASAuthorizationControllerDelegate {
         if let endPoints = DataSource().fetchEndPoints() {
             syncCancellable = BackendAgent()
                 .sync(endPoints: endPoints)
-                .sink()
+                .sink(receiveCompletion: { _ in
+                }, receiveValue: {
+                })
         }
     }
 }

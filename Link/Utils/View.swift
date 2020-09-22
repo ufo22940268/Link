@@ -55,6 +55,7 @@ extension View {
 extension Notification {
     static let updateJsonViewer = Notification.Name.init("updateJsonViewer")
     static let refreshDomain = Notification.Name.init("refreshDomain")
+    static let reloadHistory = Notification.Name(rawValue: "initHistory")
 }
 
 

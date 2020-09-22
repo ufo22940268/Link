@@ -102,6 +102,10 @@ struct MonitorHistoryView: View {
         .onAppear {
             self.errorData.loadData()
         }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
+            print("------------reload monitor history------------")
+            self.errorData.loadData()
+        })
     }
 }
 

@@ -144,6 +144,12 @@ extension BackendAgent {
         }
         .eraseToAnyPublisher()
     }
+
+    func runScanLogTask() -> AnyPublisher<Void, ResponseError> {
+        post(endPoint: "/endpoint/scan")
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: Utils
@@ -162,8 +168,8 @@ extension BackendAgent {
             .convertToJSON()
     }
 
-    private func post(endPoint: String, data: [String: Any], options: RequestOptions = []) throws -> AnyPublisher<Response, ResponseError> {
-        try post(endPoint: endPoint, data: try JSONSerialization.data(withJSONObject: data, options: []), options: options)
+    private func post(endPoint: String, data: [String: Any] = [:], options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
+        try! post(endPoint: endPoint, data: try JSONSerialization.data(withJSONObject: data, options: []), options: options)
     }
 
     private func post(endPoint: String, data: JSON, options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
