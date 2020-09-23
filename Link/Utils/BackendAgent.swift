@@ -7,6 +7,7 @@
 //
 
 import Combine
+import CoreData
 import Foundation
 import UIKit
 
@@ -30,6 +31,7 @@ struct ResponseError: Error {
     var message: String?
 
     static let parseError = ResponseError(message: "parse_error")
+    static let parseJSONError = ResponseError(message: "parse_json_error")
     static let notLogin = ResponseError(message: "not_login")
 }
 
@@ -57,8 +59,8 @@ struct BackendAgent {
 
     func login(loginInfo: LoginInfo) throws -> AnyPublisher<Void, ResponseError> {
         post(endPoint: "/user/login",
-                 data: ["appleUserId": loginInfo.appleUserId, "notificationToken": LoginManager.getNotificationToken() ?? "", "username": loginInfo.username],
-                 options: .login)
+             data: ["appleUserId": loginInfo.appleUserId, "notificationToken": LoginManager.getNotificationToken() ?? "", "username": loginInfo.username],
+             options: .login)
             .map { _ in () }
             .eraseToAnyPublisher()
     }
@@ -105,6 +107,25 @@ extension BackendAgent {
         }
         return post(endPoint: "/endpoint/sync", data: json)
             .eraseToVoidAnyPublisher()
+    }
+
+    func syncFromServer(context: NSManagedObjectContext) -> AnyPublisher<Void, ResponseError> {
+        get(endPoint: "/endpoint/sync/list")
+            .parseArrayObjects(to: EndPoint.self)
+            .print()
+            .map { (endPoints: [EndPoint]) in
+                let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
+//                req.predicate = NSPredicate(format: "url IN %@", argumentArray: endPoints.map { $0.url })
+                if let exists: [EndPointEntity] = try? context.fetch(req) {
+                    let newEndPointEntities = endPoints.filter { e in
+                        !exists.map { $0.url! }.contains(e.url)
+                    }
+                    
+                    let _ = newEndPointEntities.map { $0.toEntity(context: context) }
+                }
+                try! context.save()
+            }
+            .eraseToAnyPublisher()
     }
 
     func deleteEndPoint(by url: String) throws -> AnyPublisher<Void, ResponseError> {

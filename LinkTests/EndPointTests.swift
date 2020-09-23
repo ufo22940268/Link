@@ -57,23 +57,22 @@ class EndPointTests: XCTestCase {
 
     func testApiRequest() {
         let exp = XCTestExpectation()
-        let info = LoginInfo(username: "aaa", appleUserId: "000929.22711429e1bb474d9faf0111a9a3c9df.2350")
+        let info = LoginInfo(username: "aaa", appleUserId: "000977.0dedb531b28f4e309aa2f72159210db7.0641")
         LoginManager.save(loginInfo: info)
         let agent = BackendAgent()
         let ee = EndPointEntity(context: context)
-        ee.url = "a"
+        ee.url = "bbasdf"
 
         let ae = ApiEntity(context: context)
         ae.paths = "apah"
         ae.watchValue = "b"
+        ae.watch = true
         ee.addToApi(ae)
 
-        try! agent.getScanLog(id: "5f60aca1fb09ae5385b2bb4c")
-            .print()
-            .sink(receiveCompletion: { r in
-                print("r", r)
+        agent.syncFromServer(context: context)
+            .sink(receiveCompletion: { _ in
                 exp.fulfill()
-            }, receiveValue: { _ in })
+            }, receiveValue: {})
             .store(in: &cancellables)
 
         wait(for: [exp], timeout: 3)

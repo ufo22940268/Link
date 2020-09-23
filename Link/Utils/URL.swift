@@ -89,7 +89,7 @@ extension Publisher where Output == URLSession.DataTaskPublisher.Output, Failure
                 }
                 throw ResponseError(json: json)
             }
-            throw ResponseError.parseError
+            throw ResponseError.parseJSONError
         }
         .mapError { (e) -> ResponseError in
             if let e = e as? ResponseError {
