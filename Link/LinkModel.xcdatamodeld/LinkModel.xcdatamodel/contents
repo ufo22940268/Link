@@ -14,6 +14,7 @@
     <entity name="EndPointEntity" representedClassName=".EndPointEntity" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="needReload" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="statusCode" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="url" attributeType="String"/>
         <relationship name="api" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ApiEntity" inverseName="endPoint" inverseEntity="ApiEntity"/>
@@ -21,6 +22,6 @@
     <elements>
         <element name="ApiEntity" positionX="-36" positionY="27" width="128" height="118"/>
         <element name="DomainEntity" positionX="43.05859375" positionY="286.96875" width="128" height="73"/>
-        <element name="EndPointEntity" positionX="520.20703125" positionY="71.5234375" width="128" height="118"/>
+        <element name="EndPointEntity" positionX="520.20703125" positionY="71.5234375" width="128" height="133"/>
     </elements>
 </model>

@@ -30,6 +30,7 @@ struct EndPoint: Codable {
     func toEntity(context: NSManagedObjectContext) -> EndPointEntity {
         let ee = EndPointEntity(context: context)
         ee.url = url
+        ee.needReload = true
 
         if let watchFields = watchFields {
             for field in watchFields {

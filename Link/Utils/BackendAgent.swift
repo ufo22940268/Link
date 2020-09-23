@@ -115,7 +115,7 @@ extension BackendAgent {
             .print()
             .map { (endPoints: [EndPoint]) in
                 let req = EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>
-//                req.predicate = NSPredicate(format: "url IN %@", argumentArray: endPoints.map { $0.url })
+                req.predicate = NSPredicate(format: "url IN (%@)", endPoints.map { $0.url })
                 if let exists: [EndPointEntity] = try? context.fetch(req) {
                     let newEndPointEntities = endPoints.filter { e in
                         !exists.map { $0.url! }.contains(e.url)
@@ -129,7 +129,7 @@ extension BackendAgent {
     }
 
     func deleteEndPoint(by url: String) throws -> AnyPublisher<Void, ResponseError> {
-        try post(endPoint: "/endpoint/delete", data: ["url": url])
+        post(endPoint: "/endpoint/delete", data: ["url": url])
             .eraseToVoidAnyPublisher()
     }
 }
