@@ -80,7 +80,7 @@ struct MonitorHistoryView: View {
                     .padding(0)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            NavigationLink(destination: ErrorHistoryDetailView(url: url, endPointId: data.2)) {
+            NavigationLink(destination: MonitorHistoryDetailView(url: url, endPointId: data.2)) {
                 EmptyView().opacity(0)
             }
         }.frame(height: 240, alignment: .center)
@@ -92,7 +92,7 @@ struct MonitorHistoryView: View {
                 HistoryEmptyView()
             } else {
                 List {
-                    ForEach(Array(monitorData.chartData.keys).sorted { $0 < $1 }, id: \.self) { domain -> AnyView in
+                    ForEach(Array(monitorData.chartData.keys).sorted(by: >), id: \.self) { domain -> AnyView in
                         let m: [String: ErrorSectionData] = self.monitorData.chartData[domain]!
                         return AnyView(
                             Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {

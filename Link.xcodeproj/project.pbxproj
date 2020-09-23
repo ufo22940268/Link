@@ -63,7 +63,7 @@
 		42E92A0B24F5E661004EA1C9 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0A24F5E661004EA1C9 /* URL.swift */; };
 		42EC0602250F548500921F38 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC0601250F548500921F38 /* Mock.swift */; };
 		42EC0604251043CB00921F38 /* MonitorHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC0603251043CB00921F38 /* MonitorHistoryView.swift */; };
-		42EC060825104EFC00921F38 /* ErrorHistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */; };
+		42EC060825104EFC00921F38 /* MonitorHistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC060725104EFC00921F38 /* MonitorHistoryDetailView.swift */; };
 		42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */; };
 		42EC060C2511DF2D00921F38 /* ReadOnlyApiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC060B2511DF2D00921F38 /* ReadOnlyApiDetailView.swift */; };
 		42FCE2FD2509029C008E50CD /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 42FCE2FC2509029C008E50CD /* SwiftUICharts */; };
@@ -148,7 +148,7 @@
 		42E92A0A24F5E661004EA1C9 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		42EC0601250F548500921F38 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		42EC0603251043CB00921F38 /* MonitorHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorHistoryView.swift; sourceTree = "<group>"; };
-		42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHistoryDetailView.swift; sourceTree = "<group>"; };
+		42EC060725104EFC00921F38 /* MonitorHistoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorHistoryDetailView.swift; sourceTree = "<group>"; };
 		42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailMonitorView.swift; sourceTree = "<group>"; };
 		42EC060B2511DF2D00921F38 /* ReadOnlyApiDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyApiDetailView.swift; sourceTree = "<group>"; };
 		42FCE2FE25098AF3008E50CD /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../ChartView; sourceTree = "<group>"; };
@@ -260,7 +260,7 @@
 				42FCE2FF2509A186008E50CD /* DurationHistoryView.swift */,
 				42EC0603251043CB00921F38 /* MonitorHistoryView.swift */,
 				42FCE304250AE1CB008E50CD /* DurationHistoryDetailView.swift */,
-				42EC060725104EFC00921F38 /* ErrorHistoryDetailView.swift */,
+				42EC060725104EFC00921F38 /* MonitorHistoryDetailView.swift */,
 				42D4F0A2250B4198006F1318 /* RecordDetailView.swift */,
 				42EC06092511A41100921F38 /* RecordDetailMonitorView.swift */,
 				42D4F0AA250CACAE006F1318 /* RecordDetailResponseView.swift */,
@@ -442,7 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42DAFACC24DA3A850093869D /* JSONViewerView.swift in Sources */,
-				42EC060825104EFC00921F38 /* ErrorHistoryDetailView.swift in Sources */,
+				42EC060825104EFC00921F38 /* MonitorHistoryDetailView.swift in Sources */,
 				42E92A0724F4FCF9004EA1C9 /* ApiListItemView.swift in Sources */,
 				422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */,
 				42D4F0AB250CACAE006F1318 /* RecordDetailResponseView.swift in Sources */,

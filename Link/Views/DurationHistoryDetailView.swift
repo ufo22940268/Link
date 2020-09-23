@@ -12,8 +12,8 @@ import SwiftUI
 class DurationHistoryDetailData: ObservableObject {
     @Published var url: String = ""
     @Published var items = [ScanLogDetail]()
-    var loadCancellable: AnyCancellable? = nil
-    
+    var loadCancellable: AnyCancellable?
+
     var itemMap: [Date: [ScanLogDetail]] {
         Dictionary(grouping: items) { item in
             item.time.startOfDay
@@ -40,14 +40,14 @@ struct DurationHistoryDetailView: View {
 
     var body: some View {
         List {
-            ForEach(durationDetailData.itemMap.keys.sorted(), id: \.self) { date in
+            ForEach(durationDetailData.itemMap.keys.sorted(by: >), id: \.self) { date in
                 Section(header: Text(date.formatDate)) {
                     ForEach(self.durationDetailData.itemMap[date]!) { item in
                         NavigationLink(destination: RecordDetailView(scanLogId: item.id)) {
                             HStack {
                                 Text(item.time.formatTime)
                                 Spacer()
-                                Text((item.duration).formatDuration).foregroundColor(.gray)
+                                Text(item.duration.formatDuration).foregroundColor(.gray)
                             }
                         }
                     }

@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-class ErrorHistoryDetailData: ObservableObject {
+class MonitorHistoryDetailData: ObservableObject {
     @Published var url: String = ""
     @Published var items = [ScanLogDetail]()
     var loadCancellable: AnyCancellable?
@@ -29,8 +29,8 @@ class ErrorHistoryDetailData: ObservableObject {
     }
 }
 
-struct ErrorHistoryDetailView: View {
-    @ObservedObject var errorDetailData = ErrorHistoryDetailData()
+struct MonitorHistoryDetailView: View {
+    @ObservedObject var errorDetailData = MonitorHistoryDetailData()
 
     var endPointId: String
 
@@ -41,7 +41,7 @@ struct ErrorHistoryDetailView: View {
 
     var body: some View {
         List {
-            ForEach(errorDetailData.itemMap.keys.sorted(), id: \.self) { date in
+            ForEach(errorDetailData.itemMap.keys.sorted(by: >), id: \.self) { date in
                 Section(header: Text(date.formatDate)) {
                     ForEach(self.errorDetailData.itemMap[date]!) { item in
                         NavigationLink(destination: RecordDetailView(segment: .monitor, scanLogId: item.id)) {
@@ -68,7 +68,7 @@ struct ErrorHistoryDetailView: View {
 
 struct ErrorHistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = ErrorHistoryDetailView(url: "http://api.xinpinget.com/review/detail/56d92a5263f628d12b053be4", endPointId: "")
+        let view = MonitorHistoryDetailView(url: "http://api.xinpinget.com/review/detail/56d92a5263f628d12b053be4", endPointId: "")
         view.errorDetailData.items = testScanLogDetails
         return NavigationView {
             view
