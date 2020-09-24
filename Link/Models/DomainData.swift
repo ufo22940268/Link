@@ -40,6 +40,9 @@ final class DomainData: NSObject, ObservableObject {
                     return Empty().eraseToAnyPublisher()
                 }
             }
+            .flatMap { () -> AnyPublisher<Void, ResponseError> in
+                BackendAgent().syncFromServer(context: CoreDataContext.main)
+            }
             .flatMap { () in
                 BackendAgent()
                     .runScanLogTask()
@@ -131,16 +134,6 @@ extension DomainData: ASAuthorizationControllerDelegate {
             self.loginInfo = loginInfo
         default:
             break
-        }
-    }
-
-    func postLogin() {
-        if let endPoints = DataSource().fetchEndPoints() {
-            syncCancellable = BackendAgent()
-                .sync(endPoints: endPoints)
-                .sink(receiveCompletion: { _ in
-                }, receiveValue: {
-                })
         }
     }
 }
