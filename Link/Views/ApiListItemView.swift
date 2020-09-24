@@ -34,7 +34,7 @@ struct ApiListItemView: View {
             }
 
             Spacer()
-            
+
             if activeDetail {
                 NavigationLink("", destination: detailView, isActive: $activeDetail)
                     .hidden()
@@ -48,7 +48,7 @@ struct ApiListItemView: View {
                 }) {
                     EmptyView()
                 }
-                
+
                 Button(action: {
                     self.activeDetail = true
                 }, label: { () in

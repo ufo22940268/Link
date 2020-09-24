@@ -50,29 +50,30 @@ final class DomainData: NSObject, ObservableObject {
                 NotificationCenter.default.post(Notification(name: Notification.reloadHistory))
             })
 
-        reloadCancellable = needReload.flatMap { (_) -> AnyPublisher<Void, Never> in
-            print("loadDomains")
-            let context = CoreDataContext.main
-            let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
-            if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
-                self.endPoints = domains
-            } else {
-                self.endPoints = []
-            }
-
-            self.isLoading = true
-            guard !self.endPoints.isEmpty else { return Empty().eraseToAnyPublisher() }
-            return HealthChecker(domains: self.endPoints, context: CoreDataContext.main)
-                .checkHealth()
-                .receive(on: DispatchQueue.main)
-                .map { _ in
-                    self.lastUpdateTime = Date()
-                    self.objectWillChange.send()
-                    self.isLoading = false
+        reloadCancellable = needReload
+            .flatMap { (_) -> AnyPublisher<Void, Never> in
+                print("loadDomains")
+                let context = CoreDataContext.main
+                let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
+                if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
+                    self.endPoints = domains
+                } else {
+                    self.endPoints = []
                 }
-                .replaceError(with: ())
-                .eraseToAnyPublisher()
-        }.sink { }
+
+                self.isLoading = true
+                guard !self.endPoints.isEmpty else { return Empty().eraseToAnyPublisher() }
+                return HealthChecker(domains: self.endPoints, context: CoreDataContext.main)
+                    .checkHealth()
+                    .receive(on: DispatchQueue.main)
+                    .map { _ in
+                        self.lastUpdateTime = Date()
+                        self.objectWillChange.send()
+                        self.isLoading = false
+                    }
+                    .replaceError(with: ())
+                    .eraseToAnyPublisher()
+            }.sink { }
     }
 
     var needReload = PassthroughSubject<Void, Never>()

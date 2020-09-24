@@ -130,7 +130,6 @@ struct EndPointEditView: View {
         let showAdd = apiEditData.unwatchApis.count > 0
         let watchListCount = showAdd ? apiEditData.watchApis.count + 1 : apiEditData.watchApis.count
 
-        print("validateURLResult", apiEditData.validateURLResult)
         let form = Form {
             Section(header: Text("域名地址"), footer: Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)) {
                 MultilineTextField(text: urlBinding, minHeight: self.textHeight, calculatedHeight: self.$textHeight)

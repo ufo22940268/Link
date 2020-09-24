@@ -11,7 +11,7 @@ import CoreData
 import SwiftUI
 
 struct OnboardView: View {
-    @State private var selection = 1
+    @State private var selection = 0
     @ObservedObject private var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()

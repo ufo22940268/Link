@@ -10,11 +10,11 @@ import Combine
 import CoreData
 import SwiftUI
 
-struct JSONViewerView: View {
+struct EndPointDetailView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var endPoint: EndPointEntity
     @EnvironmentObject var domainData: DomainData
-    @ObservedObject var apiData: EndPointEditData
+    var apiData: EndPointEditData
     @State var segment = Segment.response.rawValue
     var endPointCancellable: AnyCancellable?
     @State var cancellables = [AnyCancellable]()
@@ -53,11 +53,7 @@ struct JSONViewerView: View {
             self.showingEdit = true
         }) {
             Text("编辑")
-        }
-        .sheet(isPresented: $showingEdit, onDismiss: { self.domainData.needReload.send() }, content: {
-            EndPointEditView(type: .edit, apiEditData: self.apiData)
-                .environment(\.managedObjectContext, CoreDataContext.edit)
-        }))
+        })
     }
 
     var lastPartOfPath: String {
@@ -156,6 +152,13 @@ struct JSONViewerView: View {
                 metricSectionView
             }
         }
+        .sheet(isPresented: $showingEdit, onDismiss: {
+            self.domainData.needReload.send()
+        }, content:  { () -> AnyView in
+            print("---------------show-----------------")
+            return AnyView(EndPointEditView(type: .edit, apiEditData: self.apiData)
+                .environment(\.managedObjectContext, CoreDataContext.edit))
+        })
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
@@ -220,12 +223,12 @@ struct JSONViewerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                JSONViewerView(endPoint: validEndPointEntity)
+                EndPointDetailView(endPoint: validEndPointEntity)
                     .environment(\.managedObjectContext, context)
             }.environment(\.colorScheme, .dark)
 
             NavigationView {
-                JSONViewerView(endPoint: invalidEndPointEntity)
+                EndPointDetailView(endPoint: invalidEndPointEntity)
                     .environment(\.managedObjectContext, context)
             }.environment(\.colorScheme, .dark)
         }
