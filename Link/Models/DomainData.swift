@@ -46,7 +46,6 @@ final class DomainData: NSObject, ObservableObject {
             }
             .sink(receiveCompletion: { _ in
             }, receiveValue: {
-                print("send reload history--------")
                 NotificationCenter.default.post(Notification(name: Notification.reloadHistory))
             })
 

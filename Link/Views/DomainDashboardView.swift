@@ -12,7 +12,6 @@ import SwiftUI
 struct DomainDashboardView: View {
     @State var showingAddEndPoint: Bool = false
     @Environment(\.managedObjectContext) var context
-    @ObservedObject var addApiData = EndPointEditData()
     @EnvironmentObject var domainData: DomainData
 
     var dataSource: DataSource {
@@ -34,12 +33,6 @@ struct DomainDashboardView: View {
             self.showingAddEndPoint = true
         }, label: {
             Image(systemName: "plus").padding()
-        }).sheet(isPresented: $showingAddEndPoint, onDismiss: {
-            self.addApiData.setupForCreate()
-            self.domainData.needReload.send()
-        }, content: { () -> AnyView in
-            AnyView(EndPointEditView(type: .add, apiEditData: self.addApiData)
-                .environment(\.managedObjectContext, self.addApiData.context!))
         })
     }
 
@@ -90,6 +83,13 @@ struct DomainDashboardView: View {
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(leading: refreshButton, trailing: addButton)
         }
+        .sheet(isPresented: $showingAddEndPoint, onDismiss: {
+            self.domainData.needReload.send()
+        }, content: { () -> AnyView in
+            let addApiData = EndPointEditData()
+            return AnyView(EndPointEditView(type: .add, apiEditData: addApiData)
+                .environment(\.managedObjectContext, addApiData.context!))
+        })
         .navigationViewStyle(StackNavigationViewStyle())
         .background(Color(UIColor.systemBackground))
         .font(.body)

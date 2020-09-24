@@ -14,7 +14,6 @@ struct EndPointDetailView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var endPoint: EndPointEntity
     @EnvironmentObject var domainData: DomainData
-    var apiData: EndPointEditData
     @State var segment = Segment.response.rawValue
     var endPointCancellable: AnyCancellable?
     @State var cancellables = [AnyCancellable]()
@@ -39,11 +38,6 @@ struct EndPointDetailView: View {
 
     init(endPoint: EndPointEntity, context: NSManagedObjectContext? = nil) {
         self.endPoint = endPoint
-        apiData = EndPointEditData(endPointId: endPoint.objectID)
-        if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", endPoint.objectID) {
-            apiData.originURL = endPoint.url
-            apiData.endPoint = endPoint
-        }
     }
 
     @State var showingEdit = false
@@ -154,9 +148,13 @@ struct EndPointDetailView: View {
         }
         .sheet(isPresented: $showingEdit, onDismiss: {
             self.domainData.needReload.send()
-        }, content:  { () -> AnyView in
-            print("---------------show-----------------")
-            return AnyView(EndPointEditView(type: .edit, apiEditData: self.apiData)
+        }, content: { () -> AnyView in
+            let apiData = EndPointEditData(endPointId: endPoint.objectID)
+            if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", endPoint.objectID) {
+                apiData.originURL = endPoint.url
+                apiData.endPoint = endPoint
+            }
+            return AnyView(EndPointEditView(type: .edit, apiEditData: apiData)
                 .environment(\.managedObjectContext, CoreDataContext.edit))
         })
         .listStyle(GroupedListStyle())
