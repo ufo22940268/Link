@@ -53,6 +53,7 @@ final class DomainData: NSObject, ObservableObject {
             })
 
         reloadCancellable = needReload
+            .receive(on: DispatchQueue.main)
             .flatMap { (_) -> AnyPublisher<Void, Never> in
                 print("loadDomains")
                 let context = CoreDataContext.main
