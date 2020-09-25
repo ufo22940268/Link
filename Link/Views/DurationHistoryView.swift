@@ -23,7 +23,7 @@ extension Array where Self.Element == ScanLog {
     }
 }
 
-typealias DurationSectionData = (ChartValues, DateInterval, ObjectId)
+typealias DurationSectionData = (ChartValues, ObjectId)
 
 class DurationHistoryData: HistoryData {
     var chartData: [String: [String: DurationSectionData]] {
@@ -32,14 +32,12 @@ class DurationHistoryData: HistoryData {
                 dict.mapValues({ (items: [ScanLog]) -> DurationSectionData in
                     let items = items.sorted { $0.time > $1.time }
                     if items.isEmpty {
-                        return ([], DateInterval(), "")
+                        return ([], "")
                     }
 
                     var ar = [(String, Double)]()
-                    let maxTime = items.first!.time
+                    let maxTime = Date()
                     let endPointId = items.first!.endPointId
-
-                    let interval = DateInterval(start: items.last!.time, end: maxTime)
                     for i in (0 ..< 10).reversed() {
                         let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
                         let end = maxTime - 60 * 5 * TimeInterval(i)
@@ -49,7 +47,7 @@ class DurationHistoryData: HistoryData {
                             ar.append((end.formatTime, 0))
                         }
                     }
-                    return (ar, interval, endPointId)
+                    return (ar, endPointId)
                 })
             }
         } else {
@@ -63,9 +61,13 @@ typealias ChartValues = [(String, Double)]
 struct DurationHistoryView: View {
     @ObservedObject var durationData = DurationHistoryData()
 
-    func averageDuration(_ durations: [TimeInterval]) -> Double {
-        let ar = durations.filter { $0 > 0 }
-        return ar.reduce(0, { $0 + $1 }) / Double(ar.count)
+    func averageDuration(_ data: ChartValues) -> String {
+        let ar = data.map { $0.1 }.filter { $0 > 0 }
+        if ar.isEmpty {
+            return "0 ms"
+        }
+        
+        return (ar.reduce(0, { $0 + $1 }) / Double(ar.count)).formatDuration
     }
 
     func rowView(url: String, rowData: DurationSectionData) -> AnyView {
@@ -73,7 +75,7 @@ struct DurationHistoryView: View {
             ZStack {
                 BarChartView(data: ChartData(values: rowData.0),
                              title: url.endPointPath ?? "",
-                             legend: "平均 \(self.averageDuration(rowData.0.map { $0.1 }).formatDuration)",
+                             legend: "平均 \(self.averageDuration(rowData.0))",
                              style: Styles.barChartStyleNeonBlueLight,
                              form: CGSize(width: proxy.size.width, height: 240),
                              dropShadow: false,
@@ -82,7 +84,7 @@ struct DurationHistoryView: View {
                     .padding(0)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: rowData.2)) {
+            NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: rowData.1)) {
                 EmptyView().opacity(0)
             }
         }.frame(height: 240, alignment: .center))

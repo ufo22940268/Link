@@ -10,23 +10,23 @@ import Combine
 import SwiftUI
 import SwiftUICharts
 
-typealias ErrorSectionData = (ChartValues, DateInterval, ObjectId)
+typealias MonitorSectionData = (ChartValues, ObjectId)
 
 class MonitorHistoryData: HistoryData {
-    var chartData: [String: [String: ErrorSectionData]] {
+    /// DomainName: [TimeSpan: SectionData]
+    var chartData: [String: [String: MonitorSectionData]] {
         if let items = items {
             return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
-                dict.mapValues({ (items: [ScanLog]) -> DurationSectionData in
+                dict.mapValues({ (items: [ScanLog]) -> MonitorSectionData in
                     let items = items.sorted { $0.time > $1.time }
                     if items.isEmpty {
-                        return ([], DateInterval(), "")
+                        return ([], "")
                     }
 
                     var ar = [(String, Double)]()
-                    let maxTime = items.first!.time
+                    let maxTime = Date()
                     let endPointId = items.first!.endPointId
 
-                    let interval = DateInterval(start: items.last!.time, end: maxTime)
                     for i in (0 ..< 10).reversed() {
                         let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
                         let end = maxTime - 60 * 5 * TimeInterval(i)
@@ -36,7 +36,7 @@ class MonitorHistoryData: HistoryData {
                             ar.append((end.formatTime, 0))
                         }
                     }
-                    return (ar, interval, endPointId)
+                    return (ar, endPointId)
                 })
             }
         } else {
@@ -52,8 +52,8 @@ struct MonitorHistoryView: View {
         data.reduce(0, { $0 + Int($1.1) })
     }
 
-    func rowView(url: String, data: ErrorSectionData) -> some View {
-        GeometryReader { proxy in
+    func rowView(url: String, data: MonitorSectionData) -> some View {
+        return GeometryReader { proxy in
             ZStack {
                 BarChartView(data: ChartData(values: data.0),
                              title: url.endPointPath ?? "",
@@ -66,7 +66,7 @@ struct MonitorHistoryView: View {
                     .padding(0)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            NavigationLink(destination: MonitorHistoryDetailView(url: url, endPointId: data.2)) {
+            NavigationLink(destination: MonitorHistoryDetailView(url: url, endPointId: data.1)) {
                 EmptyView().opacity(0)
             }
         }.frame(height: 240, alignment: .center)
@@ -79,7 +79,7 @@ struct MonitorHistoryView: View {
             } else {
                 List {
                     ForEach(Array(monitorData.chartData.keys).sorted(by: >), id: \.self) { domain -> AnyView in
-                        let m: [String: ErrorSectionData] = self.monitorData.chartData[domain]!
+                        let m: [String: MonitorSectionData] = self.monitorData.chartData[domain]!
                         return AnyView(
                             Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
                                 ForEach(Array(m.keys).sorted(), id: \.self) { url in
