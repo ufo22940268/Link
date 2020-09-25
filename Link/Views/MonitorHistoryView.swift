@@ -12,10 +12,7 @@ import SwiftUICharts
 
 typealias ErrorSectionData = (ChartValues, DateInterval, ObjectId)
 
-class MonitorHistoryData: ObservableObject {
-    @Published var items: [ScanLog]? = nil
-    var loadDataCancellable: AnyCancellable?
-
+class MonitorHistoryData: HistoryData {
     var chartData: [String: [String: ErrorSectionData]] {
         if let items = items {
             return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
@@ -45,23 +42,6 @@ class MonitorHistoryData: ObservableObject {
         } else {
             return [:]
         }
-    }
-
-    func loadData() {
-        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
-        let load = try! BackendAgent()
-            .listScanLogs()
-            .map { items -> [ScanLog]? in
-                items
-            }
-            .replaceError(with: nil)
-            .receive(on: DispatchQueue.main)
-        loadDataCancellable = Publishers.Merge(timeout, load)
-            .sink { items in
-                if self.items == nil || self.items!.isEmpty {
-                    self.items = items
-                }
-            }
     }
 }
 

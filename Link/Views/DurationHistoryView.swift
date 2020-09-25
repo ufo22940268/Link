@@ -25,10 +25,7 @@ extension Array where Self.Element == ScanLog {
 
 typealias DurationSectionData = (ChartValues, DateInterval, ObjectId)
 
-class DurationHistoryData: ObservableObject {
-    @Published var items: [ScanLog]? = nil
-    var loadDataCancellable: AnyCancellable?
-
+class DurationHistoryData: HistoryData {
     var chartData: [String: [String: DurationSectionData]] {
         if let items = items {
             return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
@@ -58,23 +55,6 @@ class DurationHistoryData: ObservableObject {
         } else {
             return [:]
         }
-    }
-
-    func loadData() {
-        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
-        let load = try! BackendAgent()
-            .listScanLogs()
-            .map { items -> [ScanLog]? in
-                items
-            }
-            .replaceError(with: nil)
-            .receive(on: DispatchQueue.main)
-        loadDataCancellable = Publishers.Merge(timeout, load)
-            .sink { items in
-                if self.items == nil || self.items!.isEmpty {
-                    self.items = items
-                }
-            }
     }
 }
 
