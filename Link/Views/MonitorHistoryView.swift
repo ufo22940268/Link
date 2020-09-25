@@ -109,6 +109,7 @@ struct MonitorHistoryView: View {
                         )
                     }
                 }
+                .id(UUID())
             }
         }
         .onAppear {

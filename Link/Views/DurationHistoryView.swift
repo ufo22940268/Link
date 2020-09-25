@@ -124,6 +124,7 @@ struct DurationHistoryView: View {
                         })
                     }
                 }
+                .id(UUID())
             }
         }
         .onAppear {
