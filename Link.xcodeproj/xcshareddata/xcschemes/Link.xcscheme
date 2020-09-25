@@ -85,7 +85,7 @@
          <EnvironmentVariable
             key = "RESET_CORE_DATA"
             value = "true"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "api"

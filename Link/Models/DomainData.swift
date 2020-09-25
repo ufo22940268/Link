@@ -47,15 +47,18 @@ final class DomainData: NSObject, ObservableObject {
                 BackendAgent()
                     .runScanLogTask()
             }
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
             }, receiveValue: {
+                self.needReload.send()
                 NotificationCenter.default.post(Notification(name: Notification.reloadHistory))
             })
 
-        reloadCancellable = needReload
+        reloadCancellable = Publishers.Concatenate(prefix: needReload.first(), suffix: needReload.debounce(for: 1, scheduler: DispatchQueue.main))
+            .print("reload")
             .receive(on: DispatchQueue.main)
             .flatMap { (_) -> AnyPublisher<Void, Never> in
-                print("loadDomains")
+                print("loadDomains \(Date())")
                 let context = CoreDataContext.main
                 let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
                 if let domains = try? context.fetch(req).filter({ $0.url != nil }) {
