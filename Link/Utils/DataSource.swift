@@ -76,8 +76,9 @@ extension DataSource {
     }
 
     func deleteDomain(for url: String) {
-        let domain = getDomain(by: url.hostname)
-        context.delete(domain!)
+        if let domain = getDomain(by: url.hostname) {
+            context.delete(domain)
+        }
     }
 
     func getDomainName(for url: String) -> String {

@@ -121,11 +121,9 @@ struct DurationHistoryView: View {
             }
         }
         .onAppear {
-            print("duration appear")
             self.durationData.loadData()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
-            print("------------reload duration history------------")
             self.durationData.loadData()
         })
     }

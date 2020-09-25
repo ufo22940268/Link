@@ -108,6 +108,18 @@ extension BackendAgent {
         return post(endPoint: "/endpoint/sync", data: json)
             .eraseToVoidAnyPublisher()
     }
+    
+    private func ensureHostName(endPoint: EndPointEntity, context: NSManagedObjectContext) {
+        guard let url = endPoint.url else { return }
+        let req = DomainEntity.fetchRequest() as NSFetchRequest<DomainEntity>
+        req.predicate = NSPredicate(format: "hostname == %@", url.hostname)
+        let domain = try? context.fetch(req).first
+        if domain == nil {
+            let domain = DomainEntity(context: context)
+            domain.hostname = url.hostname
+            domain.name = url.domainName
+        }
+    }
 
     func syncFromServer(context: NSManagedObjectContext) -> AnyPublisher<Void, ResponseError> {
         get(endPoint: "/endpoint/sync/list")
@@ -121,7 +133,10 @@ extension BackendAgent {
                         !exists.map { $0.url! }.contains(e.url)
                     }
                     
-                    let _ = newEndPointEntities.map { $0.toEntity(context: context) }
+                    let _ = newEndPointEntities.map {
+                        let entity = $0.toEntity(context: context)
+                        ensureHostName(endPoint: entity, context: context)
+                    }
                 }
                 try! context.save()
             }
