@@ -55,7 +55,6 @@ final class DomainData: NSObject, ObservableObject {
             })
 
         reloadCancellable = Publishers.Concatenate(prefix: needReload.first(), suffix: needReload.debounce(for: 1, scheduler: DispatchQueue.main))
-            .print("reload")
             .receive(on: DispatchQueue.main)
             .flatMap { (_) -> AnyPublisher<Void, Never> in
                 print("loadDomains \(Date())")

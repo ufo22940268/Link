@@ -61,14 +61,20 @@ class DurationHistoryData: ObservableObject {
     }
 
     func loadData() {
-        loadDataCancellable = try? BackendAgent()
+        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
+        let load = try! BackendAgent()
             .listScanLogs()
             .map { items -> [ScanLog]? in
                 items
             }
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
-            .assign(to: \.items, on: self)
+        loadDataCancellable = Publishers.Merge(timeout, load)
+            .sink { items in
+                if self.items == nil || self.items!.isEmpty {
+                    self.items = items
+                }
+            }
     }
 }
 
@@ -104,7 +110,7 @@ struct DurationHistoryView: View {
 
     var body: some View {
         ZStack {
-            if durationData.items == nil || durationData.items!.isEmpty {
+            if durationData.items != nil && durationData.items!.isEmpty {
                 HistoryEmptyView()
             } else {
                 List {

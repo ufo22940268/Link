@@ -48,14 +48,20 @@ class MonitorHistoryData: ObservableObject {
     }
 
     func loadData() {
-        loadDataCancellable = try? BackendAgent()
+        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
+        let load = try! BackendAgent()
             .listScanLogs()
             .map { items -> [ScanLog]? in
                 items
             }
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
-            .assign(to: \.items, on: self)
+        loadDataCancellable = Publishers.Merge(timeout, load)
+            .sink { items in
+                if self.items == nil || self.items!.isEmpty {
+                    self.items = items
+                }
+            }
     }
 }
 
@@ -88,7 +94,7 @@ struct MonitorHistoryView: View {
 
     var body: some View {
         ZStack {
-            if monitorData.items == nil || monitorData.items!.isEmpty {
+            if monitorData.items != nil && monitorData.items!.isEmpty {
                 HistoryEmptyView()
             } else {
                 List {
