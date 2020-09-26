@@ -97,20 +97,20 @@ public extension UIDevice {
         
         var domain: String {
             switch self {
-            case .online:
-                return "https://api.biubiubiu.biz"
-            default:
+            case .local:
                 return "http://biubiubiu.hopto.org:3000"
+            default:
+                return "https://api.biubiubiu.biz"
             }
         }
     }
 
     
     static var apiEnv: ApiEnv {
-        if  ProcessInfo.processInfo.environment["api"] == "online" {
-            return .online
-        } else {
+        if  ProcessInfo.processInfo.environment["api"] == "local" {
             return .local
+        } else {
+            return .online
         }
     }
 }

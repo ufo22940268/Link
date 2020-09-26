@@ -85,12 +85,12 @@
          <EnvironmentVariable
             key = "RESET_CORE_DATA"
             value = "true"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "api"
-            value = "online"
-            isEnabled = "NO">
+            value = "local"
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "PROFILE_REQUEST"
