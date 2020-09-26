@@ -57,7 +57,7 @@ struct MonitorHistoryView: View {
             ZStack {
                 BarChartView(data: ChartData(values: data.0),
                              title: url.endPointPath ?? "",
-                             legend: self.totalErrorCount(data.0) > 0 ? "\(String(self.totalErrorCount(data.0))) 个报警" : "没有发现报警",
+                             legend: self.totalErrorCount(data.0) > 0 ? "\(String(self.totalErrorCount(data.0))) 个报警" : "10分钟内没有发现报警",
                              style: Styles.barChartStyleOrangeLight,
                              form: CGSize(width: proxy.size.width, height: 240),
                              dropShadow: false,
