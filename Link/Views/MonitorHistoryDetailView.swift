@@ -57,7 +57,7 @@ struct MonitorHistoryDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)
-        .navigationBarTitle(Text(errorDetailData.url.endPointPath!), displayMode: .inline)
+        .navigationBarTitle(Text("错误数"), displayMode: .inline)
         .onAppear {
             if !UIDevice.isPreview {
                 self.errorDetailData.load(by: self.endPointId)

@@ -50,6 +50,14 @@ extension String {
         }
         return nil
     }
+
+    var lastEndPointPath: String? {
+        guard let path = endPointPath else {
+            return nil
+        }
+        
+        return String(path.split(separator: "/").last ?? "")
+    }
 }
 
 extension JSONDecoder {
@@ -110,7 +118,7 @@ extension Publisher {
 
 extension Publisher where Output == Response, Failure == ResponseError {
     func eraseToVoidAnyPublisher() -> AnyPublisher<Void, ResponseError> {
-        map{ _ in () }
+        map { _ in () }
             .eraseToAnyPublisher()
     }
 }

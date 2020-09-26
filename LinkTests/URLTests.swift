@@ -33,12 +33,14 @@ class URLTests: XCTestCase {
     func testExtractPath() {
         let s = "http://biubiubiu.hopto.org/link/github.json"
         XCTAssertEqual(s.endPointPath, "/link/github.json")
+        XCTAssertEqual(s.lastEndPointPath, "github.json")
 
         let s2 = "http://api.github.com/"
         XCTAssertEqual(s2.endPointPath, "/")
 
         let s3 = "http://api.github.com"
         XCTAssertEqual(s3.endPointPath, "/")
+        XCTAssertEqual(s3.lastEndPointPath, "")
 
         XCTAssertNil("asdfasdf".endPointPath)
     }

@@ -56,7 +56,7 @@ struct DurationHistoryDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)
-        .navigationBarTitle(Text(durationDetailData.url.endPointPath!), displayMode: .inline)
+        .navigationBarTitle(Text("时长"))
         .onAppear {
             if !UIDevice.isPreview {
                 self.durationDetailData.load(by: self.endPointId)
