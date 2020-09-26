@@ -68,9 +68,7 @@ struct ApiDetailView: View {
 
             if api.watch {
                 Section(header: Text("期望值")) {
-                    NavigationLink(destination: EditWatchValueView(watchValue: watchValueBinding)) {
-                        Text(api.watchValue ?? "")
-                    }
+                    TextField("", text: watchValueBinding)
                 }
             }
         }
