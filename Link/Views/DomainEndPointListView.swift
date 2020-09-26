@@ -82,7 +82,7 @@ struct DomainEndPointListView: View {
             if domainNames.count > 0 {
                 List {
                     ForEach(domainNames, id: \.self) { domainName in
-                        Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]), content: {
+                        Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]).lowerCase(), content: {
                             ForEach(self.domainMap[domainName]!) { endPoint in
                                 EndPointRow(endPoint: endPoint)
                             }
@@ -105,6 +105,7 @@ struct DomainEndPointListView: View {
         }
     }
 }
+
 
 struct DomainEndPointListView_Previews: PreviewProvider {
     static var previews: some View {
