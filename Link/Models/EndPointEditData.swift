@@ -45,6 +45,9 @@ class EndPointEditData: ObservableObject {
     }
 
     func setupForCreate() {
+        //Avoid setup twice
+        guard endPoint == nil else { return }
+        
         type = .add
         validateURLResult = .prompt
         
@@ -60,6 +63,9 @@ class EndPointEditData: ObservableObject {
     }
     
     func setupForEdit(endPointId: NSManagedObjectID) {
+        //Avoid setup twice
+        guard endPoint == nil else { return }
+        
         type = .edit
         self.endPointId = endPointId
         validateURLResult = .ok
