@@ -80,24 +80,22 @@ struct DomainEndPointListView: View {
     var body: some View {
         Group {
             if domainNames.count > 0 {
-                List {
-                    ForEach(domainNames, id: \.self) { domainName in
-                        Section(header: Text(domainName).font(.system(.subheadline)).bold().padding([.vertical]).lowerCase(), content: {
-                            ForEach(self.domainMap[domainName]!) { endPoint in
-                                EndPointRow(endPoint: endPoint)
+                ForEach(domainNames, id: \.self) { domainName in
+                    Section(header: Text(domainName).font(.system(.subheadline)).bold().lowerCase(), content: {
+                        ForEach(self.domainMap[domainName]!) { endPoint in
+                            EndPointRow(endPoint: endPoint)
+                        }
+                        .onDelete { index in
+                            let endPoint: EndPointEntity = self.domainMap[domainName]![index.first!]
+                            let url = endPoint.url!
+                            DataSource(context: self.context).deleteEndPoint(entity: endPoint)
+                            let agent = BackendAgent()
+                            if agent.isLogin {
+                                self.domainData.deleteEndPoint(by: url)
                             }
-                            .onDelete { index in
-                                let endPoint: EndPointEntity = self.domainMap[domainName]![index.first!]
-                                let url = endPoint.url!
-                                DataSource(context: self.context).deleteEndPoint(entity: endPoint)
-                                let agent = BackendAgent()
-                                if agent.isLogin {
-                                    self.domainData.deleteEndPoint(by: url)
-                                }
-                                self.domainData.endPoints.removeAll { $0 == endPoint }
-                            }
-                        }).font(.body)
-                    }
+                            self.domainData.endPoints.removeAll { $0 == endPoint }
+                        }
+                    }).font(.body)
                 }
             } else {
                 emptyListView
@@ -105,7 +103,6 @@ struct DomainEndPointListView: View {
         }
     }
 }
-
 
 struct DomainEndPointListView_Previews: PreviewProvider {
     static var previews: some View {

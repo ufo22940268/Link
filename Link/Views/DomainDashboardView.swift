@@ -71,24 +71,31 @@ struct DomainDashboardView: View {
         }
     }
 
+    var headerView: some View {
+        VStack {
+            HStack(spacing: 15) {
+                DomainStatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
+                DomainStatisticsBlockView(status: .error(count: domainData.errorCount()))
+            }.padding()
+            lastUpdateView
+        }
+    }
+
     var body: some View {
         NavigationView {
-            VStack {
-                HStack(spacing: 15) {
-                    DomainStatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
-                    DomainStatisticsBlockView(status: .error(count: domainData.errorCount()))
-                }.padding()
-                lastUpdateView
+            List {
+                headerView
                 DomainEndPointListView()
             }
+            .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(leading: refreshButton, trailing: addButton)
         }
         .sheet(isPresented: $showingAddEndPoint, onDismiss: {
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
-            return AnyView(EndPointEditView(type: .add)
-                            .environment(\.managedObjectContext, CoreDataContext.add))
+            AnyView(EndPointEditView(type: .add)
+                .environment(\.managedObjectContext, CoreDataContext.add))
         })
         .navigationViewStyle(StackNavigationViewStyle())
         .font(.body)
