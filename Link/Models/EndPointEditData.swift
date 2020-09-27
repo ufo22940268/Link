@@ -53,8 +53,10 @@ class EndPointEditData: ObservableObject {
 
     func upsertEndPointInServer() {
         guard let endPoint = endPoint else { return }
-        let c = try! BackendAgent().upsert(endPoint: endPoint).sink(receiveCompletion: { _ in }, receiveValue: {})
-        cancellables.append(c)
+        if BackendAgent().isLogin {
+            let c = try! BackendAgent().upsert(endPoint: endPoint).sink(receiveCompletion: { _ in }, receiveValue: {})
+            cancellables.append(c)
+        }
     }
 
     func setupForCreate() {
