@@ -27,44 +27,48 @@ struct ApiListItemView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text((api.paths ?? "").lastPropertyPath)
-                }
-                Text(api.paths ?? "").font(.footnote).foregroundColor(.gray)
-                    .lineLimit(2)
-            }
+            Text(api.paths ?? "")
 
-            Spacer()
+//            Spacer()
 
-            if activeDetail {
-                NavigationLink("", destination: detailView, isActive: $activeDetail)
-                    .hidden()
-            }
+//            if activeDetail {
+//                NavigationLink("", destination: detailView, isActive: $activeDetail)
+//                    .hidden()
+//            }
 
-            if showDisclosure {
-                Button(action: {
-                    self.api.watch = true
-                    self.api.watchValue = self.api.value
-                    self.dismiss?()
-                }) {
-                    EmptyView()
-                }
-
-                Button(action: {
-                    self.activeDetail = true
-                }, label: { () in
-                    Image(systemName: "info.circle").foregroundColor(.accentColor)
-                })
-                    .buttonStyle(BorderlessButtonStyle())
-            }
-        }
+//            if showDisclosure {
+//                Button(action: {
+//                    self.api.watch = true
+//                    self.api.watchValue = self.api.value
+//                    self.dismiss?()
+//                }) {
+//                    EmptyView()
+//                }
+//
+//                Button(action: {
+//                    self.activeDetail = true
+//                }, label: { () in
+//                    Image(systemName: "info.circle").foregroundColor(.accentColor)
+//                })
+//                    .buttonStyle(BorderlessButtonStyle())
+//            }
+        }.onTapGesture(perform: {
+            self.api.watch = true
+            self.api.watchValue = self.api.value
+            self.dismiss?()
+        })
     }
 }
 
-struct ApiEditListItemView_Previews: PreviewProvider {
+struct ApiListItemView_Previews: PreviewProvider {
     static var previews: some View {
-//        ApiEditListItemView()
-        EmptyView()
+        List {
+            ForEach(TestData.apiEntities.map { api -> ApiEntity in
+                api.paths = "sdfwefweoifjwoiefj.wefoiwjefoiwjef.wefowijefoij"
+                return api
+            }, id: \.self.paths) { api in
+                ApiListItemView(api: Binding.constant(api))
+            }
+        }
     }
 }

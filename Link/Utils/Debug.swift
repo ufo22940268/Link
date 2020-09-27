@@ -13,7 +13,7 @@ import SwiftUI
 public class DebugHelper {
     fileprivate static func addMockEndPoint2(_ context: NSManagedObjectContext, _ d: DomainEntity) {
         let p2 = EndPointEntity(context: context)
-        p2.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+        p2.url = "http://biubiubiu.biz/link/github.json"
         p2.data = NSDataAsset(name: "github", bundle: .main)!.data
 
         let a1 = ApiEntity(context: context)
@@ -49,11 +49,11 @@ public class DebugHelper {
         clearDB(context)
 
         let d = DomainEntity(context: context)
-        d.name = "htopto"
-        d.hostname = "biubiubiu.hopto.org:9000"
+        d.name = "biubiubiu"
+        d.hostname = "biubiubiu.biz"
 
         let p = EndPointEntity(context: context)
-        p.url = "http://biubiubiu.hopto.org:9000/link/github.json"
+        p.url = "http://biubiubiu.biz/link/github.json"
         p.data = NSDataAsset(name: "github", bundle: .main)!.data
 
         let a1 = ApiEntity(context: context)

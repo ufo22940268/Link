@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 let testRecordItem = RecordItem(
     duration: 0.3,
@@ -38,3 +39,26 @@ let testScanLogDetails = [
     ScanLogDetail(id: "5f5f130360d3d76e96adc738", time: Date(), duration: 30, errorCount: 2),
     ScanLogDetail(id: "5f5f130360d3d76e96adc738", time: Date(timeIntervalSince1970: 20), duration: 20, errorCount: 10),
 ]
+
+struct TestData {
+    
+    static var context: NSManagedObjectContext {
+        getPersistentContainer().viewContext
+    }
+    
+    static var apiEntities: [ApiEntity] {
+        let a = ApiEntity(context: Self.context)
+        a.paths = "aa.bnb.cc.wefwef"
+        a.value = "CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity' CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity'"
+        a.watch = true
+        let a2 = ApiEntity(context: Self.context)
+        a2.paths = "wefwef2.wef"
+        a2.value = "12322"
+        a2.watch = false
+        return [a, a2]
+    }
+    
+    static var apiEntity: ApiEntity {
+        apiEntities.first!
+    }
+}
