@@ -57,7 +57,7 @@ enum EditType {
 }
 
 struct EndPointEditView: View {
-    var context: NSManagedObjectContext
+    @Environment(\.managedObjectContext) var context
 
     var dataSource: DataSource {
         DataSource(context: context)
@@ -71,24 +71,13 @@ struct EndPointEditView: View {
     @State var customDomainName: Bool = false
     @State var textHeight: CGFloat = 90
     @State var showAdd: Bool = false
-    @State var name: String = ""
+    var editEndPointId: NSManagedObjectID?
 
     var type: EditType
 
     internal init(type: EditType, endPoint: NSManagedObjectID? = nil) {
         self.type = type
-        
-        switch type {
-        case .add:
-            context = CoreDataContext.add
-            apiEditData.setupForCreate()
-        case .edit:
-            if endPoint == nil {
-                fatalError("end point id is needed for edit mode.")
-            }
-            context = CoreDataContext.edit
-            apiEditData.setupForEdit(endPointId: endPoint!)
-        }
+        editEndPointId = endPoint
 
         // TODO:
 //        customDomainName = apiEditData.url.domainName == apiEditData.domainName
@@ -191,6 +180,13 @@ struct EndPointEditView: View {
                     self.apiEditData.url = "http://biubiubiu.hopto.org:9000/link/github.json"
                     self.urlBinding.wrappedValue = "http://biubiubiu.hopto.org:9000/link/github.json"
                 }
+            }
+
+            switch self.type {
+            case .add:
+                apiEditData.setupForCreate()
+            case .edit:
+                apiEditData.setupForEdit(endPointId: editEndPointId!)
             }
         }
         return NavigationView {

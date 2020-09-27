@@ -19,7 +19,7 @@ class ApiDetailData: ObservableObject {
 
         api.objectWillChange.dropFirst().debounce(for: 1, scheduler: DispatchQueue.main).flatMap { () -> AnyPublisher<Void, Never> in
             NotificationCenter.default.post(Notification(name: Notification.refreshDomain))
-            if let endPoint = api.endPoint {
+            if let endPoint = api.endPoint, BackendAgent().isLogin {
                 return try! BackendAgent().upsert(endPoint: endPoint).replaceError(with: ()).map { _ in () }.eraseToAnyPublisher()
             } else {
                 return Empty().eraseToAnyPublisher()

@@ -34,9 +34,8 @@ class EndPointEditData: ObservableObject {
     var context: NSManagedObjectContext?
 
     init() {
-        self.listenToURLChange()
     }
-
+    
     func upsertEndPointInServer() {
         guard let endPoint = endPoint else { return }
         if BackendAgent().isLogin {
@@ -56,6 +55,8 @@ class EndPointEditData: ObservableObject {
         endPointId = endPoint!.objectID
         domainName = ""
         url = ""
+        
+        self.listenToURLChange()
     }
     
     func setupForEdit(endPointId: NSManagedObjectID) {
@@ -68,6 +69,8 @@ class EndPointEditData: ObservableObject {
             originURL = endPoint.url
             self.endPoint = endPoint
         }
+        
+        self.listenToURLChange()
     }
 
     var unwatchApis: [ApiEntity] {
