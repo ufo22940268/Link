@@ -46,7 +46,7 @@ class EndPointEditData: ObservableObject {
 
     func setupForCreate() {
         //Avoid setup twice
-        guard endPoint == nil else { return }
+         guard endPoint == nil else { return }
         
         type = .add
         validateURLResult = .prompt

@@ -6,15 +6,14 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
+import Combine
 import CoreData
 import UIKit
-import Combine
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
-    var uploadCancellable: AnyCancellable? = nil
-    
+    var uploadCancellable: AnyCancellable?
+
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "LinkModel")
         container.viewContext.name = "main"
@@ -53,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let agent = BackendAgent()
         if agent.isLogin {
-            self.uploadCancellable = try? agent.upload(notificationToken: deviceTokenString).sink {}
+            uploadCancellable = try? agent.upload(notificationToken: deviceTokenString).sink {}
         }
     }
 
@@ -62,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.sound, .alert])
+        completionHandler([.sound, .list, .banner])
     }
 
     func saveContext() {
