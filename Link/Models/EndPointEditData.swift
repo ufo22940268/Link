@@ -16,7 +16,7 @@ class EndPointEditData: ObservableObject {
     @Published var domainName: String = ""
     @Published var url: String = ""
     @Published var validateURLResult: ValidateURLResult = .initial
-    var type: EditType
+    var type: EditType!
 
     var originURL: String?
 
@@ -33,22 +33,8 @@ class EndPointEditData: ObservableObject {
     var endPointId: NSManagedObjectID?
     var context: NSManagedObjectContext?
 
-    // For create
     init() {
-        print("create init")
-        type = .add
-        validateURLResult = .prompt
-        setupForCreate()
-        listenToURLChange()
-    }
-
-    // For edit
-    init(endPointId: NSManagedObjectID) {
-        type = .edit
-        self.endPointId = endPointId
-        validateURLResult = .ok
-        context = CoreDataContext.edit
-        listenToURLChange()
+        self.listenToURLChange()
     }
 
     func upsertEndPointInServer() {
@@ -60,6 +46,9 @@ class EndPointEditData: ObservableObject {
     }
 
     func setupForCreate() {
+        type = .add
+        validateURLResult = .prompt
+        
         let context = CoreDataContext.add
         context.rollback()
         self.context = context
@@ -67,6 +56,18 @@ class EndPointEditData: ObservableObject {
         endPointId = endPoint!.objectID
         domainName = ""
         url = ""
+    }
+    
+    func setupForEdit(endPointId: NSManagedObjectID) {
+        type = .edit
+        self.endPointId = endPointId
+        validateURLResult = .ok
+        context = CoreDataContext.edit
+        
+        if let endPoint = try? context!.fetchOne(EndPointEntity.self, "self == %@", endPointId) {
+            originURL = endPoint.url
+            self.endPoint = endPoint
+        }
     }
 
     var unwatchApis: [ApiEntity] {

@@ -148,15 +148,9 @@ struct EndPointDetailView: View {
         }
         .sheet(isPresented: $showingEdit, onDismiss: {
             self.domainData.needReload.send()
-        }, content: { () -> AnyView in
-//            let apiData = EndPointEditData(endPointId: endPoint.objectID)
-//            if let endPoint = try? CoreDataContext.edit.fetchOne(EndPointEntity.self, "self == %@", endPoint.objectID) {
-//                apiData.originURL = endPoint.url
-//                apiData.endPoint = endPoint
-//            }
-//            return AnyView(EndPointEditView(type: .edit, apiEditData: apiData)
-//                .environment(\.managedObjectContext, CoreDataContext.edit))
-            return EmptyView().anyView()
+        }, content: { () in
+            EndPointEditView(type: .edit, endPoint: endPoint.objectID)
+                .environment(\.managedObjectContext, CoreDataContext.edit)
         })
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)

@@ -57,7 +57,7 @@ enum EditType {
 }
 
 struct EndPointEditView: View {
-    @Environment(\.managedObjectContext) var context
+    var context: NSManagedObjectContext
 
     var dataSource: DataSource {
         DataSource(context: context)
@@ -73,13 +73,24 @@ struct EndPointEditView: View {
     @State var showAdd: Bool = false
     @State var name: String = ""
 
-
     var type: EditType
 
-    internal init(type: EditType) {
+    internal init(type: EditType, endPoint: NSManagedObjectID? = nil) {
         self.type = type
+        
+        switch type {
+        case .add:
+            context = CoreDataContext.add
+            apiEditData.setupForCreate()
+        case .edit:
+            if endPoint == nil {
+                fatalError("end point id is needed for edit mode.")
+            }
+            context = CoreDataContext.edit
+            apiEditData.setupForEdit(endPointId: endPoint!)
+        }
 
-        //TODO
+        // TODO:
 //        customDomainName = apiEditData.url.domainName == apiEditData.domainName
     }
 
@@ -105,7 +116,6 @@ struct EndPointEditView: View {
             Text("取消")
         })
     }
-    
 
     var urlBinding: Binding<String> {
         Binding<String>(get: {
@@ -150,7 +160,6 @@ struct EndPointEditView: View {
                         return AnyView(
                             NavigationLink(destination: ApiDetailView(api: api), label: {
                                 ApiListItemView(api: self.createBinding(api: api), showDisclosure: false) {
-                                    
                                 }
                             })
                         )
@@ -213,9 +222,9 @@ struct EndPointEditView_Previews: PreviewProvider {
         ee.addToApi(ae1)
         ee.addToApi(ae2)
 
-        let d = EndPointEditData(endPointId: ee.objectID)
+        let d = EndPointEditData()
         d.endPoint = ee
-        return EndPointEditView(type: .edit)
+        return EndPointEditView(type: .add)
             .environment(\.managedObjectContext, context)
             .colorScheme(.light)
     }
