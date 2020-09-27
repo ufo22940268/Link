@@ -66,7 +66,6 @@ final class DomainData: NSObject, ObservableObject {
                     self.endPoints = []
                 }
 
-                self.isLoading = true
                 guard !self.endPoints.isEmpty else { return Empty().eraseToAnyPublisher() }
                 return HealthChecker(domains: self.endPoints, context: CoreDataContext.main)
                     .checkHealth()

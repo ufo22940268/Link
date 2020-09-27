@@ -22,6 +22,7 @@ struct DomainDashboardView: View {
         if domainData.endPoints.count > 0 {
             return AnyView(Button(domainData.isLoading ? "刷新中" : "刷新", action: {
                 self.domainData.needReload.send()
+                domainData.isLoading = true
             }).disabled(domainData.isLoading))
         } else {
             return AnyView(EmptyView())
