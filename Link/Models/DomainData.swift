@@ -54,7 +54,7 @@ final class DomainData: NSObject, ObservableObject {
                 NotificationCenter.default.post(Notification(name: Notification.reloadHistory))
             })
 
-        reloadCancellable = Publishers.Concatenate(prefix: needReload.first(), suffix: needReload.debounce(for: 1, scheduler: DispatchQueue.main))
+        reloadCancellable = Publishers.Concatenate(prefix: needReload.first(), suffix: needReload.debounce(for: 0.5, scheduler: DispatchQueue.main))
             .receive(on: DispatchQueue.main)
             .flatMap { (_) -> AnyPublisher<Void, Never> in
                 print("loadDomains \(Date())")
@@ -66,6 +66,7 @@ final class DomainData: NSObject, ObservableObject {
                     self.endPoints = []
                 }
 
+                self.isLoading = false
                 guard !self.endPoints.isEmpty else { return Empty().eraseToAnyPublisher() }
                 return HealthChecker(domains: self.endPoints, context: CoreDataContext.main)
                     .checkHealth()

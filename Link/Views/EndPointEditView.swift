@@ -69,7 +69,6 @@ struct EndPointEditView: View {
     @StateObject var apiEditData: EndPointEditData = EndPointEditData()
     @State var launched = false
     @State var customDomainName: Bool = false
-    @State var textHeight: CGFloat = 90
     @State var showAdd: Bool = false
     var editEndPointId: NSManagedObjectID?
 
@@ -134,8 +133,7 @@ struct EndPointEditView: View {
 
         let form = Form {
             Section(header: Text("域名地址"), footer: Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)) {
-                MultilineTextField(text: urlBinding, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
-                    .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+                TextEditor(text: urlBinding)
             }
 
             Section(header: Text("名字")) {
