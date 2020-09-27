@@ -24,6 +24,7 @@
 		4232203824F08BB5001470BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4232203A24F08BB5001470BF /* InfoPlist.strings */; };
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		424FA2C2251B24DC00A75C54 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FA2C1251B24DC00A75C54 /* EndPoint.swift */; };
+		425087612520591A00B61FAB /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425087602520591A00B61FAB /* CoreData.swift */; };
 		42522CB024FE1BBA000E8B09 /* ApiSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42522CAF24FE1BBA000E8B09 /* ApiSectionView.swift */; };
 		42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639511249DA14200ADFBE4 /* EndPointEditView.swift */; };
 		42639514249E009E00ADFBE4 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42639513249E009E00ADFBE4 /* Tools.swift */; };
@@ -110,6 +111,7 @@
 		423DD13324A984860064D321 /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
 		424FA2C1251B24DC00A75C54 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		425087602520591A00B61FAB /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		42522CAF24FE1BBA000E8B09 /* ApiSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiSectionView.swift; sourceTree = "<group>"; };
 		42522CB124FEFFE3000E8B09 /* Link.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Link.entitlements; sourceTree = "<group>"; };
 		42639511249DA14200ADFBE4 /* EndPointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointEditView.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				428028602504452A0042374E /* BackendAgent.swift */,
 				42EC0601250F548500921F38 /* Mock.swift */,
 				4206CAE4251EB31700EA40AD /* HistoryData.swift */,
+				425087602520591A00B61FAB /* CoreData.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				42D4F0A5250B49DB006F1318 /* RecordDetailSummaryView.swift in Sources */,
 				428784242502F3EE00B732B0 /* LoginManager.swift in Sources */,
 				42EC060C2511DF2D00921F38 /* ReadOnlyApiDetailView.swift in Sources */,
+				425087612520591A00B61FAB /* CoreData.swift in Sources */,
 				428028612504452A0042374E /* BackendAgent.swift in Sources */,
 				424FA2C2251B24DC00A75C54 /* EndPoint.swift in Sources */,
 				422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */,

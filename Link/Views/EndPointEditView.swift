@@ -92,7 +92,7 @@ struct EndPointEditView: View {
         Button("完成") {
             self.dataSource.upsertDomainName(name: self.apiEditData.domainName, url: self.apiEditData.url)
             self.apiEditData.upsertEndPointInServer()
-            try! self.context.save()
+            try! self.context.saveToDB()
             self.presentationMode.wrappedValue.dismiss()
         }.disabled(!(apiEditData.validateURLResult == .ok && apiEditData.watchApis.count > 0))
     }
