@@ -13,10 +13,12 @@ struct ApiListItemView: View {
     @State var activeDetail: Bool = false
     @Environment(\.presentationMode) var presentationMode
     var showDisclosure: Bool
+    var dismiss: (() -> Void)?
 
-    init(api: Binding<ApiEntity>, showDisclosure: Bool = true) {
+    init(api: Binding<ApiEntity>, showDisclosure: Bool = true, dismiss: (() -> Void)? = nil) {
         _api = api
         self.showDisclosure = showDisclosure
+        self.dismiss = dismiss
     }
 
     var detailView: some View {
@@ -44,7 +46,7 @@ struct ApiListItemView: View {
                 Button(action: {
                     self.api.watch = true
                     self.api.watchValue = self.api.value
-                    self.presentationMode.wrappedValue.dismiss()
+                    self.dismiss?()
                 }) {
                     EmptyView()
                 }

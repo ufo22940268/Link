@@ -66,19 +66,21 @@ struct EndPointEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var apiEntitiesOfDomain = [ApiEntity]()
 
-    @ObservedObject var apiEditData: EndPointEditData
+    @StateObject var apiEditData: EndPointEditData = EndPointEditData()
     @State var launched = false
     @State var customDomainName: Bool = false
     @State var textHeight: CGFloat = 90
     @State var showAdd: Bool = false
+    @State var name: String = ""
+
 
     var type: EditType
 
-    internal init(type: EditType, apiEditData: EndPointEditData) {
+    internal init(type: EditType) {
         self.type = type
-        self.apiEditData = apiEditData
 
-        customDomainName = apiEditData.url.domainName == apiEditData.domainName
+        //TODO
+//        customDomainName = apiEditData.url.domainName == apiEditData.domainName
     }
 
     var editView: some View {
@@ -103,6 +105,7 @@ struct EndPointEditView: View {
             Text("取消")
         })
     }
+    
 
     var urlBinding: Binding<String> {
         Binding<String>(get: {
@@ -146,7 +149,9 @@ struct EndPointEditView: View {
                         let api: ApiEntity = self.apiEditData.watchApis[i]
                         return AnyView(
                             NavigationLink(destination: ApiDetailView(api: api), label: {
-                                ApiListItemView(api: self.createBinding(api: api), showDisclosure: false)
+                                ApiListItemView(api: self.createBinding(api: api), showDisclosure: false) {
+                                    
+                                }
                             })
                         )
                     } else {
@@ -159,16 +164,16 @@ struct EndPointEditView: View {
                 }
             }
         }
-        .background(
-            NavigationLink(destination: ApiEditView(apiEditData: apiEditData), isActive: $showAdd) {
-                EmptyView()
-            }.hidden()
-        )
         .navigationBarTitle("域名", displayMode: .inline)
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onReceive(apiEditData.$url, perform: { url in
             if !self.customDomainName {
                 self.apiEditData.domainName = url.domainName
+            }
+        })
+        .sheet(isPresented: $showAdd, onDismiss: { self.apiEditData.objectWillChange.send() }, content: {
+            NavigationView {
+                ApiEditView(apiEditData: apiEditData)
             }
         })
         .onAppear {
@@ -180,7 +185,7 @@ struct EndPointEditView: View {
             }
         }
         return NavigationView {
-            form.navigationBarItems(leading: cancelButton, trailing: doneButton)
+            form
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -210,8 +215,8 @@ struct EndPointEditView_Previews: PreviewProvider {
 
         let d = EndPointEditData(endPointId: ee.objectID)
         d.endPoint = ee
-        return EndPointEditView(type: .edit, apiEditData: d)
+        return EndPointEditView(type: .edit)
             .environment(\.managedObjectContext, context)
-            .colorScheme(.dark)
+            .colorScheme(.light)
     }
 }

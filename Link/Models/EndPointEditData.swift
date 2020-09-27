@@ -35,6 +35,7 @@ class EndPointEditData: ObservableObject {
 
     // For create
     init() {
+        print("create init")
         type = .add
         validateURLResult = .prompt
         setupForCreate()
@@ -85,7 +86,7 @@ class EndPointEditData: ObservableObject {
             }.eraseToAnyPublisher()
         }
 
-        let dbDataSource = DataSource(context: CoreDataContext.main)
+        let dbDataSource = DataSource(context: context)
         urlPub
             .filter { url in
                 self.validateURLResult = .pending

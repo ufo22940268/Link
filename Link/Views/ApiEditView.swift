@@ -29,6 +29,7 @@ struct ApiEditView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var apiEditData: EndPointEditData
     @State var segment = Segment.all.rawValue
+    @Environment(\.presentationMode) var presentationMode
 
     init(apiEditData: EndPointEditData) {
         self.apiEditData = apiEditData
@@ -55,8 +56,10 @@ struct ApiEditView: View {
 
     var body: some View {
         VStack {
-            List(self.unwatchApis, id: \.self) { api -> AnyView in
-                AnyView(ApiListItemView(api: self.getApiBinding(api)))
+            List(self.unwatchApis, id: \.self) { api in
+                ApiListItemView(api: self.getApiBinding(api), dismiss: {
+                    self.presentationMode.wrappedValue.dismiss()
+                })
             }
         }
         .navigationBarTitle("添加字段", displayMode: .inline)

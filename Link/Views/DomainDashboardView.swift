@@ -86,12 +86,10 @@ struct DomainDashboardView: View {
         .sheet(isPresented: $showingAddEndPoint, onDismiss: {
             self.domainData.needReload.send()
         }, content: { () -> AnyView in
-            let addApiData = EndPointEditData()
-            return AnyView(EndPointEditView(type: .add, apiEditData: addApiData)
-                .environment(\.managedObjectContext, addApiData.context!))
+            return AnyView(EndPointEditView(type: .add)
+                            .environment(\.managedObjectContext, CoreDataContext.add))
         })
         .navigationViewStyle(StackNavigationViewStyle())
-        .background(Color(UIColor.systemBackground))
         .font(.body)
         .onAppear {
             CoreDataContext.edit.rollback()
