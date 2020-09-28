@@ -17,6 +17,7 @@ struct ApiDetailView: View {
     var api: ApiEntity {
         modelData.api
     }
+
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
     @Environment(\.presentationMode) var presentationMode
@@ -73,7 +74,7 @@ struct ApiDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text("字段"), displayMode: .inline)
+        .navigationBarTitle(Text("字段详情"))
     }
 }
 
