@@ -96,7 +96,7 @@ struct EndPointDetailView: View {
     }
 
     var responseSectionView: some View {
-        List {
+        Group {
             if isValidJson {
                 if errorApis.count > 0 {
                     ApiSectionView(onComplete: self.onEditComplete, apis: errorApis, title: "报警")
@@ -112,11 +112,10 @@ struct EndPointDetailView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
             }
         }
-        .listStyle(GroupedListStyle())
     }
 
     var metricSectionView: some View {
-        List {
+        Group {
             Section(header: Text("")) {
                 InfoRow(label: "响应时间", value: endPoint.duration.formatDuration)
                 InfoRow(label: "状态码", value: endPoint.statusCode)
@@ -129,17 +128,22 @@ struct EndPointDetailView: View {
     }
 
     var pickerView: some View {
-        Picker("Select category", selection: $segment) {
-            ForEach(Segment.allCases, id: \.self.rawValue) { segment in
-                Text(segment.label).tag(segment.rawValue)
+        ZStack(alignment: .center, content: {
+            Picker("Select category", selection: $segment) {
+                ForEach(Segment.allCases, id: \.self.rawValue) { segment in
+                    Text(segment.label).tag(segment.rawValue)
+                }
             }
-        }
-        .pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
+            .pickerStyle(SegmentedPickerStyle()).fixedSize().padding()
+        }).frame(maxWidth: .infinity)
     }
 
     var body: some View {
-        VStack {
-            pickerView
+        List {
+            Section(header: pickerView) {
+                EmptyView()
+            }
+
             if segment == Segment.response.rawValue {
                 responseSectionView
             } else if segment == Segment.metric.rawValue {
