@@ -27,31 +27,31 @@ enum Segment: Int, RawRepresentable, CaseIterable {
 struct ApiEditView: View {
     private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
-    @ObservedObject var apiEditData: EndPointEditData
     @State var segment = Segment.all.rawValue
     @Environment(\.presentationMode) var presentationMode
+    var apis: [ApiEntity]
 
-    init(apiEditData: EndPointEditData) {
-        self.apiEditData = apiEditData
+    init(apis: [ApiEntity]) {
+        self.apis = apis
     }
 
     func buildApiSelection() -> Binding<Set<ApiEntity>> {
         Binding<Set<ApiEntity>>(get: { () -> Set<ApiEntity> in
-            Set<ApiEntity>(self.apiEditData.apis.filter { $0.watch })
+            Set<ApiEntity>(self.apis.filter { $0.watch })
         }) { apis in
-            self.apiEditData.apis.forEach { api in
+            self.apis.forEach { api in
                 api.watch = apis.contains(api)
             }
         }
     }
 
     var unwatchApis: [ApiEntity] {
-        return apiEditData.apis.filter { !$0.watch }
+        return apis.filter { !$0.watch }
     }
 
     func getApiBinding(_ api: ApiEntity) -> Binding<ApiEntity> {
-        let index = apiEditData.apis.firstIndex(of: api)!
-        return $apiEditData.apis[index]
+        let index = apis.firstIndex(of: api)!
+        return Binding.constant(apis[index])
     }
 
     var body: some View {
@@ -68,7 +68,6 @@ struct ApiEditView: View {
 
 struct ApiEditView_Previews: PreviewProvider {
     static var previews: some View {
-        let d = EndPointEditData()
         let a = ApiEntity(context: context)
         a.paths = "aa.bnb.cc.wefwef"
         a.value = "CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity' CoreData: error: Failed to call designated initializer on NSManagedObject class 'Link.EndPointEntity'"
@@ -77,9 +76,8 @@ struct ApiEditView_Previews: PreviewProvider {
         a2.paths = "wefwef2.wef"
         a2.value = "12322"
         a2.watch = false
-        d.apis = [a, a2]
         return NavigationView {
-            ApiEditView(apiEditData: d)
+            ApiEditView(apis: [a, a2])
                 .environment(\.managedObjectContext, context)
                 .colorScheme(.light)
         }

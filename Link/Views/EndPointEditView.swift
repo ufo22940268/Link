@@ -83,8 +83,7 @@ struct EndPointEditView: View {
     }
 
     var editView: some View {
-        ApiEditView(apiEditData: self.apiEditData)
-            .environmentObject(apiEditData)
+        ApiEditView(apis: self.apiEditData.unwatchApis)
     }
 
     var doneButton: some View {
@@ -169,7 +168,7 @@ struct EndPointEditView: View {
         })
         .sheet(isPresented: $showAdd, onDismiss: { self.apiEditData.objectWillChange.send() }, content: {
             NavigationView {
-                ApiEditView(apiEditData: apiEditData)
+                ApiEditView(apis: apiEditData.unwatchApis)
             }
         })
         .onAppear {
@@ -189,7 +188,7 @@ struct EndPointEditView: View {
         }
         return NavigationView {
             form
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }
     }
 }
 
