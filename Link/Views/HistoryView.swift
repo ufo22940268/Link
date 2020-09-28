@@ -24,29 +24,49 @@ struct HistoryView: View {
     }
 
     @State var type: HistoryType = .duration
+    @StateObject var historyData = HistoryData()
+
+    var pickerView: some View {
+        ZStack(alignment: .center) {
+            Picker("", selection: $type) {
+                ForEach(HistoryType.allCases, id: \.self) { type in
+                    Text(type.label).tag(type)
+                }
+            }
+            .fixedSize()
+            .pickerStyle(SegmentedPickerStyle())
+        }
+        .frame(maxWidth: .infinity)
+    }
 
     var contentView: some View {
         NavigationView {
-            VStack {
-                Picker("", selection: $type) {
-                    ForEach(HistoryType.allCases, id: \.self) { type in
-                        Text(type.label).tag(type)
-                    }
+            List {
+                Section(header: pickerView) {
+                    EmptyView()
                 }
-                .fixedSize()
-                .pickerStyle(SegmentedPickerStyle())
-                .environment(\.horizontalSizeClass, .compact)
+
                 if type == .duration {
-                    DurationHistoryView()
+                    DurationHistoryView(items: historyData.items)
                 } else if type == .monitor {
-                    MonitorHistoryView()
+                    MonitorHistoryView(items: historyData.items)
                 }
             }
             .navigationBarHidden(true)
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("", displayMode: .inline)
+            .onAppear {
+                self.loadData()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
+                self.loadData()
+            })
         }
+    }
+
+    private func loadData() {
+        historyData.loadData()
     }
 
     var body: some View {

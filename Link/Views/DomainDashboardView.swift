@@ -97,7 +97,6 @@ struct DomainDashboardView: View {
             AnyView(EndPointEditView(type: .add)
                 .environment(\.managedObjectContext, CoreDataContext.add))
         })
-//        .navigationViewStyle(StackNavigationViewStyle())
         .font(.body)
         .onAppear {
             CoreDataContext.edit.rollback()

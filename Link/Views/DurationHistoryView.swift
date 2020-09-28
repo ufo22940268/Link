@@ -25,7 +25,15 @@ extension Array where Self.Element == ScanLog {
 
 typealias DurationSectionData = (ChartValues, ObjectId)
 
-class DurationHistoryData: HistoryData {
+typealias ChartValues = [(String, Double)]
+
+struct DurationHistoryView: View {
+    var items: [ScanLog]?
+
+    init(items: [ScanLog]?) {
+        self.items = items
+    }
+
     var chartData: [String: [String: DurationSectionData]] {
         if let items = items {
             return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
@@ -36,7 +44,8 @@ class DurationHistoryData: HistoryData {
                     }
 
                     var ar = [(String, Double)]()
-                    let maxTime = Date()
+//                    let maxTime = Date()
+                    let maxTime = items.first!.time
                     let endPointId = items.first!.endPointId
                     for i in (0 ..< 10).reversed() {
                         let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
@@ -54,19 +63,13 @@ class DurationHistoryData: HistoryData {
             return [:]
         }
     }
-}
-
-typealias ChartValues = [(String, Double)]
-
-struct DurationHistoryView: View {
-    @ObservedObject var durationData = DurationHistoryData()
 
     func averageDuration(_ data: ChartValues) -> String {
         let ar = data.map { $0.1 }.filter { $0 > 0 }
         if ar.isEmpty {
             return "0 ms"
         }
-        
+
         return (ar.reduce(0, { $0 + $1 }) / Double(ar.count)).formatDuration
     }
 
@@ -91,37 +94,26 @@ struct DurationHistoryView: View {
     }
 
     var body: some View {
-        ZStack {
-            if durationData.items != nil && durationData.items!.isEmpty {
+        Group {
+            if items != nil && items!.isEmpty {
                 HistoryEmptyView()
             } else {
-                List {
-                    ForEach(Array(durationData.chartData.keys).sorted(), id: \.self) { (domain: String) -> AnyView in
-                        let m: [String: DurationSectionData] = self.durationData.chartData[domain]!
-                        let urls: [String] = Array(m.keys).sorted()
-                        return AnyView(Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
-                            ForEach(urls, id: \.self) { url in
-                                self.rowView(url: url, rowData: m[url]!)
-                            }
-                        })
-                    }
+                ForEach(Array(chartData.keys).sorted(), id: \.self) { (domain: String) -> AnyView in
+                    let m: [String: DurationSectionData] = self.chartData[domain]!
+                    let urls: [String] = Array(m.keys).sorted()
+                    return AnyView(Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
+                        ForEach(urls, id: \.self) { url in
+                            self.rowView(url: url, rowData: m[url]!)
+                        }
+                    })
                 }
-                .id(UUID())
             }
         }
-        .onAppear {
-            self.durationData.loadData()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
-            self.durationData.loadData()
-        })
     }
 }
 
 struct DurationHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = DurationHistoryView()
-        view.durationData.items = testScanLogs
-        return view
+        DurationHistoryView(items: testScanLogs)
     }
 }

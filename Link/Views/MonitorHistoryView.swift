@@ -12,7 +12,45 @@ import SwiftUICharts
 
 typealias MonitorSectionData = (ChartValues, ObjectId)
 
-class MonitorHistoryData: HistoryData {
+class MonitorHistoryData: ObservableObject {
+    @Published var items: [ScanLog]? = nil
+
+    /// DomainName: [TimeSpan: SectionData]
+    var chartData: [String: [String: MonitorSectionData]] {
+        if let items = items {
+            return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
+                dict.mapValues({ (items: [ScanLog]) -> MonitorSectionData in
+                    let items = items.sorted { $0.time > $1.time }
+                    if items.isEmpty {
+                        return ([], "")
+                    }
+
+                    var ar = [(String, Double)]()
+//                    let maxTime = Date()
+                    let maxTime = items.first!.time
+                    let endPointId = items.first!.endPointId
+
+                    for i in (0 ..< 10).reversed() {
+                        let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
+                        let end = maxTime - 60 * 5 * TimeInterval(i)
+                        if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
+                            ar.append((end.formatTime, Double(item.errorCount)))
+                        } else {
+                            ar.append((end.formatTime, 0))
+                        }
+                    }
+                    return (ar, endPointId)
+                })
+            }
+        } else {
+            return [:]
+        }
+    }
+}
+
+struct MonitorHistoryView: View {
+    var items: [ScanLog]?
+
     /// DomainName: [TimeSpan: SectionData]
     var chartData: [String: [String: MonitorSectionData]] {
         if let items = items {
@@ -43,10 +81,10 @@ class MonitorHistoryData: HistoryData {
             return [:]
         }
     }
-}
 
-struct MonitorHistoryView: View {
-    @ObservedObject var monitorData = MonitorHistoryData()
+    init(items: [ScanLog]?) {
+        self.items = items
+    }
 
     func totalErrorCount(_ data: ChartValues) -> Int {
         data.reduce(0, { $0 + Int($1.1) })
@@ -73,39 +111,30 @@ struct MonitorHistoryView: View {
     }
 
     var body: some View {
-        ZStack {
-            if monitorData.items != nil && monitorData.items!.isEmpty {
+        Group {
+            if items != nil && items!.isEmpty {
                 HistoryEmptyView()
             } else {
-                List {
-                    ForEach(Array(monitorData.chartData.keys).sorted(by: >), id: \.self) { domain -> AnyView in
-                        let m: [String: MonitorSectionData] = self.monitorData.chartData[domain]!
-                        return AnyView(
-                            Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
-                                ForEach(Array(m.keys).sorted(), id: \.self) { url in
-                                    self.rowView(url: url, data: m[url]!)
-                                }
+                ForEach(Array(chartData.keys).sorted(by: >), id: \.self) { domain -> AnyView in
+                    let m: [String: MonitorSectionData] = self.chartData[domain]!
+                    return AnyView(
+                        Section(header: Text(domain).font(.headline).foregroundColor(.primary)) {
+                            ForEach(Array(m.keys).sorted(), id: \.self) { url in
+                                self.rowView(url: url, data: m[url]!)
                             }
-                        )
-                    }
+                        }
+                    )
                 }
-                .id(UUID())
             }
         }
-        .onAppear {
-            self.monitorData.loadData()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
-            print("------------reload monitor history------------")
-            self.monitorData.loadData()
-        })
     }
 }
 
 struct ErrorHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = MonitorHistoryView()
-        view.monitorData.items = testScanLogs
-        return view
+        EmptyView()
+//        let view = MonitorHistoryView()
+//        view.monitorData.items = testScanLogs
+//        return view
     }
 }
