@@ -36,14 +36,11 @@ struct HistoryView: View {
             .fixedSize()
             .pickerStyle(SegmentedPickerStyle())
         }
-        .frame(maxWidth: .infinity)
     }
 
     var contentView: some View {
         NavigationView {
             List {
-                pickerView.asListHeader()
-
                 if type == .duration {
                     DurationHistoryView(items: historyData.items)
                 } else if type == .monitor {
@@ -51,8 +48,12 @@ struct HistoryView: View {
                 }
             }
             .listStyle(GroupedListStyle())
-            .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("记录")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    pickerView
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 self.loadData()
             }

@@ -61,7 +61,6 @@ struct RecordDetailView: View {
 
     var body: some View {
         List {
-            pickerView.asListHeader()
             if recordData.item != nil {
                 if segment == .summary {
                     RecordDetailSummaryView(item: recordData.item!)
@@ -74,6 +73,11 @@ struct RecordDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                pickerView
+            }
+        }
         .sheet(item: $sheetType, onDismiss: {
             self.sheetType = nil
         }) { st -> AnyView in
