@@ -54,14 +54,6 @@ extension View {
     func anyView() -> AnyView {
         return AnyView(self)
     }
-
-    func lowerCase() -> some View {
-        if #available(iOS 14.0, *) {
-            return self.textCase(.lowercase).anyView()
-        } else {
-            return anyView()
-        }
-    }
 }
 
 extension Notification {

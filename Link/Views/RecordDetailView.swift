@@ -44,6 +44,7 @@ struct RecordDetailView: View {
     @State var segment = RecordDetailSegment.summary
     @ObservedObject var recordData = RecordDetailData()
     var scanLogId: String
+    @State var sheetType: SheetType? = nil
 
     var pickerView: some View {
         ZStack(alignment: .center) {
@@ -67,12 +68,33 @@ struct RecordDetailView: View {
                 } else if segment == .monitor {
                     RecordDetailMonitorView(item: recordData.item!)
                 } else if segment == .response {
-                    RecordDetailResponseView(item: recordData.item!)
+                    RecordDetailResponseView(item: recordData.item!, sheetType: $sheetType)
                 }
             }
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $sheetType, onDismiss: {
+            self.sheetType = nil
+        }) { st -> AnyView in
+            var content: AnyView
+            let item = self.recordData.item!
+            switch st {
+            case .text:
+                content = AnyView(RecordDetailTextView(text: item.responseBody))
+            case .json:
+                content = AnyView(RecordDetailJSONView(text: item.responseBody))
+            }
+            return AnyView(
+                NavigationView {
+                    content
+                        .navigationBarItems(trailing: Button("完成") {
+                            self.sheetType = nil
+                        })
+                        .navigationBarTitle(Text(st.title), displayMode: .inline)
+                }
+            )
+        }
         .onAppear {
             if !UIDevice.isPreview {
                 self.recordData.load(id: self.scanLogId)

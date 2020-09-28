@@ -7,51 +7,29 @@
 //
 
 import SwiftUI
+enum SheetType: Int, Identifiable, CaseIterable {
+    var id: Int {
+        return rawValue
+    }
+
+    case text
+    case json
+
+    var title: String {
+        switch self {
+        case .text:
+            return "文本"
+        case .json:
+            return "JSON"
+        }
+    }
+}
+
 
 struct RecordDetailResponseView: View {
     var item: RecordItem
-    @State var sheetType: SheetType? = nil
+    @Binding var sheetType: SheetType?
 
-    enum SheetType: Int, Identifiable, CaseIterable {
-        var id: Int {
-            return rawValue
-        }
-
-        case text
-        case json
-
-        var title: String {
-            switch self {
-            case .text:
-                return "文本"
-            case .json:
-                return "JSON"
-            }
-        }
-    }
-
-    var headerAndSheet: some View {
-        Text("Body").sheet(item: $sheetType, onDismiss: {
-            self.sheetType = nil
-        }) { st -> AnyView in
-            var content: AnyView
-            switch st {
-            case .text:
-                content = AnyView(RecordDetailTextView(text: self.item.responseBody))
-            case .json:
-                content = AnyView(RecordDetailJSONView(text: self.item.responseBody))
-            }
-            return AnyView(
-                NavigationView {
-                    content
-                        .navigationBarItems(trailing: Button("完成") {
-                            self.sheetType = nil
-                        })
-                        .navigationBarTitle(Text(st.title), displayMode: .inline)
-                }
-            )
-        }
-    }
 
     var body: some View {
         Group {
@@ -61,14 +39,13 @@ struct RecordDetailResponseView: View {
                     .fixedSize()
             }
 
-            Section(header: headerAndSheet) {
+            Section(header: Text("Body")) {
                 ForEach(SheetType.allCases, id: \.self, content: { st in
                     Button("预览\(st.title)") {
                         self.sheetType = st
                     }
                 })
             }
-            EmptyView()
         }
     }
 }
@@ -76,7 +53,7 @@ struct RecordDetailResponseView: View {
 struct RecordDetailReponseView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            RecordDetailResponseView(item: testRecordItem)
+            RecordDetailResponseView(item: testRecordItem, sheetType: Binding.constant(SheetType.text))
         }
     }
 }

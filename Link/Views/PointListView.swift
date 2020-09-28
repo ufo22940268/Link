@@ -81,7 +81,7 @@ struct PointListView: View {
         Group {
             if domainNames.count > 0 {
                 ForEach(domainNames, id: \.self) { domainName in
-                    Section(header: Text(domainName).font(.system(.subheadline)).bold().lowerCase(), content: {
+                    Section(header: Text(domainName).font(.system(.subheadline)).bold().textCase(.lowercase), content: {
                         ForEach(self.domainMap[domainName]!) { endPoint in
                             EndPointRow(endPoint: endPoint)
                         }

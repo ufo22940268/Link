@@ -118,7 +118,7 @@ struct MonitorHistoryView: View {
                 ForEach(Array(chartData.keys).sorted(by: >), id: \.self) { domain -> AnyView in
                     let m: [String: MonitorSectionData] = self.chartData[domain]!
                     return AnyView(
-                        Section(header: Text(domain).font(.headline).foregroundColor(.primary).lowerCase()) {
+                        Section(header: Text(domain).font(.headline).foregroundColor(.primary).textCase(.lowercase)) {
                             ForEach(Array(m.keys).sorted(), id: \.self) { url in
                                 self.rowView(url: url, data: m[url]!)
                             }
