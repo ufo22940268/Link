@@ -186,9 +186,16 @@ struct EndPointEditView: View {
                 apiEditData.setupForEdit(endPointId: editEndPointId!)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .updateEndPointDetail), perform: { _ in
+            self.refresh()
+        })
         return NavigationView {
             form
         }
+    }
+    
+    private func refresh() {
+        self.apiEditData.objectWillChange.send()
     }
 }
 

@@ -159,10 +159,17 @@ struct EndPointDetailView: View {
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
         .navigationBarItems(trailing: editButton)
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name.updateEndPointDetail), perform: { _ in
+            self.refresh()
+        })
+    }
+    
+    private func refresh() {
+        self.endPoint.objectWillChange.send()
     }
 }
 
-struct JSONViewerView_Previews: PreviewProvider {
+struct EndPointDetailView_Previews: PreviewProvider {
     static var validEndPointEntity: EndPointEntity {
         let j = """
         {"a": 1, "aa": 3, "d": 4, "b": "2/wefwef"}

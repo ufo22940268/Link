@@ -16,7 +16,7 @@ struct ApiSectionView: View {
     var body: some View {
         Section(header: Text(title)) {
             ForEach(self.apis) { api in
-                NavigationLink(destination: ApiDetailView(api: api, onComplete: self.onComplete), label: {
+                NavigationLink(destination: ApiDetailView(api: api), label: {
                     Text(api.paths ?? "")
                 })
             }

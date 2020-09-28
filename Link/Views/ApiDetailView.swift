@@ -21,7 +21,6 @@ struct ApiDetailView: View {
     @Environment(\.managedObjectContext) var context
     @State private var showingAlert = false
     @Environment(\.presentationMode) var presentationMode
-    var onComplete: (() -> Void)?
     @State var cancellables = Set<AnyCancellable>()
     @State var apiChangeCancellable: AnyCancellable?
     @ObservedObject var modelData: ApiDetailData
@@ -35,15 +34,14 @@ struct ApiDetailView: View {
                 .alert(isPresented: $showingAlert, content: {
                     Alert(title: Text("确定取消监控吗?"), message: nil, primaryButton: .default(Text("确定"), action: {
                         self.api.watch = false
-                        self.onComplete?()
-                        NotificationCenter.default.post(Notification(name: Notification.updateJsonViewer))
+                        save()
                     }), secondaryButton: .cancel())
                 }))
         } else {
             return AnyView(Button("加入监控", action: {
                 self.api.watch = true
                 self.api.watchValue = self.api.value
-                self.onComplete?()
+                save()
             }).foregroundColor(.accentColor))
         }
     }
@@ -75,6 +73,11 @@ struct ApiDetailView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("字段详情"))
+    }
+
+    private func save() {
+        try! api.managedObjectContext?.saveToDB()
+        NotificationCenter.default.post(Notification(name: .updateEndPointDetail))
     }
 }
 

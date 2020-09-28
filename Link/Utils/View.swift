@@ -6,8 +6,8 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct Safe<T: RandomAccessCollection & MutableCollection, C: View>: View {
     typealias BoundElement = Binding<T.Element>
@@ -27,8 +27,8 @@ struct Safe<T: RandomAccessCollection & MutableCollection, C: View>: View {
 
 extension View {
     func navigationBarItems<L, C, T>(leading: L, center: C, trailing: T) -> some View where L: View, C: View, T: View {
-        self.navigationBarItems(leading:
-            HStack{
+        navigationBarItems(leading:
+            HStack {
                 HStack {
                     leading
                 }
@@ -37,38 +37,38 @@ extension View {
                 HStack {
                     center
                 }
-                 .frame(width: 300, alignment: .center)
+                .frame(width: 300, alignment: .center)
                 Spacer()
                 HStack {
-                    //Text("asdasd")
+                    // Text("asdasd")
                     trailing
                 }
-                //.background(Color.blue)
+                // .background(Color.blue)
                 .frame(width: 100, alignment: .trailing)
             }
-            //.background(Color.yellow)
-            .frame(width: UIScreen.main.bounds.size.width-32)
+            // .background(Color.yellow)
+            .frame(width: UIScreen.main.bounds.size.width - 32)
         )
     }
-    
+
     func anyView() -> AnyView {
         return AnyView(self)
     }
-    
+
     func lowerCase() -> some View {
         if #available(iOS 14.0, *) {
             return self.textCase(.lowercase).anyView()
         } else {
-            return self.anyView()
+            return anyView()
         }
     }
-
 }
 
 extension Notification {
-    static let updateJsonViewer = Notification.Name.init("updateJsonViewer")
-    static let refreshDomain = Notification.Name.init("refreshDomain")
+    static let refreshDomain = Notification.Name("refreshDomain")
     static let reloadHistory = Notification.Name(rawValue: "initHistory")
 }
 
-
+extension Notification.Name {
+    static let updateEndPointDetail = Notification.Name("updateEndPointDetail")
+}
