@@ -8,38 +8,47 @@
 
 import SwiftUI
 
+enum ApiListItemType {
+    case view
+    case edit
+}
+
 struct ApiListItemView: View {
     @Binding var api: ApiEntity
     @State var showDetail: Bool = false
     @Environment(\.presentationMode) var presentationMode
-    var showDisclosure: Bool
     var dismiss: (() -> Void)?
+
+    private var itemType: ApiListItemType
 
     init(api: Binding<ApiEntity>, showDisclosure: Bool = true, dismiss: (() -> Void)? = nil) {
         _api = api
-        self.showDisclosure = showDisclosure
+
+        if showDisclosure {
+            itemType = .edit
+        } else {
+            itemType = .view
+        }
+
         self.dismiss = dismiss
     }
 
     var body: some View {
-        HStack {
+        var view: AnyView = HStack {
             Text(api.paths ?? "")
 
             Spacer()
 
-            if showDisclosure {
+            if itemType == .edit {
                 Button(action: {
                     self.showDetail = true
                 }, label: { () in
-                    Image(systemName: "info.circle").foregroundColor(.accentColor)
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.accentColor)
                 }).buttonStyle(BorderlessButtonStyle())
             }
         }
-        .onTapGesture(perform: {
-            self.api.watch = true
-            self.api.watchValue = self.api.value
-            self.dismiss?()
-        })
+        .contentShape(Rectangle())
         .sheet(isPresented: $showDetail, content: {
             NavigationView {
                 ApiDetailView(api: api)
@@ -47,7 +56,17 @@ struct ApiListItemView: View {
                         self.showDetail = false
                     })
             }
-        })
+        }).anyView()
+
+        if itemType == .edit {
+            view = view.onTapGesture(perform: {
+                self.api.watch = true
+                self.api.watchValue = self.api.value
+                self.dismiss?()
+            })
+                .anyView()
+        }
+        return view
     }
 }
 
