@@ -118,13 +118,23 @@ extension DomainData: ASAuthorizationControllerDelegate {
 
     @objc
     func triggerAppleLogin() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName]
+        if !UIDevice.isSimulator {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            request.requestedScopes = [.fullName]
 
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.performRequests()
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = self
+            authorizationController.performRequests()
+        } else {
+            postLogin("simulator_name", "simulator_device_token")
+        }
+    }
+
+    fileprivate func postLogin(_ username: String, _ userId: String) {
+        let loginInfo = LoginInfo(username: username, appleUserId: userId)
+        LoginManager.save(loginInfo: loginInfo)
+        self.loginInfo = loginInfo
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
@@ -132,9 +142,7 @@ extension DomainData: ASAuthorizationControllerDelegate {
         case let credential as ASAuthorizationAppleIDCredential:
             let username = credential.fullName?.givenName ?? ""
             let userId = credential.user
-            let loginInfo = LoginInfo(username: username, appleUserId: userId)
-            LoginManager.save(loginInfo: loginInfo)
-            self.loginInfo = loginInfo
+            postLogin(username, userId)
         default:
             break
         }
