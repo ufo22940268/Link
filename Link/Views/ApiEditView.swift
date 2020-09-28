@@ -24,7 +24,7 @@ enum Segment: Int, RawRepresentable, CaseIterable {
     }
 }
 
-struct ApiEditView: View {
+struct ApiListView: View {
     private var cancellables = [AnyCancellable]()
     @Environment(\.managedObjectContext) var context
     @State var segment = Segment.all.rawValue
@@ -55,18 +55,16 @@ struct ApiEditView: View {
     }
 
     var body: some View {
-        VStack {
-            List(self.unwatchApis, id: \.self) { api in
-                ApiListItemView(api: self.getApiBinding(api), dismiss: {
-                    self.presentationMode.wrappedValue.dismiss()
-                })
-            }
+        List(self.unwatchApis, id: \.self) { api in
+            ApiListItemView(api: self.getApiBinding(api), dismiss: {
+                self.presentationMode.wrappedValue.dismiss()
+            })
         }
         .navigationBarTitle("添加字段", displayMode: .inline)
     }
 }
 
-struct ApiEditView_Previews: PreviewProvider {
+struct ApiListView_Previews: PreviewProvider {
     static var previews: some View {
         let a = ApiEntity(context: context)
         a.paths = "aa.bnb.cc.wefwef"
@@ -77,7 +75,7 @@ struct ApiEditView_Previews: PreviewProvider {
         a2.value = "12322"
         a2.watch = false
         return NavigationView {
-            ApiEditView(apis: [a, a2])
+            ApiListView(apis: [a, a2])
                 .environment(\.managedObjectContext, context)
                 .colorScheme(.light)
         }

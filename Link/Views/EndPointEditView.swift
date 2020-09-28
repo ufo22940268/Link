@@ -83,7 +83,7 @@ struct EndPointEditView: View {
     }
 
     var editView: some View {
-        ApiEditView(apis: self.apiEditData.unwatchApis)
+        ApiListView(apis: self.apiEditData.unwatchApis)
     }
 
     var doneButton: some View {
@@ -168,7 +168,7 @@ struct EndPointEditView: View {
         })
         .sheet(isPresented: $showAdd, onDismiss: { self.apiEditData.objectWillChange.send() }, content: {
             NavigationView {
-                ApiEditView(apis: apiEditData.unwatchApis)
+                ApiListView(apis: apiEditData.unwatchApis)
             }
         })
         .onAppear {

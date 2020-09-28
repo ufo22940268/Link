@@ -43,7 +43,7 @@ private struct EndPointRow: View {
     }
 }
 
-struct DomainEndPointListView: View {
+struct PointListView: View {
     @EnvironmentObject var domainData: DomainData
     @Environment(\.managedObjectContext) var context
 
@@ -104,9 +104,9 @@ struct DomainEndPointListView: View {
     }
 }
 
-struct DomainEndPointListView_Previews: PreviewProvider {
+struct EndPointListView_Previews: PreviewProvider {
     static var previews: some View {
-        DomainEndPointListView()
+        PointListView()
             .environmentObject(DomainData())
             .environmentObject(DataSource(context: context))
             .environment(\.managedObjectContext, context)

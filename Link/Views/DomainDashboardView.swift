@@ -85,7 +85,7 @@ struct DomainDashboardView: View {
         NavigationView {
             List {
                 headerView
-                DomainEndPointListView()
+                PointListView()
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("概览"))

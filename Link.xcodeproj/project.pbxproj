@@ -20,7 +20,7 @@
 		422B6D052498D91500D2F10D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D032498D91500D2F10D /* LaunchScreen.storyboard */; };
 		422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */; };
 		422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */; };
-		422B6D21249C96CF00D2F10D /* DomainEndPointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */; };
+		422B6D21249C96CF00D2F10D /* PointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* PointListView.swift */; };
 		4232203824F08BB5001470BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4232203A24F08BB5001470BF /* InfoPlist.strings */; };
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		424FA2C2251B24DC00A75C54 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FA2C1251B24DC00A75C54 /* EndPoint.swift */; };
@@ -105,7 +105,7 @@
 		422B6D112498D91500D2F10D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainDashboardView.swift; sourceTree = "<group>"; };
 		422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainStatisticsBlockView.swift; sourceTree = "<group>"; };
-		422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEndPointListView.swift; sourceTree = "<group>"; };
+		422B6D20249C96CF00D2F10D /* PointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointListView.swift; sourceTree = "<group>"; };
 		4232203724F08B8C001470BF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		4232203924F08BB5001470BF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		4232203C24F08C91001470BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 				42639511249DA14200ADFBE4 /* EndPointEditView.swift */,
 				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
 				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
-				422B6D20249C96CF00D2F10D /* DomainEndPointListView.swift */,
+				422B6D20249C96CF00D2F10D /* PointListView.swift */,
 				42508766252083D900B61FAB /* TestView.swift */,
 				426F887324B09EE600C039E4 /* ApiEditView.swift */,
 				42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */,
@@ -487,7 +487,7 @@
 				422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */,
 				42FCE305250AE1CB008E50CD /* DurationHistoryDetailView.swift in Sources */,
 				422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */,
-				422B6D21249C96CF00D2F10D /* DomainEndPointListView.swift in Sources */,
+				422B6D21249C96CF00D2F10D /* PointListView.swift in Sources */,
 				422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */,
 				42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */,
 				42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */,
