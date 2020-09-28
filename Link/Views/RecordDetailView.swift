@@ -41,12 +41,13 @@ class RecordDetailData: ObservableObject {
 }
 
 struct RecordDetailView: View {
+//    @State var segment = RecordDetailSegment.response
     @State var segment = RecordDetailSegment.summary
     @ObservedObject var recordData = RecordDetailData()
     var scanLogId: String
 
-    var body: some View {
-        VStack {
+    var pickerView: some View {
+        ZStack(alignment: .center) {
             Picker("", selection: $segment) {
                 ForEach(RecordDetailSegment.allCases, id: \.self) { segment in
                     Text(segment.label).tag(segment.rawValue)
@@ -54,23 +55,28 @@ struct RecordDetailView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .fixedSize()
-            ZStack {
-                if recordData.item != nil {
-                    if segment == .summary {
-                        RecordDetailSummaryView(item: recordData.item!)
-                    } else if segment == .monitor {
-                        RecordDetailMonitorView(item: recordData.item!)
-                    } else if segment == .response {
-                        RecordDetailResponseView(item: recordData.item!)
-                    }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    var body: some View {
+        List {
+            pickerView.asListHeader()
+            if recordData.item != nil {
+                if segment == .summary {
+                    RecordDetailSummaryView(item: recordData.item!)
+                } else if segment == .monitor {
+                    RecordDetailMonitorView(item: recordData.item!)
+                } else if segment == .response {
+                    RecordDetailResponseView(item: recordData.item!)
                 }
             }
-            .frame(maxHeight: .infinity)
         }
-        .padding(.top)
         .listStyle(GroupedListStyle())
         .onAppear {
-            self.recordData.load(id: self.scanLogId)
+            if !UIDevice.isPreview {
+                self.recordData.load(id: self.scanLogId)
+            }
         }
     }
 }
@@ -79,6 +85,7 @@ struct RecordDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let view = RecordDetailView(scanLogId: testScanLogId)
         view.recordData.item = testRecordItem
+        view.segment = .response
         return NavigationView {
             view.navigationBarTitle("ff", displayMode: .inline)
         }.colorScheme(.dark)

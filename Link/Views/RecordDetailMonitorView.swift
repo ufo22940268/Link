@@ -18,7 +18,7 @@ struct RecordDetailMonitorView: View {
     }
 
     var body: some View {
-        List {
+        Group {
             if !item.failedFields.isEmpty {
                 Section(header: Text("报警字段")) {
                     ForEach(item.failedFields) { field in

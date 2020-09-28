@@ -23,6 +23,7 @@
 		422B6D21249C96CF00D2F10D /* PointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* PointListView.swift */; };
 		4232203824F08BB5001470BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4232203A24F08BB5001470BF /* InfoPlist.strings */; };
 		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
+		42458E312521F35D00707E4F /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42458E302521F35D00707E4F /* List.swift */; };
 		424FA2C2251B24DC00A75C54 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FA2C1251B24DC00A75C54 /* EndPoint.swift */; };
 		425087612520591A00B61FAB /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425087602520591A00B61FAB /* CoreData.swift */; };
 		42508767252083D900B61FAB /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42508766252083D900B61FAB /* TestView.swift */; };
@@ -111,6 +112,7 @@
 		4232203C24F08C91001470BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		423DD13324A984860064D321 /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
+		42458E302521F35D00707E4F /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		424FA2C1251B24DC00A75C54 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		425087602520591A00B61FAB /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		42508766252083D900B61FAB /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				427A82CA24E4BA3700437A56 /* DataSource.swift */,
 				4214731924E558EA00E61E6E /* JSON.swift */,
 				42E92A0224F4D38B004EA1C9 /* View.swift */,
+				42458E302521F35D00707E4F /* List.swift */,
 				42D4F0AC250EDB29006F1318 /* Text.swift */,
 				42E92A0824F5C422004EA1C9 /* File.swift */,
 				42E92A0A24F5E661004EA1C9 /* URL.swift */,
@@ -503,6 +506,7 @@
 				423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */,
 				42D4F0A9250C343A006F1318 /* RecordDetailRequestView.swift in Sources */,
 				42BC1B6524D7E8590078402B /* DomainData.swift in Sources */,
+				42458E312521F35D00707E4F /* List.swift in Sources */,
 				42FCE307250AE975008E50CD /* ScanLogDetail.swift in Sources */,
 				42D4F0AF250EE0FB006F1318 /* RecordDetailTextView.swift in Sources */,
 				42E92A0924F5C422004EA1C9 /* File.swift in Sources */,

@@ -12,12 +12,10 @@ struct RecordDetailSummaryView: View {
     var item: RecordItem
 
     var body: some View {
-        List {
-            Section {
-                InfoRow(label: "日期", value: item.time.formatFullDate)
-                InfoRow(label: "状态码", value: item.statusCode)
-                InfoRow(label: "时长", value: item.duration.formatDuration)
-            }
+        Section {
+            InfoRow(label: "日期", value: item.time.formatFullDate)
+            InfoRow(label: "状态码", value: item.statusCode)
+            InfoRow(label: "时长", value: item.duration.formatDuration)
         }
     }
 }

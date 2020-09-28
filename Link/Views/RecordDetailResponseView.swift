@@ -30,22 +30,8 @@ struct RecordDetailResponseView: View {
         }
     }
 
-    var body: some View {
-        List {
-            Section(header: Text("Response Header")) {
-                Text(item.responseHeader)
-                    .header()
-                .fixedSize()
-            }
-
-            Section(header: Text("Body")) {
-                ForEach(SheetType.allCases, id: \.self, content: { st in
-                    Button("预览\(st.title)") {
-                        self.sheetType = st
-                    }
-                })
-            }
-        }.sheet(item: $sheetType, onDismiss: {
+    var headerAndSheet: some View {
+        Text("Body").sheet(item: $sheetType, onDismiss: {
             self.sheetType = nil
         }) { st -> AnyView in
             var content: AnyView
@@ -66,11 +52,31 @@ struct RecordDetailResponseView: View {
             )
         }
     }
+
+    var body: some View {
+        Group {
+            Section(header: Text("Response Header")) {
+                Text(item.responseHeader)
+                    .header()
+                    .fixedSize()
+            }
+
+            Section(header: headerAndSheet) {
+                ForEach(SheetType.allCases, id: \.self, content: { st in
+                    Button("预览\(st.title)") {
+                        self.sheetType = st
+                    }
+                })
+            }
+            EmptyView()
+        }
+    }
 }
 
 struct RecordDetailReponseView_Previews: PreviewProvider {
     static var previews: some View {
-        RecordDetailResponseView(item: testRecordItem)
-            .listStyle(GroupedListStyle())
+        List {
+            RecordDetailResponseView(item: testRecordItem)
+        }
     }
 }
