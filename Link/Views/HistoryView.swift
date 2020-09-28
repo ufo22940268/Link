@@ -42,9 +42,7 @@ struct HistoryView: View {
     var contentView: some View {
         NavigationView {
             List {
-                Section(header: pickerView) {
-                    EmptyView()
-                }
+                pickerView.asListHeader()
 
                 if type == .duration {
                     DurationHistoryView(items: historyData.items)
@@ -52,10 +50,9 @@ struct HistoryView: View {
                     MonitorHistoryView(items: historyData.items)
                 }
             }
-            .navigationBarHidden(true)
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarTitle("记录")
             .onAppear {
                 self.loadData()
             }

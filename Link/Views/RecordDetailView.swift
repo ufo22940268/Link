@@ -41,7 +41,6 @@ class RecordDetailData: ObservableObject {
 }
 
 struct RecordDetailView: View {
-//    @State var segment = RecordDetailSegment.response
     @State var segment = RecordDetailSegment.summary
     @ObservedObject var recordData = RecordDetailData()
     var scanLogId: String
@@ -73,6 +72,7 @@ struct RecordDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             if !UIDevice.isPreview {
                 self.recordData.load(id: self.scanLogId)

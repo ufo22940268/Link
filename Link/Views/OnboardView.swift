@@ -49,7 +49,7 @@ struct OnboardView: View {
             .tabItem {
                 VStack {
                     Image(systemName: "clock.fill")
-                    Text("历史")
+                    Text("记录")
                 }
             }
     }

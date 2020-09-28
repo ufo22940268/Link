@@ -55,7 +55,6 @@ struct DurationHistoryDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle(Text("时长"))
         .onAppear {
             if !UIDevice.isPreview {
