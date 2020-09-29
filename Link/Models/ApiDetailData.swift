@@ -10,23 +10,6 @@ import Combine
 import Foundation
 
 class ApiDetailData: ObservableObject {
-    // MARK: Lifecycle
-
-    init(api: ApiEntity) {
-        self.api = api
-        watchValue = api.watchValue
-        watch = api.watch
-
-        api.objectWillChange.dropFirst().debounce(for: 1, scheduler: DispatchQueue.main).flatMap { () -> AnyPublisher<Void, Never> in
-            NotificationCenter.default.post(Notification(name: Notification.refreshDomain))
-            if let endPoint = api.endPoint, BackendAgent().isLogin {
-                return try! BackendAgent().upsert(endPoint: endPoint).replaceError(with: ()).map { _ in () }.eraseToAnyPublisher()
-            } else {
-                return Empty().eraseToAnyPublisher()
-            }
-        }.sink {}.store(in: &cancellables)
-    }
-
     // MARK: Internal
 
     var api: ApiEntity
@@ -43,5 +26,24 @@ class ApiDetailData: ObservableObject {
         didSet {
             api.watch = watch
         }
+    }
+
+    var apiCancellable: AnyCancellable?
+
+    // MARK: Lifecycle
+
+    init(api: ApiEntity) {
+        self.api = api
+        watchValue = api.watchValue
+        watch = api.watch
+
+        apiCancellable = api.objectWillChange.dropFirst().debounce(for: 1, scheduler: DispatchQueue.main).flatMap { () -> AnyPublisher<Void, Never> in
+            NotificationCenter.default.post(Notification(name: Notification.refreshDomain))
+            if let endPoint = api.endPoint, BackendAgent().isLogin {
+                return try! BackendAgent().upsert(endPoint: endPoint).replaceError(with: ()).map { _ in () }.eraseToAnyPublisher()
+            } else {
+                return Empty().eraseToAnyPublisher()
+            }
+        }.sink {}
     }
 }

@@ -22,7 +22,7 @@ class DurationHistoryDetailData: ObservableObject {
 
     func load(by endPointId: String) {
         loadCancellable = BackendAgent()
-            .listScanLogs(by: endPointId)
+            .getScanLogs(by: endPointId)
             .replaceError(with: [])
             .assign(to: \.items, on: self)
     }

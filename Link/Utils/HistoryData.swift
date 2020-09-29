@@ -21,7 +21,7 @@ class HistoryData: ObservableObject {
 
         let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>(nil), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
         let load = try! BackendAgent()
-            .listScanLogs()
+            .getScanLogs()
             .map { items -> [ScanLog]? in
                 items
             }

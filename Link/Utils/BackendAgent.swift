@@ -108,7 +108,7 @@ extension BackendAgent {
         return post(endPoint: "/endpoint/sync", data: json)
             .eraseToVoidAnyPublisher()
     }
-    
+
     private func ensureHostName(endPoint: EndPointEntity, context: NSManagedObjectContext) {
         guard let url = endPoint.url else { return }
         let req = DomainEntity.fetchRequest() as NSFetchRequest<DomainEntity>
@@ -132,8 +132,8 @@ extension BackendAgent {
                     let newEndPointEntities = endPoints.filter { e in
                         !exists.map { $0.url! }.contains(e.url)
                     }
-                    
-                    let _ = newEndPointEntities.map {
+
+                    _ = newEndPointEntities.map {
                         let entity = $0.toEntity(context: context)
                         ensureHostName(endPoint: entity, context: context)
                     }
@@ -158,7 +158,7 @@ extension BackendAgent {
         return decoder
     }
 
-    func listScanLogs() throws -> AnyPublisher<[ScanLog], ResponseError> {
+    func getScanLogs() throws -> AnyPublisher<[ScanLog], ResponseError> {
         get(endPoint: "/scanlog/list").map { json in
             json["result"].arrayValue.map { (json) -> ScanLog in
                 let item = ScanLog(id: json["id"].string ?? "", url: json["url"].string!, time: json["time"].string!.toDate()!, duration: json["duration"].double ?? 0, errorCount: json["errorCount"].int ?? 0, endPointId: json["endPointId"].string!)
@@ -167,7 +167,7 @@ extension BackendAgent {
         }.eraseToAnyPublisher()
     }
 
-    func listScanLogs(by endPointId: String) -> AnyPublisher<[ScanLogDetail], ResponseError> {
+    func getScanLogs(by endPointId: String) -> AnyPublisher<[ScanLogDetail], ResponseError> {
         get(endPoint: "/scanlog/list/\(endPointId)")
             .parseArrayObjects(to: ScanLogDetail.self)
             .eraseToAnyPublisher()
@@ -195,10 +195,10 @@ extension BackendAgent {
             return Just(JSON()).setFailureType(to: ResponseError.self).eraseToAnyPublisher()
         }
 
-        let url = (URL(string: Self.backendDomain)!.appendingPathComponent(endPoint))
+        var url = (URL(string: Self.backendDomain)!.appendingPathComponent(endPoint))
+        url = url.appending("token", value: loginInfo!.appleUserId)
         var req = URLRequest(url: url)
         req.httpMethod = "GET"
-        req.setValue(loginInfo!.appleUserId, forHTTPHeaderField: "apple-user-id")
         return URLSession.shared.dataTaskPublisher(for: req)
             .convertToJSON()
     }
@@ -212,7 +212,8 @@ extension BackendAgent {
     }
 
     private func post(endPoint: String, data: Data?, options: RequestOptions = []) throws -> AnyPublisher<Response, ResponseError> {
-        let url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
+        var url = (URL(string: Self.backendDomain)?.appendingPathComponent(endPoint))!
+        url = url.appending("token", value: loginInfo!.appleUserId)
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         if let data = data {

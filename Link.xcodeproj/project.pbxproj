@@ -706,7 +706,7 @@
 				CODE_SIGN_ENTITLEMENTS = Link/Link.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
 				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;
@@ -731,7 +731,7 @@
 				CODE_SIGN_ENTITLEMENTS = Link/Link.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
 				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;
