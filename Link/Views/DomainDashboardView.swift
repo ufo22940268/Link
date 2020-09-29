@@ -45,9 +45,9 @@ struct DomainDashboardView: View {
         return f.string(from: date)
     }
 
-    var lastUpdateView: some View {
+    @ViewBuilder var lastUpdateView: some View {
         if let lastUpdate = domainData.lastUpdateTime {
-            return AnyView(VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text("更新时间: \(self.formatDate(lastUpdate))").foregroundColor(.gray)
                 if !domainData.isLogin {
                     HStack(spacing: 0) {
@@ -65,9 +65,9 @@ struct DomainDashboardView: View {
             }
             .font(.footnote)
             .padding(.leading)
-            .frame(maxWidth: .infinity, alignment: .leading))
+            .frame(maxWidth: .infinity, alignment: .leading)
         } else {
-            return AnyView(EmptyView())
+            EmptyView()
         }
     }
 
