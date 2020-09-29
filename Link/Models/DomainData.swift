@@ -21,6 +21,7 @@ final class DomainData: NSObject, ObservableObject {
     var syncCancellable: AnyCancellable?
     var context: NSManagedObjectContext = CoreDataContext.main
     var dataSource = DataSource()
+    var needReload = PassthroughSubject<Void, Never>()
 
     var lastUpdateTime: Date? {
         DataSource(context: CoreDataContext.main).getLastUpdatedTime()
@@ -88,7 +89,10 @@ final class DomainData: NSObject, ObservableObject {
             }.sink { }
     }
 
-    var needReload = PassthroughSubject<Void, Never>()
+    func logout() {
+        LoginManager.logout()
+        loginInfo = nil
+    }
 
     func healthyCount() -> Int {
         endPoints.filter { $0.status == HealthStatus.healthy }.count

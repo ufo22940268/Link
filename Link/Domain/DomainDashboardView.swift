@@ -56,11 +56,6 @@ struct DomainDashboardView: View {
                             self.domainData.triggerAppleLogin()
                         }
                     }
-                } else {
-                    Button("登出") {
-                        LoginManager.logout()
-                        self.domainData.loginInfo = nil
-                    }
                 }
             }
             .font(.footnote)

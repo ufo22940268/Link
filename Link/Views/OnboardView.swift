@@ -10,8 +10,14 @@ import Combine
 import CoreData
 import SwiftUI
 
+enum OnboardType: Int {
+    case dashboard
+    case history
+    case setting
+}
+
 struct OnboardView: View {
-    @State private var selection = 0
+    @State private var selection = OnboardType.dashboard
     @ObservedObject private var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
@@ -22,6 +28,7 @@ struct OnboardView: View {
 
     var dashboardView: some View {
         DomainDashboardView()
+            .tag(OnboardType.dashboard.rawValue)
             .font(.title)
             .tabItem {
                 VStack {
@@ -46,12 +53,24 @@ struct OnboardView: View {
 
     var historyView: some View {
         HistoryView()
+            .tag(OnboardType.history.rawValue)
             .tabItem {
                 VStack {
                     Image(systemName: "clock.fill")
                     Text("记录")
                 }
             }
+    }
+
+    var settingView: some View {
+        SettingView()
+            .tabItem {
+                VStack {
+                    Image(systemName: "ellipsis")
+                    Text("更多")
+                }
+            }
+            .environmentObject(domainData)
     }
 
     var body: some View {
@@ -61,9 +80,8 @@ struct OnboardView: View {
             } else {
                 TabView(selection: $selection) {
                     dashboardView
-                        .tag(0)
                     historyView
-                        .tag(1)
+                    settingView
                 }
             }
         }
