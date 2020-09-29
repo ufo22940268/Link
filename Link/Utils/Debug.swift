@@ -90,24 +90,30 @@ public extension UIDevice {
     static var isRunningTest: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
     }
-    
-    enum ApiEnv {
-        case online
-        case local
-        
+
+    static var isRelease: Bool {
+        #if DEBUG
+            return false
+        #else
+            return true
+        #endif
+    }
+
+    enum ApiEnv: String {
+        case online = "https://api.biubiubiu.biz"
+        case local = "http://biubiubiu.hopto.org:3000"
+
         var domain: String {
-            switch self {
-            case .local:
-                return "http://biubiubiu.hopto.org:3000"
-            default:
-                return "https://api.biubiubiu.biz"
-            }
+            rawValue
         }
     }
 
-    
     static var apiEnv: ApiEnv {
-        if  ProcessInfo.processInfo.environment["api"] == "local" {
+        if UIDevice.isRelease {
+            return .online
+        }
+
+        if ProcessInfo.processInfo.environment["api"] == "local" {
             return .local
         } else {
             return .online

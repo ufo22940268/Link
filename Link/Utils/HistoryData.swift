@@ -15,21 +15,22 @@ class HistoryData: ObservableObject {
     var loadDataCancellable: AnyCancellable?
 
     func loadData() {
-        if (!BackendAgent().isLogin) {
+        if !BackendAgent().isLogin {
             return
         }
-        
-        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
+
+        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>(nil), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
         let load = try! BackendAgent()
             .listScanLogs()
             .map { items -> [ScanLog]? in
                 items
             }
+            .replaceEmpty(with: nil)
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
         loadDataCancellable = Publishers.Merge(timeout, load)
             .sink { items in
-                if self.items == nil || self.items!.isEmpty {
+                if items == nil || items!.isEmpty {
                     self.items = items
                 }
             }
