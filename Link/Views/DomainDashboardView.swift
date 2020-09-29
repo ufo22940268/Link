@@ -107,7 +107,6 @@ struct DomainDashboardView: View {
 struct DomainDashboardView_Previews: PreviewProvider {
     static var previews: some View {
         let dd = DomainData()
-        dd.lastUpdateTime = Date()
         dd.endPoints = try! context.fetch(EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>)
         return Group {
             DomainDashboardView().colorScheme(.dark)

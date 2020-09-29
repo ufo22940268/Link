@@ -59,6 +59,23 @@ extension DataSource {
 }
 
 extension DataSource {
+    func updateLastTime() {
+        var entity: LastUpdateEntity
+        if let e = try? context.fetchOne(LastUpdateEntity.self) {
+            entity = e
+        } else {
+            entity = LastUpdateEntity(context: CoreDataContext.main)
+        }
+        entity.time = Date()
+        try! context.save()
+    }
+
+    func getLastUpdatedTime() -> Date? {
+        try? context.fetchOne(LastUpdateEntity.self)?.time
+    }
+}
+
+extension DataSource {
     func getDomain(by hostname: String) -> DomainEntity? {
         let req: NSFetchRequest<DomainEntity> = DomainEntity.fetchRequest()
         req.predicate = NSPredicate(format: "hostname == %@", hostname)

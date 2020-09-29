@@ -12,6 +12,7 @@
 		4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731B24E60E1700E61E6E /* SwiftyJSON.swift */; };
 		4217949D250230DA00E5D421 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217949C250230DA00E5D421 /* HistoryView.swift */; };
 		421794A125025E2F00E5D421 /* AppleIDLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */; };
+		4222CF6C2522D277000A3030 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CF82498D91400D2F10D /* AppDelegate.swift */; };
 		422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFA2498D91400D2F10D /* SceneDelegate.swift */; };
 		422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFC2498D91400D2F10D /* OnboardView.swift */; };
@@ -22,7 +23,6 @@
 		422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */; };
 		422B6D21249C96CF00D2F10D /* PointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* PointListView.swift */; };
 		4232203824F08BB5001470BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4232203A24F08BB5001470BF /* InfoPlist.strings */; };
-		423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		42458E312521F35D00707E4F /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42458E302521F35D00707E4F /* List.swift */; };
 		424FA2C2251B24DC00A75C54 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FA2C1251B24DC00A75C54 /* EndPoint.swift */; };
 		425087612520591A00B61FAB /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425087602520591A00B61FAB /* CoreData.swift */; };
@@ -502,8 +502,8 @@
 				42522CB024FE1BBA000E8B09 /* ApiSectionView.swift in Sources */,
 				4285FE3C24D3FAC5002BEAEF /* ApiDetailView.swift in Sources */,
 				421794A125025E2F00E5D421 /* AppleIDLoginButton.swift in Sources */,
+				4222CF6C2522D277000A3030 /* LinkModel.xcdatamodeld in Sources */,
 				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
-				423DD13524A984860064D321 /* LinkModel.xcdatamodeld in Sources */,
 				42D4F0A9250C343A006F1318 /* RecordDetailRequestView.swift in Sources */,
 				42BC1B6524D7E8590078402B /* DomainData.swift in Sources */,
 				42458E312521F35D00707E4F /* List.swift in Sources */,

@@ -14,12 +14,15 @@ import SwiftUI
 final class DomainData: NSObject, ObservableObject {
     @Published var endPoints: [EndPointEntity] = []
     @Published var isLoading = false
-    @Published var lastUpdateTime: Date?
     @Published var loginInfo: LoginInfo?
     var cancellables = [AnyCancellable]()
     var loginCancellable: AnyCancellable?
     var reloadCancellable: AnyCancellable?
     var syncCancellable: AnyCancellable?
+
+    var lastUpdateTime: Date? {
+        DataSource(context: CoreDataContext.main).getLastUpdatedTime()
+    }
 
     override internal init() {
         super.init()
@@ -72,7 +75,7 @@ final class DomainData: NSObject, ObservableObject {
                     .checkHealth()
                     .receive(on: DispatchQueue.main)
                     .map { _ in
-                        self.lastUpdateTime = Date()
+                        DataSource().updateLastTime()
                         self.objectWillChange.send()
                         self.isLoading = false
                     }
