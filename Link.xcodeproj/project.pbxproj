@@ -715,6 +715,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.Link;
 				PRODUCT_NAME = Link;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -739,6 +740,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.Link;
 				PRODUCT_NAME = Link;
 				PROVISIONING_PROFILE_SPECIFIER = "";

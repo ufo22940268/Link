@@ -30,7 +30,7 @@ class HistoryData: ObservableObject {
             .receive(on: DispatchQueue.main)
         loadDataCancellable = Publishers.Merge(timeout, load)
             .sink { items in
-                if items == nil || items!.isEmpty {
+                if items != nil {
                     self.items = items
                 }
             }
