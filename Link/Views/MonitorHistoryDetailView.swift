@@ -56,7 +56,6 @@ struct MonitorHistoryDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle(Text("错误数"), displayMode: .inline)
         .onAppear {
             if !UIDevice.isPreview {

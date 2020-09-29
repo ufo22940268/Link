@@ -47,7 +47,7 @@ struct RecordDetailView: View {
     @State var sheetType: SheetType? = nil
 
     var pickerView: some View {
-        ZStack(alignment: .center) {
+        ZStack {
             Picker("", selection: $segment) {
                 ForEach(RecordDetailSegment.allCases, id: \.self) { segment in
                     Text(segment.label).tag(segment.rawValue)
@@ -55,12 +55,15 @@ struct RecordDetailView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .fixedSize()
+            .frame(alignment: .center)
         }
         .frame(maxWidth: .infinity)
+        .padding(.top)
     }
 
     var body: some View {
         List {
+            pickerView.asListHeader()
             if recordData.item != nil {
                 if segment == .summary {
                     RecordDetailSummaryView(item: recordData.item!)
@@ -72,12 +75,6 @@ struct RecordDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                pickerView
-            }
-        }
         .sheet(item: $sheetType, onDismiss: {
             self.sheetType = nil
         }) { st -> AnyView in
@@ -104,6 +101,7 @@ struct RecordDetailView: View {
                 self.recordData.load(id: self.scanLogId)
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
