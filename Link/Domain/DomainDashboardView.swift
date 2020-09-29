@@ -83,11 +83,17 @@ struct DomainDashboardView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                headerView
-                PointListView()
+            Group {
+                if domainData.endPoints.isEmpty {
+                    EmptyEndPointListView()
+                } else {
+                    List {
+                        headerView
+                        EndPointListView()
+                    }
+                    .listStyle(GroupedListStyle())
+                }
             }
-            .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(leading: refreshButton, trailing: addButton)
         }

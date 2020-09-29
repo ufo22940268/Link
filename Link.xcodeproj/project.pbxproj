@@ -21,8 +21,9 @@
 		422B6D052498D91500D2F10D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D032498D91500D2F10D /* LaunchScreen.storyboard */; };
 		422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */; };
 		422B6D1F249AE11E00D2F10D /* DomainStatisticsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */; };
-		422B6D21249C96CF00D2F10D /* PointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* PointListView.swift */; };
+		422B6D21249C96CF00D2F10D /* EndPointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6D20249C96CF00D2F10D /* EndPointListView.swift */; };
 		4232203824F08BB5001470BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4232203A24F08BB5001470BF /* InfoPlist.strings */; };
+		423864AE25230B7D00C4CCB5 /* EmptyEndPointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423864AD25230B7D00C4CCB5 /* EmptyEndPointListView.swift */; };
 		42458E312521F35D00707E4F /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42458E302521F35D00707E4F /* List.swift */; };
 		424FA2C2251B24DC00A75C54 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FA2C1251B24DC00A75C54 /* EndPoint.swift */; };
 		425087612520591A00B61FAB /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425087602520591A00B61FAB /* CoreData.swift */; };
@@ -106,10 +107,11 @@
 		422B6D112498D91500D2F10D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainDashboardView.swift; sourceTree = "<group>"; };
 		422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainStatisticsBlockView.swift; sourceTree = "<group>"; };
-		422B6D20249C96CF00D2F10D /* PointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointListView.swift; sourceTree = "<group>"; };
+		422B6D20249C96CF00D2F10D /* EndPointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointListView.swift; sourceTree = "<group>"; };
 		4232203724F08B8C001470BF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		4232203924F08BB5001470BF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		4232203C24F08C91001470BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		423864AD25230B7D00C4CCB5 /* EmptyEndPointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyEndPointListView.swift; sourceTree = "<group>"; };
 		423DD13324A984860064D321 /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		423DD13424A984860064D321 /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
 		42458E302521F35D00707E4F /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				42D2054224C675B800C6CC70 /* github.json */,
 				422B6CF82498D91400D2F10D /* AppDelegate.swift */,
 				422B6CFA2498D91400D2F10D /* SceneDelegate.swift */,
+				423864AA25230B4E00C4CCB5 /* Domain */,
 				42697F3524F34DA8005298D9 /* Views */,
 				422B6CFE2498D91500D2F10D /* Assets.xcassets */,
 				422B6D032498D91500D2F10D /* LaunchScreen.storyboard */,
@@ -245,14 +248,22 @@
 			path = LinkTests;
 			sourceTree = "<group>";
 		};
+		423864AA25230B4E00C4CCB5 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
+				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
+				422B6D20249C96CF00D2F10D /* EndPointListView.swift */,
+				423864AD25230B7D00C4CCB5 /* EmptyEndPointListView.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
 		42697F3524F34DA8005298D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				422B6CFC2498D91400D2F10D /* OnboardView.swift */,
 				42639511249DA14200ADFBE4 /* EndPointEditView.swift */,
-				422B6D1C249ACEB300D2F10D /* DomainDashboardView.swift */,
-				422B6D1E249AE11E00D2F10D /* DomainStatisticsBlockView.swift */,
-				422B6D20249C96CF00D2F10D /* PointListView.swift */,
 				42508766252083D900B61FAB /* TestView.swift */,
 				426F887324B09EE600C039E4 /* ApiListView.swift */,
 				42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */,
@@ -480,6 +491,7 @@
 				427A82CB24E4BA3700437A56 /* DataSource.swift in Sources */,
 				42EC0602250F548500921F38 /* Mock.swift in Sources */,
 				42EC0604251043CB00921F38 /* MonitorHistoryView.swift in Sources */,
+				423864AE25230B7D00C4CCB5 /* EmptyEndPointListView.swift in Sources */,
 				42D4F0A5250B49DB006F1318 /* RecordDetailSummaryView.swift in Sources */,
 				428784242502F3EE00B732B0 /* LoginManager.swift in Sources */,
 				42EC060C2511DF2D00921F38 /* ReadOnlyApiDetailView.swift in Sources */,
@@ -490,7 +502,7 @@
 				422B6D1D249ACEB300D2F10D /* DomainDashboardView.swift in Sources */,
 				42FCE305250AE1CB008E50CD /* DurationHistoryDetailView.swift in Sources */,
 				422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */,
-				422B6D21249C96CF00D2F10D /* PointListView.swift in Sources */,
+				422B6D21249C96CF00D2F10D /* EndPointListView.swift in Sources */,
 				422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */,
 				42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */,
 				42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */,

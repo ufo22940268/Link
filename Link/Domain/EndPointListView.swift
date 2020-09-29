@@ -43,7 +43,7 @@ private struct EndPointRow: View {
     }
 }
 
-struct PointListView: View {
+struct EndPointListView: View {
     @EnvironmentObject var domainData: DomainData
     @Environment(\.managedObjectContext) var context
 
@@ -68,45 +68,30 @@ struct PointListView: View {
         domainMap.keys.sorted()
     }
 
-    var emptyListView: some View {
-        VStack(alignment: .center, spacing: 20) {
-            Image(systemName: "tray").font(.system(size: 60, weight: .light, design: .default))
-            Text("请先添加监控点").font(.headline)
-        }
-        .foregroundColor(.gray)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-    }
-
     var body: some View {
-        Group {
-            if domainNames.count > 0 {
-                ForEach(domainNames, id: \.self) { domainName in
-                    Section(header: Text(domainName).font(.system(.subheadline)).bold().textCase(.lowercase), content: {
-                        ForEach(self.domainMap[domainName]!) { endPoint in
-                            EndPointRow(endPoint: endPoint)
-                        }
-                        .onDelete { index in
-                            let endPoint: EndPointEntity = self.domainMap[domainName]![index.first!]
-                            let url = endPoint.url!
-                            DataSource(context: self.context).deleteEndPoint(entity: endPoint)
-                            let agent = BackendAgent()
-                            if agent.isLogin {
-                                self.domainData.deleteEndPoint(by: url)
-                            }
-                            self.domainData.endPoints.removeAll { $0 == endPoint }
-                        }
-                    }).font(.body)
+        ForEach(domainNames, id: \.self) { domainName in
+            Section(header: Text(domainName).font(.system(.subheadline)).bold().textCase(.lowercase), content: {
+                ForEach(self.domainMap[domainName]!) { endPoint in
+                    EndPointRow(endPoint: endPoint)
                 }
-            } else {
-                emptyListView
-            }
+                .onDelete { index in
+                    let endPoint: EndPointEntity = self.domainMap[domainName]![index.first!]
+                    let url = endPoint.url!
+                    DataSource(context: self.context).deleteEndPoint(entity: endPoint)
+                    let agent = BackendAgent()
+                    if agent.isLogin {
+                        self.domainData.deleteEndPoint(by: url)
+                    }
+                    self.domainData.endPoints.removeAll { $0 == endPoint }
+                }
+            }).font(.body)
         }
     }
 }
 
 struct EndPointListView_Previews: PreviewProvider {
     static var previews: some View {
-        PointListView()
+        EndPointListView()
             .environmentObject(DomainData())
             .environmentObject(DataSource(context: context))
             .environment(\.managedObjectContext, context)
