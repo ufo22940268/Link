@@ -40,14 +40,20 @@ struct HistoryView: View {
 
     var contentView: some View {
         NavigationView {
-            List {
-                if type == .duration {
-                    DurationHistoryView(items: historyData.items)
-                } else if type == .monitor {
-                    MonitorHistoryView(items: historyData.items)
+            Group {
+                if historyData.items != nil && historyData.items!.isEmpty {
+                    HistoryEmptyView()
+                } else {
+                    List {
+                        if type == .duration {
+                            DurationHistoryView(items: historyData.items)
+                        } else if type == .monitor {
+                            MonitorHistoryView(items: historyData.items)
+                        }
+                    }
+                    .listStyle(GroupedListStyle())
                 }
             }
-            .listStyle(GroupedListStyle())
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     pickerView
