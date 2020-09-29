@@ -93,9 +93,9 @@ struct DomainDashboardView: View {
         }
         .sheet(isPresented: $showingAddEndPoint, onDismiss: {
             self.domainData.needReload.send()
-        }, content: { () -> AnyView in
-            AnyView(EndPointEditView(type: .add)
-                .environment(\.managedObjectContext, CoreDataContext.add))
+        }, content: { () in
+            EndPointEditView(type: .add)
+                .environment(\.managedObjectContext, CoreDataContext.add)
         })
         .font(.body)
         .onAppear {
