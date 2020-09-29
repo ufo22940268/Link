@@ -19,6 +19,8 @@ final class DomainData: NSObject, ObservableObject {
     var loginCancellable: AnyCancellable?
     var reloadCancellable: AnyCancellable?
     var syncCancellable: AnyCancellable?
+    var context: NSManagedObjectContext = CoreDataContext.main
+    var dataSource = DataSource()
 
     var lastUpdateTime: Date? {
         DataSource(context: CoreDataContext.main).getLastUpdatedTime()
@@ -26,16 +28,18 @@ final class DomainData: NSObject, ObservableObject {
 
     override internal init() {
         super.init()
+
         loginInfo = LoginManager.getLoginInfo()
         loginCancellable = $loginInfo
             .filter { $0 != nil }
             .dropFirst()
             .setFailureType(to: ResponseError.self)
+            .print()
             .flatMap { info in
                 try! BackendAgent().login(loginInfo: info!)
             }
             .flatMap { () -> AnyPublisher<Void, ResponseError> in
-                if let endPoints = DataSource().fetchEndPoints() {
+                if let endPoints = self.dataSource.fetchEndPoints() {
                     return BackendAgent()
                         .sync(endPoints: endPoints)
                         .eraseToAnyPublisher()

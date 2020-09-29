@@ -15,11 +15,11 @@ class HistoryData: ObservableObject {
     var loadDataCancellable: AnyCancellable?
 
     func loadData() {
-        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
         if (!BackendAgent().isLogin) {
             return
         }
         
+        let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
         let load = try! BackendAgent()
             .listScanLogs()
             .map { items -> [ScanLog]? in
