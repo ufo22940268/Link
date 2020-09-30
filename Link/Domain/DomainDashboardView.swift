@@ -29,6 +29,20 @@ struct DomainDashboardView: View {
         }
     }
 
+    @ViewBuilder var leadingButton: some View {
+        if BackendAgent().isLogin && domainData.endPoints.isEmpty { 
+            refreshButton
+        } else {
+            loginButton
+        }
+    }
+
+    var loginButton: some View {
+        Button("登录") {
+            self.domainData.triggerAppleLogin()
+        }
+    }
+
     var addButton: some View {
         Button(action: {
             self.showingAddEndPoint = true
@@ -90,7 +104,7 @@ struct DomainDashboardView: View {
                 }
             }
             .navigationBarTitle(Text("概览"))
-            .navigationBarItems(leading: refreshButton, trailing: addButton)
+            .navigationBarItems(leading: leadingButton, trailing: addButton)
         }
         .sheet(isPresented: $showingAddEndPoint, onDismiss: {
             self.domainData.needReload.send()
