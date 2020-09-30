@@ -133,28 +133,32 @@ struct EndPointEditView: View {
         let form = Form {
             Section(header: Text("域名地址"), footer: Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)) {
                 TextEditor(text: urlBinding)
+                    .keyboardType(.URL)
+                    .textContentType(.URL)
             }
 
             Section(header: Text("名字")) {
                 TextField("", text: nameBinding)
             }
 
-            Section(header: Text("监控")) {
-                ForEach(Array(0 ..< watchListCount), id: \.self) { i -> AnyView in
-                    if i < self.apiEditData.watchApis.count {
-                        let api: ApiEntity = self.apiEditData.watchApis[i]
-                        return AnyView(
-                            NavigationLink(destination: ApiDetailView(api: api), label: {
-                                ApiListItemView(api: self.createBinding(api: api), showDisclosure: false) {
+            if watchListCount != 0 {
+                Section(header: Text("监控")) {
+                    ForEach(Array(0 ..< watchListCount), id: \.self) { i -> AnyView in
+                        if i < self.apiEditData.watchApis.count {
+                            let api: ApiEntity = self.apiEditData.watchApis[i]
+                            return AnyView(
+                                NavigationLink(destination: ApiDetailView(api: api), label: {
+                                    ApiListItemView(api: self.createBinding(api: api), showDisclosure: false) {
+                                    }
+                                })
+                            )
+                        } else {
+                            return AnyView(
+                                Button("添加字段...") {
+                                    self.showAdd = true
                                 }
-                            })
-                        )
-                    } else {
-                        return AnyView(
-                            Button("添加字段...") {
-                                self.showAdd = true
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
@@ -193,9 +197,9 @@ struct EndPointEditView: View {
             form
         }
     }
-    
+
     private func refresh() {
-        self.apiEditData.objectWillChange.send()
+        apiEditData.objectWillChange.send()
     }
 }
 
