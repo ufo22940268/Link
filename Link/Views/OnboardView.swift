@@ -17,7 +17,6 @@ enum OnboardType: Int {
 }
 
 struct OnboardView: View {
-    @State private var selection = OnboardType.dashboard
     @ObservedObject private var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
@@ -69,7 +68,7 @@ struct OnboardView: View {
             if !domainData.isLogin {
                 dashboardView
             } else {
-                TabView(selection: $selection) {
+                TabView {
                     dashboardView
                     historyView
                     settingView
