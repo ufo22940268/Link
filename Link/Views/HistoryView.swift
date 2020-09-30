@@ -64,7 +64,7 @@ struct HistoryView: View {
                 self.loadData()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                self.loadData()
+                self.loadData()
             }
             .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
                 self.loadData()
