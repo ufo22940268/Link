@@ -30,10 +30,12 @@ struct DomainDashboardView: View {
     }
 
     @ViewBuilder var leadingButton: some View {
-        if BackendAgent().isLogin && domainData.endPoints.isEmpty { 
+        if !BackendAgent().isLogin && domainData.endPoints.isEmpty {
+            loginButton
+        } else if !domainData.endPoints.isEmpty {
             refreshButton
         } else {
-            loginButton
+            EmptyView()
         }
     }
 

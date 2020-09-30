@@ -31,10 +31,7 @@ struct OnboardView: View {
             .tag(OnboardType.dashboard.rawValue)
             .font(.title)
             .tabItem {
-                VStack {
-                    Image(systemName: "cloud.fill")
-                    Text("监控")
-                }
+                Label("监控", systemImage: "cloud.fill")
             }
             .environmentObject(self.domainData)
             .onAppear {
@@ -55,20 +52,14 @@ struct OnboardView: View {
         HistoryView()
             .tag(OnboardType.history.rawValue)
             .tabItem {
-                VStack {
-                    Image(systemName: "clock.fill")
-                    Text("记录")
-                }
+                Label("记录", systemImage: "clock.fill")
             }
     }
 
     var settingView: some View {
         SettingView()
             .tabItem {
-                VStack {
-                    Image(systemName: "ellipsis")
-                    Text("更多")
-                }
+                Label("更多", systemImage: "ellipsis")
             }
             .environmentObject(domainData)
     }
