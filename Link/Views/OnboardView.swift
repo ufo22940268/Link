@@ -17,7 +17,7 @@ enum OnboardType: Int {
 }
 
 struct OnboardView: View {
-    @ObservedObject private var domainData = DomainData()
+    @ObservedObject var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
 
@@ -58,7 +58,7 @@ struct OnboardView: View {
     var settingView: some View {
         SettingView()
             .tabItem {
-                Label("更多", systemImage: "ellipsis")
+                Label("更多", systemImage: "lineweight")
             }
             .environmentObject(domainData)
     }
@@ -80,6 +80,8 @@ struct OnboardView: View {
 
 struct OnBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView().colorScheme(.dark)
+        LoginManager.save(loginInfo: LoginInfo(username: "aa", appleUserId: "ff"))
+        let v = OnboardView()
+        return v
     }
 }
