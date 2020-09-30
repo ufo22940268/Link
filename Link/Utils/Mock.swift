@@ -6,8 +6,8 @@
 //  Copyright © 2020 Frank Cheng. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 let testRecordItem = RecordItem(
     duration: 0.3,
@@ -41,11 +41,10 @@ let testScanLogDetails = [
 ]
 
 struct TestData {
-    
     static var context: NSManagedObjectContext {
         getPersistentContainer().viewContext
     }
-    
+
     static var apiEntities: [ApiEntity] {
         let a = ApiEntity(context: Self.context)
         a.paths = "aa.bnb.cc.wefwef"
@@ -57,8 +56,21 @@ struct TestData {
         a2.watch = false
         return [a, a2]
     }
-    
+
     static var apiEntity: ApiEntity {
         apiEntities.first!
+    }
+
+    static var responseLog: ResponseLog {
+        ResponseLog(header: """
+            CONNECT bolt.dropbox.com:443 HTTP/1.1
+            Host: bolt.dropbox.com
+            Proxy-Connection: keep-alive
+        """, body: """
+            {
+              "feeds_url": "https://api.github.com/feeds",
+              "followers_url": "https://api.github.com/user/followers"
+            }
+        """)
     }
 }

@@ -61,6 +61,7 @@
 		42D4F0AD250EDB29006F1318 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0AC250EDB29006F1318 /* Text.swift */; };
 		42D4F0AF250EE0FB006F1318 /* RecordDetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0AE250EE0FB006F1318 /* RecordDetailTextView.swift */; };
 		42D4F0B1250EF8F3006F1318 /* RecordDetailJSONView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4F0B0250EF8F3006F1318 /* RecordDetailJSONView.swift */; };
+		42D5583925248A71005A5754 /* RequestProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5583825248A71005A5754 /* RequestProfileView.swift */; };
 		42DAFACC24DA3A850093869D /* EndPointDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DAFACB24DA3A850093869D /* EndPointDetailView.swift */; };
 		42E92A0324F4D38B004EA1C9 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0224F4D38B004EA1C9 /* View.swift */; };
 		42E92A0724F4FCF9004EA1C9 /* ApiListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */; };
@@ -152,6 +153,7 @@
 		42D4F0AC250EDB29006F1318 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		42D4F0AE250EE0FB006F1318 /* RecordDetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailTextView.swift; sourceTree = "<group>"; };
 		42D4F0B0250EF8F3006F1318 /* RecordDetailJSONView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordDetailJSONView.swift; sourceTree = "<group>"; };
+		42D5583825248A71005A5754 /* RequestProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProfileView.swift; sourceTree = "<group>"; };
 		42DAFACB24DA3A850093869D /* EndPointDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointDetailView.swift; sourceTree = "<group>"; };
 		42E92A0224F4D38B004EA1C9 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		42E92A0624F4FCF9004EA1C9 /* ApiListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListItemView.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 		422B6CF72498D91400D2F10D /* Link */ = {
 			isa = PBXGroup;
 			children = (
+				42D5583725248A55005A5754 /* EndPoint */,
 				42ECB47B25232FB200DD9619 /* Setting */,
 				42FCE3012509A989008E50CD /* Entities */,
 				42522CB124FEFFE3000E8B09 /* Link.entitlements */,
@@ -339,6 +342,14 @@
 				42FCE2FE25098AF3008E50CD /* ChartView */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		42D5583725248A55005A5754 /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				42D5583825248A71005A5754 /* RequestProfileView.swift */,
+			);
+			path = EndPoint;
 			sourceTree = "<group>";
 		};
 		42ECB47B25232FB200DD9619 /* Setting */ = {
@@ -484,6 +495,7 @@
 				42D4F0A3250B4198006F1318 /* RecordDetailView.swift in Sources */,
 				427471F824D6510500883AD7 /* EntityExtension.swift in Sources */,
 				4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */,
+				42D5583925248A71005A5754 /* RequestProfileView.swift in Sources */,
 				42697F3424F285EC005298D9 /* EndPointEditData.swift in Sources */,
 				426F887424B09EE600C039E4 /* ApiListView.swift in Sources */,
 				42BC1B9824D8DF6E0078402B /* HealthChecker.swift in Sources */,
@@ -706,7 +718,7 @@
 				CODE_SIGN_ENTITLEMENTS = Link/Link.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
 				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;
@@ -731,7 +743,7 @@
 				CODE_SIGN_ENTITLEMENTS = Link/Link.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Link/Preview Content\"";
 				DEVELOPMENT_TEAM = S833P2K5YV;
 				ENABLE_PREVIEWS = YES;

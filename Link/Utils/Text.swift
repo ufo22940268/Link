@@ -11,6 +11,6 @@ import SwiftUI
 
 extension Text {
     func header() -> Text {
-        self.font(.footnote)
+        self.font(.caption)
     }
 }
