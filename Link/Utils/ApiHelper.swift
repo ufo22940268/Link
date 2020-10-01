@@ -63,21 +63,22 @@ struct ApiHelper {
         if let urlObj = URL(string: url) {
             let cancellable = URLSession.shared.dataTaskPublisher(for: urlObj)
                 .tryMap { ar in
+                    let errorLog = ResponseLog(data: ar.0, response: ar.1)
                     if !ar.response.ok {
-                        return ValidateURLResult.requestError
+                        return ValidateURLResult.requestError(errorLog)
                     }
 
                     if (try JSON(data: ar.data)).count > 0 {
                         return ValidateURLResult.ok
                     } else {
-                        return ValidateURLResult.jsonError
+                        return ValidateURLResult.jsonError(errorLog)
                     }
                 }
                 .catch { error -> AnyPublisher<ValidateURLResult, Never> in
-                    if error is URLError {
-                        return Just(ValidateURLResult.requestError).eraseToAnyPublisher()
+                    if let error = error as? URLError {
+                        return Just(ValidateURLResult.requestError(ResponseLog(error: error))).eraseToAnyPublisher()
                     } else {
-                        return Just(ValidateURLResult.jsonError).eraseToAnyPublisher()
+                        return Just(ValidateURLResult.formatError).eraseToAnyPublisher()
                     }
                 }
                 .eraseToAnyPublisher()

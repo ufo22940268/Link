@@ -10,12 +10,16 @@ import Combine
 import CoreData
 import SwiftUI
 
-enum ValidateURLResult {
+enum ValidateURLResult: Equatable {
+    static func == (lhs: ValidateURLResult, rhs: ValidateURLResult) -> Bool {
+        lhs.label == rhs.label
+    }
+
     case prompt
     case initial
     case formatError
-    case requestError
-    case jsonError
+    case requestError(_ responseLog: ResponseLog)
+    case jsonError(_ responseLog: ResponseLog)
     case pending
     case ok
     case duplicatedUrl
@@ -23,7 +27,7 @@ enum ValidateURLResult {
     var label: String {
         switch self {
         case .prompt:
-            return "地址示例 http://biubiubiu.hopto.org:9000/link/github.json"
+            return "地址示例 http://biubiubiu.biz/link/github.json"
         case .initial:
             return ""
         case .formatError:
@@ -41,13 +45,23 @@ enum ValidateURLResult {
         }
     }
 
-    var color: Color? {
+    var responseLog: ResponseLog? {
         switch self {
-        case .formatError, .requestError, .jsonError:
-            return .red
+        case let .requestError(log):
+            return log
+        case let .jsonError(log):
+            return log
         default:
             return nil
         }
+    }
+
+    var hasProfile: Bool {
+        responseLog != nil
+    }
+
+    var color: Color? {
+        nil
     }
 }
 
@@ -70,6 +84,7 @@ struct EndPointEditView: View {
     @State var launched = false
     @State var customDomainName: Bool = false
     @State var showAdd: Bool = false
+    @State var showProfile: Bool = false
     var editEndPointId: NSManagedObjectID?
 
     var type: EditType
@@ -126,12 +141,23 @@ struct EndPointEditView: View {
         return Binding.constant(api)
     }
 
+    var promptView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)
+            if apiEditData.validateURLResult.hasProfile {
+                Button("请求信息") {
+                    showProfile = true
+                }.foregroundColor(.accentColor)
+            }
+        }
+    }
+
     var body: some View {
         let showAdd = apiEditData.unwatchApis.count > 0
         let watchListCount = showAdd ? apiEditData.watchApis.count + 1 : apiEditData.watchApis.count
 
         let form = Form {
-            Section(header: Text("域名地址"), footer: Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)) {
+            Section(header: Text("域名地址"), footer: promptView) {
                 TextEditor(text: urlBinding)
                     .keyboardType(.URL)
                     .textContentType(.URL)
@@ -173,6 +199,15 @@ struct EndPointEditView: View {
         .sheet(isPresented: $showAdd, onDismiss: { self.apiEditData.objectWillChange.send() }, content: {
             NavigationView {
                 ApiListView(apis: apiEditData.unwatchApis)
+            }
+        })
+        .sheet(isPresented: $showProfile, content: {
+            NavigationView {
+                RequestProfileView(log: apiEditData.responseLog!)
+                    .navigationTitle("请求信息")
+                    .navigationBarItems(trailing: Button("关闭") {
+                        self.showProfile = false
+                    })
             }
         })
         .onAppear {
@@ -228,6 +263,7 @@ struct EndPointEditView_Previews: PreviewProvider {
 
         let d = EndPointEditData()
         d.endPoint = ee
+//        d.validateURLResult = .jsonError
         return EndPointEditView(type: .add)
             .environment(\.managedObjectContext, context)
             .colorScheme(.light)

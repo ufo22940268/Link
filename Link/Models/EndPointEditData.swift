@@ -35,7 +35,7 @@ class EndPointEditData: ObservableObject {
 
     init() {
     }
-    
+
     func upsertEndPointInServer() {
         guard let endPoint = endPoint else { return }
         if BackendAgent().isLogin {
@@ -45,12 +45,12 @@ class EndPointEditData: ObservableObject {
     }
 
     func setupForCreate() {
-        //Avoid setup twice
-         guard endPoint == nil else { return }
-        
+        // Avoid setup twice
+        guard endPoint == nil else { return }
+
         type = .add
         validateURLResult = .prompt
-        
+
         let context = CoreDataContext.add
         context.rollback()
         self.context = context
@@ -58,25 +58,25 @@ class EndPointEditData: ObservableObject {
         endPointId = endPoint!.objectID
         domainName = ""
         url = ""
-        
-        self.listenToURLChange()
+
+        listenToURLChange()
     }
-    
+
     func setupForEdit(endPointId: NSManagedObjectID) {
-        //Avoid setup twice
+        // Avoid setup twice
         guard endPoint == nil else { return }
-        
+
         type = .edit
         self.endPointId = endPointId
         validateURLResult = .ok
         context = CoreDataContext.edit
-        
+
         if let endPoint = try? context!.fetchOne(EndPointEntity.self, "self == %@", endPointId) {
             originURL = endPoint.url
             self.endPoint = endPoint
         }
-        
-        self.listenToURLChange()
+
+        listenToURLChange()
     }
 
     var unwatchApis: [ApiEntity] {
@@ -85,6 +85,10 @@ class EndPointEditData: ObservableObject {
 
     var watchApis: [ApiEntity] {
         apis.filter { $0.watch }
+    }
+
+    var responseLog: ResponseLog? {
+        validateURLResult.responseLog
     }
 
     fileprivate func listenToURLChange() {
@@ -124,7 +128,7 @@ class EndPointEditData: ObservableObject {
             .receive(on: DispatchQueue.main)
             .flatMap { result -> AnyPublisher<[ApiEntity], Never> in
                 self.validateURLResult = result
-                if result == .ok {
+                if case .ok = result {
                     return ApiHelper(context: self.context!)
                         .fetchAndUpdateEntity(endPoint: self.endPoint!)
                         .catch { _ in Just([]) }
