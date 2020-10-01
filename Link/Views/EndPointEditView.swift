@@ -146,7 +146,7 @@ struct EndPointEditView: View {
             Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)
             if apiEditData.validateURLResult.hasProfile {
                 Button("请求信息") {
-                    showProfile = true
+                    showProfile.toggle()
                 }.foregroundColor(.accentColor)
             }
         }
