@@ -9,6 +9,20 @@
 import SwiftUI
 import SwiftUICharts
 
+enum TimeSpan: TimeInterval, RawRepresentable, CaseIterable, Identifiable {
+    case fiveMin = 3000
+    case tenMin = 6000
+    case fiftenMin = 9000
+
+    var id: Self {
+        self
+    }
+
+    var label: String {
+        "\(Int(rawValue / 60))分钟"
+    }
+}
+
 struct HistoryView: View {
     enum HistoryType: Int, CaseIterable {
         case duration
@@ -25,6 +39,7 @@ struct HistoryView: View {
 
     @State var type: HistoryType = .duration
     @StateObject var historyData = HistoryData()
+    @State var timeSpan = TimeSpan.fiveMin
 
     var pickerView: some View {
         ZStack(alignment: .center) {
@@ -36,6 +51,15 @@ struct HistoryView: View {
             .fixedSize()
             .pickerStyle(SegmentedPickerStyle())
         }
+    }
+
+    var timeSpanPickerView: some View {
+        Picker(timeSpan.label, selection: $timeSpan) {
+            ForEach(TimeSpan.allCases) { ts in
+                Text(ts.label).tag(ts)
+            }
+        }
+        .pickerStyle(MenuPickerStyle())
     }
 
     var contentView: some View {
@@ -58,8 +82,11 @@ struct HistoryView: View {
                 ToolbarItem(placement: .principal) {
                     pickerView
                 }
+
+                ToolbarItem(placement: .primaryAction) {
+                    timeSpanPickerView
+                }
             }
-            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 self.loadData()
             }
