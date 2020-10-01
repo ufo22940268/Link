@@ -46,7 +46,7 @@ struct OnboardView: View {
             })
             .environmentObject(dataSource)
     }
-
+ 
     var historyView: some View {
         HistoryView()
             .tag(OnboardType.history.rawValue)

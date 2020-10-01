@@ -158,8 +158,8 @@ extension BackendAgent {
         return decoder
     }
 
-    func getScanLogs() throws -> AnyPublisher<[ScanLog], ResponseError> {
-        get(endPoint: "/scanlog/list").map { json in
+    func getScanLogs(timeSpan: TimeSpan) throws -> AnyPublisher<[ScanLog], ResponseError> {
+        get(endPoint: "/scanlog/list", query: ["timeSpan": timeSpan.rawValue]).map { json in
             json["result"].arrayValue.map { (json) -> ScanLog in
                 let item = ScanLog(id: json["id"].string ?? "", url: json["url"].string!, time: json["time"].string!.toDate()!, duration: json["duration"].double ?? 0, errorCount: json["errorCount"].int ?? 0, endPointId: json["endPointId"].string!)
                 return item
@@ -190,13 +190,16 @@ extension BackendAgent {
 // MARK: Utils
 
 extension BackendAgent {
-    private func get(endPoint: String, options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
+    private func get(endPoint: String, query: [String: Any] = [:], options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
         if UIDevice.isPreview {
             return Just(JSON()).setFailureType(to: ResponseError.self).eraseToAnyPublisher()
         }
 
         var url = (URL(string: Self.backendDomain)!.appendingPathComponent(endPoint))
         url = url.appending("token", value: loginInfo!.appleUserId)
+        for (k, v) in query {
+            url = url.appending(k, value: String(describing: v))
+        }
         var req = URLRequest(url: url)
         req.httpMethod = "GET"
         return URLSession.shared.dataTaskPublisher(for: req)

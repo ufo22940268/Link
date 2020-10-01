@@ -10,9 +10,9 @@ import SwiftUI
 import SwiftUICharts
 
 enum TimeSpan: TimeInterval, RawRepresentable, CaseIterable, Identifiable {
-    case fiveMin = 3000
-    case tenMin = 6000
-    case fiftenMin = 9000
+    case fiveMin = 300
+    case tenMin = 600
+    case fiftenMin = 900
 
     var id: Self {
         self
@@ -39,7 +39,6 @@ struct HistoryView: View {
 
     @State var type: HistoryType = .duration
     @StateObject var historyData = HistoryData()
-    @State var timeSpan = TimeSpan.fiveMin
 
     var pickerView: some View {
         ZStack(alignment: .center) {
@@ -54,7 +53,7 @@ struct HistoryView: View {
     }
 
     var timeSpanPickerView: some View {
-        Picker(timeSpan.label, selection: $timeSpan) {
+        Picker(historyData.timeSpan.label, selection: $historyData.timeSpan) {
             ForEach(TimeSpan.allCases) { ts in
                 Text(ts.label).tag(ts)
             }
@@ -70,9 +69,9 @@ struct HistoryView: View {
                 } else {
                     List {
                         if type == .duration {
-                            DurationHistoryView(items: historyData.items)
+                            DurationHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
                         } else if type == .monitor {
-                            MonitorHistoryView(items: historyData.items)
+                            MonitorHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
                         }
                     }
                     .listStyle(GroupedListStyle())

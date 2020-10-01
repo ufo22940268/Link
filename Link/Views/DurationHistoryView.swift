@@ -29,14 +29,16 @@ typealias ChartValues = [(String, Double)]
 
 struct DurationHistoryView: View {
     var items: [ScanLog]?
+    var timeSpan: TimeSpan
 
-    init(items: [ScanLog]?) {
+    init(items: [ScanLog]?, timeSpan: TimeSpan) {
         self.items = items
+        self.timeSpan = timeSpan
     }
 
     var chartData: [String: [String: DurationSectionData]] {
         if let items = items {
-            return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
+            return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
                 dict.mapValues({ (items: [ScanLog]) -> DurationSectionData in
                     let items = items.sorted { $0.time > $1.time }
                     if items.isEmpty {
@@ -48,8 +50,8 @@ struct DurationHistoryView: View {
                     let maxTime = items.first!.time
                     let endPointId = items.first!.endPointId
                     for i in (0 ..< 10).reversed() {
-                        let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
-                        let end = maxTime - 60 * 5 * TimeInterval(i)
+                        let begin = maxTime - timeSpan.rawValue * TimeInterval(i + 1)
+                        let end = maxTime - timeSpan.rawValue * TimeInterval(i)
                         if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
                             ar.append((end.formatTime, item.duration))
                         } else {
@@ -114,6 +116,6 @@ struct DurationHistoryView: View {
 
 struct DurationHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        DurationHistoryView(items: testScanLogs)
+        DurationHistoryView(items: testScanLogs, timeSpan: .fiveMin)
     }
 }

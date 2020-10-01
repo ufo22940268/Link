@@ -50,6 +50,12 @@ class MonitorHistoryData: ObservableObject {
 
 struct MonitorHistoryView: View {
     var items: [ScanLog]?
+    var timeSpan: TimeSpan
+
+    init(items: [ScanLog]?, timeSpan: TimeSpan) {
+        self.items = items
+        self.timeSpan = timeSpan
+    }
 
     /// DomainName: [TimeSpan: SectionData]
     var chartData: [String: [String: MonitorSectionData]] {
@@ -66,8 +72,8 @@ struct MonitorHistoryView: View {
                     let endPointId = items.first!.endPointId
 
                     for i in (0 ..< 10).reversed() {
-                        let begin = maxTime - 60 * 5 * TimeInterval(i + 1)
-                        let end = maxTime - 60 * 5 * TimeInterval(i)
+                        let begin = maxTime - timeSpan.rawValue * TimeInterval(i + 1)
+                        let end = maxTime - timeSpan.rawValue * TimeInterval(i)
                         if let item = items.first(where: { $0.time > begin && $0.time <= end }) {
                             ar.append((end.formatTime, Double(item.errorCount)))
                         } else {
@@ -80,10 +86,6 @@ struct MonitorHistoryView: View {
         } else {
             return [:]
         }
-    }
-
-    init(items: [ScanLog]?) {
-        self.items = items
     }
 
     func totalErrorCount(_ data: ChartValues) -> Int {
