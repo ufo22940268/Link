@@ -38,7 +38,7 @@ struct DurationHistoryView: View {
 
     var chartData: [String: [String: DurationSectionData]] {
         if let items = items {
-            return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
+            return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in
                 dict.mapValues({ (items: [ScanLog]) -> DurationSectionData in
                     let items = items.sorted { $0.time > $1.time }
                     if items.isEmpty {

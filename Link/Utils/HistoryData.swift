@@ -10,10 +10,12 @@ import Combine
 import SwiftUI
 import SwiftUICharts
 
+fileprivate let TIME_SPAN_KEY = "TIME_SPAN"
+
 class HistoryData: ObservableObject {
     @Published var items: [ScanLog]? = nil
     var loadDataCancellable: AnyCancellable?
-    @Published var timeSpan = TimeSpan.fiveMin
+    @Published var timeSpan = HistoryData.readTimeSpan()
 
     var timeSpanCancellable: AnyCancellable?
     var loadSubject = PassthroughSubject<TimeSpan, Never>()
@@ -40,7 +42,20 @@ class HistoryData: ObservableObject {
             .filter { $0 != nil }
             .assign(to: \.items, on: self)
 
-        timeSpanCancellable = $timeSpan.subscribe(loadSubject)
+        timeSpanCancellable = $timeSpan
+            .map { ts in
+                self.save(timeSpan: ts)
+                return ts
+            }
+            .subscribe(loadSubject)
+    }
+
+    static func readTimeSpan() -> TimeSpan {
+        TimeSpan.parse(UserDefaults.standard.double(forKey: TIME_SPAN_KEY))
+    }
+
+    func save(timeSpan: TimeSpan) {
+        UserDefaults.standard.set(timeSpan.rawValue, forKey: TIME_SPAN_KEY)
     }
 
     func loadData() {

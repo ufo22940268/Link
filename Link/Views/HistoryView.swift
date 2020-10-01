@@ -21,6 +21,12 @@ enum TimeSpan: TimeInterval, RawRepresentable, CaseIterable, Identifiable {
     var label: String {
         "\(Int(rawValue / 60))分钟"
     }
+
+    static let `default` = Self.fiveMin
+
+    static func parse(_ v: TimeInterval) -> Self {
+        allCases.first { $0.rawValue == v } ?? .default
+    }
 }
 
 struct HistoryView: View {
