@@ -116,6 +116,7 @@ class EndPointEditData: ObservableObject {
                 if !url.isValidURL() {
                     self.apis = []
                     self.validateURLResult = .formatError
+                    return false
                 }
 
                 return true
