@@ -19,6 +19,12 @@ struct SettingView: View {
                         domainData.logout()
                     }
                 }
+
+                if !UIDevice.isRelease {
+                    Section(header: Text("服务器")) {
+                        Text(UIDevice.apiEnv.domain)
+                    }
+                }
             }
             .listStyle(GroupedListStyle())
             .navigationTitle("更多")
