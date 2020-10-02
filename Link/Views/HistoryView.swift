@@ -13,13 +13,18 @@ enum TimeSpan: TimeInterval, RawRepresentable, CaseIterable, Identifiable {
     case fiveMin = 300
     case tenMin = 600
     case fiftenMin = 900
+    case oneHour = 3600
 
     var id: Self {
         self
     }
 
     var label: String {
-        "\(Int(rawValue / 60))分钟"
+        if rawValue < 3600 {
+            return "\(Int(rawValue / 60))分钟"
+        } else {
+            return "\(Int(rawValue / 3600))小时"
+        }
     }
 
     static let `default` = Self.fiveMin
@@ -59,7 +64,7 @@ struct HistoryView: View {
     }
 
     var timeSpanPickerView: some View {
-        Picker(historyData.timeSpan.label, selection: $historyData.timeSpan) {
+        Picker("时间间隔", selection: $historyData.timeSpan) {
             ForEach(TimeSpan.allCases) { ts in
                 Text(ts.label).tag(ts)
             }
