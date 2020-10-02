@@ -89,7 +89,7 @@ struct DurationHistoryView: View {
                     .padding(0)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            NavigationLink(destination: DurationHistoryDetailView(url: url, endPointId: rowData.1)) {
+            NavigationLink(destination: DurationHistoryDetailView(endPointId: rowData.1)) {
                 EmptyView().opacity(0)
             }
         }.frame(height: 240, alignment: .center))

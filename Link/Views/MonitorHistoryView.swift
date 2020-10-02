@@ -106,7 +106,7 @@ struct MonitorHistoryView: View {
                     .padding(0)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            NavigationLink(destination: MonitorHistoryDetailView(url: url, endPointId: data.1)) {
+            NavigationLink(destination: MonitorHistoryDetailView(endPointId: data.1)) {
                 EmptyView().opacity(0)
             }
         }.frame(height: 240, alignment: .center)

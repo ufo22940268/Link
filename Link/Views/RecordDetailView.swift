@@ -42,7 +42,7 @@ class RecordDetailData: ObservableObject {
 
 struct RecordDetailView: View {
     @State var segment = RecordDetailSegment.summary
-    @ObservedObject var recordData = RecordDetailData()
+    @StateObject var recordData = RecordDetailData()
     var scanLogId: String
     @State var sheetType: SheetType? = nil
 

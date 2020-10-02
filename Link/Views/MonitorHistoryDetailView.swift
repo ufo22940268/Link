@@ -10,7 +10,6 @@ import Combine
 import SwiftUI
 
 class MonitorHistoryDetailData: ObservableObject {
-    @Published var url: String = ""
     @Published var items = [ScanLogDetail]()
     var loadCancellable: AnyCancellable?
 
@@ -30,13 +29,12 @@ class MonitorHistoryDetailData: ObservableObject {
 }
 
 struct MonitorHistoryDetailView: View {
-    @ObservedObject var errorDetailData = MonitorHistoryDetailData()
+    @StateObject var errorDetailData = MonitorHistoryDetailData()
 
     var endPointId: String
 
-    init(url: String, endPointId: String) {
+    init(endPointId: String) {
         self.endPointId = endPointId
-        errorDetailData.url = url
     }
 
     var body: some View {
@@ -67,7 +65,7 @@ struct MonitorHistoryDetailView: View {
 
 struct ErrorHistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let view = MonitorHistoryDetailView(url: "http://api.xinpinget.com/review/detail/56d92a5263f628d12b053be4", endPointId: "")
+        let view = MonitorHistoryDetailView(endPointId: "")
         view.errorDetailData.items = testScanLogDetails
         return NavigationView {
             view
