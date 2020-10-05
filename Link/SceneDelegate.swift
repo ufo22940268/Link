@@ -16,19 +16,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var context: NSManagedObjectContext {
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
-    
+
     private func requestNotificationAuth() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { (b, e) in
-            
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in
         }
-        
+
         UIApplication.shared.registerForRemoteNotifications()
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
         requestNotificationAuth()
-        
+
         if UIDevice.isSimulator {
             if let sqliteUrl = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.persistentStoreDescriptions.first?.url {
                 let tmpFile = URL(fileURLWithPath: "/tmp/Application Support")
@@ -57,7 +55,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.makeKeyAndVisible()
         }
     }
-        
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

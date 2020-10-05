@@ -46,7 +46,6 @@ struct DurationHistoryView: View {
                     }
 
                     var ar = [(String, Double)]()
-//                    let maxTime = Date()
                     let maxTime = items.first!.time
                     let endPointId = items.first!.endPointId
                     for i in (0 ..< 10).reversed() {
@@ -96,7 +95,7 @@ struct DurationHistoryView: View {
     }
 
     var body: some View {
-        Group {
+         Group {
             if items != nil && items!.isEmpty {
                 HistoryEmptyView()
             } else {
