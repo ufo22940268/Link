@@ -8,20 +8,28 @@
 
 import SwiftUI
 
-struct HistoryEmptyView: View {
+struct LoadableTemplateView: View {
+    internal init(systemImage: String, text: String) {
+        imageView = Image(systemName: systemImage)
+        self.text = text
+    }
+
+    var imageView: Image
+    var text: String
+
     var body: some View {
         VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 20) {
-            Image(systemName: "wand.and.stars.inverse").font(.system(size: 50))
-            Text("没有记录").foregroundColor(.secondary)
+            imageView.font(.system(size: 50))
+            Text(text).foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundColor(.secondary)
     }
 }
 
-struct HistoryEmptyView_Previews: PreviewProvider {
+struct LoadableTemplateView_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryEmptyView()
+        EmptyView()
             .preferredColorScheme(.dark)
     }
 }

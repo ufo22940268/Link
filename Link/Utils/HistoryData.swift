@@ -22,11 +22,11 @@ class HistoryData: LoadableObject<ScanLog> {
     override init() {
         super.init()
         loadDataCancellable = loadSubject
-			.removeDuplicates()
+            .removeDuplicates()
             .flatMap { (timeSpan) -> AnyPublisher<[ScanLog], ResponseError> in
                 self.loadState = .loading
                 if !BackendAgent().isLogin {
-                    return Empty().eraseToAnyPublisher()
+                    return Fail(outputType: [ScanLog].self, failure: ResponseError.notLogin).eraseToAnyPublisher()
                 }
 
 //                let timeout = Publishers.Delay(upstream: Just<[ScanLog]>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
@@ -35,9 +35,10 @@ class HistoryData: LoadableObject<ScanLog> {
                     .getScanLogs(timeSpan: timeSpan)
                     .receive(on: DispatchQueue.main)
 
-				return load.eraseToAnyPublisher()
+                return load.eraseToAnyPublisher()
             }
-			.subscribe(self.updateStateSubject)
+			.delay(for: 3, scheduler: DispatchQueue.main)
+            .subscribe(updateStateSubject)
 
         timeSpanCancellable = $timeSpan
             .map { ts in

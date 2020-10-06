@@ -115,7 +115,7 @@ struct MonitorHistoryView: View {
     var body: some View {
         Group {
             if items != nil && items!.isEmpty {
-                HistoryEmptyView()
+                EmptyView()
             } else {
                 ForEach(Array(chartData.keys).sorted(by: >), id: \.self) { domain -> AnyView in
                     let m: [String: MonitorSectionData] = self.chartData[domain]!

@@ -97,7 +97,7 @@ struct DurationHistoryView: View {
     var body: some View {
          Group {
             if items != nil && items!.isEmpty {
-                HistoryEmptyView()
+                EmptyView()
             } else {
                 ForEach(Array(chartData.keys).sorted(), id: \.self) { (domain: String) -> AnyView in
                     let m: [String: DurationSectionData] = self.chartData[domain]!

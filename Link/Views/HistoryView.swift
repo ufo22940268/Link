@@ -76,7 +76,7 @@ struct HistoryView: View {
         NavigationView {
             Group {
                 if historyData.items.isEmpty {
-                    HistoryEmptyView()
+                    EmptyView()
                 } else {
                     List {
                         if type == .duration {
