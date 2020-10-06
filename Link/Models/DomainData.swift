@@ -33,9 +33,7 @@ final class DomainData: NSObject, ObservableObject {
         loginInfo = LoginManager.getLoginInfo()
         loginCancellable = $loginInfo
             .filter { $0 != nil }
-            .dropFirst()
             .setFailureType(to: ResponseError.self)
-            .print()
             .flatMap { info in
                 try! BackendAgent().login(loginInfo: info!)
             }
