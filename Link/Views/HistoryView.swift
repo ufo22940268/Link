@@ -75,7 +75,7 @@ struct HistoryView: View {
     var contentView: some View {
         NavigationView {
             Group {
-                if historyData.items != nil && historyData.items!.isEmpty {
+                if historyData.items.isEmpty {
                     HistoryEmptyView()
                 } else {
                     List {

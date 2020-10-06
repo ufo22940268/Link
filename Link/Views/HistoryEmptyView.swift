@@ -12,7 +12,7 @@ struct HistoryEmptyView: View {
     var body: some View {
         VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 20) {
             Image(systemName: "wand.and.stars.inverse").font(.system(size: 50))
-            Text("扫描中").foregroundColor(.secondary)
+            Text("没有记录").foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundColor(.secondary)

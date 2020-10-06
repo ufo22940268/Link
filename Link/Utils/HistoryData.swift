@@ -12,35 +12,32 @@ import SwiftUICharts
 
 fileprivate let TIME_SPAN_KEY = "TIME_SPAN"
 
-class HistoryData: ObservableObject {
-    @Published var items: [ScanLog]? = nil
+class HistoryData: LoadableObject<ScanLog> {
     var loadDataCancellable: AnyCancellable?
     @Published var timeSpan = HistoryData.readTimeSpan()
 
     var timeSpanCancellable: AnyCancellable?
     var loadSubject = PassthroughSubject<TimeSpan, Never>()
 
-    init() {
+    override init() {
+        super.init()
         loadDataCancellable = loadSubject
-            .flatMap { (timeSpan) -> AnyPublisher<[ScanLog]?, Never> in
+			.removeDuplicates()
+            .flatMap { (timeSpan) -> AnyPublisher<[ScanLog], ResponseError> in
+                self.loadState = .loading
                 if !BackendAgent().isLogin {
                     return Empty().eraseToAnyPublisher()
                 }
 
-                let timeout = Publishers.Delay(upstream: Just<[ScanLog]?>(nil), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
+//                let timeout = Publishers.Delay(upstream: Just<[ScanLog]>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
+//                    .setFailureType(to: ResponseError.self)
                 let load = try! BackendAgent()
                     .getScanLogs(timeSpan: timeSpan)
-                    .map { items -> [ScanLog]? in
-                        items
-                    }
-                    .replaceEmpty(with: nil)
-                    .replaceError(with: nil)
                     .receive(on: DispatchQueue.main)
 
-                return Publishers.Merge(timeout, load).eraseToAnyPublisher()
+				return load.eraseToAnyPublisher()
             }
-            .filter { $0 != nil }
-            .assign(to: \.items, on: self)
+			.subscribe(self.updateStateSubject)
 
         timeSpanCancellable = $timeSpan
             .map { ts in

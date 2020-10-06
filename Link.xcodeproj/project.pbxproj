@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4206CAE5251EB31700EA40AD /* HistoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4206CAE4251EB31700EA40AD /* HistoryData.swift */; };
+		420FB007252C3A0200204D38 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420FB006252C3A0200204D38 /* Loadable.swift */; };
 		4214731A24E558EA00E61E6E /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731924E558EA00E61E6E /* JSON.swift */; };
 		4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731B24E60E1700E61E6E /* SwiftyJSON.swift */; };
 		4217949D250230DA00E5D421 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217949C250230DA00E5D421 /* HistoryView.swift */; };
@@ -93,6 +94,7 @@
 
 /* Begin PBXFileReference section */
 		4206CAE4251EB31700EA40AD /* HistoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryData.swift; sourceTree = "<group>"; };
+		420FB006252C3A0200204D38 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		4214731924E558EA00E61E6E /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		4214731B24E60E1700E61E6E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		4217949C250230DA00E5D421 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				42EC0601250F548500921F38 /* Mock.swift */,
 				4206CAE4251EB31700EA40AD /* HistoryData.swift */,
 				425087602520591A00B61FAB /* CoreData.swift */,
+				420FB006252C3A0200204D38 /* Loadable.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				42D4F0AF250EE0FB006F1318 /* RecordDetailTextView.swift in Sources */,
 				42E92A0924F5C422004EA1C9 /* File.swift in Sources */,
 				428F4EF92519D35800A320C1 /* HistoryEmptyView.swift in Sources */,
+				420FB007252C3A0200204D38 /* Loadable.swift in Sources */,
 				4285FE7224D58479002BEAEF /* Debug.swift in Sources */,
 				42639514249E009E00ADFBE4 /* Tools.swift in Sources */,
 			);
