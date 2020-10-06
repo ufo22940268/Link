@@ -12,6 +12,7 @@ import Foundation
 enum LoadableState {
     case pending
     case loading
+    case empty
     case finished
     case error(_ error: Error)
 }
@@ -32,8 +33,12 @@ class LoadableObject<Item>: ObservableObject {
                 break
             }
         }, receiveValue: {
-            self.loadState = .finished
             self.items = $0
+            if $0.isEmpty {
+                self.loadState = .empty
+            } else {
+                self.loadState = .finished
+            }
         })
         return subject
     }

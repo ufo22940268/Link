@@ -24,11 +24,13 @@ struct LoadableView<Content: View>: View {
     var body: some View {
         switch loadableState {
         case .loading:
-            LoadingView()
+            LoadableLoadingView()
         case .finished:
             contentView
+        case .empty:
+            LoadableEmptyView()
         case .error:
-            FailedView()
+            LoadableFailedView()
         case .pending:
             LoadableEmptyView()
         }

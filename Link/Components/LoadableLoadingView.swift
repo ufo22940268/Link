@@ -14,7 +14,7 @@ struct LoadableLoadingView: View {
     }
 }
 
-struct LoadingView_Previews: PreviewProvider {
+struct LoadableLoadingView_Previews: PreviewProvider {
     static var previews: some View {
         LoadableLoadingView()
     }

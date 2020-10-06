@@ -14,7 +14,7 @@ struct LoadableFailedView: View {
     }
 }
 
-struct FailedView_Previews: PreviewProvider {
+struct LoadableFailedView_Previews: PreviewProvider {
     static var previews: some View {
         LoadableFailedView()
     }

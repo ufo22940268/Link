@@ -74,19 +74,15 @@ struct HistoryView: View {
 
     var contentView: some View {
         NavigationView {
-            Group {
-                if historyData.items.isEmpty {
-                    LoadableEmptyView()
-                } else {
-                    List {
-                        if type == .duration {
-                            DurationHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
-                        } else if type == .monitor {
-                            MonitorHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
-                        }
+            LoadableView(loadableState: historyData.loadState) {
+                List {
+                    if type == .duration {
+                        DurationHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
+                    } else if type == .monitor {
+                        MonitorHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
                     }
-                    .listStyle(GroupedListStyle())
                 }
+                .listStyle(GroupedListStyle())
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
