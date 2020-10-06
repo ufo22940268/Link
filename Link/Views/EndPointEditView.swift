@@ -70,6 +70,15 @@ enum EditType {
     case add
 }
 
+enum DialogType: String, Identifiable {
+    case addApiEntity
+    case profile
+
+    var id: String {
+        rawValue
+    }
+}
+
 struct EndPointEditView: View {
     @Environment(\.managedObjectContext) var context
 
@@ -83,11 +92,11 @@ struct EndPointEditView: View {
     @StateObject var apiEditData: EndPointEditData = EndPointEditData()
     @State var launched = false
     @State var customDomainName: Bool = false
-    @State var showAdd: Bool = false
-    @State var showProfile: Bool = false
     var editEndPointId: NSManagedObjectID?
 
     var type: EditType
+
+    @State var dialogType: DialogType? = nil
 
     internal init(type: EditType, endPoint: NSManagedObjectID? = nil) {
         self.type = type
@@ -146,7 +155,7 @@ struct EndPointEditView: View {
             Text(apiEditData.validateURLResult.label).foregroundColor(apiEditData.validateURLResult.color)
             if apiEditData.validateURLResult.hasProfile {
                 Button("请求信息") {
-                    showProfile.toggle()
+					self.dialogType = .profile
                 }.foregroundColor(.accentColor)
             }
         }
@@ -181,7 +190,7 @@ struct EndPointEditView: View {
                         } else {
                             return AnyView(
                                 Button("添加字段...") {
-                                    self.showAdd = true
+									dialogType = .addApiEntity
                                 }
                             )
                         }
@@ -196,18 +205,21 @@ struct EndPointEditView: View {
                 self.apiEditData.domainName = url.domainName
             }
         })
-        .sheet(isPresented: $showAdd, onDismiss: { self.apiEditData.objectWillChange.send() }, content: {
-            NavigationView {
-                ApiListView(apis: apiEditData.unwatchApis)
-            }
-        })
-        .sheet(isPresented: $showProfile, content: {
-            NavigationView {
-                RequestProfileView(log: apiEditData.responseLog!)
-                    .navigationTitle("请求信息")
-                    .navigationBarItems(trailing: Button("关闭") {
-                        self.showProfile = false
-                    })
+        .sheet(item: self.$dialogType, onDismiss: {
+            self.apiEditData.objectWillChange.send()
+        }, content: { type in
+            if type == .addApiEntity {
+                NavigationView {
+                    ApiListView(apis: apiEditData.unwatchApis)
+                }
+            } else {
+                NavigationView {
+                    RequestProfileView(log: apiEditData.responseLog!)
+                        .navigationTitle("请求信息")
+                        .navigationBarItems(trailing: Button("关闭") {
+                            dialogType = nil
+                        })
+                }
             }
         })
         .onAppear {
