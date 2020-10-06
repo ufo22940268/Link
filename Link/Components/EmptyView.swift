@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct EmptyView: View {
+struct LoadableEmptyView: View {
     var body: some View {
-		LoadableTemplateView(systemImage: "wand.and.stars.inverse", text: "没有记录")
+		LoadableTemplateView(systemImage: "tray", text: "没有记录")
     }
 }
 

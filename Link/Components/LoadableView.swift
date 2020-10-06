@@ -30,7 +30,7 @@ struct LoadableView<Content: View>: View {
         case .error:
             FailedView()
         case .pending:
-            EmptyView()
+            LoadableEmptyView()
         }
     }
 }
