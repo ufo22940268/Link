@@ -64,7 +64,7 @@ struct HistoryView: View {
     }
 
     var timeSpanPickerView: some View {
-        Picker("时间间隔", selection: $historyData.timeSpan) {
+		Picker(historyData.timeSpan.label, selection: $historyData.timeSpan) {
             ForEach(TimeSpan.allCases) { ts in
                 Text(ts.label).tag(ts)
             }
