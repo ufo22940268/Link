@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-class MonitorHistoryDetailData: LoadableObject<ScanLogDetail> {
+class MonitorHistoryDetailData: LoadableObjects<ScanLogDetail> {
     var loadCancellable: AnyCancellable?
 
     var itemMap: [Date: [ScanLogDetail]] {

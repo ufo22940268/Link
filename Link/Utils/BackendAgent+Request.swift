@@ -27,7 +27,6 @@ extension BackendAgent {
         var req = URLRequest(url: url)
         req.httpMethod = "GET"
         return URLSession.shared.dataTaskPublisher(for: req)
-			.delay(for: 3, scheduler: DispatchQueue.main)
             .convertToJSON()
     }
 

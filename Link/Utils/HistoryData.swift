@@ -12,7 +12,7 @@ import SwiftUICharts
 
 fileprivate let TIME_SPAN_KEY = "TIME_SPAN"
 
-class HistoryData: LoadableObject<ScanLog> {
+class HistoryData: LoadableObjects<ScanLog> {
     var loadDataCancellable: AnyCancellable?
     @Published var timeSpan = HistoryData.readTimeSpan()
 

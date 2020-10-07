@@ -17,8 +17,30 @@ enum LoadableState {
     case error(_ error: Error)
 }
 
-
 class LoadableObject<Item>: ObservableObject {
+    @Published var loadState: LoadableState = .loading
+    @Published var item: Item? = nil
+
+    var stateCancellable: AnyCancellable?
+
+    var updateStateSubject: PassthroughSubject<Item, ResponseError> {
+        let subject = PassthroughSubject<Item, ResponseError>()
+        stateCancellable = subject.sink(receiveCompletion: { complete in
+            switch complete {
+            case let .failure(error):
+                self.loadState = .error(error)
+            case .finished:
+                break
+            }
+        }, receiveValue: {
+            self.item = $0
+            self.loadState = .finished
+        })
+        return subject
+    }
+}
+
+class LoadableObjects<Item>: ObservableObject {
     @Published var loadState: LoadableState = .loading
     @Published var items: [Item] = [Item]()
 

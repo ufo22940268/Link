@@ -26,17 +26,13 @@ enum RecordDetailSegment: Int, RawRepresentable, CaseIterable {
     }
 }
 
-class RecordDetailData: ObservableObject {
-    @Published var item: RecordItem?
+class RecordDetailData: LoadableObject<RecordItem> {
     var loadCancellable: AnyCancellable?
 
     func load(id: String) {
-        loadCancellable = BackendAgent().getScanLog(id: id)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in
-            }) { item in
-                self.item = item
-            }
+        loadCancellable = BackendAgent()
+            .getScanLog(id: id)
+            .subscribe(updateStateSubject)
     }
 }
 
@@ -75,6 +71,7 @@ struct RecordDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
+		.wrapLoadable(state: recordData.loadState)
         .sheet(item: $sheetType, onDismiss: {
             self.sheetType = nil
         }) { st -> AnyView in
