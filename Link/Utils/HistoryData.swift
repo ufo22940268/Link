@@ -29,15 +29,12 @@ class HistoryData: LoadableObject<ScanLog> {
                     return Fail(outputType: [ScanLog].self, failure: ResponseError.notLogin).eraseToAnyPublisher()
                 }
 
-//                let timeout = Publishers.Delay(upstream: Just<[ScanLog]>([ScanLog]()), interval: 0.5, tolerance: 0, scheduler: DispatchQueue.main)
-//                    .setFailureType(to: ResponseError.self)
                 let load = try! BackendAgent()
                     .getScanLogs(timeSpan: timeSpan)
                     .receive(on: DispatchQueue.main)
 
                 return load.eraseToAnyPublisher()
             }
-			.delay(for: 3, scheduler: DispatchQueue.main)
             .subscribe(updateStateSubject)
 
         timeSpanCancellable = $timeSpan

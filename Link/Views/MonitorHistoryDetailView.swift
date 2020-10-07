@@ -9,8 +9,7 @@
 import Combine
 import SwiftUI
 
-class MonitorHistoryDetailData: ObservableObject {
-    @Published var items = [ScanLogDetail]()
+class MonitorHistoryDetailData: LoadableObject<ScanLogDetail> {
     var loadCancellable: AnyCancellable?
 
     var itemMap: [Date: [ScanLogDetail]] {
@@ -23,13 +22,12 @@ class MonitorHistoryDetailData: ObservableObject {
     func load(by endPointId: String) {
         loadCancellable = BackendAgent()
             .getScanLogs(by: endPointId)
-            .replaceError(with: [])
-            .assign(to: \.items, on: self)
+			.subscribe(super.updateStateSubject)
     }
 }
 
 struct MonitorHistoryDetailView: View {
-    @StateObject var errorDetailData = MonitorHistoryDetailData()
+    @StateObject var monitorDetailData = MonitorHistoryDetailData()
 
     var endPointId: String
 
@@ -39,9 +37,9 @@ struct MonitorHistoryDetailView: View {
 
     var body: some View {
         List {
-            ForEach(errorDetailData.itemMap.keys.sorted(by: >), id: \.self) { date in
+            ForEach(monitorDetailData.itemMap.keys.sorted(by: >), id: \.self) { date in
                 Section(header: Text(date.formatDate)) {
-                    ForEach(self.errorDetailData.itemMap[date]!) { item in
+                    ForEach(self.monitorDetailData.itemMap[date]!) { item in
                         NavigationLink(destination: RecordDetailView(segment: .monitor, scanLogId: item.id)) {
                             HStack {
                                 Text(item.time.formatTime)
@@ -52,12 +50,13 @@ struct MonitorHistoryDetailView: View {
                     }
                 }
             }
-        }
+		}
+		.wrapLoadable(state: monitorDetailData.loadState)
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text("错误数"), displayMode: .inline)
         .onAppear {
             if !UIDevice.isPreview {
-                self.errorDetailData.load(by: self.endPointId)
+                self.monitorDetailData.load(by: self.endPointId)
             }
         }
     }
@@ -66,7 +65,7 @@ struct MonitorHistoryDetailView: View {
 struct ErrorHistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let view = MonitorHistoryDetailView(endPointId: "")
-        view.errorDetailData.items = testScanLogDetails
+        view.monitorDetailData.items = testScanLogDetails
         return NavigationView {
             view
         }

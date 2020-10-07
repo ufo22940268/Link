@@ -15,7 +15,6 @@ typealias MonitorSectionData = (ChartValues, ObjectId)
 class MonitorHistoryData: ObservableObject {
     @Published var items: [ScanLog]? = nil
 
-    /// DomainName: [TimeSpan: SectionData]
     var chartData: [String: [String: MonitorSectionData]] {
         if let items = items {
             return items.partitionByDomainName().mapValues { (dict: [String: [ScanLog]]) in

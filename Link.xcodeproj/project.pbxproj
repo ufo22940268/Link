@@ -13,6 +13,7 @@
 		420FB012252D22A600204D38 /* LoadableLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420FB011252D22A600204D38 /* LoadableLoadingView.swift */; };
 		420FB016252D22BD00204D38 /* LoadableFailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420FB015252D22BD00204D38 /* LoadableFailedView.swift */; };
 		420FB01C252D260C00204D38 /* LoadableTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420FB01B252D260C00204D38 /* LoadableTemplateView.swift */; };
+		420FB024252D36FB00204D38 /* BackendAgent+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420FB023252D36FB00204D38 /* BackendAgent+Request.swift */; };
 		4214731A24E558EA00E61E6E /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731924E558EA00E61E6E /* JSON.swift */; };
 		4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731B24E60E1700E61E6E /* SwiftyJSON.swift */; };
 		4217949D250230DA00E5D421 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217949C250230DA00E5D421 /* HistoryView.swift */; };
@@ -103,6 +104,7 @@
 		420FB011252D22A600204D38 /* LoadableLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableLoadingView.swift; sourceTree = "<group>"; };
 		420FB015252D22BD00204D38 /* LoadableFailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableFailedView.swift; sourceTree = "<group>"; };
 		420FB01B252D260C00204D38 /* LoadableTemplateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadableTemplateView.swift; sourceTree = "<group>"; };
+		420FB023252D36FB00204D38 /* BackendAgent+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BackendAgent+Request.swift"; sourceTree = "<group>"; };
 		4214731924E558EA00E61E6E /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		4214731B24E60E1700E61E6E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		4217949C250230DA00E5D421 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 				428C18C624F644A90017ECBC /* Time.swift */,
 				428784232502F3EE00B732B0 /* LoginManager.swift */,
 				428028602504452A0042374E /* BackendAgent.swift */,
+				420FB023252D36FB00204D38 /* BackendAgent+Request.swift */,
 				42EC0601250F548500921F38 /* Mock.swift */,
 				4206CAE4251EB31700EA40AD /* HistoryData.swift */,
 				425087602520591A00B61FAB /* CoreData.swift */,
@@ -537,6 +540,7 @@
 				420FB016252D22BD00204D38 /* LoadableFailedView.swift in Sources */,
 				4214731A24E558EA00E61E6E /* JSON.swift in Sources */,
 				427A82CB24E4BA3700437A56 /* DataSource.swift in Sources */,
+				420FB024252D36FB00204D38 /* BackendAgent+Request.swift in Sources */,
 				42EC0602250F548500921F38 /* Mock.swift in Sources */,
 				42EC0604251043CB00921F38 /* MonitorHistoryView.swift in Sources */,
 				423864AE25230B7D00C4CCB5 /* EmptyEndPointListView.swift in Sources */,

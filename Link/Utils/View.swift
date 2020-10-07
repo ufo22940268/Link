@@ -54,6 +54,12 @@ extension View {
     func anyView() -> AnyView {
         return AnyView(self)
     }
+	
+	func wrapLoadable(state: LoadableState) -> some View {
+		LoadableView(loadableState: state) {
+			self
+		}
+	}
 }
 
 extension Notification {

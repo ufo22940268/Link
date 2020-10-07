@@ -9,8 +9,7 @@
 import Combine
 import SwiftUI
 
-class DurationHistoryDetailData: ObservableObject {
-    @Published var items = [ScanLogDetail]()
+class DurationHistoryDetailData: LoadableObject<ScanLogDetail> {
     var loadCancellable: AnyCancellable?
 
     var itemMap: [Date: [ScanLogDetail]] {
@@ -22,8 +21,8 @@ class DurationHistoryDetailData: ObservableObject {
     func load(by endPointId: String) {
         loadCancellable = BackendAgent()
             .getScanLogs(by: endPointId)
-            .replaceError(with: [])
-            .assign(to: \.items, on: self)
+			.print()
+			.subscribe(super.updateStateSubject)
     }
 }
 
@@ -53,6 +52,7 @@ struct DurationHistoryDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
+		.wrapLoadable(state: durationDetailData.loadState)
         .navigationBarTitle(Text("时长"))
         .onAppear {
             if !UIDevice.isPreview {
