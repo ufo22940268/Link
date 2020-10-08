@@ -16,7 +16,7 @@ enum OnboardType: Int {
     case setting
 }
 
-struct OnboardView: View {
+struct AppTabNavigationView: View {
     @ObservedObject var domainData = DomainData()
     @Environment(\.managedObjectContext) var context
     @State var cancellables = [AnyCancellable]()
@@ -81,7 +81,7 @@ struct OnboardView: View {
 struct OnBoardView_Previews: PreviewProvider {
     static var previews: some View {
         LoginManager.save(loginInfo: LoginInfo(username: "aa", appleUserId: "ff"))
-        let v = OnboardView()
+        let v = AppTabNavigationView()
         return v
     }
 }

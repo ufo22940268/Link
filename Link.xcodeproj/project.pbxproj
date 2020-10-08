@@ -16,12 +16,14 @@
 		420FB024252D36FB00204D38 /* BackendAgent+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420FB023252D36FB00204D38 /* BackendAgent+Request.swift */; };
 		4214731A24E558EA00E61E6E /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731924E558EA00E61E6E /* JSON.swift */; };
 		4214731C24E60E1700E61E6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214731B24E60E1700E61E6E /* SwiftyJSON.swift */; };
+		42148EBB252FC27D00152ACE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42148EBA252FC27D00152ACE /* ContentView.swift */; };
+		42148EBF252FC2AE00152ACE /* SideBarTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42148EBE252FC2AE00152ACE /* SideBarTabNavigation.swift */; };
 		4217949D250230DA00E5D421 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217949C250230DA00E5D421 /* HistoryView.swift */; };
 		421794A125025E2F00E5D421 /* AppleIDLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */; };
 		4222CF6C2522D277000A3030 /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 423DD13224A984860064D321 /* LinkModel.xcdatamodeld */; };
 		422B6CF92498D91400D2F10D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CF82498D91400D2F10D /* AppDelegate.swift */; };
 		422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFA2498D91400D2F10D /* SceneDelegate.swift */; };
-		422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFC2498D91400D2F10D /* OnboardView.swift */; };
+		422B6CFD2498D91400D2F10D /* AppTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B6CFC2498D91400D2F10D /* AppTabNavigation.swift */; };
 		422B6CFF2498D91500D2F10D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422B6CFE2498D91500D2F10D /* Assets.xcassets */; };
 		422B6D022498D91500D2F10D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D012498D91500D2F10D /* Preview Assets.xcassets */; };
 		422B6D052498D91500D2F10D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422B6D032498D91500D2F10D /* LaunchScreen.storyboard */; };
@@ -107,12 +109,14 @@
 		420FB023252D36FB00204D38 /* BackendAgent+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BackendAgent+Request.swift"; sourceTree = "<group>"; };
 		4214731924E558EA00E61E6E /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		4214731B24E60E1700E61E6E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		42148EBA252FC27D00152ACE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		42148EBE252FC2AE00152ACE /* SideBarTabNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarTabNavigation.swift; sourceTree = "<group>"; };
 		4217949C250230DA00E5D421 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		421794A025025E2F00E5D421 /* AppleIDLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIDLoginButton.swift; sourceTree = "<group>"; };
 		422B6CF52498D91400D2F10D /* Link.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Link.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422B6CF82498D91400D2F10D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		422B6CFA2498D91400D2F10D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		422B6CFC2498D91400D2F10D /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
+		422B6CFC2498D91400D2F10D /* AppTabNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabNavigation.swift; sourceTree = "<group>"; };
 		422B6CFE2498D91500D2F10D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		422B6D012498D91500D2F10D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		422B6D042498D91500D2F10D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -217,6 +221,16 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		42148EB5252FC1EA00152ACE /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				422B6CFC2498D91400D2F10D /* AppTabNavigation.swift */,
+				42148EBA252FC27D00152ACE /* ContentView.swift */,
+				42148EBE252FC2AE00152ACE /* SideBarTabNavigation.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		422B6CEC2498D91400D2F10D = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +253,7 @@
 		422B6CF72498D91400D2F10D /* Link */ = {
 			isa = PBXGroup;
 			children = (
+				42148EB5252FC1EA00152ACE /* Navigation */,
 				420FB00A252C887A00204D38 /* Components */,
 				42D5583725248A55005A5754 /* EndPoint */,
 				42ECB47B25232FB200DD9619 /* Setting */,
@@ -293,7 +308,6 @@
 		42697F3524F34DA8005298D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				422B6CFC2498D91400D2F10D /* OnboardView.swift */,
 				42639511249DA14200ADFBE4 /* EndPointEditView.swift */,
 				42508766252083D900B61FAB /* TestView.swift */,
 				426F887324B09EE600C039E4 /* ApiListView.swift */,
@@ -528,6 +542,7 @@
 				42D4F0B1250EF8F3006F1318 /* RecordDetailJSONView.swift in Sources */,
 				42D4F0AD250EDB29006F1318 /* Text.swift in Sources */,
 				4217949D250230DA00E5D421 /* HistoryView.swift in Sources */,
+				42148EBB252FC27D00152ACE /* ContentView.swift in Sources */,
 				42D2053E24C64B1C00C6CC70 /* ApiHelper.swift in Sources */,
 				42E92A0324F4D38B004EA1C9 /* View.swift in Sources */,
 				42D4F0A7250B4B6C006F1318 /* RecordItem.swift in Sources */,
@@ -556,7 +571,7 @@
 				42FCE305250AE1CB008E50CD /* DurationHistoryDetailView.swift in Sources */,
 				422B6CFB2498D91400D2F10D /* SceneDelegate.swift in Sources */,
 				422B6D21249C96CF00D2F10D /* EndPointListView.swift in Sources */,
-				422B6CFD2498D91400D2F10D /* OnboardView.swift in Sources */,
+				422B6CFD2498D91400D2F10D /* AppTabNavigation.swift in Sources */,
 				42FCE3002509A186008E50CD /* DurationHistoryView.swift in Sources */,
 				42EC060A2511A41100921F38 /* RecordDetailMonitorView.swift in Sources */,
 				42FFA90F24F633CA005BFAAC /* Preview.swift in Sources */,
@@ -571,6 +586,7 @@
 				421794A125025E2F00E5D421 /* AppleIDLoginButton.swift in Sources */,
 				4222CF6C2522D277000A3030 /* LinkModel.xcdatamodeld in Sources */,
 				42639512249DA14200ADFBE4 /* EndPointEditView.swift in Sources */,
+				42148EBF252FC2AE00152ACE /* SideBarTabNavigation.swift in Sources */,
 				42D4F0A9250C343A006F1318 /* RecordDetailRequestView.swift in Sources */,
 				42BC1B6524D7E8590078402B /* DomainData.swift in Sources */,
 				42458E312521F35D00707E4F /* List.swift in Sources */,
@@ -759,10 +775,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.Link;
 				PRODUCT_NAME = Link;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -784,10 +802,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.Link;
 				PRODUCT_NAME = Link;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

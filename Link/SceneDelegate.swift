@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //
 
         // Create the SwiftUI view that  provides the window contents.
-        let contentView = OnboardView()
+        let contentView = ContentView()
             .environment(\.managedObjectContext, context)
 //        let contentView = TestView()
 //            .environment(\.managedObjectContext, context)
