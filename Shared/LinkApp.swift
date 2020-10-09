@@ -14,6 +14,7 @@ struct LinkApp: App {
 
 	init() {
 		setupDBFile()
+		resetCoreData()
 	}
 	
 	func setupDBFile() {
@@ -25,6 +26,13 @@ struct LinkApp: App {
 				print("sqlite url", sqliteUrl.absoluteURL.description.removingPercentEncoding ?? "")
 			}
 		}
+	}
+	
+	func resetCoreData() {
+		if let _ = ProcessInfo.processInfo.environment["RESET_CORE_DATA"], !MyDevice.isRunningTest {
+			DebugHelper.resetCoreData()
+		}
+				
 	}
 	
     var body: some Scene {
