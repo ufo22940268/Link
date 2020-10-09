@@ -9,7 +9,7 @@
 import Combine
 import CoreData
 import Foundation
-import UIKit
+
 
 struct LoginInfo {
     var username: String

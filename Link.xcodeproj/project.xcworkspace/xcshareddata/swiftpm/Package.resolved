@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "SwiftUICharts",
+        "repositoryURL": "https://github.com/ufo22940268/ChartView.git",
+        "state": {
+          "branch": "hotfix/overlay",
+          "revision": "e078a8f659e12cd2bfcda1eb83c496ecc167d9c2",
+          "version": null
+        }
+      },
+      {
         "package": "Mocker",
         "repositoryURL": "https://github.com/WeTransfer/Mocker.git",
         "state": {
