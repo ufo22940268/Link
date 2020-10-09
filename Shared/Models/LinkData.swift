@@ -11,7 +11,7 @@ import Combine
 import CoreData
 import SwiftUI
 
-final class DomainData: NSObject, ObservableObject {
+final class LinkData: NSObject, ObservableObject {
     @Published var endPoints: [EndPointEntity] = []
     @Published var isLoading = false
     @Published var loginInfo: LoginInfo?
@@ -104,10 +104,10 @@ final class DomainData: NSObject, ObservableObject {
         endPoints.first { $0.objectID == id }
     }
 
-    static func test(context: NSManagedObjectContext) -> DomainData {
+    static func test(context: NSManagedObjectContext) -> LinkData {
         let req: NSFetchRequest<EndPointEntity> = EndPointEntity.fetchRequest()
         req.predicate = NSPredicate(format: "url == %@", "http://biubiubiu.hopto.org:9000/link/github.json")
-        let dd = DomainData()
+        let dd = LinkData()
         dd.endPoints = try! context.fetch(req)
         return dd
     }
@@ -120,7 +120,7 @@ final class DomainData: NSObject, ObservableObject {
     }
 }
 
-extension DomainData: ASAuthorizationControllerDelegate {
+extension LinkData: ASAuthorizationControllerDelegate {
     var isLogin: Bool {
         loginInfo != nil
     }

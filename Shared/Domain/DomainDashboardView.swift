@@ -12,7 +12,7 @@ import SwiftUI
 struct DomainDashboardView: View {
     @State var showingAddEndPoint: Bool = false
     @Environment(\.managedObjectContext) var context
-    @EnvironmentObject var domainData: DomainData
+    @EnvironmentObject var domainData: LinkData
 
     var dataSource: DataSource {
         DataSource(context: context)
@@ -93,7 +93,6 @@ struct DomainDashboardView: View {
     }
 
     var body: some View {
-        NavigationView {
             Group {
                 if domainData.endPoints.isEmpty {
                     EmptyEndPointListView()
@@ -107,7 +106,6 @@ struct DomainDashboardView: View {
             }
             .navigationBarTitle(Text("概览"))
             .navigationBarItems(leading: leadingButton, trailing: addButton)
-        }
         .sheet(isPresented: $showingAddEndPoint, onDismiss: {
             self.domainData.needReload.send()
         }, content: { () in
@@ -118,12 +116,26 @@ struct DomainDashboardView: View {
         .onAppear {
             CoreDataContext.edit.rollback()
         }
+		.tag(OnboardType.dashboard.rawValue)
+		.font(.title)
+		.onAppear {
+			if !DebugHelper.isPreview {
+				self.domainData.needReload.send()
+			}
+		}
+//            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+//                self.domainData.needReload.send()
+//            }
+		.onReceive(NotificationCenter.default.publisher(for: Notification.refreshDomain), perform: { _ in
+			self.domainData.needReload.send()
+		})
+
     }
 }
 
 struct DomainDashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        let dd = DomainData()
+        let dd = LinkData()
         dd.endPoints = try! context.fetch(EndPointEntity.fetchRequest() as NSFetchRequest<EndPointEntity>)
         return Group {
             DomainDashboardView().colorScheme(.dark)

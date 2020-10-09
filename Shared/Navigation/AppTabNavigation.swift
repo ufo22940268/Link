@@ -11,77 +11,65 @@ import CoreData
 import SwiftUI
 
 enum OnboardType: Int {
-    case dashboard
-    case history
-    case setting
+	case dashboard
+	case history
+	case setting
 }
 
 struct AppTabNavigationView: View {
-    @ObservedObject var domainData = DomainData()
-    @Environment(\.managedObjectContext) var context
-    @State var cancellables = [AnyCancellable]()
+	@EnvironmentObject var linkData: LinkData
+	@Environment(\.managedObjectContext) var context
+	@State var cancellables = [AnyCancellable]()
 
-    var dataSource: DataSource {
-        DataSource(context: context)
-    }
+	var dataSource: DataSource {
+		DataSource(context: context)
+	}
 
-    var dashboardView: some View {
-        DomainDashboardView()
-            .tag(OnboardType.dashboard.rawValue)
-            .font(.title)
-            .tabItem {
-                Label("监控", systemImage: "cloud.fill")
-            }
-            .environmentObject(self.domainData)
-            .onAppear {
-                if !DebugHelper.isPreview {
-                    self.domainData.needReload.send()
-                }
-            }
-//            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-//                self.domainData.needReload.send()
-//            }
-            .onReceive(NotificationCenter.default.publisher(for: Notification.refreshDomain), perform: { _ in
-                self.domainData.needReload.send()
-            })
-            .environmentObject(dataSource)
-    }
- 
-    var historyView: some View {
-        HistoryView()
-            .tag(OnboardType.history.rawValue)
-            .tabItem {
-                Label("记录", systemImage: "clock.fill")
-            }
-    }
+	var dashboardView: some View {
+		NavigationView {
+			DomainDashboardView()
+		}
+		.tabItem {
+			Label("监控", systemImage: "cloud.fill")
+		}
+	}
 
-    var settingView: some View {
-        SettingView()
-            .tabItem {
-                Label("更多", systemImage: "lineweight")
-            }
-            .environmentObject(domainData)
-    }
+	var historyView: some View {
+		NavigationView {
+			HistoryView()
+		}
+		.tag(OnboardType.history.rawValue)
+		.tabItem {
+			Label("记录", systemImage: "clock.fill")
+		}
+	}
 
-    var body: some View {
-        ZStack {
-            if !domainData.isLogin {
-                dashboardView
-            } else {
-                TabView {
-                    dashboardView
-                    historyView
-                    settingView
-                }
-            }
-        }
-    }
+	var settingView: some View {
+		SettingView()
+			.tabItem {
+				Label("更多", systemImage: "lineweight")
+			}
+	}
+
+	var body: some View {
+		ZStack {
+			if !linkData.isLogin {
+				dashboardView
+			} else {
+				TabView {
+					dashboardView
+					historyView
+					settingView
+				}
+			}
+		}
+	}
 }
 
 struct OnBoardView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginManager.save(loginInfo: LoginInfo(username: "aa", appleUserId: "ff"))
-        let v = AppTabNavigationView()
-        return v
-    }
+	static var previews: some View {
+		LoginManager.save(loginInfo: LoginInfo(username: "aa", appleUserId: "ff"))
+		let v = AppTabNavigationView()
+		return v
+	}
 }

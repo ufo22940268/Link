@@ -10,7 +10,7 @@ import SwiftUI
 typealias GroupedListStyle = DefaultListStyle
 
 struct SettingView: View {
-    @EnvironmentObject var domainData: DomainData
+    @EnvironmentObject var domainData: LinkData
 
     var body: some View {
         NavigationView {

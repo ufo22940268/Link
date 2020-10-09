@@ -13,7 +13,7 @@ import SwiftUI
 struct EndPointDetailView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var endPoint: EndPointEntity
-    @EnvironmentObject var domainData: DomainData
+    @EnvironmentObject var domainData: LinkData
     @State var segment = Segment.response.rawValue
     var endPointCancellable: AnyCancellable?
     @State var cancellables = [AnyCancellable]()

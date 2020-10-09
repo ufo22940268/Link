@@ -22,7 +22,7 @@ struct EndPointStatus: Hashable {
 
 private struct EndPointRow: View {
     var endPoint: EndPointEntity
-    @EnvironmentObject var domainData: DomainData
+    @EnvironmentObject var domainData: LinkData
     @Environment(\.managedObjectContext) var context
 
     var body: some View {
@@ -44,7 +44,7 @@ private struct EndPointRow: View {
 }
 
 struct EndPointListView: View {
-    @EnvironmentObject var domainData: DomainData
+    @EnvironmentObject var domainData: LinkData
     @Environment(\.managedObjectContext) var context
 
     var dataSource: DataSource {
@@ -92,7 +92,7 @@ struct EndPointListView: View {
 struct EndPointListView_Previews: PreviewProvider {
     static var previews: some View {
         EndPointListView()
-            .environmentObject(DomainData())
+            .environmentObject(LinkData())
             .environmentObject(DataSource(context: context))
             .environment(\.managedObjectContext, context)
     }

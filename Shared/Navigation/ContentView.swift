@@ -9,13 +9,17 @@
 import SwiftUI
 
 struct ContentView: View {
+	
+	@StateObject var linkData = LinkData()
+	
     var body: some View {
+		#if os(iOS)
 		AppTabNavigationView()
-//		#if os(iOS)
-//		AppTabNavigationView()
-//		#else
-//		SideBarTabNavigation()
-//		#endif
+			.environmentObject(linkData)
+		#else
+		SideBarTabNavigation()
+			.environmentObject(linkData)
+		#endif
     }
 }
 
