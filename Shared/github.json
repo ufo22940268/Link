@@ -1,0 +1,4 @@
+{
+  "followers_url": "https://api.github.com/user/followers",
+  "following_url": "https://api.github.com/user/following{/target}"
+}
