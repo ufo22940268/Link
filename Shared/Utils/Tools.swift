@@ -8,8 +8,8 @@
 
 import CoreData
 import Foundation
-import UIKit
+
 
 func getPersistentContainer() -> NSPersistentContainer {
-    return (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer
+	return PersistenceController.shared.container
 }

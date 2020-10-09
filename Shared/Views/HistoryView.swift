@@ -96,9 +96,10 @@ struct HistoryView: View {
             .onAppear {
                 self.loadData()
             }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                self.loadData()
-            }
+			// TODO
+//            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+//                self.loadData()
+//            }
             .onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
                 self.loadData()
             })

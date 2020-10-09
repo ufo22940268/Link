@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+typealias GroupedListStyle = DefaultListStyle
 
 struct SettingView: View {
     @EnvironmentObject var domainData: DomainData
@@ -20,9 +21,9 @@ struct SettingView: View {
                     }
                 }
 
-                if !UIDevice.isRelease {
+                if !MyDevice.isRelease {
                     Section(header: Text("服务器")) {
-                        Text(UIDevice.apiEnv.domain)
+                        Text(MyDevice.apiEnv.domain)
                     }
                 }
             }

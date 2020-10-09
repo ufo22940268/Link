@@ -9,7 +9,6 @@
 import Combine
 import CoreData
 import Foundation
-import UIKit
 
 typealias Response = JSON
 
@@ -38,7 +37,7 @@ struct ResponseError: Error {
 // MARK: Apis
 
 struct BackendAgent {
-    static let backendDomain = UIDevice.apiEnv.domain
+    static let backendDomain = MyDevice.apiEnv.domain
     var loginInfo: LoginInfo? {
         LoginManager.getLoginInfo()
     }

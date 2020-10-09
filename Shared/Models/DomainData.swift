@@ -127,7 +127,7 @@ extension DomainData: ASAuthorizationControllerDelegate {
 
     @objc
     func triggerAppleLogin() {
-        if !UIDevice.isSimulator {
+        if !MyDevice.isSimulator {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             let request = appleIDProvider.createRequest()
             request.requestedScopes = [.fullName]

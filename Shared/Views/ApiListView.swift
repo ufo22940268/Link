@@ -60,7 +60,7 @@ struct ApiListView: View {
                 self.presentationMode.wrappedValue.dismiss()
             })
         }
-        .navigationBarTitle("添加字段", displayMode: .inline)
+        navigationBarTitle("添加字段")
     }
 }
 

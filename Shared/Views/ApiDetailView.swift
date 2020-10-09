@@ -9,6 +9,7 @@
 import Combine
 import SwiftUI
 
+
 struct ApiDetailView: View {
     internal init(api: ApiEntity, onComplete: (() -> Void)? = nil) {
         modelData = ApiDetailData(api: api)
@@ -72,7 +73,7 @@ struct ApiDetailView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text("字段详情"))
+		.navigationTitle("字段详情")
     }
 
     private func save() {

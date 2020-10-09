@@ -74,7 +74,11 @@ public class DebugHelper {
     }
 }
 
-public extension UIDevice {
+struct MyDevice {
+	
+}
+
+extension MyDevice {
     static var isSimulator: Bool = {
         #if targetEnvironment(simulator)
             return true
@@ -109,7 +113,7 @@ public extension UIDevice {
     }
 
     static var apiEnv: ApiEnv {
-        if UIDevice.isRelease {
+        if MyDevice.isRelease {
             return .online
         }
 

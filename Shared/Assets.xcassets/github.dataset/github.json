@@ -1,0 +1,4 @@
+{
+  "feeds_url": "https://api.github.com/feeds",
+  "followers_url": "https://api.github.com/user/followers"
+}

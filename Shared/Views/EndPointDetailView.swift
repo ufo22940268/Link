@@ -157,7 +157,8 @@ struct EndPointDetailView: View {
                 .environment(\.managedObjectContext, CoreDataContext.edit)
         })
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
+//        .navigationBarTitle(Text(lastPartOfPath), displayMode: .inline)
+		        .navigationBarTitle(Text(lastPartOfPath))
         .navigationBarItems(trailing: editButton)
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name.updateEndPointDetail), perform: { _ in
             self.refresh()

@@ -13,7 +13,7 @@ struct EndPoint: Codable {
     struct WatchField: Codable {
         var path: String
         var value: String
-
+		
         func toApiEntity(context: NSManagedObjectContext, ee: EndPointEntity) -> ApiEntity {
             let ae = ApiEntity(context: context)
             ae.endPoint = ee

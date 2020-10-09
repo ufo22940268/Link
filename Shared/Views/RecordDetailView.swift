@@ -89,16 +89,17 @@ struct RecordDetailView: View {
                         .navigationBarItems(trailing: Button("完成") {
                             self.sheetType = nil
                         })
-                        .navigationBarTitle(Text(st.title), displayMode: .inline)
+//                        .navigationBarTitle(Text(st.title), displayMode: .inline)
+						.navigationBarTitle(Text(st.title))
                 }
             )
         }
         .onAppear {
-            if !UIDevice.isPreview {
+            if !MyDevice.isPreview {
                 self.recordData.load(id: self.scanLogId)
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -108,7 +109,7 @@ struct RecordDetailView_Previews: PreviewProvider {
         view.recordData.item = testRecordItem
         view.segment = .response
         return NavigationView {
-            view.navigationBarTitle("ff", displayMode: .inline)
+            view
         }.colorScheme(.dark)
     }
 }

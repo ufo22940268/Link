@@ -55,7 +55,7 @@ struct DurationHistoryDetailView: View {
 		.wrapLoadable(state: durationDetailData.loadState)
         .navigationBarTitle(Text("时长"))
         .onAppear {
-            if !UIDevice.isPreview {
+            if !MyDevice.isPreview {
                 self.durationDetailData.load(by: self.endPointId)
             }
         }

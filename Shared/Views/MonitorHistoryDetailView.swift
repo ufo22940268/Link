@@ -53,9 +53,10 @@ struct MonitorHistoryDetailView: View {
 		}
 		.wrapLoadable(state: monitorDetailData.loadState)
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text("错误数"), displayMode: .inline)
+//        .navigationBarTitle(Text("错误数"), displayMode: .inline)
+		.navigationBarTitle(Text("错误数"))
         .onAppear {
-            if !UIDevice.isPreview {
+            if !MyDevice.isPreview {
                 self.monitorDetailData.load(by: self.endPointId)
             }
         }

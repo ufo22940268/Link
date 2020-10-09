@@ -168,8 +168,8 @@ struct EndPointEditView: View {
         let form = Form {
             Section(header: Text("域名地址"), footer: promptView) {
                 TextEditor(text: urlBinding)
-                    .keyboardType(.URL)
-                    .textContentType(.URL)
+//                    .keyboardType(.URL)
+//                    .textContentType(.URL)
             }
 
             Section(header: Text("名字")) {
@@ -198,7 +198,8 @@ struct EndPointEditView: View {
                 }
             }
         }
-        .navigationBarTitle("域名", displayMode: .inline)
+//		.navigationBarTitle("域名", displayMode: .inline)
+		.navigationBarTitle("域名")
         .navigationBarItems(leading: cancelButton, trailing: doneButton)
         .onReceive(apiEditData.$url, perform: { url in
             if !self.customDomainName {

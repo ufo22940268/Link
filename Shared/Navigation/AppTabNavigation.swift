@@ -38,9 +38,9 @@ struct AppTabNavigationView: View {
                     self.domainData.needReload.send()
                 }
             }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                self.domainData.needReload.send()
-            }
+//            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+//                self.domainData.needReload.send()
+//            }
             .onReceive(NotificationCenter.default.publisher(for: Notification.refreshDomain), perform: { _ in
                 self.domainData.needReload.send()
             })

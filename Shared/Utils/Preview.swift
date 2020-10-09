@@ -11,8 +11,7 @@ import SwiftUI
 
 extension PreviewProvider {
     static var context: NSManagedObjectContext {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        return context
+		return getPersistentContainer().viewContext
     }
 
     static var testDomain: DomainEntity {

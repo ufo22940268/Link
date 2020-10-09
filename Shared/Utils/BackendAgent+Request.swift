@@ -9,13 +9,12 @@
 import Combine
 import CoreData
 import Foundation
-import UIKit
 
 // MARK: Utils
 
 extension BackendAgent {
     func get(endPoint: String, query: [String: Any] = [:], options: RequestOptions = []) -> AnyPublisher<Response, ResponseError> {
-        if UIDevice.isPreview {
+        if MyDevice.isPreview {
             return Just(JSON()).setFailureType(to: ResponseError.self).eraseToAnyPublisher()
         }
 

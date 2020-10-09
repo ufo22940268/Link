@@ -26,31 +26,6 @@ struct Safe<T: RandomAccessCollection & MutableCollection, C: View>: View {
 }
 
 extension View {
-    func navigationBarItems<L, C, T>(leading: L, center: C, trailing: T) -> some View where L: View, C: View, T: View {
-        navigationBarItems(leading:
-            HStack {
-                HStack {
-                    leading
-                }
-                .frame(width: 60, alignment: .leading)
-                Spacer()
-                HStack {
-                    center
-                }
-                .frame(width: 300, alignment: .center)
-                Spacer()
-                HStack {
-                    // Text("asdasd")
-                    trailing
-                }
-                // .background(Color.blue)
-                .frame(width: 100, alignment: .trailing)
-            }
-            // .background(Color.yellow)
-            .frame(width: UIScreen.main.bounds.size.width - 32)
-        )
-    }
-
     func anyView() -> AnyView {
         return AnyView(self)
     }
@@ -60,6 +35,8 @@ extension View {
 			self
 		}
 	}
+	
+	
 }
 
 extension Notification {
