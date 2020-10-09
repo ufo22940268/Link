@@ -139,8 +139,6 @@
 		42B897A8252FDAC400269F87 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 42B897A7252FDAC400269F87 /* SwiftyJSON */; };
 		42B89867252FDF3F00269F87 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42B89808252FDF3E00269F87 /* InfoPlist.strings */; };
 		42B89868252FDF3F00269F87 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42B89808252FDF3E00269F87 /* InfoPlist.strings */; };
-		42B898F3252FDF3F00269F87 /* github.json in Resources */ = {isa = PBXBuildFile; fileRef = 42B89854252FDF3E00269F87 /* github.json */; };
-		42B898F4252FDF3F00269F87 /* github.json in Resources */ = {isa = PBXBuildFile; fileRef = 42B89854252FDF3E00269F87 /* github.json */; };
 		42B89903252FDF3F00269F87 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42B8985F252FDF3F00269F87 /* Preview Assets.xcassets */; };
 		42B89904252FDF3F00269F87 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42B8985F252FDF3F00269F87 /* Preview Assets.xcassets */; };
 		42FE152325302A2D00AE121B /* EndPointEditData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE152025302A2D00AE121B /* EndPointEditData.swift */; };
@@ -239,10 +237,10 @@
 		4240CA40253003230027AC99 /* RecordDetailRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordDetailRequestView.swift; sourceTree = "<group>"; };
 		4240CA41253003240027AC99 /* TestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		4240CA42253003240027AC99 /* EndPointDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointDetailView.swift; sourceTree = "<group>"; };
+		4266E926253053EC008B1939 /* LinkRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LinkRelease.entitlements; sourceTree = "<group>"; };
 		428E0596253021DE0076BA0D /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		428E0597253021DE0076BA0D /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
 		428E059E253022730076BA0D /* AdaptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptView.swift; sourceTree = "<group>"; };
-		428E064C253026F30076BA0D /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../../ChartView; sourceTree = "<group>"; };
 		42B89635252FD18D00269F87 /* LinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkApp.swift; sourceTree = "<group>"; };
 		42B89637252FD18D00269F87 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		42B8963D252FD18D00269F87 /* Link.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Link.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,8 +255,8 @@
 		42B8965C252FD18D00269F87 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		42B8965E252FD18D00269F87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42B89808252FDF3E00269F87 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
-		42B89854252FDF3E00269F87 /* github.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = github.json; path = ../../../Link/Link/github.json; sourceTree = "<group>"; };
 		42B8985F252FDF3F00269F87 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		42B9A41625303B25004B05B4 /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ChartView; path = ../ChartView; sourceTree = "<group>"; };
 		42FE152025302A2D00AE121B /* EndPointEditData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointEditData.swift; sourceTree = "<group>"; };
 		42FE152125302A2D00AE121B /* ApiDetailData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiDetailData.swift; sourceTree = "<group>"; };
 		42FE152225302A2D00AE121B /* DomainData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainData.swift; sourceTree = "<group>"; };
@@ -409,7 +407,7 @@
 		428E05BA2530254F0076BA0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				428E064C253026F30076BA0D /* ChartView */,
+				42B9A41625303B25004B05B4 /* ChartView */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -417,6 +415,7 @@
 		42B8962D252FD18C00269F87 = {
 			isa = PBXGroup;
 			children = (
+				4266E926253053EC008B1939 /* LinkRelease.entitlements */,
 				42B89632252FD18D00269F87 /* Shared */,
 				42B8963F252FD18D00269F87 /* iOS */,
 				42B89646252FD18D00269F87 /* macOS */,
@@ -440,7 +439,6 @@
 				4240C9FD253002E40027AC99 /* Components */,
 				4240C9C5252FFB300027AC99 /* Entities */,
 				4240C96F252FFA950027AC99 /* Utils */,
-				42B89854252FDF3E00269F87 /* github.json */,
 				42B89808252FDF3E00269F87 /* InfoPlist.strings */,
 				428E0595253021DE0076BA0D /* LinkModel.xcdatamodeld */,
 				42B8985E252FDF3F00269F87 /* Preview Content */,
@@ -669,7 +667,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42B898F3252FDF3F00269F87 /* github.json in Resources */,
 				42B89867252FDF3F00269F87 /* InfoPlist.strings in Resources */,
 				42FE156D2530350300AE121B /* Assets.xcassets in Resources */,
 				42B89903252FDF3F00269F87 /* Preview Assets.xcassets in Resources */,
@@ -680,7 +677,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42B898F4252FDF3F00269F87 /* github.json in Resources */,
 				42B89868252FDF3F00269F87 /* InfoPlist.strings in Resources */,
 				42FE156E2530350300AE121B /* Assets.xcassets in Resources */,
 				42B89904252FDF3F00269F87 /* Preview Assets.xcassets in Resources */,
@@ -1075,7 +1071,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LinkRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S833P2K5YV;
