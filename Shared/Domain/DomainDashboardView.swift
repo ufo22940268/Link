@@ -24,7 +24,12 @@ struct DomainDashboardView: View {
 				self.linkData.needReload.send()
 				linkData.isLoading = true
 			}) {
+				#if os(iOS)
 				Label(linkData.isLoading ? "刷新中" : "刷新", systemImage: "arrow.clockwise")
+					.labelStyle(TitleOnlyLabelStyle())
+				#else
+				Label(linkData.isLoading ? "刷新中" : "刷新", systemImage: "arrow.clockwise")
+				#endif
 			}.disabled(linkData.isLoading)
 		} else {
 			EmptyView()
@@ -106,7 +111,7 @@ struct DomainDashboardView: View {
 			ToolbarItem {
 				addButton
 			}
-			ToolbarItem {
+			ToolbarItem(placement: .navigationBarLeading) {
 				leadingButton
 			}
 		})
