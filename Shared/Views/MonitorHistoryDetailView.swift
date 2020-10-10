@@ -46,7 +46,8 @@ struct MonitorHistoryDetailView: View {
                                 Spacer()
                                 Text(String(item.errorCount)).foregroundColor(.gray)
                             }
-                        }
+						}
+						.paddingRow()
                     }
                 }
             }
@@ -63,7 +64,7 @@ struct MonitorHistoryDetailView: View {
     }
 }
 
-struct ErrorHistoryDetailView_Previews: PreviewProvider {
+struct MonitorHistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let view = MonitorHistoryDetailView(endPointId: "")
         view.monitorDetailData.items = testScanLogDetails
