@@ -119,6 +119,11 @@ struct DomainDashboardView: View {
 			ToolbarItem {
 				leadingButton
 			}
+			
+			ToolbarItem(placement: .navigation) {
+				Label("aa", systemImage: "plus")
+			}
+						
 			#endif
 			
 		})
@@ -139,6 +144,7 @@ struct DomainDashboardView: View {
 				self.linkData.needReload.send()
 			}
 		}
+		.frame(minWidth: 300)
 		//            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
 		//                self.domainData.needReload.send()
 		//            }

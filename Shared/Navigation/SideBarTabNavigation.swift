@@ -41,6 +41,9 @@ struct SideBarTabNavigation: View {
 			}
 			.overlay(settingButton, alignment: .bottom)
 			.listStyle(SidebarListStyle())
+
+			Text("Select a menu")
+			Text("Select a item")
 		}
 	}
 }
