@@ -67,6 +67,9 @@ struct HistoryView: View {
 			}
 			.fixedSize()
 			.pickerStyle(SegmentedPickerStyle())
+			.ifOS(.macOS) {
+				$0.frame(maxWidth: .infinity)
+			}
 		}
 	}
 
@@ -82,6 +85,9 @@ struct HistoryView: View {
 	var contentView: some View {
 		LoadableView(loadableState: historyData.loadState) {
 			List {
+				#if os(macOS)
+				pickerView
+				#endif
 				if type == .duration {
 					DurationHistoryView(items: historyData.items, timeSpan: historyData.timeSpan)
 				} else if type == .monitor {
@@ -89,15 +95,6 @@ struct HistoryView: View {
 				}
 			}
 			.listStyle(GroupedListStyle())
-			.toolbar {
-				ToolbarItem(placement: .principal) {
-					pickerView
-				}
-
-				ToolbarItem(placement: .primaryAction) {
-					timeSpanPickerView
-				}
-			}
 			.onAppear {
 				self.loadData()
 			}
@@ -108,6 +105,21 @@ struct HistoryView: View {
 			.onReceive(NotificationCenter.default.publisher(for: Notification.reloadHistory), perform: { _ in
 				self.loadData()
 			})
+		}
+		.toolbar {
+			#if os(iOS)
+				ToolbarItem(placement: .principal) {
+					pickerView
+				}
+
+				ToolbarItem(placement: .primaryAction) {
+					timeSpanPickerView
+				}
+			#else
+				ToolbarItem(placement: .primaryAction) {
+					timeSpanPickerView
+				}
+			#endif
 		}
 	}
 

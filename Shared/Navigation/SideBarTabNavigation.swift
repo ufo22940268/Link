@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct SideBarTabNavigation: View {
+	@State var selection: Set<OnboardType> = [OnboardType.dashboard]
+
 	var settingButton: some View {
 		VStack(alignment: .leading, spacing: 0) {
 			Divider()
@@ -23,17 +25,19 @@ struct SideBarTabNavigation: View {
 
 	var body: some View {
 		NavigationView {
-			List {
+			List(selection: $selection) {
 				NavigationLink(
 					destination: DomainDashboardView(),
 					label: {
 						Label("监控", systemImage: "cloud.fill")
 					})
+					.tag(OnboardType.dashboard)
 				NavigationLink(
 					destination: HistoryView(),
 					label: {
 						Label("记录", systemImage: "clock.fill")
 					})
+					.tag(OnboardType.history)
 			}
 			.overlay(settingButton, alignment: .bottom)
 			.listStyle(SidebarListStyle())

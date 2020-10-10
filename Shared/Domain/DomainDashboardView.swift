@@ -111,9 +111,16 @@ struct DomainDashboardView: View {
 			ToolbarItem {
 				addButton
 			}
+			#if os(iOS)
 			ToolbarItem(placement: .navigationBarLeading) {
 				leadingButton
 			}
+			#else
+			ToolbarItem {
+				leadingButton
+			}
+			#endif
+			
 		})
 		.sheet(isPresented: $showingAddEndPoint, onDismiss: {
 			self.linkData.needReload.send()

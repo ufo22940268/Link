@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420D777025314FCB0034579D /* View+Directive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420D776F25314FCB0034579D /* View+Directive.swift */; };
+		420D777125314FCB0034579D /* View+Directive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420D776F25314FCB0034579D /* View+Directive.swift */; };
 		4240C987252FFAC10027AC99 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240C970252FFAC00027AC99 /* ApiHelper.swift */; };
 		4240C988252FFAC10027AC99 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240C970252FFAC00027AC99 /* ApiHelper.swift */; };
 		4240C989252FFAC10027AC99 /* BackendAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240C971252FFAC00027AC99 /* BackendAgent.swift */; };
@@ -178,6 +180,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		420D776F25314FCB0034579D /* View+Directive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Directive.swift"; sourceTree = "<group>"; };
 		4240C970252FFAC00027AC99 /* ApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		4240C971252FFAC00027AC99 /* BackendAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendAgent.swift; sourceTree = "<group>"; };
 		4240C972252FFAC00027AC99 /* Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
@@ -329,6 +332,7 @@
 				4240C97B252FFAC00027AC99 /* Tools.swift */,
 				4240C986252FFAC10027AC99 /* URL.swift */,
 				4240C984252FFAC10027AC99 /* View.swift */,
+				420D776F25314FCB0034579D /* View+Directive.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -744,6 +748,7 @@
 				4240CA51253003240027AC99 /* RecordDetailTextView.swift in Sources */,
 				4240CA4D253003240027AC99 /* MonitorHistoryDetailView.swift in Sources */,
 				4240CA1E253003140027AC99 /* DomainDashboardView.swift in Sources */,
+				420D777025314FCB0034579D /* View+Directive.swift in Sources */,
 				4240C9A9252FFAC10027AC99 /* Debug.swift in Sources */,
 				42FE154D253030CE00AE121B /* ContentView.swift in Sources */,
 				4240CA69253003240027AC99 /* RecordDetailJSONView.swift in Sources */,
@@ -784,6 +789,7 @@
 				42FE152F25302B0300AE121B /* LinkData.swift in Sources */,
 				42FE153025302B0300AE121B /* EndPointEditData.swift in Sources */,
 				4240CA70253003240027AC99 /* TestView.swift in Sources */,
+				420D777125314FCB0034579D /* View+Directive.swift in Sources */,
 				4240CA60253003240027AC99 /* ApiListItemView.swift in Sources */,
 				4240CA4A253003240027AC99 /* RecordDetailMonitorView.swift in Sources */,
 				4240CA46253003240027AC99 /* RecordDetailSummaryView.swift in Sources */,
