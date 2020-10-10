@@ -1,7 +1,6 @@
 Link.xcodeproj/xcuserdata/*
 *xcworkspace/xcuserdata/*
-**/*/xcuserdata
-Link.xcodeproj/xcuserdatad
+Link.xcodeproj/xcuserdata
 Link.xcodeproj/project.xcworkspace/xcuserdata/cc.xcuserdatad/xcdebugger/
 
 # Created by https://www.toptal.com/developers/gitignore/api/xcode

@@ -12,29 +12,29 @@ import SwiftUI
 struct DomainDashboardView: View {
 	@State var showingAddEndPoint: Bool = false
 	@Environment(\.managedObjectContext) var context
-	@EnvironmentObject var domainData: LinkData
+	@EnvironmentObject var linkData: LinkData
 
 	var dataSource: DataSource {
 		DataSource(context: context)
 	}
 
 	@ViewBuilder var refreshButton: some View {
-		if domainData.endPoints.count > 0 {
+		if linkData.endPoints.count > 0 {
 			Button(action: {
-				self.domainData.needReload.send()
-				domainData.isLoading = true
+				self.linkData.needReload.send()
+				linkData.isLoading = true
 			}) {
-				Label(domainData.isLoading ? "刷新中" : "刷新", systemImage: "arrow.clockwise")
-			}.disabled(domainData.isLoading)
+				Label(linkData.isLoading ? "刷新中" : "刷新", systemImage: "arrow.clockwise")
+			}.disabled(linkData.isLoading)
 		} else {
 			EmptyView()
 		}
 	}
 
 	@ViewBuilder var leadingButton: some View {
-		if !BackendAgent().isLogin && domainData.endPoints.isEmpty {
+		if !BackendAgent().isLogin && linkData.endPoints.isEmpty {
 			loginButton
-		} else if !domainData.endPoints.isEmpty {
+		} else if !linkData.endPoints.isEmpty {
 			refreshButton
 		} else {
 			EmptyView()
@@ -43,7 +43,7 @@ struct DomainDashboardView: View {
 
 	var loginButton: some View {
 		Button(action: {
-			self.domainData.triggerAppleLogin()
+			self.linkData.triggerAppleLogin()
 		}) {
 			Label("登录", systemImage: "person.crop.circle.fill")
 				.labelStyle(TitleOnlyLabelStyle())
@@ -59,14 +59,14 @@ struct DomainDashboardView: View {
 	}
 
 	@ViewBuilder var lastUpdateView: some View {
-		if let lastUpdate = domainData.lastUpdateTime {
+		if let lastUpdate = linkData.lastUpdateTime {
 			VStack(alignment: .leading, spacing: 8) {
 				Text("更新时间: \(self.formatDate(lastUpdate))").foregroundColor(.gray)
-				if !domainData.isLogin {
+				if !linkData.isLogin {
 					HStack(spacing: 0) {
 						Text("若要开启监控通知，请先").foregroundColor(.gray)
 						Button("登录") {
-							self.domainData.triggerAppleLogin()
+							self.linkData.triggerAppleLogin()
 						}
 					}
 				}
@@ -82,8 +82,8 @@ struct DomainDashboardView: View {
 	var headerView: some View {
 		VStack {
 			HStack(spacing: 15) {
-				DomainStatisticsBlockView(status: .healthy(count: domainData.healthyCount()))
-				DomainStatisticsBlockView(status: .error(count: domainData.errorCount()))
+				DomainStatisticsBlockView(status: .healthy(count: linkData.healthyCount()))
+				DomainStatisticsBlockView(status: .error(count: linkData.errorCount()))
 			}.padding()
 			lastUpdateView
 		}
@@ -91,7 +91,7 @@ struct DomainDashboardView: View {
 
 	var body: some View {
 		Group {
-			if domainData.endPoints.isEmpty {
+			if linkData.endPoints.isEmpty {
 				EmptyEndPointListView()
 			} else {
 				List {
@@ -102,7 +102,6 @@ struct DomainDashboardView: View {
 			}
 		}
 		.navigationBarTitle(Text("概览"))
-//		.navigationBarItems(leading: leadingButton, trailing: addButton)
 		.toolbar(content: {
 			ToolbarItem {
 				addButton
@@ -112,7 +111,7 @@ struct DomainDashboardView: View {
 			}
 		})
 		.sheet(isPresented: $showingAddEndPoint, onDismiss: {
-			self.domainData.needReload.send()
+			self.linkData.needReload.send()
 		}, content: { () in
 			EndPointEditView(type: .add)
 				.environment(\.managedObjectContext, CoreDataContext.add)
@@ -125,14 +124,14 @@ struct DomainDashboardView: View {
 		.font(.title)
 		.onAppear {
 			if !DebugHelper.isPreview {
-				self.domainData.needReload.send()
+				self.linkData.needReload.send()
 			}
 		}
 		//            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
 		//                self.domainData.needReload.send()
 		//            }
 		.onReceive(NotificationCenter.default.publisher(for: Notification.refreshDomain), perform: { _ in
-			self.domainData.needReload.send()
+			self.linkData.needReload.send()
 		})
 	}
 
