@@ -129,6 +129,8 @@
 		4240CA70253003240027AC99 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240CA41253003240027AC99 /* TestView.swift */; };
 		4240CA71253003240027AC99 /* EndPointDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240CA42253003240027AC99 /* EndPointDetailView.swift */; };
 		4240CA72253003240027AC99 /* EndPointDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240CA42253003240027AC99 /* EndPointDetailView.swift */; };
+		42697C7E2533BD1400EA6275 /* Alert+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42697C7D2533BD1400EA6275 /* Alert+Style.swift */; };
+		42697C7F2533BD1400EA6275 /* Alert+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42697C7D2533BD1400EA6275 /* Alert+Style.swift */; };
 		428E0598253021DE0076BA0D /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 428E0595253021DE0076BA0D /* LinkModel.xcdatamodeld */; };
 		428E0599253021DE0076BA0D /* LinkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 428E0595253021DE0076BA0D /* LinkModel.xcdatamodeld */; };
 		428E05A0253022730076BA0D /* AdaptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428E059E253022730076BA0D /* AdaptView.swift */; };
@@ -244,6 +246,7 @@
 		4240CA41253003240027AC99 /* TestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		4240CA42253003240027AC99 /* EndPointDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointDetailView.swift; sourceTree = "<group>"; };
 		4266E926253053EC008B1939 /* LinkRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LinkRelease.entitlements; sourceTree = "<group>"; };
+		42697C7D2533BD1400EA6275 /* Alert+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Style.swift"; sourceTree = "<group>"; };
 		428E0596253021DE0076BA0D /* LinkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LinkModel.xcdatamodel; sourceTree = "<group>"; };
 		428E0597253021DE0076BA0D /* Domain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Domain.xcdatamodel; sourceTree = "<group>"; };
 		428E059E253022730076BA0D /* AdaptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptView.swift; sourceTree = "<group>"; };
@@ -360,6 +363,7 @@
 				4240CA02253002F20027AC99 /* LoadableLoadingView.swift */,
 				4240C9FF253002F20027AC99 /* LoadableTemplateView.swift */,
 				4240CA00253002F20027AC99 /* LoadableView.swift */,
+				42697C7D2533BD1400EA6275 /* Alert+Style.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -758,6 +762,7 @@
 				4240CA69253003240027AC99 /* RecordDetailJSONView.swift in Sources */,
 				42B89665252FD18D00269F87 /* Persistence.swift in Sources */,
 				4240C98D252FFAC10027AC99 /* Extentsion.swift in Sources */,
+				42697C7E2533BD1400EA6275 /* Alert+Style.swift in Sources */,
 				4240CA05253002F20027AC99 /* LoadableTemplateView.swift in Sources */,
 				4240C9B3252FFAC10027AC99 /* URL.swift in Sources */,
 				428E0598253021DE0076BA0D /* LinkModel.xcdatamodeld in Sources */,
@@ -862,6 +867,7 @@
 				42FE1563253034A400AE121B /* View+Navigation.swift in Sources */,
 				4240C9A2252FFAC10027AC99 /* HistoryData.swift in Sources */,
 				4240C98C252FFAC10027AC99 /* Preview.swift in Sources */,
+				42697C7F2533BD1400EA6275 /* Alert+Style.swift in Sources */,
 				4240C9E4252FFB660027AC99 /* EndPoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
