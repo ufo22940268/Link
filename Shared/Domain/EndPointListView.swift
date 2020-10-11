@@ -73,7 +73,7 @@ struct EndPointListView: View {
 			Section(header: Text(domainName).font(.system(.subheadline)).bold().textCase(.lowercase), content: {
 				ForEach(self.domainMap[domainName]!) { endPoint in
 					EndPointRow(endPoint: endPoint)
-						.paddingRow()
+						.paddingMacOS()
 				}
 				.onDelete { index in
 					let endPoint: EndPointEntity = self.domainMap[domainName]![index.first!]

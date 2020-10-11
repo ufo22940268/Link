@@ -47,7 +47,7 @@ struct MonitorHistoryDetailView: View {
                                 Text(String(item.errorCount)).foregroundColor(.gray)
                             }
 						}
-						.paddingRow()
+						.paddingMacOS()
                     }
                 }
             }

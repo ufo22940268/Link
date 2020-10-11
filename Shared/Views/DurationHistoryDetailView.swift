@@ -51,7 +51,7 @@ struct DurationHistoryDetailView: View {
 								Text(item.duration.formatDuration).foregroundColor(.gray)
 							}
 						}
-						.paddingRow()
+						.paddingMacOS()
 					}
 				}
 			}
