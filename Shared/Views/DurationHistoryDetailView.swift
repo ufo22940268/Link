@@ -38,20 +38,25 @@ struct DurationHistoryDetailView: View {
 	@StateObject var durationDetailData = DurationHistoryDetailData()
 
 	var endPointId: String
+	@State var showDetail: ScanLogDetail? = nil
 
 	var body: some View {
 		List {
 			ForEach(durationDetailData.itemMap.keys.sorted(by: >), id: \.self) { date in
 				Section(header: Text(date.formatDate)) {
 					ForEach(self.durationDetailData.itemMap[date]!) { item in
+						#if os(iOS)
 						NavigationLink(destination: RecordDetailView(scanLogId: item.id)) {
-							HStack {
-								Text(item.time.formatTime)
-								Spacer()
-								Text(item.duration.formatDuration).foregroundColor(.gray)
-							}
+							row(item: item)
 						}
-						.paddingMacOS()
+						#else
+						Button(action: { showDetail = item }) {
+							row(item: item)
+								.padding()
+								.contentShape(Rectangle())
+						}
+						.buttonStyle(PlainButtonStyle())
+						#endif
 					}
 				}
 			}
@@ -59,10 +64,25 @@ struct DurationHistoryDetailView: View {
 		.listStyle(GroupedListStyle())
 		.wrapLoadable(state: durationDetailData.loadState)
 		.navigationBarTitle(Text("时长"))
+		.sheet(item: $showDetail) { detail in
+			RecordDetailView(scanLogId: detail.id)
+				.alertFrame()
+				.alertToolbar {
+					self.showDetail = nil
+				}
+		}
 		.onAppear {
 			if !MyDevice.isPreview {
 				self.durationDetailData.load(by: self.endPointId)
 			}
+		}
+	}
+
+	func row(item: ScanLogDetail) -> some View {
+		HStack {
+			Text(item.time.formatTime)
+			Spacer()
+			Text(item.duration.formatDuration).foregroundColor(.gray)
 		}
 	}
 }

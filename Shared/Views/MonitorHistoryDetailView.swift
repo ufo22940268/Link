@@ -52,8 +52,10 @@ struct MonitorHistoryDetailView: View {
 						#else
 						Button(action: { showDetail = item }) {
 							row(item: item)
+								.padding()
+								.contentShape(Rectangle())
 						}
-						.padding()
+						.buttonStyle(PlainButtonStyle())
 						#endif
 					}
 				}
