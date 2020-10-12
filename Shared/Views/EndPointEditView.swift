@@ -225,9 +225,18 @@ struct EndPointEditView: View {
 			self.apiEditData.objectWillChange.send()
 		}, content: { type in
 			if type == .addApiEntity {
+				#if os(iOS)
 				NavigationView {
 					ApiListView(apis: apiEditData.unwatchApis)
 				}
+				#else
+				ApiListView(apis: apiEditData.unwatchApis)
+					.environment(\.managedObjectContext, context)
+					.alertFrame()
+					.alertToolbar {
+						dialogType = nil
+					}
+				#endif
 			} else {
 				NavigationView {
 					RequestProfileView(log: apiEditData.responseLog!)
