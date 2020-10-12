@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SideBarTabNavigation: View {
+struct AppSideBarNavigation: View {
 	@State var selection: Set<OnboardType> = [OnboardType.dashboard]
 
 	var settingButton: some View {
@@ -50,6 +50,6 @@ struct SideBarTabNavigation: View {
 
 struct SideBarTabNavigation_Previews: PreviewProvider {
 	static var previews: some View {
-		SideBarTabNavigation()
+		AppSideBarNavigation()
 	}
 }

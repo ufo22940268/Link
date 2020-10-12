@@ -17,7 +17,7 @@ struct ContentView: View {
 		AppTabNavigationView()
 			.environmentObject(linkData)
 		#else
-		SideBarTabNavigation()
+		AppSideBarNavigation()
 			.environmentObject(linkData)
 		#endif
     }

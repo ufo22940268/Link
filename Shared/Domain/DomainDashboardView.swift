@@ -119,19 +119,24 @@ struct DomainDashboardView: View {
 			ToolbarItem {
 				leadingButton
 			}
-			
-			ToolbarItem(placement: .navigation) {
-				Label("aa", systemImage: "plus")
-			}
-						
 			#endif
-			
+
 		})
 		.sheet(isPresented: $showingAddEndPoint, onDismiss: {
 			self.linkData.needReload.send()
 		}, content: { () in
+			#if os(iOS)
+			NavigationView {
+				EndPointEditView(type: .add)
+					.environment(\.managedObjectContext, CoreDataContext.add)
+			}
+			#else
 			EndPointEditView(type: .add)
 				.environment(\.managedObjectContext, CoreDataContext.add)
+				.alertToolbar {
+					showingAddEndPoint = false
+				}
+			#endif
 		})
 		.font(.body)
 		.onAppear {

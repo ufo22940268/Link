@@ -17,8 +17,8 @@ extension View {
 			}
 		})
 	}
-	
-	func alertFrame() -> some View {
-		self.frame(minWidth: 300, minHeight: 500)
+
+	func alertFrame(minHeight: CGFloat = 500) -> some View {
+		self.frame(minWidth: 300, minHeight: minHeight)
 	}
 }

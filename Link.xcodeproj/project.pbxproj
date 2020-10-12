@@ -153,8 +153,8 @@
 		42FE152E25302B0300AE121B /* ApiDetailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE152125302A2D00AE121B /* ApiDetailData.swift */; };
 		42FE152F25302B0300AE121B /* LinkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE152225302A2D00AE121B /* LinkData.swift */; };
 		42FE153025302B0300AE121B /* EndPointEditData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE152025302A2D00AE121B /* EndPointEditData.swift */; };
-		42FE154B253030CE00AE121B /* SideBarTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE1548253030CE00AE121B /* SideBarTabNavigation.swift */; };
-		42FE154C253030CE00AE121B /* SideBarTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE1548253030CE00AE121B /* SideBarTabNavigation.swift */; };
+		42FE154B253030CE00AE121B /* AppSideBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE1548253030CE00AE121B /* AppSideBarNavigation.swift */; };
+		42FE154C253030CE00AE121B /* AppSideBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE1548253030CE00AE121B /* AppSideBarNavigation.swift */; };
 		42FE154D253030CE00AE121B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE1549253030CE00AE121B /* ContentView.swift */; };
 		42FE154E253030CE00AE121B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE1549253030CE00AE121B /* ContentView.swift */; };
 		42FE154F253030CE00AE121B /* AppTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FE154A253030CE00AE121B /* AppTabNavigation.swift */; };
@@ -269,7 +269,7 @@
 		42FE152025302A2D00AE121B /* EndPointEditData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointEditData.swift; sourceTree = "<group>"; };
 		42FE152125302A2D00AE121B /* ApiDetailData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiDetailData.swift; sourceTree = "<group>"; };
 		42FE152225302A2D00AE121B /* LinkData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkData.swift; sourceTree = "<group>"; };
-		42FE1548253030CE00AE121B /* SideBarTabNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTabNavigation.swift; sourceTree = "<group>"; };
+		42FE1548253030CE00AE121B /* AppSideBarNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSideBarNavigation.swift; sourceTree = "<group>"; };
 		42FE1549253030CE00AE121B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		42FE154A253030CE00AE121B /* AppTabNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTabNavigation.swift; sourceTree = "<group>"; };
 		42FE15562530326100AE121B /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -531,7 +531,7 @@
 			children = (
 				42FE154A253030CE00AE121B /* AppTabNavigation.swift */,
 				42FE1549253030CE00AE121B /* ContentView.swift */,
-				42FE1548253030CE00AE121B /* SideBarTabNavigation.swift */,
+				42FE1548253030CE00AE121B /* AppSideBarNavigation.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -770,7 +770,7 @@
 				4240C9AB252FFAC10027AC99 /* File.swift in Sources */,
 				420D77BA2531D3520034579D /* List+SwiftUI.swift in Sources */,
 				4240C9E5252FFB660027AC99 /* RecordItem.swift in Sources */,
-				42FE154B253030CE00AE121B /* SideBarTabNavigation.swift in Sources */,
+				42FE154B253030CE00AE121B /* AppSideBarNavigation.swift in Sources */,
 				4240CA6D253003240027AC99 /* RecordDetailRequestView.swift in Sources */,
 				4240CA5B253003240027AC99 /* EndPointEditView.swift in Sources */,
 				4240CA47253003240027AC99 /* InfoRow.swift in Sources */,
@@ -825,7 +825,7 @@
 				4240C9A0252FFAC10027AC99 /* Text.swift in Sources */,
 				4240C99C252FFAC10027AC99 /* Time.swift in Sources */,
 				4240CA68253003240027AC99 /* ReadOnlyApiDetailView.swift in Sources */,
-				42FE154C253030CE00AE121B /* SideBarTabNavigation.swift in Sources */,
+				42FE154C253030CE00AE121B /* AppSideBarNavigation.swift in Sources */,
 				4240C98A252FFAC10027AC99 /* BackendAgent.swift in Sources */,
 				42FE15582530326100AE121B /* SettingView.swift in Sources */,
 				4240C99E252FFAC10027AC99 /* Tools.swift in Sources */,
