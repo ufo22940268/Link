@@ -46,5 +46,6 @@ extension Notification {
 
 extension Notification.Name {
     static let updateEndPointDetail = Notification.Name("updateEndPointDetail")
+	static let refreshEndPointDetail = Notification.Name("refreshEndPointDetail")
 }
 

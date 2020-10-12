@@ -45,15 +45,14 @@ struct ApiListView: View {
 	}
 
 	var body: some View {
-		print("refresh")
-		return ZStack {
+		ZStack {
 			List(unwatchApis, id: \.self) { api in
 				ApiListItemView(api: self.getApiBinding(api), dismiss: {
 					self.presentationMode.wrappedValue.dismiss()
 				})
 			}
 		}
-		navigationBarTitle("添加字段")
+		.navigationBarTitle("添加字段")
 	}
 
 	func buildApiSelection() -> Binding<Set<ApiEntity>> {

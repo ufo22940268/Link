@@ -265,7 +265,10 @@ struct EndPointEditView: View {
 		.onReceive(NotificationCenter.default.publisher(for: .updateEndPointDetail), perform: { _ in
 			self.refresh()
 		})
-		.alertFrame(minHeight: 300)
+		.onReceive(NotificationCenter.default.publisher(for: .refreshEndPointDetail), perform: { _ in
+			self.apiEditData.objectWillChange.send()
+		})
+		.alertFrame(minHeight: 600)
 		#if os(iOS)
 		form = form.navigationBarItems(leading: cancelButton, trailing: doneButton)
 		return form
