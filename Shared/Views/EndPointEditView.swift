@@ -163,6 +163,9 @@ struct EndPointEditView: View {
 				}.foregroundColor(.accentColor)
 			}
 		}
+		.ifOS(.macOS, modifier: {
+			$0.font(.footnote).foregroundColor(.secondary)
+		})
 	}
 
 	var body: some View {
@@ -178,11 +181,15 @@ struct EndPointEditView: View {
 				#else
 				TextEditor(text: urlBinding)
 					.frame(maxHeight: 80)
+					.background(Color.secondary)
 				#endif
 			}
 
-			Section(header: Text("名字")) {
+			Section(header: Text("名字").ifOS(.macOS) {
+				$0.padding(.top)
+			}) {
 				TextField("", text: nameBinding)
+					.textFieldStyle(RoundedBorderTextFieldStyle())
 			}
 
 			if watchListCount != 0 {
@@ -249,7 +256,7 @@ struct EndPointEditView: View {
 		.onReceive(NotificationCenter.default.publisher(for: .updateEndPointDetail), perform: { _ in
 			self.refresh()
 		})
-		.alertFrame(minHeight: 400)
+		.alertFrame(minHeight: 300)
 		#if os(iOS)
 		form = form.navigationBarItems(leading: cancelButton, trailing: doneButton)
 		return form
